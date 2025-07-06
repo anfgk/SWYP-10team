@@ -1,1 +1,1 @@
-# 어디가냥 같이가개 fronend
+# 어디가냥 같이가개 frontend
