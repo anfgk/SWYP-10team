@@ -4,8 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 #root {
-
+  --header-bg: #C7C7C7;
+  --headerItems-bg: #FFFFFF;
+  --footer-border: #000000;
+  --text-color: #000000;
+  --card-bg: #AAAAAA;
+  --search-bg: #CDCDCD;
 }
+
 
 @theme inline {
 
