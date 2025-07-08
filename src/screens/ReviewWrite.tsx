@@ -39,7 +39,12 @@ const ReviewWrite = () => {
   };
 
   const handleStarClick = (starIndex: number) => {
-    setRating(starIndex + 1);
+    // 클릭한 별이 현재 rating보다 작거나 같으면 하나씩 감소
+    if (starIndex + 1 <= rating) {
+      setRating(starIndex);
+    } else {
+      setRating(starIndex + 1);
+    }
   };
 
   const handleMenuClick = (menu: string) => {
@@ -69,7 +74,7 @@ const ReviewWrite = () => {
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
                   key={i}
-                  className={`cursor-pointer ${i < rating ? "text-yellow-400" : "text-[var(--sidebar-ring)]"}`}
+                  className={`cursor-pointer outline-none transition-all duration-100 ${i < rating ? "text-yellow-400" : "text-[var(--sidebar-ring)]"}`}
                   onClick={() => handleStarClick(i)}
                 >
                   ★
@@ -82,8 +87,8 @@ const ReviewWrite = () => {
         <div className="mb-8">
           <div className="mb-2 font-semibold">상세리뷰</div>
           <textarea
-            className="w-full h-40 p-4 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="리뷰를 작성해주세요..."
+            className="w-full h-40 p-4 border border-gray-300 rounded resize-none focus:outline-none"
+            placeholder="리뷰를 작성해주세요."
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
           />
@@ -125,8 +130,17 @@ const ReviewWrite = () => {
           )}
         </div>
         {/* 제출 버튼 */}
-        <div className="flex justify-end mt-12">
-          <PageButton text="제출하기" variant="primary" />
+        <div className="flex justify-end gap-4">
+          <PageButton
+            text="저장"
+            variant="default"
+            onClick={() => navigate("/myreview")}
+          />
+          <PageButton
+            text="취소"
+            variant="default"
+            onClick={() => navigate("/myreview")}
+          />
         </div>
       </main>
     </div>

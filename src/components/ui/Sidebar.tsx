@@ -16,7 +16,7 @@ const Sidebar = ({ menus, onMenuClick, activeMenu }: SidebarProps) => {
           variant="ghost"
           className={`justify-start ${
             activeMenu === menu
-              ? "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-[var(--background)] text-[var(--foreground)]"
               : "hover:bg-gray-200"
           }`}
           onClick={() => onMenuClick && onMenuClick(menu)}

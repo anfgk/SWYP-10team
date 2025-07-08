@@ -57,7 +57,7 @@ const MyReview = () => {
                   <div className="flex gap-2 mb-2">
                     <PageButton
                       text="리뷰 작성하기"
-                      variant="primary"
+                      variant="default"
                       onClick={() => navigate("/ReviewWrite")}
                     />
                   </div>
