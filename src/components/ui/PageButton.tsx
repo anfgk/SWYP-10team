@@ -1,18 +1,18 @@
-import React from 'react';
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 
 type PageButtonProps = {
   text: string;
   onClick?: () => void;
-  variant?: 'default' | 'primary';
+  variant?: "default" | "primary";
 };
 
-const PageButton = ({ text, onClick, variant = 'default' }: PageButtonProps) => {
-  const base = 'px-3 py-1 rounded text-white font-medium';
-  const color = variant === 'primary' ? 'bg-gray-500' : 'bg-gray-400';
+const PageButton = ({ text, onClick, variant = "default" }: PageButtonProps) => {
+  // shadcn Button의 variant prop 활용
   return (
-    <button type="button" className={`${base} ${color}`} onClick={onClick}>
+    <Button variant={variant === "primary" ? "default" : "secondary"} onClick={onClick}>
       {text}
-    </button>
+    </Button>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PageTitle from './ui/PageTitle';
-import Sidebar from './ui/Sidebar';
-import PageButton from './ui/PageButton';
+import PageTitle from '@/components/ui/PageTitle';
+import Sidebar from '@/components/ui/Sidebar';
+import PageButton from '@/components/ui/PageButton';
 
 const dummyReviews = [
   { id: 1, place: '장소명', review: '갔는데 넘 좋았어요.', hasReview: true },

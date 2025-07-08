@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
   menus: string[];
@@ -9,13 +10,14 @@ const Sidebar = ({ menus, onMenuClick }: SidebarProps) => {
   return (
     <aside className="w-[299px] h-[1113px] bg-gray-300 flex flex-col gap-6 py-12 px-4 text-lg font-medium">
       {menus.map((menu) => (
-        <div
+        <Button
           key={menu}
-          className="cursor-pointer hover:font-bold"
+          variant="ghost"
+          className="justify-start"
           onClick={() => onMenuClick && onMenuClick(menu)}
         >
           {menu}
-        </div>
+        </Button>
       ))}
     </aside>
   );

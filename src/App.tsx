@@ -6,7 +6,7 @@ import PopularList from './components/PopularList'
 import ThemeList from './components/ThemeList'
 import AiRecList from './components/AiRecList'
 import SearchPanel from './components/SearchPannel'
-import MyReview from './components/MyReview'
+import MyReview from './screens/MyReview'
 
 function App() {
     return (
