@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import Sidebar from "../components/ui/Sidebar";
-import PageButton from "../components/ui/PageButton";
+import { useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import PageButton from "../components/PageButton";
 
 const sidebarMenus = [
   "내 정보",
@@ -11,9 +11,13 @@ const sidebarMenus = [
 ];
 
 const ReviewWrite = () => {
+  const location = useLocation();
+  const reviewData = location.state?.reviewData;
+  const isEditMode = !!reviewData;
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [rating, setRating] = useState(0);
-  const [reviewText, setReviewText] = useState("");
+  const [rating, setRating] = useState(reviewData?.rating || 0);
+  const [reviewText, setReviewText] = useState(reviewData?.review || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const activeMenu = "방문한 장소 및 리뷰";
@@ -39,7 +43,6 @@ const ReviewWrite = () => {
   };
 
   const handleStarClick = (starIndex: number) => {
-    // 클릭한 별이 현재 rating보다 작거나 같으면 하나씩 감소
     if (starIndex + 1 <= rating) {
       setRating(starIndex);
     } else {
@@ -55,21 +58,21 @@ const ReviewWrite = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar */}
       <Sidebar
         menus={sidebarMenus}
         activeMenu={activeMenu}
         onMenuClick={handleMenuClick}
       />
-      {/* Main Content */}
       <main className="flex-1 px-16 py-12">
-        {/* 상단 타이틀 */}
-        <div className="text-2xl font-bold mb-8">리뷰작성</div>
-        {/* 숙소 정보 */}
+        <div className="text-2xl font-bold mb-8">
+          {isEditMode ? "리뷰수정" : "리뷰작성"}
+        </div>
         <div className="flex items-center gap-8 mb-8">
           <div className="w-32 h-32 bg-[var(--sidebar-ring)]" />
           <div>
-            <div className="text-xl font-semibold mb-2">숙소 이름</div>
+            <div className="text-xl font-semibold mb-2">
+              {reviewData?.place || "숙소 이름"}
+            </div>
             <div className="flex text-2xl gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
@@ -83,7 +86,7 @@ const ReviewWrite = () => {
             </div>
           </div>
         </div>
-        {/* 상세리뷰 */}
+
         <div className="mb-8">
           <div className="mb-2 font-semibold">상세리뷰</div>
           <textarea
@@ -93,7 +96,6 @@ const ReviewWrite = () => {
             onChange={(e) => setReviewText(e.target.value)}
           />
         </div>
-        {/* 사진첨부 */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
             <div className="font-semibold">사진첨부</div>
@@ -108,7 +110,6 @@ const ReviewWrite = () => {
             accept="image/*"
             className="hidden"
           />
-          {/* 선택된 파일 목록 */}
           {selectedFiles.length > 0 && (
             <div className="grid grid-cols-5 gap-4">
               {selectedFiles.map((file, index) => (
@@ -129,12 +130,43 @@ const ReviewWrite = () => {
             </div>
           )}
         </div>
-        {/* 제출 버튼 */}
         <div className="flex justify-end gap-4">
           <PageButton
-            text="저장"
+            text={isEditMode ? "수정" : "저장"}
             variant="default"
-            onClick={() => navigate("/myreview")}
+            onClick={() => {
+              if (isEditMode) {
+                const savedReviews = JSON.parse(
+                  localStorage.getItem("reviews") || "[]"
+                );
+                const updatedReviews = savedReviews.map((review: any) =>
+                  review.id === reviewData.id
+                    ? { ...review, review: reviewText, rating: rating }
+                    : review
+                );
+                localStorage.setItem("reviews", JSON.stringify(updatedReviews));
+              } else {
+                const newReviewData = {
+                  id: Date.now(),
+                  place: "숙소 이름",
+                  review: reviewText,
+                  rating: rating,
+                  images: selectedFiles.length,
+                  createdAt: new Date().toISOString(),
+                };
+
+                const existingReviews = JSON.parse(
+                  localStorage.getItem("reviews") || "[]"
+                );
+                existingReviews.push(newReviewData);
+                localStorage.setItem(
+                  "reviews",
+                  JSON.stringify(existingReviews)
+                );
+              }
+
+              navigate("/myreview");
+            }}
           />
           <PageButton
             text="취소"

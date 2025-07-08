@@ -12,7 +12,6 @@ const PageButton = ({
   onClick,
   variant = "default",
 }: PageButtonProps) => {
-  // shadcn Button의 variant prop 활용
   return (
     <Button
       variant={variant === "primary" ? "default" : "secondary"}
