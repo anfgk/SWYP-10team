@@ -1,7 +1,3 @@
 export default function MainScreen() {
-    return (
-        <main>
-            
-        </main>
-    )
+  return <main></main>;
 }
