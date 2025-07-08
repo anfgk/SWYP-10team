@@ -1,9 +1,10 @@
 name: Frontend CI
 
 on:
-  push: [main, develop]
+  push:
+    branches: ["main", "develop"]
   pull_request:
-    branches: [main, develop]
+    branches: ["main", "develop"]
 
 jobs:
   lint-build:
