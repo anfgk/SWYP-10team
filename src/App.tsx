@@ -9,6 +9,7 @@ import SearchPanel from "./components/SearchPannel";
 import MyReview from "./screens/MyReview";
 import ReviewWrite from "./screens/ReviewWrite";
 import MyInfo from "./screens/MyInfo";
+import Wish from "./screens/Wish";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/myreview" element={<MyReview />} />
             <Route path="/reviewwrite" element={<ReviewWrite />} />
             <Route path="/myinfo" element={<MyInfo />} />
+            <Route path="/wish" element={<Wish />} />
           </Routes>
           <MainFooter />
         </div>

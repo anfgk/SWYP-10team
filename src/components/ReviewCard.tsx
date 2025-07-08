@@ -1,5 +1,5 @@
 import React from "react";
-import PageButton from "@/components/PageButton";
+import PageButton from "@/components/ui/page-button";
 
 interface ReviewCardProps {
   item: any;

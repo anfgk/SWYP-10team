@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import PageButton from "../components/PageButton";
+import PageButton from "../components/ui/page-button";
+import StarRating from "../components/StarRating";
+import ReviewForm from "../components/ui/review-form";
 
 const sidebarMenus = [
   "내 정보",
@@ -20,7 +22,6 @@ const ReviewWrite = () => {
   const [reviewText, setReviewText] = useState(reviewData?.review || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const activeMenu = "방문한 장소 및 리뷰";
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -34,20 +35,8 @@ const ReviewWrite = () => {
     }
   };
 
-  const handleFileButtonClick = () => {
-    fileInputRef.current?.click();
-  };
-
   const removeFile = (index: number) => {
     setSelectedFiles(selectedFiles.filter((_, i) => i !== index));
-  };
-
-  const handleStarClick = (starIndex: number) => {
-    if (starIndex + 1 <= rating) {
-      setRating(starIndex);
-    } else {
-      setRating(starIndex + 1);
-    }
   };
 
   const handleMenuClick = (menu: string) => {
@@ -56,11 +45,39 @@ const ReviewWrite = () => {
     }
   };
 
+  const handleSubmit = () => {
+    if (isEditMode) {
+      const savedReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+      const updatedReviews = savedReviews.map((review: any) =>
+        review.id === reviewData.id
+          ? { ...review, review: reviewText, rating: rating }
+          : review
+      );
+      localStorage.setItem("reviews", JSON.stringify(updatedReviews));
+    } else {
+      const newReviewData = {
+        id: Date.now(),
+        place: "숙소 이름",
+        review: reviewText,
+        rating: rating,
+        images: selectedFiles.length,
+        createdAt: new Date().toISOString(),
+      };
+
+      const existingReviews = JSON.parse(
+        localStorage.getItem("reviews") || "[]"
+      );
+      existingReviews.push(newReviewData);
+      localStorage.setItem("reviews", JSON.stringify(existingReviews));
+    }
+    navigate("/myreview");
+  };
+
   return (
     <div className="flex min-h-screen bg-white">
       <Sidebar
         menus={sidebarMenus}
-        activeMenu={activeMenu}
+        activeMenu="방문한 장소 및 리뷰"
         onMenuClick={handleMenuClick}
       />
       <main className="flex-1 px-16 py-12">
@@ -73,33 +90,18 @@ const ReviewWrite = () => {
             <div className="text-xl font-semibold mb-2">
               {reviewData?.place || "숙소 이름"}
             </div>
-            <div className="flex text-2xl gap-1">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`cursor-pointer outline-none transition-all duration-100 ${i < rating ? "text-yellow-400" : "text-[var(--sidebar-ring)]"}`}
-                  onClick={() => handleStarClick(i)}
-                >
-                  ★
-                </span>
-              ))}
-            </div>
+            <StarRating rating={rating} onRatingChange={setRating} />
           </div>
         </div>
 
-        <div className="mb-8">
-          <div className="mb-2 font-semibold">상세리뷰</div>
-          <textarea
-            className="w-full h-40 p-4 border border-gray-300 rounded resize-none focus:outline-none"
-            placeholder="리뷰를 작성해주세요."
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-          />
-        </div>
+        <ReviewForm reviewText={reviewText} onReviewChange={setReviewText} />
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
             <div className="font-semibold">사진첨부</div>
-            <PageButton text="사진첨부하기" onClick={handleFileButtonClick} />
+            <PageButton
+              text="사진첨부하기"
+              onClick={() => fileInputRef.current?.click()}
+            />
             <span>{selectedFiles.length}/10</span>
           </div>
           <input
@@ -134,39 +136,7 @@ const ReviewWrite = () => {
           <PageButton
             text={isEditMode ? "수정" : "저장"}
             variant="default"
-            onClick={() => {
-              if (isEditMode) {
-                const savedReviews = JSON.parse(
-                  localStorage.getItem("reviews") || "[]"
-                );
-                const updatedReviews = savedReviews.map((review: any) =>
-                  review.id === reviewData.id
-                    ? { ...review, review: reviewText, rating: rating }
-                    : review
-                );
-                localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-              } else {
-                const newReviewData = {
-                  id: Date.now(),
-                  place: "숙소 이름",
-                  review: reviewText,
-                  rating: rating,
-                  images: selectedFiles.length,
-                  createdAt: new Date().toISOString(),
-                };
-
-                const existingReviews = JSON.parse(
-                  localStorage.getItem("reviews") || "[]"
-                );
-                existingReviews.push(newReviewData);
-                localStorage.setItem(
-                  "reviews",
-                  JSON.stringify(existingReviews)
-                );
-              }
-
-              navigate("/myreview");
-            }}
+            onClick={handleSubmit}
           />
           <PageButton
             text="취소"

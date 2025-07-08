@@ -40,7 +40,6 @@ const MyReview = () => {
     setCurrentPage(page);
   };
 
-  // 리뷰 카드 콜백
   const handleEdit = (item: any) => {
     navigate("/ReviewWrite", { state: { reviewData: item } });
   };
