@@ -8,6 +8,7 @@ import AiRecList from "./components/AiRecList";
 import SearchPanel from "./components/SearchPannel";
 import MyReview from "./screens/MyReview";
 import ReviewWrite from "./screens/ReviewWrite";
+import MyInfo from "./screens/MyInfo";
 
 function App() {
   return (
@@ -27,8 +28,9 @@ function App() {
                 </main>
               }
             />
-            <Route path="/MyReview" element={<MyReview />} />
-            <Route path="/ReviewWrite" element={<ReviewWrite />} />
+            <Route path="/myreview" element={<MyReview />} />
+            <Route path="/reviewwrite" element={<ReviewWrite />} />
+            <Route path="/myinfo" element={<MyInfo />} />
           </Routes>
           <MainFooter />
         </div>

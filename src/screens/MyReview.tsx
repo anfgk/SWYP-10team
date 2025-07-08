@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "@/components/PageTitle";
 import Sidebar from "@/components/Sidebar";
-import PageButton from "@/components/PageButton";
+import ReviewCard from "@/components/ReviewCard";
+import Pagination from "@/components/Pagination";
 
 const dummyReviews = [
   { id: 2, place: "장소명", review: "", hasReview: false },
@@ -39,90 +40,56 @@ const MyReview = () => {
     setCurrentPage(page);
   };
 
+  // 리뷰 카드 콜백
+  const handleEdit = (item: any) => {
+    navigate("/ReviewWrite", { state: { reviewData: item } });
+  };
+  const handleDelete = (item: any) => {
+    const savedReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+    const updatedReviews = savedReviews.filter(
+      (review: any) => review.id !== item.id
+    );
+    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
+    window.location.reload();
+  };
+  const handleWrite = () => {
+    navigate("/ReviewWrite");
+  };
+
+  const handleSidebarMenuClick = (menu: string) => {
+    if (menu === "내 정보") navigate("/myinfo");
+    else if (menu === "찜한 장소") navigate("/wish");
+    else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
+    else if (menu === "문의내역") navigate("/inquiry");
+  };
+
   return (
     <div className="flex min-h-screen bg-white">
-      <Sidebar menus={sidebarMenus} activeMenu={activeMenu} />
+      <Sidebar
+        menus={sidebarMenus}
+        activeMenu={activeMenu}
+        onMenuClick={handleSidebarMenuClick}
+      />
       <main className="flex-1 px-16 py-12">
         <div className="flex gap-12 mb-12">
           <PageTitle text="방문한 장소 및 리뷰" />
         </div>
         <div className="flex flex-col gap-12">
-          {paginatedReviews.map((item, idx) => (
-            <div key={item.id} className="flex gap-8 items-start">
-              <div className="w-40 h-32 bg-[var(--sidebar-ring)]" />
-              <div className="flex-1">
-                <div className="text-lg font-semibold mb-2">{item.place}</div>
-                {item.hasReview || item.review ? (
-                  <div className="flex gap-2 mb-2">
-                    <PageButton
-                      text="수정"
-                      onClick={() =>
-                        navigate("/ReviewWrite", {
-                          state: { reviewData: item },
-                        })
-                      }
-                    />
-                    <PageButton
-                      text="삭제"
-                      onClick={() => {
-                        // localStorage에서 해당 리뷰 삭제
-                        const savedReviews = JSON.parse(
-                          localStorage.getItem("reviews") || "[]"
-                        );
-                        const updatedReviews = savedReviews.filter(
-                          (review: any) => review.id !== item.id
-                        );
-                        localStorage.setItem(
-                          "reviews",
-                          JSON.stringify(updatedReviews)
-                        );
-                        window.location.reload();
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex gap-2 mb-2">
-                    <PageButton
-                      text="리뷰 작성하기"
-                      variant="default"
-                      onClick={() => navigate("/ReviewWrite")}
-                    />
-                  </div>
-                )}
-                <div className="bg-[var(--sidebar-ring)] p-3 rounded">
-                  {item.hasReview || item.review
-                    ? item.review
-                    : "아직 리뷰를 작성하지 않았습니다! 리뷰를 작성해주세요!"}
-                </div>
-              </div>
-            </div>
+          {paginatedReviews.map((item) => (
+            <ReviewCard
+              key={item.id}
+              item={item}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onWrite={handleWrite}
+            />
           ))}
         </div>
-        <div className="flex justify-center mt-16 gap-2 text-lg">
-          <span
-            className={`cursor-pointer ${currentPage === 1 ? "text-gray-400" : ""}`}
-            onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-          >
-            &#60;
-          </span>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <span
-              key={i + 1}
-              className={`mx-1 cursor-pointer ${currentPage === i + 1 ? "font-bold underline" : ""}`}
-              onClick={() => handlePageClick(i + 1)}
-            >
-              {i + 1}
-            </span>
-          ))}
-          <span
-            className={`cursor-pointer ${currentPage === totalPages ? "text-gray-400" : ""}`}
-            onClick={() =>
-              currentPage < totalPages && setCurrentPage(currentPage + 1)
-            }
-          >
-            &#62;
-          </span>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageClick}
+        />
       </main>
     </div>
   );
