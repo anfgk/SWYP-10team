@@ -7,13 +7,20 @@ type PageButtonProps = {
   variant?: "default" | "primary";
 };
 
-const PageButton = ({ text, onClick, variant = "default" }: PageButtonProps) => {
+const PageButton = ({
+  text,
+  onClick,
+  variant = "default",
+}: PageButtonProps) => {
   // shadcn Button의 variant prop 활용
   return (
-    <Button variant={variant === "primary" ? "default" : "secondary"} onClick={onClick}>
+    <Button
+      variant={variant === "primary" ? "default" : "secondary"}
+      onClick={onClick}
+    >
       {text}
     </Button>
   );
 };
 
-export default PageButton; 
+export default PageButton;

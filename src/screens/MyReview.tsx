@@ -21,6 +21,7 @@ const REVIEWS_PER_PAGE = 2;
 const MyReview = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+  const activeMenu = "방문한 장소 및 리뷰";
 
   const totalPages = Math.ceil(dummyReviews.length / REVIEWS_PER_PAGE);
   const paginatedReviews = dummyReviews.slice(
@@ -35,7 +36,7 @@ const MyReview = () => {
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar */}
-      <Sidebar menus={sidebarMenus} />
+      <Sidebar menus={sidebarMenus} activeMenu={activeMenu} />
       <main className="flex-1 px-16 py-12">
         <div className="flex gap-12 mb-12">
           <PageTitle text="방문한 장소 및 리뷰" />
@@ -44,7 +45,7 @@ const MyReview = () => {
         <div className="flex flex-col gap-12">
           {paginatedReviews.map((item, idx) => (
             <div key={item.id} className="flex gap-8 items-start">
-              <div className="w-40 h-32 bg-gray-300" />
+              <div className="w-40 h-32 bg-[var(--sidebar-ring)]" />
               <div className="flex-1">
                 <div className="text-lg font-semibold mb-2">{item.place}</div>
                 {item.hasReview ? (
@@ -61,7 +62,7 @@ const MyReview = () => {
                     />
                   </div>
                 )}
-                <div className="bg-gray-300 p-3 rounded">
+                <div className="bg-[var(--sidebar-ring)] p-3 rounded">
                   {item.hasReview
                     ? item.review
                     : "아직 리뷰를 작성하지 않았습니다! 리뷰를 작성해주세요!"}

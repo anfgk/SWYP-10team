@@ -1,13 +1,22 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/ui/Sidebar";
 import PageButton from "../components/ui/PageButton";
 
-const sidebarMenus = ["내 정보", "방문/찜한 장소", "리뷰", "문의내역"];
+const sidebarMenus = [
+  "내 정보",
+  "찜한 장소",
+  "방문한 장소 및 리뷰",
+  "문의내역",
+];
 
 const ReviewWrite = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const activeMenu = "방문한 장소 및 리뷰";
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -33,24 +42,34 @@ const ReviewWrite = () => {
     setRating(starIndex + 1);
   };
 
+  const handleMenuClick = (menu: string) => {
+    if (menu === "방문한 장소 및 리뷰") {
+      navigate("/myreview");
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar */}
-      <Sidebar menus={sidebarMenus} />
+      <Sidebar
+        menus={sidebarMenus}
+        activeMenu={activeMenu}
+        onMenuClick={handleMenuClick}
+      />
       {/* Main Content */}
       <main className="flex-1 px-16 py-12">
         {/* 상단 타이틀 */}
         <div className="text-2xl font-bold mb-8">리뷰작성</div>
         {/* 숙소 정보 */}
         <div className="flex items-center gap-8 mb-8">
-          <div className="w-32 h-32 bg-gray-300" />
+          <div className="w-32 h-32 bg-[var(--sidebar-ring)]" />
           <div>
             <div className="text-xl font-semibold mb-2">숙소 이름</div>
             <div className="flex text-2xl gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
                   key={i}
-                  className={`cursor-pointer ${i < rating ? "text-yellow-400" : "text-gray-300"}`}
+                  className={`cursor-pointer ${i < rating ? "text-yellow-400" : "text-[var(--sidebar-ring)]"}`}
                   onClick={() => handleStarClick(i)}
                 >
                   ★
@@ -65,6 +84,8 @@ const ReviewWrite = () => {
           <textarea
             className="w-full h-40 p-4 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="리뷰를 작성해주세요..."
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
           />
         </div>
         {/* 사진첨부 */}
@@ -104,7 +125,7 @@ const ReviewWrite = () => {
           )}
         </div>
         {/* 제출 버튼 */}
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-end mt-12">
           <PageButton text="제출하기" variant="primary" />
         </div>
       </main>
