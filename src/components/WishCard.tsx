@@ -1,4 +1,3 @@
-import React from "react";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 
 interface WishCardProps {
