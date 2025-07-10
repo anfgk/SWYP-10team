@@ -6,28 +6,28 @@ on:
 
 jobs:
   notify-discord:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: Send Discord Notification
-      uses: tsickert/discord-webhook@v5.3.0
-      with:
-        webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        embed-title: "Pull Request 알림"
-        embed-description: "#${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
-        embed-color: "3447003"
-        embed-fields: |
-          [
-            {
-              "name": "작성자",
-              "value": "${{ github.event.pull_request.user.login }}"
-            },
-            {
-              "name": "PR 링크",
-              "value": "${{ github.event.pull_request.html_url }}"
-            },
-            {
-              "name": "설명",
-              "value": "${{ github.event.pull_request.body || '없음' }}"
-            }
-          ]
+    steps:
+      - name: Send Discord Notification
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          embed-title: "Pull Request 알림"
+          embed-description: "#${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}"
+          embed-color: "3447003"
+          embed-fields: |
+            [
+              {
+                "name": "작성자",
+                "value": "${{ github.event.pull_request.user.login }}"
+              },
+              {
+                "name": "PR 링크",
+                "value": "${{ github.event.pull_request.html_url }}"
+              },
+              {
+                "name": "설명",
+                "value": "${{ github.event.pull_request.body || '없음' }}"
+              }
+            ]

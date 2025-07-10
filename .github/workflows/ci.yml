@@ -40,7 +40,7 @@ jobs:
               github.event_name == 'pull_request' && '❌ PR CI 실패' ||
               github.event_name == 'push' && '❌ Push CI 실패'
             ) }}
-          embed-description: >
+          embed-description: |
             브랜치: ${{ github.head_ref || github.ref_name }}
             커밋: ${{ github.event.pull_request.title || github.event.head_commit.message || github.sha }}
           embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
