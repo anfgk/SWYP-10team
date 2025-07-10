@@ -1,0 +1,24 @@
+name: Frontend PR Created Notification
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord Notification
+        uses: Ilshidur/action-discord@master
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          message: |
+            📌 [${{ github.repository }}] Pull Request 알림
+            #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}
+
+            🧑 작성자: ${{ github.event.pull_request.user.login }}
+            🔗 [PR 보기](${{ github.event.pull_request.html_url }})
+
+            📝 설명:
+            ${{ github.event.pull_request.body || '' }}

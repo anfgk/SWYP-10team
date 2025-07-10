@@ -2,9 +2,9 @@ name: Frontend CI
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: [main, develop]
   pull_request:
-    branches: ["main", "develop"]
+    branches: [main, develop]
 
 jobs:
   lint-build:
@@ -33,7 +33,7 @@ jobs:
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           message: |
-            ✅ CI 완료
+            ${{ job.status == 'success' && '✅ CI 성공' || '❌ CI 실패' }}
             브랜치: `${{ github.ref_name }}`
             커밋: `${{ github.event.head_commit.message }}`
             🔗 [보기](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
