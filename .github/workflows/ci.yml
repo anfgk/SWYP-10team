@@ -42,16 +42,7 @@ jobs:
             ) }}
           embed-description: |
             브랜치: ${{ github.head_ref || github.ref_name }}
-            커밋: ${{ github.event.pull_request.title || github.event.head_commit.message || github.sha }}
+            제목: ${{ github.event.pull_request.title || github.event.head_commit.message || github.sha }}
           embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
-          embed-fields: |
-            [
-              {
-                "name": "커밋 SHA",
-                "value": "${{ github.sha }}"
-              },
-              {
-                "name": "Commit 링크",
-                "value": "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
-              }
-            ]
+          embed-fields: >
+            [{"name":"커밋 SHA","value":"${{ github.sha }}\n"},{"name":"Commit 링크","value":"${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"}]
