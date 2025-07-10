@@ -1,7 +1,7 @@
-export default function MainHeader() {
+const MainHeader = () => {
   return (
     <header className="w-full h-[80px] bg-[var(--header-bg)] ">
-      <div className="flex justify-between px-[39px] py-[16px]">
+      <div className="flex justify-between px-[39px] py-[12px]">
         <div className="flex w-[90px] h-[48px] bg-[var(--headerItems-bg)] items-center justify-center">
           Logo
         </div>
@@ -11,4 +11,6 @@ export default function MainHeader() {
       </div>
     </header>
   );
-}
+};
+
+export default MainHeader;

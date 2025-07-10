@@ -1,15 +1,17 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import MainFooter from "./components/MainFooter";
 import MainHeader from "./components/MainHeader";
-import MainScreen from "./screens/MainScreen";
+import MainPage from "./pages/MainPage";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <MainHeader />
-        <MainScreen />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+        </Routes>
         <MainFooter />
       </div>
     </BrowserRouter>
