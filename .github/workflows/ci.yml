@@ -30,9 +30,10 @@ jobs:
       - name: Discord Notification
         if: always()
         uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          message: |
+          args: |
             ${{ job.status == 'success' && '✅ CI 성공' || '❌ CI 실패' }}
             브랜치: `${{ github.ref_name }}`
             커밋: `${{ github.event.head_commit.message }}`

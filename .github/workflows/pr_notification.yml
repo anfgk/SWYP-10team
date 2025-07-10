@@ -11,9 +11,10 @@ jobs:
     steps:
       - name: Send Discord Notification
         uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          message: |
+          args: |
             📌 [${{ github.repository }}] Pull Request 알림
             #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}
 
