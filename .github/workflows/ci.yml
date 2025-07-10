@@ -26,3 +26,14 @@ jobs:
 
       - name: Run Build
         run: npm run build
+
+      - name: Discord Notification
+        if: always()
+        uses: Ilshidur/action-discord@master
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          message: |
+            ✅ CI 완료
+            브랜치: `${{ github.ref_name }}`
+            커밋: `${{ github.event.head_commit.message }}`
+            🔗 [보기](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
