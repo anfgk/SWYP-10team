@@ -1,8 +1,8 @@
 import { Card } from "@/components/ui/card";
 
-type Props = {
+interface Props {
   value: number;
-};
+}
 
 const PopularCard = ({ value }: Props) => {
   return (

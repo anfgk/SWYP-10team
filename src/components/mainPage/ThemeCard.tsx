@@ -1,8 +1,8 @@
 import { Card } from "../ui/card";
 
-type Props = {
+interface Props {
   value: number;
-};
+}
 
 const ThemeCard = ({ value }: Props) => {
   return (

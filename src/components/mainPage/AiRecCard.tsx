@@ -1,6 +1,6 @@
-type Props = {
+interface Props {
   value: number;
-};
+}
 
 const AiRecCard = ({ value }: Props) => {
   return (
