@@ -29,12 +29,22 @@ jobs:
 
       - name: Discord Notification
         if: always()
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: tsickert/discord-webhook@v5.3.0
         with:
-          args: |
-            ${{ job.status == 'success' && '✅ CI 성공' || '❌ CI 실패' }}
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          embed-title: "${{ job.status == 'success' && '✅ CI 성공' || '❌ CI 실패' }}"
+          embed-description: |
             브랜치: `${{ github.ref_name }}`
             커밋: `${{ github.event.head_commit.message }}`
-            🔗 [보기](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
+          embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
+          embed-fields: |
+            [
+              {
+                "name": "커밋 SHA",
+                "value": "${{ github.sha }}"
+              },
+              {
+                "name": "Commit 링크",
+                "value": "${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+              }
+            ]
