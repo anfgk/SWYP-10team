@@ -9,6 +9,7 @@ import MyReview from "./mypage/MyReview";
 import ReviewWrite from "./mypage/ReviewWrite";
 import Login from "./pages/Login";
 import SearchResults from "./pages/SearchResults";
+import PlaceDetail from "./pages/PlaceDetail";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/reviewwrite" element={<ReviewWrite />} />
           <Route path="/login" element={<Login />} />
           <Route path="/SearchResults" element={<SearchResults />} />
+          <Route path="/place/:id" element={<PlaceDetail />} />
         </Routes>
         <MainFooter />
       </div>
