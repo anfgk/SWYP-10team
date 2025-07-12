@@ -5,12 +5,7 @@ import PageButton from "../components/ui/page-button";
 import StarRating from "../components/StarRating";
 import ReviewForm from "../components/ui/review-form";
 
-const sidebarMenus = [
-  "내 정보",
-  "찜한 장소",
-  "방문한 장소 및 리뷰",
-  "문의내역",
-];
+const sidebarMenus = ["내 정보", "찜한 장소", "방문한 장소 및 리뷰"];
 
 const ReviewWrite = () => {
   const location = useLocation();

@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const MainHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="w-full h-[80px] bg-[var(--header-bg)] ">
       <div className="flex justify-between px-[39px] py-[12px]">

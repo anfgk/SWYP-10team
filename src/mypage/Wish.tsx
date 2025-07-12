@@ -5,12 +5,7 @@ import Pagination from "@/components/Pagination";
 import WishCard from "@/components/WishCard";
 import { useNavigate } from "react-router-dom";
 
-const sidebarMenus = [
-  "내 정보",
-  "찜한 장소",
-  "방문한 장소 및 리뷰",
-  "문의내역",
-];
+const sidebarMenus = ["내 정보", "찜한 장소", "방문한 장소 및 리뷰"];
 
 const dummyWishList = Array.from({ length: 10 }).map((_, i) => ({
   id: i + 1,

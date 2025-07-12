@@ -10,12 +10,7 @@ const dummyReviews = [
   { id: 3, place: "다른 장소", review: "정말 좋았어요!", hasReview: true },
 ];
 
-const sidebarMenus = [
-  "내 정보",
-  "찜한 장소",
-  "방문한 장소 및 리뷰",
-  "문의내역",
-];
+const sidebarMenus = ["내 정보", "찜한 장소", "방문한 장소 및 리뷰"];
 const REVIEWS_PER_PAGE = 3;
 
 const MyReview = () => {
@@ -59,7 +54,6 @@ const MyReview = () => {
     if (menu === "내 정보") navigate("/myinfo");
     else if (menu === "찜한 장소") navigate("/wish");
     else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
-    else if (menu === "문의내역") navigate("/inquiry");
   };
 
   return (
