@@ -1,0 +1,23 @@
+name: Frontend PR Created Notification
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord Notification
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          embed-title: "Pull Request 알림"
+          embed-description: |
+            #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }}
+            PR 링크: ${{ github.event.pull_request.html_url }}
+            ${{ github.event.pull_request.body || '없음' }}
+          embed-author-icon-url: ${{ github.event.pull_request.user.avatar_url }}
+          embed-author-name: ${{ github.event.pull_request.user.login }}
+          embed-color: "3447003"

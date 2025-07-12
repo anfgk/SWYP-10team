@@ -2,9 +2,9 @@ name: Frontend CI
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: [main, develop]
   pull_request:
-    branches: ["main", "develop"]
+    branches: [main, develop]
 
 jobs:
   lint-build:
@@ -26,3 +26,24 @@ jobs:
 
       - name: Run Build
         run: npm run build
+
+      - name: Discord Notification
+        if: always()
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          embed-title: >
+            ${{ job.status == 'success' && (
+              github.event_name == 'pull_request' && '✅ PR CI 성공' ||
+              github.event_name == 'push' && '✅ Push CI 성공'
+            ) || (
+              github.event_name == 'pull_request' && '❌ PR CI 실패' ||
+              github.event_name == 'push' && '❌ Push CI 실패'
+            ) }}
+          embed-description: |
+            브랜치: ${{ github.head_ref || github.ref_name }}
+            제목: ${{ github.event.pull_request.title || github.event.head_commit.message || github.sha }}
+            커밋 SHA: ${{ github.sha }}
+            Commit 링크: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+
+          embed-color: ${{ job.status == 'success' && '65280' || '16711680' }}
