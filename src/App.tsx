@@ -10,6 +10,7 @@ import MyReview from "./screens/MyReview";
 import ReviewWrite from "./screens/ReviewWrite";
 import MyInfo from "./screens/MyInfo";
 import Wish from "./screens/Wish";
+import Login from "./screens/Login";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/reviewwrite" element={<ReviewWrite />} />
             <Route path="/myinfo" element={<MyInfo />} />
             <Route path="/wish" element={<Wish />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
           <MainFooter />
         </div>
