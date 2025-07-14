@@ -1,10 +1,22 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import MainFooter from "./components/MainFooter";
+import MainHeader from "./components/MainHeader";
+import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
-    <>
-      <h1 className="text-xl">어디가냥 같이가개</h1>
-    </>
+    <BrowserRouter>
+      <div className="App">
+        <MainHeader />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+        <MainFooter />
+      </div>
+    </BrowserRouter>
   );
 }
 

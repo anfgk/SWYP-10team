@@ -4,11 +4,22 @@
 @custom-variant dark (&:is(.dark *));
 
 #root {
+  --header-bg: #c7c7c7;
+  --headerItems-bg: #ffffff;
+  --footer-border: #000000;
+  --text-color: #000000;
+  --card-bg: #aaaaaa;
+  --search-bg: #cdcdcd;
 
+  --main-color: #ee6768;
+  --header-text: #ffffff;
+
+  --kakao: #fee500;
+  --naver: #03c75a;
+  --google: #ffffff;
 }
 
 @theme inline {
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -81,7 +92,6 @@
 }
 
 :root {
-
   --radius: 0.625rem;
 
   --background: oklch(1 0 0);
@@ -148,7 +158,6 @@
 }
 
 .dark {
-
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);
