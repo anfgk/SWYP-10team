@@ -6,19 +6,23 @@ export default function NaverLoginButton() {
   sessionStorage.setItem("autoLogin", rememberMe.toString());
 
   const handleLogin = () => {
-    const params = new URLSearchParams({
-      client_id: NAVER_CLIENT_ID,
-      redirect_uri: REDIRECT_URI,
-      response_type: "code",
-      scope: "name email",
-      state: "RANDOM_STRING",
-    });
+    // const params = new URLSearchParams({
+    //   client_id: NAVER_CLIENT_ID,
+    //   redirect_uri: REDIRECT_URI,
+    //   response_type: "code",
+    //   scope: "name email",
+    //   state: "RANDOM_STRING",
+    // });
 
-    window.location.href = `https://nid.naver.com/oauth2.0/authorize?${params.toString()}`;
+    // window.location.href = `https://nid.naver.com/oauth2.0/authorize?${params.toString()}`;
+    alert("login test");
   };
 
   return (
-    <button className="w-[514px] h-[61px] rounded-[16px] bg-[var(--naver)]">
+    <button
+      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--naver)]"
+      onClick={handleLogin}
+    >
       네이버 로그인
     </button>
   );
