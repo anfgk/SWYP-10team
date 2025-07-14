@@ -1,0 +1,30 @@
+name: Frontend Deployment Notification
+
+on:
+  deployment_status:
+    branches: [main, develop]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get commit message
+        id: commit
+        run: echo "message=$(git log -1 --pretty=format:%s ${{ github.event.deployment.sha }})" >> $GITHUB_OUTPUT
+
+      - name: Discord Notification
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "배포 상태: ${{ github.event.deployment_status.state }}"
+          embed-title: "Deployment Status"
+          embed-description: |
+            ${{ github.event.deployment_status.state == 'failure' && format('❌ 배포 실패: {0}', github.event.deployment_status.description) || (github.event.deployment_status.state == 'error' && format('❌ 배포 오류: {0}', github.event.deployment_status.description) || '✅ 배포 성공') }}
+
+            Commit SHA: ${{ github.event.deployment.sha }}
+            Commit 메세지: ${{ steps.commit.outputs.message }}
+            Log URL: ${{ github.event.deployment_status.log_url || 'Not available' }}
+          embed-color: ${{ github.event.deployment_status.state == 'success' && '65280' || '16711680' }}
