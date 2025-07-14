@@ -1,8 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MainHeader = () => {
-  const navigate = useNavigate();
-
   return (
     <header className="w-full h-[72px] bg-[var(--main-color)] ">
       <div className="flex items-center justify-between px-[39px] py-[12px]">
