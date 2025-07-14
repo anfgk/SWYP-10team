@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CommentList, { type ReviewType } from "@/components/CommentList";
+import CommentList from "@/components/CommentList";
 import PlaceInfoSection, {
   type PlaceType,
 } from "@/components/PlaceInfoSection";
