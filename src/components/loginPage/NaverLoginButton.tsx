@@ -1,5 +1,5 @@
-const NAVER_CLIENT_ID = import.meta.env.DEV_VITE_GOOGLE_CLIENT_ID;
-const REDIRECT_URI = "http://localhost:5173/auth/callback";
+//const NAVER_CLIENT_ID = import.meta.env.DEV_VITE_GOOGLE_CLIENT_ID;
+//const REDIRECT_URI = "http://localhost:5173/auth/callback";
 
 export default function NaverLoginButton() {
   const rememberMe = true; // 이건 체크박스 값으로 대체
