@@ -3,6 +3,7 @@ import "./App.css";
 import MainFooter from "./components/MainFooter";
 import MainHeader from "./components/MainHeader";
 import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <MainFooter />
       </div>

@@ -10,6 +10,13 @@
   --text-color: #000000;
   --card-bg: #aaaaaa;
   --search-bg: #cdcdcd;
+
+  --main-color: #ee6768;
+  --header-text: #ffffff;
+
+  --kakao: #fee500;
+  --naver: #03c75a;
+  --google: #ffffff;
 }
 
 @theme inline {
