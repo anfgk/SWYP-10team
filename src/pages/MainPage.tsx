@@ -1,15 +1,15 @@
-import PopularList from "@/components/mainPage/PopularList";
+import PopularSection from "@/components/mainPage/PopularSection";
 import SearchPanel from "@/components/mainPage/SearchPannel";
-import ThemeList from "@/components/mainPage/ThemeList";
-import AiRecList from "@/components/mainPage/AiRecList";
+import ThemeSection from "@/components/mainPage/ThemeSection";
+import AiRecSection from "@/components/mainPage/AiRecSection";
 
 const MainPage = () => {
   return (
     <main className="flex flex-col gap-[72px] py-[72px]">
       <SearchPanel />
-      <ThemeList />
-      <PopularList />
-      <AiRecList />
+      <ThemeSection />
+      <PopularSection />
+      <AiRecSection />
     </main>
   );
 };

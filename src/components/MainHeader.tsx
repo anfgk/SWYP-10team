@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MainHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full h-[80px] bg-[var(--header-bg)] ">
-      <div className="flex justify-between px-[39px] py-[12px]">
-        <div className="flex w-[90px] h-[48px] bg-[var(--headerItems-bg)] items-center justify-center">
-          Logo
-        </div>
-        <div
-          className="flex w-[118px] h-[48px] bg-[var(--headerItems-bg)] items-center justify-center cursor-pointer"
-          onClick={() => navigate("/login")}
+    <header className="w-full h-[72px] bg-[var(--main-color)] ">
+      <div className="flex items-center justify-between px-[39px] py-[12px]">
+        <Link to={"/"} className="cursor-pointer">
+          <img src="/assets/main_logo.png" alt="main_logo" />
+        </Link>
+        <Link
+          to={"/login"}
+          className="flex w-[66px] h-[25px] font-bold text-[var(--header-text)] text-[24px]"
         >
-          로그인/회원가입
-        </div>
+          로그인
+        </Link>
       </div>
     </header>
   );
