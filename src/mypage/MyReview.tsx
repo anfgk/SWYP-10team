@@ -133,7 +133,7 @@ const MyReview = () => {
               {/* 장소 이미지 */}
               <div className="w-32 h-32 bg-gray-300 rounded-lg flex-shrink-0">
                 <img
-                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=128&h=128&fit=crop"
+                  src="/assets/place.png"
                   alt={item.place}
                   className="w-full h-full object-cover rounded-lg"
                 />
