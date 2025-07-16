@@ -1,14 +1,33 @@
-import { Card } from "../ui/card";
+import MainCard from "./MainCard";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  value: number;
+  title?: string;
+  caption?: string;
+  img?: string;
+  link?: string;
 }
 
-const ThemeCard = ({ value }: Props) => {
+const ThemeCard = ({
+  title = "title",
+  caption = "caption",
+  img = "/assets/themecard_sample.jpg",
+  link = "",
+}: Props) => {
+  const navigate = useNavigate();
   return (
-    <Card className="w-[150px] h-[150px] bg-[var(--card-bg)]">
-      <p className="text-3xl mx-auto my-auto ">{value}</p>
-    </Card>
+    <MainCard
+      className="w-[150px] h-[212px] gap-[8px] cursor-pointer"
+      onClick={() => navigate(`/${link}`)}
+    >
+      <div className="w-full aspect-square overflow-hidden rounded-[16px]">
+        <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+      </div>
+      <div className="w-full h-[54px]">
+        <p className="text-[20px] font-semibold">{title}</p>
+        <p className="text-[16px]">{caption}</p>
+      </div>
+    </MainCard>
   );
 };
 

@@ -1,12 +1,31 @@
+import { useNavigate } from "react-router-dom";
+import MainCard from "./MainCard";
+
 interface Props {
-  value: number;
+  desc?: string;
+  img?: string;
+  link?: string;
 }
 
-const AiRecCard = ({ value }: Props) => {
+const AiRecCard = ({
+  desc = "",
+  img = "/assets/aicard_sample.jpg",
+  link = "",
+}: Props) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-[var(--card-bg)] h-[342.55px]">
-      <p className="text-5xl">{value}</p>
-    </div>
+    <MainCard
+      className="bg-[var(--card-bg)] w-[1200px] h-[304px] cursor-pointer bg-cover bg-center"
+      style={{ backgroundImage: `url(${img})` }}
+      onClick={() => navigate(`/${link}`)}
+    >
+      <div className="w-[182px] h-[102px] mt-[50px] ml-[67px]">
+        <p className="text-[32px] font-semibold text-[var(--card-text)] break-keep">
+          {desc}
+        </p>
+      </div>
+    </MainCard>
   );
 };
 

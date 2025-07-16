@@ -1,14 +1,41 @@
-import { Card } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import MainCard from "./MainCard";
 
 interface Props {
-  value: number;
+  rank?: number;
+  tag?: string;
+  place?: string;
+  distance?: number;
+  img?: string;
+  id?: string;
 }
 
-const PopularCard = ({ value }: Props) => {
+const PopularCard = ({
+  rank = 1,
+  tag = "물놀이",
+  place = "난지 한강공원",
+  distance = 5,
+  img = "/assets/popularcard_sample.jpg",
+  id = "test",
+}: Props) => {
+  const navigate = useNavigate();
   return (
-    <Card className="w-[282px] h-[324.59px] bg-[var(--card-bg)]">
-      <p className="text-3xl mx-auto my-auto ">{value}</p>
-    </Card>
+    <MainCard
+      className="w-[286px] h-[380px] bg-cover cursor-pointer"
+      style={{ backgroundImage: `url(${img})` }}
+      onClick={() => navigate(`/placedetail/${id}`)}
+    >
+      <div className="w-[193px] h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)]">
+        <div className="h-[115px]">
+          <p className="h-[77px] text-[48px] font-bold">{rank}</p>
+          <p className="h-[38px] text-[24px] font-semibold">#{tag}</p>
+        </div>
+        <div className="h-[42px]">
+          <p className="h-[22px] text-[16px]">{place}</p>
+          <p className="h-[22px] text-[14px]">여기서 {distance}km</p>
+        </div>
+      </div>
+    </MainCard>
   );
 };
 
