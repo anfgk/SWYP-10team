@@ -1,16 +1,22 @@
+/* eslint-disable react/prop-types */
+// import { useState } from "react";
+// import { Heart, MapPin, Star } from "lucide-react";
+
 export interface SearchResultPlaceType {
   id: number;
+  image: string;
   name: string;
   rating: number;
   tags: string[];
   location: string;
-  distance?: string | null;
-  image?: string;
+  distance: string | null;
 }
 
-const SearchResultCard: React.FC<{ place: SearchResultPlaceType }> = ({
-  place,
-}) => {
+interface SearchResultCardProps {
+  place: SearchResultPlaceType;
+}
+
+const SearchResultCard: React.FC<SearchResultCardProps> = ({ place }) => {
   return (
     <div className="flex gap-8 items-center border-b pb-8">
       {/* 이미지 */}

@@ -63,7 +63,7 @@ const ReviewWrite = () => {
 
     // 같은 ID의 리뷰가 있는지 확인하고 업데이트
     const existingIndex = existingReviews.findIndex(
-      (review: any) => review.id === currentReviewData.id
+      (review: any) => review.id === currentReviewData.id,
     );
 
     if (existingIndex !== -1) {

@@ -57,8 +57,8 @@ const MyReview = () => {
       prev.map((review) =>
         review.id === id
           ? { ...review, review: editText, hasReview: editText.trim() !== "" }
-          : review
-      )
+          : review,
+      ),
     );
     setEditingId(null);
     setEditText("");

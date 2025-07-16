@@ -37,7 +37,7 @@ const PlaceDetail: React.FC = () => {
 
   const handleShowMore = () => {
     setVisibleReviews((prev) =>
-      Math.min(prev + REVIEWS_PER_PAGE, place.reviews.length)
+      Math.min(prev + REVIEWS_PER_PAGE, place.reviews.length),
     );
   };
 
