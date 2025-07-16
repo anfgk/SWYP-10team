@@ -8,14 +8,23 @@ import MyInfo from "./mypage/MyInfo";
 import MyReview from "./mypage/MyReview";
 import Wish from "./mypage/Wish";
 import ReviewWrite from "./mypage/ReviewWrite";
+import SearchResultPage from "./pages/SearchResultPage";
+import PlaceDetailPage from "./pages/PlaceDetailPage";
+import useUserLocation from "./hooks/useUserLocation";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 function App() {
+  useUserLocation();
+
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="App">
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/search" element={<SearchResultPage />} />
+          <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/myinfo" element={<MyInfo />} />
           <Route path="/myreview" element={<MyReview />} />
