@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/mypage/Sidebar";
 import PageButton from "../components/ui/page-button";
-import StarRating from "../components/StarRating";
+import StarRating from "../components/mypage/StarRating";
 import ReviewForm from "../components/ui/review-form";
 
-const sidebarMenus = ["내 정보", "찜한 장소", "방문한 장소 및 리뷰"];
+const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 
 const ReviewWrite = () => {
   const location = useLocation();
@@ -25,7 +25,7 @@ const ReviewWrite = () => {
       if (selectedFiles.length + newFiles.length <= 10) {
         setSelectedFiles([...selectedFiles, ...newFiles]);
       } else {
-        alert("최대 10개까지만 첨부 가능합니다.");
+        alert("최대 3개까지만 첨부 가능합니다.");
       }
     }
   };
@@ -41,30 +41,47 @@ const ReviewWrite = () => {
   };
 
   const handleSubmit = () => {
-    if (isEditMode) {
-      const savedReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-      const updatedReviews = savedReviews.map((review: any) =>
-        review.id === reviewData.id
-          ? { ...review, review: reviewText, rating: rating }
-          : review
-      );
-      localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    } else {
-      const newReviewData = {
-        id: Date.now(),
-        place: "숙소 이름",
-        review: reviewText,
-        rating: rating,
-        images: selectedFiles.length,
-        createdAt: new Date().toISOString(),
-      };
-
-      const existingReviews = JSON.parse(
-        localStorage.getItem("reviews") || "[]"
-      );
-      existingReviews.push(newReviewData);
-      localStorage.setItem("reviews", JSON.stringify(existingReviews));
+    // 리뷰 텍스트가 비어있으면 저장하지 않음
+    if (!reviewText.trim()) {
+      alert("리뷰 내용을 입력해주세요.");
+      return;
     }
+
+    // 현재 리뷰 데이터 준비
+    const currentReviewData = {
+      id: reviewData?.id || Date.now(),
+      place: reviewData?.place || "장소명",
+      review: reviewText,
+      rating: rating,
+      hasReview: true,
+      images: selectedFiles.length,
+      createdAt: new Date().toISOString(),
+    };
+
+    // localStorage에서 기존 리뷰 목록 가져오기
+    let existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+
+    // 같은 ID의 리뷰가 있는지 확인하고 업데이트
+    const existingIndex = existingReviews.findIndex(
+      (review: any) => review.id === currentReviewData.id
+    );
+
+    if (existingIndex !== -1) {
+      // 기존 리뷰 업데이트
+      existingReviews[existingIndex] = currentReviewData;
+    } else {
+      // 새 리뷰 추가
+      existingReviews.push(currentReviewData);
+    }
+
+    // localStorage에 저장
+    localStorage.setItem("reviews", JSON.stringify(existingReviews));
+
+    // 디버깅용 콘솔 로그
+    console.log("저장된 리뷰:", currentReviewData);
+    console.log("전체 리뷰 목록:", existingReviews);
+
+    // MyReview 페이지로 이동
     navigate("/myreview");
   };
 
@@ -97,7 +114,7 @@ const ReviewWrite = () => {
               text="사진첨부하기"
               onClick={() => fileInputRef.current?.click()}
             />
-            <span>{selectedFiles.length}/10</span>
+            <span>{selectedFiles.length}/3</span>
           </div>
           <input
             type="file"
@@ -129,7 +146,7 @@ const ReviewWrite = () => {
         </div>
         <div className="flex justify-end gap-4">
           <PageButton
-            text={isEditMode ? "수정" : "저장"}
+            text={isEditMode ? "저장" : "저장"}
             variant="default"
             onClick={handleSubmit}
           />

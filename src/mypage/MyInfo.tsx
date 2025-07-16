@@ -1,16 +1,16 @@
-import Sidebar from "@/components/Sidebar";
-import PageTitle from "@/components/PageTitle";
+import Sidebar from "@/components/mypage/Sidebar";
+import PageTitle from "@/components/mypage/PageTitle";
 import PageButton from "@/components/ui/page-button";
-import PetInfoSection from "@/components/PetInfoSection";
+import PetInfoSection from "@/components/mypage/PetInfoSection";
 import { useNavigate } from "react-router-dom";
 
-const sidebarMenus = ["내 정보", "찜한 장소", "방문한 장소 및 리뷰"];
+const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 
 const MyInfo = () => {
   const navigate = useNavigate();
   const handleSidebarMenuClick = (menu: string) => {
     if (menu === "내 정보") navigate("/myinfo");
-    else if (menu === "찜한 장소") navigate("/wish");
+    else if (menu === "최근 본/찜한 장소") navigate("/wish");
     else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
   };
 
