@@ -7,7 +7,7 @@ const LoginPage = () => {
     <main className="flex flex-col h-[1090.7px] pt-[280px] pb-[330px] gap-[120px] items-center justify-center">
       <img
         className="w-[513.09px] h-[81.7px]"
-        src="/assets/login_logo.png"
+        src="/assets/logo/login_logo.png"
         alt="login_logo"
       />
 
@@ -28,7 +28,7 @@ const LoginPage = () => {
             }
             className="mr-2 w-5 h-5 rounded-full border-2 border-gray-300 appearance-none checked:bg-gray-400 checked:border-gray-400 transition-colors duration-200 focus:outline-none"
           />
-          <label htmlFor="auto-login" className="text-lg">
+          <label htmlFor="auto-login" className="text-lg font-pretendard">
             자동로그인
           </label>
         </div>

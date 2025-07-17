@@ -19,7 +19,7 @@ export default function KakaoLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--kakao)]"
+      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--kakao)] font-pretendard"
       onClick={handleLogin}
     >
       카카오 로그인

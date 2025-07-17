@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import MainFooter from "./components/MainFooter";
-import MainHeader from "./components/MainHeader";
+import MainFooter from "./components/layout/MainFooter";
+import MainHeader from "./components/layout/MainHeader";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";

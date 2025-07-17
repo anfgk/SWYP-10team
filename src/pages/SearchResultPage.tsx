@@ -1,4 +1,4 @@
-import MainContainer from "@/components/MainContainer";
+import MainContainer from "@/components/layout/MainContainer";
 import SearchResultSection from "@/components/searchPage/SearchResultSection";
 import SearchSectionOnSearch from "@/components/searchPage/SearchSectionOnSearch";
 

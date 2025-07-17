@@ -9,7 +9,7 @@ interface Props {
 
 const AiRecCard = ({
   desc = "",
-  img = "/assets/aicard_sample.jpg",
+  img = "/assets/samples/aicard_sample.jpg",
   link = "",
 }: Props) => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const AiRecCard = ({
       onClick={() => navigate(`/${link}`)}
     >
       <div className="w-[182px] h-[102px] mt-[50px] ml-[67px]">
-        <p className="text-[32px] font-semibold text-[var(--card-text)] break-keep">
+        <p className="text-[32px] font-pretendard font-semibold text-[var(--card-text)] break-keep">
           {desc}
         </p>
       </div>
