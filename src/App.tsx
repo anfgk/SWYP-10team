@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import MainFooter from "./components/MainFooter";
-import MainHeader from "./components/MainHeader";
+import RootLayout from "./components/layouts/RootLayout";
+import MypageLayout from "./components/layouts/MypageLayout";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import MyInfo from "./pages/MyInfo";
@@ -17,18 +17,20 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="App">
-        <MainHeader />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/myinfo" element={<MyInfo />} />
-          <Route path="/myreview" element={<MyReview />} />
-          <Route path="/wish" element={<Wish />} />
-          <Route path="/reviewwrite" element={<ReviewWrite />} />
-        </Routes>
-        <MainFooter />
-      </div>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<MainPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="reviewwrite" element={<ReviewWrite />} />
+
+          {/* 마이페이지 레이아웃 */}
+          <Route path="/" element={<MypageLayout />}>
+            <Route path="myinfo" element={<MyInfo />} />
+            <Route path="myreview" element={<MyReview />} />
+            <Route path="wish" element={<Wish />} />
+          </Route>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

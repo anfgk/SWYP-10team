@@ -9,10 +9,12 @@ interface ReviewItemProps {
     place: string;
     review: string;
     hasReview: boolean;
+    rating: number;
   };
   onEdit: (item: any) => void;
   onDelete: (item: any) => void;
   onSaveEdit: (id: number, text: string) => void;
+  onRatingChange: (id: number, rating: number) => void;
   editingId: number | null;
   editText: string;
   setEditText: (text: string) => void;
@@ -23,11 +25,12 @@ const ReviewItem = ({
   onEdit,
   onDelete,
   onSaveEdit,
+  onRatingChange,
   editingId,
   editText,
   setEditText,
 }: ReviewItemProps) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(item.rating);
   const navigate = useNavigate();
 
   const handleWrite = () => {
@@ -36,6 +39,12 @@ const ReviewItem = ({
 
   const handleCancelEdit = () => {
     setEditText("");
+  };
+
+  // 별점 변경 핸들러
+  const handleRatingChange = (newRating: number) => {
+    setRating(newRating);
+    onRatingChange(item.id, newRating);
   };
 
   return (
@@ -53,7 +62,7 @@ const ReviewItem = ({
       {/* 장소 정보 및 리뷰 */}
       <div className="flex-1 mt-10">
         <div className="w-145 flex justify-between items-center ">
-          <StarRating rating={rating} onRatingChange={setRating} />
+          <StarRating rating={rating} onRatingChange={handleRatingChange} />
           {/* 저장/취소 버튼 - 수정 모드일 때만 표시 */}
           {editingId === item.id && (
             <div className="flex gap-2 mb-3">
@@ -81,6 +90,19 @@ const ReviewItem = ({
               </Button>
               <Button onClick={() => onDelete(item)} variant="destructive">
                 삭제
+              </Button>
+            </div>
+          )}
+
+          {/* 리뷰 작성하기 버튼 - 리뷰가 없을 때만 표시 */}
+          {!item.hasReview && (
+            <div className="flex gap-2 mb-3">
+              <Button
+                onClick={handleWrite}
+                variant="default"
+                className="bg-green-500 hover:bg-green-600"
+              >
+                리뷰 작성하기
               </Button>
             </div>
           )}
@@ -131,20 +153,9 @@ const ReviewItem = ({
           <>
             {/* 리뷰가 없는 경우 */}
             <div className="mb-3">
-              <div className="w-full h-24 p-3 border border-gray-300 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500">
+              <div className="w-150 h-24 p-3 rounded-lg resize-none border border-gray-200">
                 아직 리뷰를 작성하지 않았습니다!
               </div>
-            </div>
-
-            {/* 리뷰 작성하기 버튼 */}
-            <div className="mt-3">
-              <Button
-                onClick={handleWrite}
-                variant="default"
-                className="bg-green-500 hover:bg-green-600"
-              >
-                리뷰 작성하기
-              </Button>
             </div>
           </>
         )}

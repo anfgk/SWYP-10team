@@ -16,11 +16,6 @@ const MyInfo = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      <Sidebar
-        menus={sidebarMenus}
-        activeMenu="내 정보"
-        onMenuClick={handleSidebarMenuClick}
-      />
       <main className="flex-1 px-16 py-12">
         <PageTitle text="마이페이지" />
         <div className="flex gap-16 mt-12">

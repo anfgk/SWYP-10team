@@ -22,7 +22,7 @@ const Wish = () => {
         return JSON.parse(savedWishState);
       }
       return Object.fromEntries(dummyWishList.map((item) => [item.id, true]));
-    },
+    }
   );
 
   const WISH_PER_PAGE = 12;
@@ -30,7 +30,7 @@ const Wish = () => {
   const totalPages = Math.ceil(filteredWishList.length / WISH_PER_PAGE);
   const paginatedWish = filteredWishList.slice(
     (currentPage - 1) * WISH_PER_PAGE,
-    currentPage * WISH_PER_PAGE,
+    currentPage * WISH_PER_PAGE
   );
 
   const handleMenuClick = (menu: string) => {
@@ -57,11 +57,6 @@ const Wish = () => {
 
   return (
     <div className="flex min-h-screen bg-white">
-      <Sidebar
-        menus={sidebarMenus}
-        activeMenu="찜한 장소"
-        onMenuClick={handleMenuClick}
-      />
       <main className="flex-1 px-16 py-12">
         <PageTitle text="찜한 장소" />
         <div className="grid grid-cols-4 gap-8 mt-12">
