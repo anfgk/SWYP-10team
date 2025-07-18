@@ -18,7 +18,7 @@ const ThemeCard = ({
   return (
     <MainCard
       className="w-[150px] h-[212px] gap-[8px] cursor-pointer"
-      onClick={() => navigate(`/${link}`)}
+      onClick={() => navigate(`/search/${link}`)}
     >
       <div className="w-full aspect-square overflow-hidden rounded-[16px]">
         <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
