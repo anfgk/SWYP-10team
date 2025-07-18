@@ -27,18 +27,12 @@ const PopularCard = ({
     >
       <div className="w-[193px] h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)]">
         <div className="h-[115px]">
-          <p className="h-[77px] text-[48px] font-pretendard font-bold">
-            {rank}
-          </p>
-          <p className="h-[38px] text-[24px] font-pretendard font-semibold">
-            #{tag}
-          </p>
+          <p className="h-[77px] text-[48px] font-bold">{rank}</p>
+          <p className="h-[38px] text-[24px] font-semibold">#{tag}</p>
         </div>
         <div className="h-[42px]">
-          <p className="h-[22px] text-[16px] font-pretendard">{place}</p>
-          <p className="h-[22px] text-[14px] font-pretendard">
-            여기서 {distance}km
-          </p>
+          <p className="h-[22px] text-[16px]">{place}</p>
+          <p className="h-[22px] text-[14px]">여기서 {distance}km</p>
         </div>
       </div>
     </MainCard>

@@ -21,7 +21,7 @@ export default function GoogleLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33 font-pretendard"
+      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33"
       onClick={handleLogin}
     >
       구글 로그인

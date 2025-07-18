@@ -10,7 +10,7 @@ const PopularList = () => {
         <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
           인기
         </p>
-        <Link to={"/search"} className="text-[14px] font-pretendard">
+        <Link to={"/search"} className="text-[14px]">
           더보기
         </Link>
       </div>

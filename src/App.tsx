@@ -15,7 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="App">
+      <div className="App font-pretendard">
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />

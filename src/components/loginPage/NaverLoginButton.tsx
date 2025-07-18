@@ -20,7 +20,7 @@ export default function NaverLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--naver)] text-white font-pretendard"
+      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--naver)] text-white"
       onClick={handleLogin}
     >
       네이버 로그인

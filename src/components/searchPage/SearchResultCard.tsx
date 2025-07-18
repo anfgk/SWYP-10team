@@ -43,17 +43,15 @@ const SearchResultCard = ({
         <div className="w-[828px] h-[114px] flex flex-col gap-[12px]">
           <div className="w-full h-[32px] flex flex-row justify-between">
             <div className="w-fit h-full flex items-center justify-between">
-              <p className="text-[20px] font-pretendard font-semibold mr-[4px]">
-                {title}
-              </p>
+              <p className="text-[20px] font-semibold mr-[4px]">{title}</p>
               <div className="w-[54px] h-full flex items-center gap-[4px]">
                 <SVGIcons name="star" width={24} height={24} />
-                <p className="text-[18px] font-pretendard">{rating}</p>
+                <p className="text-[18px]">{rating}</p>
               </div>
             </div>
             <div className="w-[200px] h-[full] flex flex-row gap-[4px] justify-end items-center">
               <SVGIcons name="vector" width={20} height={20} />
-              <p className="text-[14px] font-pretendard">
+              <p className="text-[14px]">
                 {lon && lat
                   ? getDistanceInKm(lon, lat, mapX, mapY)
                   : "위치권한이 없습니다"}
@@ -65,9 +63,7 @@ const SearchResultCard = ({
               <TagLabel key={i} value={tag} />
             ))}
           </div>
-          <div className="w-full h-[32px] text-[16px] font-pretendard">
-            {address}
-          </div>
+          <div className="w-full h-[32px] text-[16px]">{address}</div>
         </div>
       </SearchCard>
     </div>

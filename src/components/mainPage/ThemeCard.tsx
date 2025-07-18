@@ -24,8 +24,8 @@ const ThemeCard = ({
         <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
       </div>
       <div className="w-full h-[54px]">
-        <p className="text-[20px] font-pretendard font-semibold">{title}</p>
-        <p className="text-[16px] font-pretendard">{caption}</p>
+        <p className="text-[20px] font-semibold">{title}</p>
+        <p className="text-[16px]">{caption}</p>
       </div>
     </MainCard>
   );

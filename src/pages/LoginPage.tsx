@@ -28,7 +28,7 @@ const LoginPage = () => {
             }
             className="mr-2 w-5 h-5 rounded-full border-2 border-gray-300 appearance-none checked:bg-gray-400 checked:border-gray-400 transition-colors duration-200 focus:outline-none"
           />
-          <label htmlFor="auto-login" className="text-lg font-pretendard">
+          <label htmlFor="auto-login" className="text-lg">
             자동로그인
           </label>
         </div>
