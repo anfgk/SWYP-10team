@@ -1,7 +1,37 @@
+import { useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+
 const MainFooter = () => {
+  const navigate = useNavigate();
   return (
     <footer className="flex justify-center items-center w-full h-[343.91px] border-t-[1px] border-[var(--footer-border)]">
       <div className="flex flex-col justify-center gap-[46px] w-[471px] h-[239.1px]">
+        <div className="flex gap-3">
+          <Button
+            className="w-20 cursor-pointer"
+            onClick={() => navigate("/myinfo")}
+          >
+            내 정보
+          </Button>
+          <Button
+            className="w-20 cursor-pointer"
+            onClick={() => navigate("/myreview")}
+          >
+            내 리뷰
+          </Button>
+          <Button
+            className="w-20 cursor-pointer"
+            onClick={() => navigate("/wish")}
+          >
+            위시리스트
+          </Button>
+          <Button
+            className="w-20 cursor-pointer"
+            onClick={() => navigate("/reviewwrite")}
+          >
+            리뷰 작성
+          </Button>
+        </div>
         <img src="/assets/logo/footer_logo.png" alt="footer_logo" />
         <div className="flex flex-col items-center gap-[21px] w-[460px] h-[134.91px]">
           <div className="flex justify-between text-center w-[360px] h-[27.91px]">
