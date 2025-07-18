@@ -22,7 +22,7 @@ const ReviewWrite = () => {
     const files = event.target.files;
     if (files) {
       const newFiles = Array.from(files);
-      if (selectedFiles.length + newFiles.length <= 10) {
+      if (selectedFiles.length + newFiles.length <= 3) {
         setSelectedFiles([...selectedFiles, ...newFiles]);
       } else {
         alert("최대 3개까지만 첨부 가능합니다.");
@@ -63,7 +63,7 @@ const ReviewWrite = () => {
 
     // 같은 ID의 리뷰가 있는지 확인하고 업데이트
     const existingIndex = existingReviews.findIndex(
-      (review: any) => review.id === currentReviewData.id,
+      (review: any) => review.id === currentReviewData.id
     );
 
     if (existingIndex !== -1) {

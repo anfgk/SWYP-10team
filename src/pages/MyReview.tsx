@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/mypage/Sidebar";
+import ReviewItem from "@/components/mypage/ReviewItem";
+import MainContainer from "@/components/MainContainer";
 
 const dummyReviews = [
   { id: 1, place: "장소명", review: "정말 좋은 곳이었어요!", hasReview: true },
@@ -52,19 +54,14 @@ const MyReview = () => {
     setEditText(item.review);
   };
 
-  const handleSaveEdit = (id: number) => {
+  const handleSaveEdit = (id: number, text: string) => {
     setReviews((prev) =>
       prev.map((review) =>
         review.id === id
-          ? { ...review, review: editText, hasReview: editText.trim() !== "" }
-          : review,
-      ),
+          ? { ...review, review: text, hasReview: text.trim() !== "" }
+          : review
+      )
     );
-    setEditingId(null);
-    setEditText("");
-  };
-
-  const handleCancelEdit = () => {
     setEditingId(null);
     setEditText("");
   };
@@ -95,10 +92,6 @@ const MyReview = () => {
     }
   };
 
-  const handleWrite = (item: any) => {
-    navigate("/reviewwrite", { state: { reviewData: item } });
-  };
-
   const handleSidebarMenuClick = (menu: string) => {
     if (menu === "내 정보") navigate("/myinfo");
     else if (menu === "최근 본/찜한 장소") navigate("/wish");
@@ -106,142 +99,45 @@ const MyReview = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white">
-      <Sidebar
-        menus={sidebarMenus}
-        activeMenu={activeMenu}
-        onMenuClick={handleSidebarMenuClick}
-      />
-      <main className="flex-1 px-16 py-12">
-        {/* 브레드크럼 */}
-        <div className="text-sm text-gray-600 mb-4">
-          메인 &gt; 마이페이지 &gt; 방문한 장소 및 리뷰
-        </div>
+    <MainContainer>
+      <div className="flex min-h-screen bg-white">
+        <Sidebar
+          menus={sidebarMenus}
+          activeMenu={activeMenu}
+          onMenuClick={handleSidebarMenuClick}
+        />
 
-        {/* 페이지 제목 */}
-        <h1 className="text-3xl font-bold text-black mb-8">마이페이지</h1>
+        <main className="flex-1 px-16 py-12">
+          {/* 브레드크럼 */}
+          <div className="text-sm text-gray-600 mb-4">
+            메인 &gt; 마이페이지 &gt; 방문한 장소 및 리뷰
+          </div>
 
-        {/* 방문한 장소 섹션 */}
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-black">방문한 장소</h2>
+          {/* 페이지 제목 */}
+          <h1 className="text-3xl font-bold text-black mb-8">마이페이지</h1>
 
-          {reviews.map((item) => (
-            <div
-              key={item.id}
-              className="flex gap-4 p-4 border border-gray-200 rounded-lg"
-            >
-              {/* 장소 이미지 */}
-              <div className="w-32 h-32 bg-gray-300 rounded-lg flex-shrink-0">
-                <img
-                  src="/assets/place.png"
-                  alt={item.place}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
+          {/* 방문한 장소 섹션 */}
+          <div className="space-y-6">
+            <h2 className="text-xl font-semibold text-black mb-6">
+              방문한 장소
+            </h2>
 
-              {/* 장소 정보 및 리뷰 */}
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-black mb-3">
-                  {item.place}
-                </h3>
-
-                {/* 리뷰가 있는 경우 */}
-                {item.hasReview && item.review ? (
-                  <>
-                    {/* 수정 모드인 경우 */}
-                    {editingId === item.id ? (
-                      <>
-                        {/* 수정용 텍스트 영역 */}
-                        <div className="mb-2">
-                          <textarea
-                            value={editText}
-                            onChange={(e) => setEditText(e.target.value)}
-                            placeholder="리뷰를 작성해주세요..."
-                            className="w-full h-24 p-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            maxLength={2000}
-                          />
-                        </div>
-
-                        {/* 글자수 카운트 */}
-                        <div className="text-sm text-gray-500 mb-3">
-                          {editText.length}/2000
-                        </div>
-
-                        {/* 저장/취소 버튼 */}
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleSaveEdit(item.id)}
-                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-                          >
-                            저장
-                          </button>
-                          <button
-                            onClick={handleCancelEdit}
-                            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
-                          >
-                            취소
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* 읽기 전용 텍스트 영역 */}
-                        <div className="mb-2">
-                          <textarea
-                            value={item.review}
-                            readOnly
-                            className="w-full h-24 p-3 border border-gray-300 rounded-lg resize-none bg-gray-50"
-                            maxLength={2000}
-                          />
-                        </div>
-
-                        {/* 글자수 카운트 */}
-                        <div className="text-sm text-gray-500 mb-3">
-                          {item.review.length}/2000
-                        </div>
-
-                        {/* 수정/삭제 버튼 */}
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleEdit(item)}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                          >
-                            수정
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item)}
-                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {/* 리뷰가 없는 경우 */}
-                    <div className="mb-3">
-                      <div className="w-full h-24 p-3 border border-gray-300 rounded-lg bg-gray-50 flex items-center justify-center text-gray-500">
-                        아직 리뷰를 작성하지 않았습니다!
-                      </div>
-                    </div>
-
-                    {/* 리뷰 작성하기 버튼 */}
-                    <button
-                      onClick={() => handleWrite(item)}
-                      className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-                    >
-                      리뷰 작성하기
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
+            {reviews.map((item) => (
+              <ReviewItem
+                key={item.id}
+                item={item}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onSaveEdit={handleSaveEdit}
+                editingId={editingId}
+                editText={editText}
+                setEditText={setEditText}
+              />
+            ))}
+          </div>
+        </main>
+      </div>
+    </MainContainer>
   );
 };
 

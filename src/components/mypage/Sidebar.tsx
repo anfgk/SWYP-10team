@@ -8,7 +8,7 @@ interface SidebarProps {
 
 const Sidebar = ({ menus, onMenuClick, activeMenu }: SidebarProps) => {
   return (
-    <aside className="w-[299px] h-[1113px] bg-[var(--sidebar-ring)] flex flex-col gap-6 py-12 px-4 text-lg font-medium">
+    <aside className="w-[150px] h-[1113px] flex flex-col gap-6 py-12 px-4 text-lg font-medium">
       {menus.map((menu) => (
         <Button
           key={menu}
