@@ -6,6 +6,12 @@ import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";
 import PlaceDetailPage from "./pages/PlaceDetailPage";
+
+import MyInfo from "./pages/MyInfo";
+import MyReview from "./pages/MyReview";
+import Wish from "./pages/Wish";
+import ReviewWrite from "./pages/ReviewWrite";
+
 import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
 
@@ -19,9 +25,14 @@ function App() {
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
-          <Route path="/login" element={<LoginPage />} />
+
+          <Route path="/myinfo" element={<MyInfo />} />
+          <Route path="/myreview" element={<MyReview />} />
+          <Route path="/wish" element={<Wish />} />
+          <Route path="/reviewwrite" element={<ReviewWrite />} />
         </Routes>
         <MainFooter />
       </div>
