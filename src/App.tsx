@@ -4,12 +4,10 @@ import MainFooter from "./components/MainFooter";
 import MainHeader from "./components/MainHeader";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
-import MyInfo from "./mypage/MyInfo";
-import MyReview from "./mypage/MyReview";
-import Wish from "./mypage/Wish";
-import ReviewWrite from "./mypage/ReviewWrite";
-import SearchResultPage from "./pages/SearchResultPage";
-import PlaceDetailPage from "./pages/PlaceDetailPage";
+import MyInfo from "./pages/MyInfo";
+import MyReview from "./pages/MyReview";
+import Wish from "./pages/Wish";
+import ReviewWrite from "./pages/ReviewWrite";
 import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
 
@@ -23,8 +21,6 @@ function App() {
         <MainHeader />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/search" element={<SearchResultPage />} />
-          <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/myinfo" element={<MyInfo />} />
           <Route path="/myreview" element={<MyReview />} />
