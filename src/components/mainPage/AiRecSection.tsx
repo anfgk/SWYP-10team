@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import AiRecCard from "./AiRecCard";
 
 const AiRecList = () => {
-  const testAiRec = [1, 2, 3, 4];
+  const testAiRec = [1, 2, 3, 4, 5];
 
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -22,7 +22,9 @@ const AiRecList = () => {
 
   return (
     <section className="flex flex-col gap-[24px] w-full h-[483px] py-[36px]">
-      <p className="text-[32px] font-bold text-[var(--main-color)]">AI 추천</p>
+      <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
+        AI 추천
+      </p>
       <div className="h-[304px] w-[1200px] mx-auto relative rounded-[14px] overflow-hidden">
         {/* 카드 슬라이드 */}
         <div
@@ -44,7 +46,7 @@ const AiRecList = () => {
         {testAiRec.map((_, i) => (
           <button
             key={i}
-            className={`h-full w-[282px] rounded-[16px] transition-colors duratin-500 ${i === index ? "bg-[var(--main-color)]" : "bg-[var(--main-color-sub)]"} cursor-pointer`}
+            className={`h-full w-[220px] rounded-[16px] transition-colors duratin-500 ${i === index ? "bg-[var(--main-color)]" : "bg-[var(--main-color-sub)]"} cursor-pointer`}
             onClick={() => handleIndicatorClick(i)}
           />
         ))}
