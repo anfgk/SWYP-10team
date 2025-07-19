@@ -22,6 +22,7 @@ function App() {
 
           {/* 마이페이지 레이아웃 */}
           <Route path="mypage" element={<MypageLayout />}>
+            <Route index element={<MyPage />} />
             <Route path="myinfo" element={<MyPage />} />
             <Route path="myreview" element={<MyPage />} />
             <Route path="wish" element={<MyPage />} />
