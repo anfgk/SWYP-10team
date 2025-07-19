@@ -6,9 +6,9 @@ const RootLayout = () => {
   return (
     <div className="App">
       <MainHeader />
-      <main className="min-h-screen">
+      <div className="min-h-screen">
         <Outlet />
-      </main>
+      </div>
       <MainFooter />
     </div>
   );
