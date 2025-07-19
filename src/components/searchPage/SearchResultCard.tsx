@@ -4,6 +4,7 @@ import MainCard from "../mainPage/MainCard";
 import TagLabel from "./TagLabel";
 import { getDistanceInKm } from "@/lib/searchResultCardUtils";
 import { useLocationStore } from "@/stores/locationStore";
+import SVGIcons from "../layout/SVGIcons";
 
 interface Props {
   id?: string;
@@ -24,7 +25,7 @@ const SearchResultCard = ({
   mapY = 37.8171378819,
   rating = 3.5,
   tags = ["장소의 테마", "댕댕이", "냥냥이"],
-  img = "/assets/resultcard_sample.jpg",
+  img = "/assets/samples/resultcard_sample.jpg",
 }: Props) => {
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
@@ -41,15 +42,15 @@ const SearchResultCard = ({
         ></MainCard>
         <div className="w-[828px] h-[114px] flex flex-col gap-[12px]">
           <div className="w-full h-[32px] flex flex-row justify-between">
-            <div className="w-[140px] h-full flex items-center justify-between">
-              <p className="text-[20px] font-semibold">{title}</p>
-              <div className="w-[54px] h-full flex items-center">
-                <img src="/assets/star.png" className="w-[24px] h-[24px]" />
+            <div className="w-fit h-full flex items-center justify-between">
+              <p className="text-[20px] font-semibold mr-[4px]">{title}</p>
+              <div className="w-[54px] h-full flex items-center gap-[4px]">
+                <SVGIcons name="star" width={24} height={24} />
                 <p className="text-[18px]">{rating}</p>
               </div>
             </div>
             <div className="w-[200px] h-[full] flex flex-row gap-[4px] justify-end items-center">
-              <img src="/assets/vector.png" className="w-[20px] h-[20px]" />
+              <SVGIcons name="vector" width={20} height={20} />
               <p className="text-[14px]">
                 {lon && lat
                   ? getDistanceInKm(lon, lat, mapX, mapY)

@@ -9,7 +9,7 @@ interface Props {
 
 const AiRecCard = ({
   desc = "",
-  img = "/assets/aicard_sample.jpg",
+  img = "/assets/samples/aicard_sample.jpg",
   link = "",
 }: Props) => {
   const navigate = useNavigate();

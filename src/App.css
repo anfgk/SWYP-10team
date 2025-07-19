@@ -20,6 +20,10 @@
   --kakao: #fee500;
   --naver: #03c75a;
   --google: #ffffff;
+
+  --state-error: #ff0000;
+  --state-success: #00da07;
+  --state-warning: #ffc300;
 }
 
 @theme inline {
@@ -158,6 +162,9 @@
   --sidebar-border: oklch(0.922 0 0);
 
   --sidebar-ring: oklch(0.708 0 0);
+
+  --font-pretendard: "Pretendard Variable", sans-serif;
+  --font-dunggeunmiso: "Hakgyoansim Dunggeunmiso", sans-serif;
 }
 
 .dark {
@@ -231,4 +238,12 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.font-pretendard {
+  font-family: var(--font-pretendard);
+}
+
+.font-dunggeunmiso {
+  font-family: var(--font-dunggeunmiso);
 }

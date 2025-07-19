@@ -21,7 +21,7 @@ function App() {
           <Route path="reviewwrite" element={<MyPage />} />
 
           {/* 마이페이지 레이아웃 */}
-          <Route path="/" element={<MypageLayout />}>
+          <Route path="mypage" element={<MypageLayout />}>
             <Route path="myinfo" element={<MyPage />} />
             <Route path="myreview" element={<MyPage />} />
             <Route path="wish" element={<MyPage />} />

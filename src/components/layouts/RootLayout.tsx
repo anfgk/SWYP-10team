@@ -1,14 +1,12 @@
 import { Outlet } from "react-router-dom";
-import MainHeader from "../MainHeader";
-import MainFooter from "../MainFooter";
+import MainHeader from "../layout/MainHeader";
+import MainFooter from "../layout/MainFooter";
 
 const RootLayout = () => {
   return (
     <div className="App">
       <MainHeader />
-      <div className="min-h-screen">
-        <Outlet />
-      </div>
+      <Outlet />
       <MainFooter />
     </div>
   );

@@ -7,7 +7,7 @@ const LoginPage = () => {
     <main className="flex flex-col h-[1090.7px] pt-[280px] pb-[330px] gap-[120px] items-center justify-center">
       <img
         className="w-[513.09px] h-[81.7px]"
-        src="/assets/login_logo.png"
+        src="/assets/logo/login_logo.png"
         alt="login_logo"
       />
 
