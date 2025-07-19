@@ -1,21 +1,58 @@
-import Sidebar from "@/components/mypage/Sidebar";
+import { useLocation, useNavigate } from "react-router-dom";
 import PageTitle from "@/components/mypage/PageTitle";
+import RecentPlaces from "@/components/mypage/RecentPlaces";
+import WishPlaces from "@/components/mypage/WishPlaces";
+import ReviewList from "@/components/mypage/ReviewList";
+import ReviewWriteForm from "@/components/mypage/ReviewWriteForm";
+import Sidebar from "@/components/mypage/Sidebar";
 import PageButton from "@/components/ui/page-button";
 import PetInfoSection from "@/components/mypage/PetInfoSection";
-import { useNavigate } from "react-router-dom";
+import MypageContainer from "../components/MypageContainer";
 
 const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 
-const MyInfo = () => {
+const MyPage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const handleSidebarMenuClick = (menu: string) => {
-    if (menu === "내 정보") navigate("/myinfo");
-    else if (menu === "최근 본/찜한 장소") navigate("/wish");
-    else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
+  const pathname = location.pathname;
+
+  const handleMenuClick = (menu: string) => {
+    const routes = {
+      "내 정보": "/myinfo",
+      "최근 본/찜한 장소": "/wish",
+      "방문한 장소 및 리뷰": "/myreview",
+    };
+    navigate(routes[menu as keyof typeof routes] || "/myinfo");
   };
 
-  return (
-    <div className="flex min-h-screen bg-white">
+  const pages = {
+    "/wish": (
+      <main className="flex-1 px-16 py-12">
+        <PageTitle text="마이페이지" />
+        <RecentPlaces />
+        <WishPlaces />
+      </main>
+    ),
+    "/myreview": (
+      <main className="flex-1 px-16 py-12">
+        <div className="text-sm text-gray-600 mb-4">
+          메인 &gt; 마이페이지 &gt; 방문한 장소 및 리뷰
+        </div>
+        <h1 className="text-3xl font-bold text-black mb-8">마이페이지</h1>
+        <ReviewList />
+      </main>
+    ),
+    "/reviewwrite": (
+      <>
+        <Sidebar
+          menus={sidebarMenus}
+          activeMenu="방문한 장소 및 리뷰"
+          onMenuClick={handleMenuClick}
+        />
+        <ReviewWriteForm />
+      </>
+    ),
+    "/myinfo": (
       <main className="flex-1 px-16 py-12">
         <PageTitle text="마이페이지" />
         <div className="flex gap-16 mt-12">
@@ -51,8 +88,14 @@ const MyInfo = () => {
           </div>
         </div>
       </main>
-    </div>
+    ),
+  };
+
+  return (
+    <MypageContainer>
+      {pages[pathname as keyof typeof pages] || pages["/myinfo"]}
+    </MypageContainer>
   );
 };
 
-export default MyInfo;
+export default MyPage;
