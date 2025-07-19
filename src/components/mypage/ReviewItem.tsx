@@ -104,7 +104,7 @@ const ReviewItem = ({
   const renderReviewText = () => {
     if (!hasReview) {
       return (
-        <div className="w-150 h-24 p-3 rounded-lg resize-none border border-gray-200">
+        <div className="w-150 h-24 p-3 rounded-lg border border-gray-200">
           아직 리뷰를 작성하지 않았습니다!
         </div>
       );
@@ -113,17 +113,24 @@ const ReviewItem = ({
     const text = isEditing ? editText : item.review;
     const isReadOnly = !isEditing;
 
+    if (isReadOnly) {
+      return (
+        <div className="w-150 h-24 p-3 border border-gray-200 rounded-lg bg-gray-50">
+          {text}
+        </div>
+      );
+    }
+
     return (
       <>
         <textarea
           value={text}
-          onChange={isReadOnly ? undefined : (e) => setEditText(e.target.value)}
-          readOnly={isReadOnly}
+          onChange={(e) => setEditText(e.target.value)}
           placeholder="text"
-          className="w-150 h-24 p-3 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-150 h-24 p-3 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-0"
           maxLength={2000}
         />
-        <div className="absolute bottom-85 right-85 text-sm text-gray-500">
+        <div className="absolute bottom-98 right-100 text-sm text-gray-500">
           {text.length}/2000
         </div>
       </>

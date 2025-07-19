@@ -13,10 +13,10 @@ const Sidebar = ({ menus, onMenuClick, activeMenu }: SidebarProps) => {
         <Button
           key={menu}
           variant="ghost"
-          className={`justify-start ${
+          className={`justify-start transition-colors duration-200 ${
             activeMenu === menu
-              ? "bg-[var(--background)] text-[var(--foreground)]"
-              : "hover:bg-gray-200"
+              ? "w-40 h-10 bg-gray-100"
+              : "hover:bg-gray-100 w-40 h-10"
           }`}
           onClick={() => onMenuClick && onMenuClick(menu)}
         >

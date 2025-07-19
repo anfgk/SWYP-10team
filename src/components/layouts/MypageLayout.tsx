@@ -11,16 +11,20 @@ const MypageLayout = () => {
   // 현재 경로에 따른 활성 메뉴 결정
   const getActiveMenu = () => {
     const path = location.pathname;
-    if (path === "/mypage/myinfo") return "내 정보";
-    if (path === "/mypage/wish") return "최근 본/찜한 장소";
-    if (path === "/mypage/myreview") return "방문한 장소 및 리뷰";
+    console.log("Current path:", path); // 디버깅용
+
+    if (path === "/myinfo") return "내 정보";
+    if (path === "/wish") return "최근 본/찜한 장소";
+    if (path === "/myreview") return "방문한 장소 및 리뷰";
+    if (path === "/reviewwrite") return "방문한 장소 및 리뷰";
+
     return "내 정보"; // 기본값
   };
 
   const handleSidebarMenuClick = (menu: string) => {
-    if (menu === "내 정보") navigate("/mypage/myinfo");
-    else if (menu === "최근 본/찜한 장소") navigate("/mypage/wish");
-    else if (menu === "방문한 장소 및 리뷰") navigate("/mypage/myreview");
+    if (menu === "내 정보") navigate("/myinfo");
+    else if (menu === "최근 본/찜한 장소") navigate("/wish");
+    else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
   };
 
   return (
