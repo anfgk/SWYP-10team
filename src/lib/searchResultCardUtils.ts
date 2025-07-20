@@ -1,13 +1,8 @@
-function toRad(deg: number): number {
+const toRad = (deg: number): number => {
   return deg * (Math.PI / 180);
-}
+};
 
-export function getDistanceInKm(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number
-) {
+const getDistanceInKm = (x1: number, y1: number, x2: number, y2: number) => {
   const R = 6371;
   const dX = toRad(x2 - x1); // long
   const dY = toRad(y2 - y1); // lat
@@ -20,4 +15,6 @@ export function getDistanceInKm(
   const distance = R * c;
 
   return Math.round(distance * 100) / 100 + "km";
-}
+};
+
+export { getDistanceInKm };

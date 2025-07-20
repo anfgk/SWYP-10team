@@ -2,8 +2,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useEffect } from "react";
 
 const useAutoLogin = () => {
-  const setAuth = useAuthStore((state) => state.setAuth);
-  const logout = useAuthStore((state) => state.logout);
+  const { setAuth, logout } = useAuthStore.getState();
 
   useEffect(() => {
     const fetchRefresh = async () => {
