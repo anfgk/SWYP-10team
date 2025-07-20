@@ -14,9 +14,11 @@ import ReviewWrite from "./pages/ReviewWrite";
 
 import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
+import useAutoLogin from "./hooks/useAutoLogin";
 
 function App() {
   useUserLocation();
+  useAutoLogin();
 
   return (
     <BrowserRouter>
