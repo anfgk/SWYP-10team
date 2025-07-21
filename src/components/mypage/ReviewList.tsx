@@ -83,7 +83,7 @@ const ReviewList = () => {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-black mb-6">방문한 장소</h2>
+      <h2 className="text-xl font-semibold text-black mt-9">방문한 장소</h2>
       {reviews.map((item) => (
         <ReviewItem
           key={item.id}

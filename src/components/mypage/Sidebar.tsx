@@ -9,6 +9,8 @@ interface SidebarProps {
 const Sidebar = ({ menus, onMenuClick, activeMenu }: SidebarProps) => {
   return (
     <aside className="w-[150px] h-[1113px] flex flex-col gap-6 py-12 px-4 text-lg font-medium">
+      <h5>마이페이지</h5>
+
       {menus.map((menu) => (
         <Button
           key={menu}

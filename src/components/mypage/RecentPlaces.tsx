@@ -35,7 +35,7 @@ const RecentPlaces = () => {
               key={`${item.id}-${currentIndex}`}
               className="flex-shrink-0 transform transition-all duration-500 ease-in-out"
             >
-              <div className="w-48 h-32 bg-gray-300 rounded-lg flex items-center justify-center text-gray-500">
+              <div className="w-45 h-30 bg-gray-300 rounded-lg flex items-center justify-center text-gray-500">
                 장소 이미지
               </div>
               <div className="mt-2 text-sm font-medium">{item.name}</div>
