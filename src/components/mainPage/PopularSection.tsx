@@ -31,41 +31,45 @@ const PopularList = () => {
         </Link>
       </div>
 
-      {/* 카드 컨테이너 div */}
-      <div className="w-full h-[380px] mx-auto overflow-hidden ">
-        <div
-          className="flex transition-transform duration-700 ease-in-out"
-          style={{
-            transform: `translateX(-${index * 1200}px)`,
-            width: `${(testPopular20.length / 4) * 100}%`,
-          }}
-        >
-          {slides.map((group, i) => (
-            <PopularSlide key={i} items={group} />
-          ))}
+      {/* 버튼 포지션 용도로 카드 컨테이너 한번더 감쌈 */}
+      <div className="relative w-full h-[380px]">
+        {/* 카드 컨테이너 div */}
+        <div className="w-full h-[380px] mx-auto overflow-hidden ">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${index * 1200}px)`,
+              width: `${(testPopular20.length / 4) * 100}%`,
+            }}
+          >
+            {slides.map((group, i) => (
+              <PopularSlide key={i} items={group} />
+            ))}
+          </div>
         </div>
+
+        {/* 이동 버튼 */}
+        <button
+          className="absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+          onClick={handlePrev}
+        >
+          <img
+            src="/assets/buttons/button_left.png"
+            alt="left"
+            className="w-full h-full"
+          />
+        </button>
+        <button
+          className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+          onClick={handleNext}
+        >
+          <img
+            src="/assets/buttons/button_right.png"
+            alt="left"
+            className="w-full h-full"
+          />
+        </button>
       </div>
-      {/* 이동 버튼 (카드 컨테이너 div의 overflow-hidden으로 인해 밖에 배치)*/}
-      <button
-        className="absolute left-0 -translate-x-1/2 bottom-[190px] translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
-        onClick={handlePrev}
-      >
-        <img
-          src="/assets/buttons/button_left.png"
-          alt="left"
-          className="w-full h-full"
-        />
-      </button>
-      <button
-        className="absolute right-0 translate-x-1/2 bottom-[190px] translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
-        onClick={handleNext}
-      >
-        <img
-          src="/assets/buttons/button_right.png"
-          alt="left"
-          className="w-full h-full"
-        />
-      </button>
     </section>
   );
 };
