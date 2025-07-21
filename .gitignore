@@ -24,6 +24,3 @@ dist-ssr
 
 .env
 .env.dev
-
-cert/
-*.pem
