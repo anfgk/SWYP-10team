@@ -19,8 +19,8 @@ export default defineConfig(({ mode }) => {
     server: isDev
       ? {
           https: {
-            key: fs.readFileSync("./cert/localhost+1-key.pem"),
-            cert: fs.readFileSync("./cert/localhost+1.pem"),
+            key: fs.readFileSync("./cert/dev-cert-key.pem"),
+            cert: fs.readFileSync("./cert/dev-cert.pem"),
           },
         }
       : {},
