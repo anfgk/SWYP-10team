@@ -1,11 +1,27 @@
 import { Link } from "react-router-dom";
-import PopularCard from "./PopularCard";
+import { useState } from "react";
+import PopularSlide from "./PopularSlide";
 
 const PopularList = () => {
-  const testPopular = [1, 2, 3, 4];
+  const testPopular20 = Array.from({ length: 20 }, (_, i) => i + 1);
+  const slides = Array.from(
+    { length: Math.ceil(testPopular20.length / 4) },
+    (_, i) => testPopular20.slice(i * 4, i * 4 + 4)
+  );
+
+  const [index, setIndex] = useState(0);
+
+  const handlePrev = () => {
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleNext = () => {
+    setIndex((prev) => (prev + 1) % slides.length);
+  };
 
   return (
-    <section className="flex flex-col gap-[10px] w-full h-[527px] py-[36px]">
+    <section className="relative flex flex-col gap-[10px] w-full h-[527px] py-[36px]">
+      {/* 텍스트 div */}
       <div className="flex justify-between items-center w-full h-[51px]">
         <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
           인기
@@ -14,11 +30,42 @@ const PopularList = () => {
           더보기
         </Link>
       </div>
-      <div className="flex w-full h-[380px] justify-between">
-        {testPopular.map((popular) => (
-          <PopularCard key={popular} />
-        ))}
+
+      {/* 카드 컨테이너 div */}
+      <div className="w-full h-[380px] mx-auto overflow-hidden ">
+        <div
+          className="flex transition-transform duration-700 ease-in-out"
+          style={{
+            transform: `translateX(-${index * 1200}px)`,
+            width: `${(testPopular20.length / 4) * 100}%`,
+          }}
+        >
+          {slides.map((group, i) => (
+            <PopularSlide key={i} items={group} />
+          ))}
+        </div>
       </div>
+      {/* 이동 버튼 (카드 컨테이너 div의 overflow-hidden으로 인해 밖에 배치)*/}
+      <button
+        className="absolute left-0 -translate-x-1/2 bottom-[190px] translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+        onClick={handlePrev}
+      >
+        <img
+          src="/assets/buttons/button_left.png"
+          alt="left"
+          className="w-full h-full"
+        />
+      </button>
+      <button
+        className="absolute right-0 translate-x-1/2 bottom-[190px] translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+        onClick={handleNext}
+      >
+        <img
+          src="/assets/buttons/button_right.png"
+          alt="left"
+          className="w-full h-full"
+        />
+      </button>
     </section>
   );
 };

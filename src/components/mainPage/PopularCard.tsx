@@ -43,7 +43,7 @@ const PopularCard = ({
         }}
       ></div>
       {/*하단 그라데이션*/}
-      <div
+      {/* <div
         className="absolute bottom-0 left-0 w-full h-[120px] rounded-[16px] z-0 pointer-events-none"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.33) 50%), url(${img})`,
@@ -55,7 +55,7 @@ const PopularCard = ({
           WebkitMaskImage:
             "linear-gradient(to bottom, rgba(0,0,0,1) -7.59%, rgba(0,0,0,0)) 100%",
         }}
-      />
+      /> */}
     </MainCard>
   );
 };
