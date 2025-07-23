@@ -1,4 +1,4 @@
-//import { useAuthStore } from "@/stores/authStore";
+import { useAuthStore } from "@/stores/authStore";
 import { categories, regionMap } from "@/configs/searchConstants";
 import useSearchBarState from "@/hooks/useSearchBarState";
 
@@ -7,7 +7,7 @@ import SubRegionList from "./SubRegionList";
 import { Input } from "../ui/input";
 
 const SearchBar = () => {
-  //const { user } = useAuthStore.getState();
+  const { user } = useAuthStore();
 
   const test = ["덕구", "뭉치"];
 
@@ -55,7 +55,7 @@ const SearchBar = () => {
           onChange={setSelectedCategory}
         />
 
-        {true && (
+        {user && (
           <SearchSelectBox
             options={test}
             placeholder="반려동물 정보"
