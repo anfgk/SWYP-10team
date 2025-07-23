@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import PopularSlide from "./PopularSlide";
 
-const PopularList = () => {
+const PopularSection = () => {
   const testPopular20 = Array.from({ length: 20 }, (_, i) => i + 1);
   const slides = Array.from(
     { length: Math.ceil(testPopular20.length / 4) },
@@ -74,4 +74,4 @@ const PopularList = () => {
   );
 };
 
-export default PopularList;
+export default PopularSection;
