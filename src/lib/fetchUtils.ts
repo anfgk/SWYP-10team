@@ -1,4 +1,6 @@
 import { useAuthStore } from "@/stores/authStore";
+import type { JWTPayLoad } from "@/types/types";
+import { jwtDecode } from "jwt-decode";
 
 const fetchWithAuth = async (
   input: RequestInfo,
@@ -51,4 +53,8 @@ const fetchWithAuth = async (
   return res;
 };
 
-export { fetchWithAuth };
+const decodeJWT = (accessToken: string) => {
+  return jwtDecode<JWTPayLoad>(accessToken);
+};
+
+export { fetchWithAuth, decodeJWT };

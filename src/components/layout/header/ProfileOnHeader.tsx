@@ -18,7 +18,7 @@ const ProfileOnHeader = () => {
 
         <p>{user?.name}님</p>
       </div>
-      <p className="cursor-pointer">알림</p>
+      {/* <p className="cursor-pointer">알림</p> */}
       <p onClick={logout} className="cursor-pointer">
         로그아웃
       </p>

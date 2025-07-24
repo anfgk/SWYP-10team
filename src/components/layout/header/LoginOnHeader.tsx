@@ -1,23 +1,30 @@
-import { useAuthStore } from "@/stores/authStore";
-//import { Link } from "react-router-dom";
+//import { useAuthStore } from "@/stores/authStore";
+import { useNavigate } from "react-router-dom";
 
 const LoginOnHeader = () => {
-  const { setAuth } = useAuthStore();
+  //const { setAuth } = useAuthStore();
+  const navigate = useNavigate();
+
+  const loginButtonClicked = () => {
+    sessionStorage.setItem("loginLocation", window.location.pathname);
+    navigate("/login");
+  };
+
   return (
-    // <Link
-    //   to={"/login"}
-    //   className="flex w-[66px] h-[25px] items-center cursor-pointer"
-    // >
-    //   로그인
-    // </Link>
-    <div
-      className="flex w-fit h-[56px] items-center cursor-pointer"
-      onClick={() =>
-        setAuth("test token", { name: "댕냥이", email: "test@gmail.com" })
-      }
+    <button
+      className="flex w-[66px] h-[25px] items-center cursor-pointer"
+      onClick={loginButtonClicked}
     >
-      로그인(test)
-    </div>
+      로그인
+    </button>
+    // <div
+    //   className="flex w-fit h-[56px] items-center cursor-pointer"
+    //   onClick={() =>
+    //     setAuth("test token", { name: "댕냥이", email: "test@gmail.com" })
+    //   }
+    // >
+    //   로그인(test)
+    // </div>
   );
 };
 
