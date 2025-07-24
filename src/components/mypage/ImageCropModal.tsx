@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import PageButton from "@/components/ui/page-button";
 
 interface ImageCropModalProps {
   isOpen: boolean;
@@ -17,11 +17,12 @@ const ImageCropModal = ({
   currentImage,
 }: ImageCropModalProps) => {
   const [imageSrc, setImageSrc] = useState<string>("");
-  const [cropArea, setCropArea] = useState({ x: 10, y: 10, size: 60 }); // 퍼센트로 설정
+  const [cropArea, setCropArea] = useState({ x: 10, y: 10, size: 60 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1); // 이미지 줌 레벨
-  const [imageOffset, setImageOffset] = useState({ x: 0, y: 0 }); // 이미지 오프셋
+  const [zoom, setZoom] = useState(1);
+  const [imageOffset, setImageOffset] = useState({ x: 0, y: 0 });
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,16 +31,10 @@ const ImageCropModal = ({
   useEffect(() => {
     if (imageFile) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImageSrc(e.target?.result as string);
-      };
+      reader.onload = (e) => setImageSrc(e.target?.result as string);
       reader.readAsDataURL(imageFile);
     } else if (currentImage && !imageSrc) {
-      // currentImage가 있고 아직 imageSrc가 설정되지 않았을 때 설정
       setImageSrc(currentImage);
-      setZoom(1);
-      setImageOffset({ x: 0, y: 0 });
-      setCropArea({ x: 10, y: 10, size: 60 });
     }
   }, [imageFile, currentImage, imageSrc]);
 
@@ -47,29 +42,9 @@ const ImageCropModal = ({
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImageSrc(e.target?.result as string);
-        // 새로운 이미지가 로드되면 줌과 오프셋을 초기화
-        setZoom(1);
-        setImageOffset({ x: 0, y: 0 });
-        setCropArea({ x: 10, y: 10, size: 60 });
-      };
+      reader.onload = (e) => setImageSrc(e.target?.result as string);
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleDeleteImage = () => {
-    console.log("이미지 삭제 버튼 클릭됨");
-    console.log("삭제 전 imageSrc:", imageSrc);
-    setImageSrc("");
-    setZoom(1);
-    setImageOffset({ x: 0, y: 0 });
-    setCropArea({ x: 10, y: 10, size: 60 });
-    // 파일 입력 초기화
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-    console.log("삭제 후 imageSrc가 빈 문자열로 설정됨");
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -82,14 +57,12 @@ const ImageCropModal = ({
     setIsDragging(true);
     setDragStart({ x, y });
 
-    // 클릭한 위치를 퍼센트로 변환 (줌과 오프셋 고려)
     const imgRect = imageRef.current.getBoundingClientRect();
     const adjustedX = (x - imageOffset.x) / zoom;
     const adjustedY = (y - imageOffset.y) / zoom;
     const percentX = (adjustedX / imgRect.width) * 100;
     const percentY = (adjustedY / imgRect.height) * 100;
 
-    // 크롭 영역을 클릭한 위치로 이동 (크롭 영역의 중심이 클릭 위치가 되도록)
     const newX = Math.max(
       0,
       Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
@@ -111,7 +84,6 @@ const ImageCropModal = ({
     const deltaX = x - dragStart.x;
     const deltaY = y - dragStart.y;
 
-    // 화면 좌표를 퍼센트로 변환 (줌 고려)
     const imgRect = imageRef.current.getBoundingClientRect();
     const deltaPercentX = (deltaX / zoom / imgRect.width) * 100;
     const deltaPercentY = (deltaY / zoom / imgRect.height) * 100;
@@ -125,29 +97,19 @@ const ImageCropModal = ({
     setDragStart({ x, y });
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    const newZoom = Math.max(0.1, Math.min(5, zoom * delta));
 
-    // 마우스 휠로 이미지 줌 조절
-    const delta = e.deltaY > 0 ? 0.9 : 1.1; // 휠 방향에 따라 줌 조절
-    const newZoom = Math.max(0.1, Math.min(5, zoom * delta)); // 최소 0.1배, 최대 5배
-
-    // 마우스 위치를 중심으로 줌
     const rect = containerRef.current?.getBoundingClientRect();
     if (rect) {
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
-
       const newOffsetX = mouseX - (mouseX - imageOffset.x) * (newZoom / zoom);
       const newOffsetY = mouseY - (mouseY - imageOffset.y) * (newZoom / zoom);
-
       setImageOffset({ x: newOffsetX, y: newOffsetY });
     }
-
     setZoom(newZoom);
   };
 
@@ -161,12 +123,26 @@ const ImageCropModal = ({
         canvas.width = 200;
         canvas.height = 200;
 
-        // 퍼센트를 픽셀로 변환 (줌과 오프셋 고려)
-        const sourceX = (cropArea.x / 100) * image.naturalWidth;
-        const sourceY = (cropArea.y / 100) * image.naturalHeight;
-        const sourceSize =
-          (cropArea.size / 100) *
-          Math.min(image.naturalWidth, image.naturalHeight);
+        const imgRect = image.getBoundingClientRect();
+        const actualImgWidth = imgRect.width / zoom;
+        const actualImgHeight = imgRect.height / zoom;
+
+        const cropX =
+          (cropArea.x / 100) * actualImgWidth - imageOffset.x / zoom;
+        const cropY =
+          (cropArea.y / 100) * actualImgHeight - imageOffset.y / zoom;
+        const cropSize =
+          Math.min(actualImgWidth, actualImgHeight) * (cropArea.size / 100);
+
+        const scaleX = image.naturalWidth / actualImgWidth;
+        const scaleY = image.naturalHeight / actualImgHeight;
+
+        const sourceX = Math.max(0, cropX * scaleX);
+        const sourceY = Math.max(0, cropY * scaleY);
+        const sourceSize = Math.min(
+          cropSize * Math.min(scaleX, scaleY),
+          Math.min(image.naturalWidth - sourceX, image.naturalHeight - sourceY)
+        );
 
         ctx.drawImage(
           image,
@@ -179,9 +155,7 @@ const ImageCropModal = ({
           200,
           200
         );
-
-        const croppedImageData = canvas.toDataURL("image/jpeg", 0.8);
-        onCrop(croppedImageData);
+        onCrop(canvas.toDataURL("image/jpeg", 0.8));
         onClose();
       }
     }
@@ -194,22 +168,18 @@ const ImageCropModal = ({
       <div className="bg-gray-100 p-6 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">프로필 이미지 편집</h3>
-          <div className="flex gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-            <Button
-              onClick={() => fileInputRef.current?.click()}
-              variant="outline"
-              size="sm"
-            >
-              {imageSrc ? "이미지 변경" : "이미지 선택"}
-            </Button>
-          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          <PageButton
+            text={imageSrc ? "이미지 변경" : "이미지 선택"}
+            variant="default"
+            onClick={() => fileInputRef.current?.click()}
+          />
         </div>
 
         <p className="text-sm text-gray-600 mb-4">
@@ -223,8 +193,8 @@ const ImageCropModal = ({
             className="relative cursor-move w-full h-full flex items-center justify-center"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
+            onMouseUp={() => setIsDragging(false)}
+            onMouseLeave={() => setIsDragging(false)}
             onWheel={handleWheel}
           >
             {imageSrc ? (
@@ -243,7 +213,6 @@ const ImageCropModal = ({
                 이미지를 선택해주세요
               </div>
             )}
-            {/* 크롭 영역 표시 - 200x200 픽셀 고정 */}
             {imageSrc && (
               <div
                 className="absolute border-2 border-blue-500 pointer-events-none"
@@ -260,12 +229,8 @@ const ImageCropModal = ({
         </div>
 
         <div className="flex gap-2 justify-end">
-          <Button onClick={onClose} variant="outline">
-            취소
-          </Button>
-          <Button onClick={handleCrop} disabled={!imageSrc}>
-            적용
-          </Button>
+          <PageButton text="취소" variant="default" onClick={onClose} />
+          <PageButton text="적용" variant="default" onClick={handleCrop} />
         </div>
 
         <canvas ref={canvasRef} style={{ display: "none" }} />
