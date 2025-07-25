@@ -2,7 +2,7 @@ export default function GoogleLoginButton() {
   const autoLogin = sessionStorage.getItem("autoLogin") === "true";
 
   const handleLogin = () => {
-    window.location.href = `https://dev.catsgotogedog.site/oauth2/authorization/google?autoLogin=${autoLogin ? "true" : "false"}`;
+    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/oauth2/authorization/google?autoLogin=${autoLogin ? "true" : "false"}`;
   };
 
   return (
