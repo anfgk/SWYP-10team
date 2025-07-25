@@ -2,7 +2,7 @@ import SearchBar from "../mainPage/SearchBar";
 
 const SearchSectionOnSearch = () => {
   return (
-    <section className="w-full h-[156px] pt-[52px]">
+    <section className="w-full h-fit pt-[52px] pb-[32px]">
       <SearchBar />
     </section>
   );

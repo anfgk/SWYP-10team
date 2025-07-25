@@ -14,9 +14,12 @@ import ReviewWrite from "./pages/ReviewWrite";
 
 import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
+import useIssueAccessToken from "./hooks/useIssueAccessToken";
+import AuthCallBackPage from "./pages/AuthCallBackPage";
 
 function App() {
   useUserLocation();
+  useIssueAccessToken();
 
   return (
     <BrowserRouter>
@@ -28,6 +31,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
+          <Route path="/authrediect" element={<AuthCallBackPage />} />
 
           <Route path="/myinfo" element={<MyInfo />} />
           <Route path="/myreview" element={<MyReview />} />

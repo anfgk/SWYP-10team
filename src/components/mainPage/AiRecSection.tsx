@@ -31,7 +31,7 @@ const AiRecList = () => {
           className="flex transition-transform duration-700 ease-in-out"
           style={{
             transform: `translateX(-${index * 1200}px)`,
-            width: `${100 * max}px`,
+            width: `${100 * max}%`,
           }}
         >
           {testAiRec.map((rec) => (

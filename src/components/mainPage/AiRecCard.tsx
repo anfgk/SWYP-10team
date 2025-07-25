@@ -17,7 +17,9 @@ const AiRecCard = ({
   return (
     <MainCard
       className="bg-[var(--card-bg)] w-[1200px] h-[304px] cursor-pointer bg-cover bg-center"
-      style={{ backgroundImage: `url(${img})` }}
+      style={{
+        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.5) 6.08%, rgba(0, 0, 0, 0) 63.54%), url(${img})`,
+      }}
       onClick={() => navigate(`/${link}`)}
     >
       <div className="w-[182px] h-[102px] mt-[50px] ml-[67px]">
