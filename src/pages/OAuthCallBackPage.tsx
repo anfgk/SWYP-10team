@@ -24,7 +24,7 @@ const OAuthCallBackPage = () => {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ code, autoLogin }),
-        }
+        },
       );
 
       const data = await res.json();

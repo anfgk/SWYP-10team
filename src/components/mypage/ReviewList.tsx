@@ -57,7 +57,7 @@ const ReviewList = () => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
         ? { ...review, review: text, hasReview: text.trim() !== "" }
-        : review
+        : review,
     );
     setReviews(updatedReviews);
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));
@@ -67,7 +67,7 @@ const ReviewList = () => {
 
   const handleRatingChange = (id: number, rating: number) => {
     const updatedReviews = reviews.map((review) =>
-      review.id === id ? { ...review, rating } : review
+      review.id === id ? { ...review, rating } : review,
     );
     setReviews(updatedReviews);
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));

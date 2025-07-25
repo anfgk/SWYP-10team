@@ -45,7 +45,7 @@ const ReviewWriteForm = () => {
 
     let existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
     const existingIndex = existingReviews.findIndex(
-      (review: any) => review.id === currentReviewData.id
+      (review: any) => review.id === currentReviewData.id,
     );
 
     if (existingIndex !== -1) {
@@ -105,7 +105,7 @@ const ReviewWriteForm = () => {
                 <button
                   onClick={() =>
                     setSelectedFiles((prev) =>
-                      prev.filter((_, i) => i !== index)
+                      prev.filter((_, i) => i !== index),
                     )
                   }
                   className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"

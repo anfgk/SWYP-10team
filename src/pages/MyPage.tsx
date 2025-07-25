@@ -4,8 +4,6 @@ import WishPage from "@/components/mypage/WishPage";
 import MyReviewPage from "@/components/mypage/MyReviewPage";
 import ReviewWritePage from "@/components/mypage/ReviewWritePage";
 
-const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
-
 const MyPage = () => {
   const location = useLocation();
   const navigate = useNavigate();

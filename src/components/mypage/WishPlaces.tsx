@@ -32,7 +32,7 @@ const WishPlaces = () => {
   const totalPages = Math.ceil(wishList.length / itemsPerPage);
   const paginatedWish = wishList.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleToggleWish = (id: number) => {

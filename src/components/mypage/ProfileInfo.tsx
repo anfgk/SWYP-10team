@@ -1,13 +1,10 @@
 import { useState, useRef } from "react";
 import PageButton from "@/components/ui/page-button";
-import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/stores/authStore";
 import SocialIdSection from "@/components/mypage/SocialIdSection";
 import NicknameSection from "@/components/mypage/NicknameSection";
 import ImageCropModal from "@/components/mypage/ImageCropModal";
 
 const ProfileInfo = () => {
-  const { user } = useAuthStore();
   const [profileImage, setProfileImage] = useState<string>("");
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);

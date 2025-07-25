@@ -6,7 +6,7 @@ export function getDistanceInKm(
   x1: number,
   y1: number,
   x2: number,
-  y2: number
+  y2: number,
 ) {
   const R = 6371;
   const dX = toRad(x2 - x1); // long

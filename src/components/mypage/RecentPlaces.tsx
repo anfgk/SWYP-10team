@@ -10,13 +10,13 @@ const RecentPlaces = () => {
 
   const handlePrevSlide = () => {
     setCurrentIndex(
-      currentIndex === 0 ? recentList.length - 5 : currentIndex - 1
+      currentIndex === 0 ? recentList.length - 5 : currentIndex - 1,
     );
   };
 
   const handleNextSlide = () => {
     setCurrentIndex(
-      currentIndex >= recentList.length - 5 ? 0 : currentIndex + 1
+      currentIndex >= recentList.length - 5 ? 0 : currentIndex + 1,
     );
   };
 
