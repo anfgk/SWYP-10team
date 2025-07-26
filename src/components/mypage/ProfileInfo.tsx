@@ -23,10 +23,16 @@ const ProfileInfo = () => {
 
   const loadUserProfile = async () => {
     try {
+      // TODO: 백엔드 연동 시 아래 코드 사용
+      /*
       const profileData = await getUserProfile();
       if (profileData.profileImage) {
         setProfileImage(profileData.profileImage);
       }
+      */
+
+      // 로컬에서 테스트용 (백엔드 없이)
+      console.log("프로필 정보 로드 완료");
     } catch (error) {
       console.error("프로필 정보 로드 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
@@ -49,6 +55,14 @@ const ProfileInfo = () => {
 
   const handleCrop = async (croppedImage: string) => {
     try {
+      // 크롭된 이미지를 바로 로컬 상태에 적용 (백엔드 없이 테스트용)
+      setProfileImage(croppedImage);
+      setSelectedImageFile(null);
+      setCurrentImageForCrop("");
+      setIsCropModalOpen(false);
+
+      // TODO: 백엔드 연동 시 아래 코드 사용
+      /*
       // 크롭된 이미지를 Blob으로 변환
       const response = await fetch(croppedImage);
       const blob = await response.blob();
@@ -66,6 +80,7 @@ const ProfileInfo = () => {
       setProfileImage(uploadResult.imageUrl);
       setSelectedImageFile(null);
       setCurrentImageForCrop("");
+      */
     } catch (error) {
       console.error("이미지 업로드 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
@@ -74,6 +89,15 @@ const ProfileInfo = () => {
 
   const handleDeleteImage = async () => {
     try {
+      // 로컬 상태에서 이미지 제거 (백엔드 없이 테스트용)
+      setProfileImage("");
+      setCurrentImageForCrop("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
+      // TODO: 백엔드 연동 시 아래 코드 사용
+      /*
       // 프로필 정보에서 이미지 제거
       await updateUserProfile({ profileImage: "" });
 
@@ -83,6 +107,7 @@ const ProfileInfo = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
+      */
     } catch (error) {
       console.error("이미지 삭제 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
