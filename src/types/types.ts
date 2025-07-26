@@ -1,5 +1,5 @@
 type JWTPayLoad = {
-  name: string;
+  displayName: string;
   email: string;
 };
 

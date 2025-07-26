@@ -22,9 +22,9 @@ const useIssueAccessToken = () => {
 
         const decoded = decodeJWT(data.accessToken);
 
-        const { name, email } = decoded;
+        const { displayName, email } = decoded;
 
-        setAuth(data.accessToken, { name, email });
+        setAuth(data.accessToken, { name: displayName, email: email });
       } catch (error) {
         console.error("토큰 재발급 에러:", error);
         logout();
