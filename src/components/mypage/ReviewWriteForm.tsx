@@ -10,6 +10,9 @@ const ReviewWriteForm = () => {
   const reviewData = location.state?.reviewData;
   const isEditMode = !!reviewData;
 
+  console.log("ReviewWriteForm - reviewData:", reviewData);
+  console.log("ReviewWriteForm - isEditMode:", isEditMode);
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [rating, setRating] = useState(reviewData?.rating || 0);
   const [reviewText, setReviewText] = useState(reviewData?.review || "");
@@ -33,29 +36,47 @@ const ReviewWriteForm = () => {
       return;
     }
 
-    const currentReviewData = {
-      id: reviewData?.id || Date.now(),
-      place: reviewData?.place || "장소명",
-      review: reviewText,
-      rating: rating,
-      hasReview: true,
-      images: selectedFiles.length,
-      createdAt: new Date().toISOString(),
+    // 이미지 파일들을 base64로 변환
+    const convertFilesToBase64 = async (files: File[]) => {
+      const base64Promises = files.map((file) => {
+        return new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+      });
+      return Promise.all(base64Promises);
     };
 
-    let existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-    const existingIndex = existingReviews.findIndex(
-      (review: any) => review.id === currentReviewData.id,
-    );
+    // 비동기 처리를 위해 즉시 실행 함수 사용
+    (async () => {
+      const imageBase64s = await convertFilesToBase64(selectedFiles);
 
-    if (existingIndex !== -1) {
-      existingReviews[existingIndex] = currentReviewData;
-    } else {
-      existingReviews.push(currentReviewData);
-    }
+      const currentReviewData = {
+        id: reviewData?.id || Date.now(),
+        place: reviewData?.place || "장소명",
+        review: reviewText,
+        rating: rating,
+        hasReview: true,
+        images: selectedFiles.length,
+        imageBase64s: imageBase64s, // base64 이미지 데이터 추가
+        createdAt: new Date().toISOString(),
+      };
 
-    localStorage.setItem("reviews", JSON.stringify(existingReviews));
-    navigate("/myreview");
+      let existingReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
+      const existingIndex = existingReviews.findIndex(
+        (review: any) => review.id === currentReviewData.id
+      );
+
+      if (existingIndex !== -1) {
+        existingReviews[existingIndex] = currentReviewData;
+      } else {
+        existingReviews.push(currentReviewData);
+      }
+
+      localStorage.setItem("reviews", JSON.stringify(existingReviews));
+      navigate("/myreview");
+    })();
   };
 
   return (
@@ -105,7 +126,7 @@ const ReviewWriteForm = () => {
                 <button
                   onClick={() =>
                     setSelectedFiles((prev) =>
-                      prev.filter((_, i) => i !== index),
+                      prev.filter((_, i) => i !== index)
                     )
                   }
                   className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"

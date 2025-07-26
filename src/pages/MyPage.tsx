@@ -22,7 +22,7 @@ const MyPage = () => {
     "/myinfo": <MyInfoPage />,
     "/wish": <WishPage />,
     "/myreview": <MyReviewPage />,
-    "/reviewwrite": <ReviewWritePage onMenuClick={handleMenuClick} />,
+    "/reviewwrite": <ReviewWritePage />,
   };
 
   return <>{pages[pathname as keyof typeof pages] || pages["/myinfo"]}</>;

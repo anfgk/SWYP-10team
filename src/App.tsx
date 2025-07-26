@@ -38,6 +38,9 @@ function App() {
           <Route path="/wish" element={<MypageLayout />}>
             <Route index element={<MyPage />} />
           </Route>
+          <Route path="/reviewwrite" element={<MypageLayout />}>
+            <Route index element={<MyPage />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import WishCard from "@/components/mypage/WishCard";
 import Pagination from "@/components/mypage/Pagination";
-import { getWishPlaces, removeWishPlace } from "@/lib/mypageApi";
 
 interface WishItem {
   id: number;
@@ -10,9 +9,37 @@ interface WishItem {
   description: string;
 }
 
+// 더미 데이터
+const dummyWishItems: WishItem[] = [
+  {
+    id: 1,
+    name: "한강공원",
+    image: "https://picsum.photos/300/200?random=1",
+    description: "강아지와 함께 산책하기 좋은 곳",
+  },
+  {
+    id: 2,
+    name: "올림픽공원",
+    image: "https://picsum.photos/300/200?random=2",
+    description: "넓은 공간에서 뛰어놀기 좋은 곳",
+  },
+  {
+    id: 3,
+    name: "여의도공원",
+    image: "https://picsum.photos/300/200?random=3",
+    description: "도심 속 휴식 공간",
+  },
+  {
+    id: 4,
+    name: "북서울꿈의숲",
+    image: "https://picsum.photos/300/200?random=4",
+    description: "자연 속에서 힐링하기 좋은 곳",
+  },
+];
+
 const WishPlaces = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [wishList, setWishList] = React.useState<WishItem[]>([]);
+  const [wishList, setWishList] = React.useState<WishItem[]>(dummyWishItems);
   const [isLoading, setIsLoading] = React.useState(false);
   const [totalPages, setTotalPages] = React.useState(1);
 
@@ -24,21 +51,11 @@ const WishPlaces = () => {
   const loadWishPlaces = async () => {
     try {
       setIsLoading(true);
-      const response = await getWishPlaces(currentPage, 8);
-
-      // 백엔드 응답을 WishItem 형태로 변환
-      const wishItems: WishItem[] = response.data.map((item: any) => ({
-        id: item.id,
-        name: item.name,
-        image: item.image || `https://picsum.photos/300/200?random=${item.id}`,
-        description: item.description || `장소 설명 ${item.id}`,
-      }));
-
-      setWishList(wishItems);
-      setTotalPages(response.totalPages || 1);
+      // 더미 데이터 사용
+      setWishList(dummyWishItems);
+      setTotalPages(1);
     } catch (error) {
       console.error("찜한 장소 목록 로드 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
     } finally {
       setIsLoading(false);
     }
@@ -48,17 +65,14 @@ const WishPlaces = () => {
   const itemsPerPage = 8;
   const paginatedWish = wishList.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handleToggleWish = async (id: number) => {
     try {
       setIsLoading(true);
 
-      // 백엔드에서 찜한 장소 제거
-      await removeWishPlace(id.toString());
-
-      // 로컬 상태 업데이트
+      // 로컬 상태에서 찜한 장소 제거
       setWishList((prev: WishItem[]) => {
         const newList = prev.filter((item: WishItem) => item.id !== id);
 
@@ -75,7 +89,6 @@ const WishPlaces = () => {
       });
     } catch (error) {
       console.error("찜한 장소 제거 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
     } finally {
       setIsLoading(false);
     }

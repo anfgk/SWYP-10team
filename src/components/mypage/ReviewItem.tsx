@@ -10,6 +10,7 @@ interface ReviewItemProps {
     review: string;
     hasReview: boolean;
     rating: number;
+    imageBase64s?: string[]; // 이미지 base64 배열 추가
   };
   onEdit: (item: any) => void;
   onDelete: (item: any) => void;
@@ -22,7 +23,6 @@ interface ReviewItemProps {
 
 const ReviewItem = ({
   item,
-  onEdit,
   onDelete,
   onSaveEdit,
   onRatingChange,
@@ -59,8 +59,8 @@ const ReviewItem = ({
         <div className="flex gap-2 mb-3">
           <Button
             onClick={() => onSaveEdit(item.id, editText)}
-            variant="default"
-            className="bg-green-500 hover:bg-green-600"
+            variant="secondary"
+            className="hover:bg-black hover:text-white"
           >
             저장
           </Button>
@@ -75,13 +75,20 @@ const ReviewItem = ({
       return (
         <div className="flex gap-2 mb-3">
           <Button
-            onClick={() => onEdit(item)}
-            variant="default"
-            className="bg-blue-500 hover:bg-blue-600"
+            onClick={() => {
+              console.log("수정 버튼 클릭됨", item);
+              navigate("/reviewwrite", { state: { reviewData: item } });
+            }}
+            variant="secondary"
+            className="hover:bg-black hover:text-white"
           >
             수정
           </Button>
-          <Button onClick={() => onDelete(item)} variant="destructive">
+          <Button
+            onClick={() => onDelete(item)}
+            variant="secondary"
+            className="hover:bg-black hover:text-white"
+          >
             삭제
           </Button>
         </div>
@@ -92,8 +99,8 @@ const ReviewItem = ({
       <div className="flex gap-2 mb-3">
         <Button
           onClick={handleWrite}
-          variant="default"
-          className="bg-green-500 hover:bg-green-600"
+          variant="secondary"
+          className="hover:bg-black hover:text-white"
         >
           리뷰 작성하기
         </Button>
@@ -137,6 +144,25 @@ const ReviewItem = ({
     );
   };
 
+  const renderImages = () => {
+    if (!item.imageBase64s || item.imageBase64s.length === 0) {
+      return null;
+    }
+
+    return (
+      <div className="flex gap-2 mb-2">
+        {item.imageBase64s.map((imageBase64, index) => (
+          <img
+            key={index}
+            src={imageBase64}
+            alt={`리뷰 이미지 ${index + 1}`}
+            className="w-12 h-12 object-cover rounded border"
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="flex gap-4 p-4 rounded-lg">
       <div className="w-32 h-32 lex-shrink-0">
@@ -150,10 +176,13 @@ const ReviewItem = ({
 
       <div className="flex-1 mt-10">
         <div className="w-145 flex justify-between items-center">
-          <StarRating
-            rating={isEditing ? tempRating : item.rating}
-            onRatingChange={handleRatingChange}
-          />
+          <div className="flex flex-col">
+            {renderImages()}
+            <StarRating
+              rating={isEditing ? tempRating : item.rating}
+              onRatingChange={handleRatingChange}
+            />
+          </div>
           {renderButtons()}
         </div>
         <div className="mb-2">{renderReviewText()}</div>

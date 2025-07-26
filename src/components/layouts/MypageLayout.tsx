@@ -1,6 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../mypage/Sidebar";
-import MainContainer from "../layout/MainContainer";
 
 const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 
@@ -28,7 +27,7 @@ const MypageLayout = () => {
   };
 
   return (
-    <MainContainer>
+    <div className="w-[1200px] mx-auto">
       <div className="flex min-h-screen bg-white">
         <Sidebar
           menus={sidebarMenus}
@@ -39,7 +38,7 @@ const MypageLayout = () => {
           <Outlet />
         </section>
       </div>
-    </MainContainer>
+    </div>
   );
 };
 
