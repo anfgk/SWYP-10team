@@ -25,6 +25,12 @@ const ProfileInfo = () => {
 
   const loadUserProfile = async () => {
     try {
+      // 로컬스토리지에서 프로필 이미지 불러오기
+      const savedProfileImage = localStorage.getItem("profileImage");
+      if (savedProfileImage) {
+        setProfileImage(savedProfileImage);
+      }
+
       // TODO: 백엔드 연동 시 아래 코드 사용
       /*
       const profileData = await getUserProfile();
@@ -59,6 +65,10 @@ const ProfileInfo = () => {
     try {
       // 크롭된 이미지를 바로 로컬 상태에 적용 (백엔드 없이 테스트용)
       setProfileImage(croppedImage);
+
+      // 로컬스토리지에 프로필 이미지 저장
+      localStorage.setItem("profileImage", croppedImage);
+
       setSelectedImageFile(null);
       setCurrentImageForCrop("");
       setIsCropModalOpen(false);
@@ -93,6 +103,10 @@ const ProfileInfo = () => {
     try {
       // 로컬 상태에서 이미지 제거 (백엔드 없이 테스트용)
       setProfileImage("");
+
+      // 로컬스토리지에서 프로필 이미지 제거
+      localStorage.removeItem("profileImage");
+
       setCurrentImageForCrop("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";

@@ -72,6 +72,7 @@ const ImageCropModal = ({
       const percentX = ((x - imgRect.left) / imgRect.width) * 100;
       const percentY = ((y - imgRect.top) / imgRect.height) * 100;
 
+      // 크롭 영역의 중심이 마우스 위치에 오도록 설정
       const newX = Math.max(
         0,
         Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
@@ -91,9 +92,6 @@ const ImageCropModal = ({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const deltaX = x - dragStart.x;
-    const deltaY = y - dragStart.y;
-
     const imgRect = imageRef.current.getBoundingClientRect();
 
     // 이미지 영역 내에서만 크롭 영역을 이동
@@ -103,17 +101,21 @@ const ImageCropModal = ({
       y >= imgRect.top &&
       y <= imgRect.bottom
     ) {
-      const deltaPercentX = (deltaX / imgRect.width) * 100;
-      const deltaPercentY = (deltaY / imgRect.height) * 100;
+      const percentX = ((x - imgRect.left) / imgRect.width) * 100;
+      const percentY = ((y - imgRect.top) / imgRect.height) * 100;
 
-      setCropArea((prev) => ({
-        ...prev,
-        x: Math.max(0, Math.min(prev.x + deltaPercentX, 100 - cropArea.size)),
-        y: Math.max(0, Math.min(prev.y + deltaPercentY, 100 - cropArea.size)),
-      }));
+      // 크롭 영역의 중심이 마우스 위치에 오도록 설정
+      const newX = Math.max(
+        0,
+        Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
+      );
+      const newY = Math.max(
+        0,
+        Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
+      );
+
+      setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
     }
-
-    setDragStart({ x, y });
   };
 
   const handleCrop = () => {
@@ -182,16 +184,44 @@ const ImageCropModal = ({
           사용됩니다)
         </p>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            크롭 영역 크기: {cropArea.size}%
-          </label>
-        </div>
+        <div className="mb-4"></div>
 
         <div className="relative mb-4 w-full h-[500px] border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
           <div
             ref={containerRef}
             className="relative w-full h-full flex items-center justify-center"
+            onMouseMove={(e) => {
+              if (!isDragging && imageRef.current) {
+                const rect = containerRef.current?.getBoundingClientRect();
+                if (!rect) return;
+
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const imgRect = imageRef.current.getBoundingClientRect();
+
+                // 이미지 영역 내에서만 크롭 영역을 미리보기로 이동
+                if (
+                  x >= imgRect.left &&
+                  x <= imgRect.right &&
+                  y >= imgRect.top &&
+                  y <= imgRect.bottom
+                ) {
+                  const percentX = ((x - imgRect.left) / imgRect.width) * 100;
+                  const percentY = ((y - imgRect.top) / imgRect.height) * 100;
+
+                  const newX = Math.max(
+                    0,
+                    Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
+                  );
+                  const newY = Math.max(
+                    0,
+                    Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
+                  );
+
+                  setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
+                }
+              }
+            }}
           >
             {imageSrc ? (
               <img
