@@ -47,15 +47,8 @@ const ProfileInfo = () => {
   };
 
   const handleChangeImage = () => {
-    if (profileImage) {
-      // 현재 프로필 이미지가 있으면 크롭 모달에 표시
-      setCurrentImageForCrop(profileImage);
-      setSelectedImageFile(null);
-      setIsCropModalOpen(true);
-    } else {
-      // 프로필 이미지가 없으면 파일 선택
-      fileInputRef.current?.click();
-    }
+    // 기존 사진을 띄우지 않고 바로 파일 선택
+    fileInputRef.current?.click();
   };
 
   const handleCrop = async (croppedImage: string) => {
@@ -133,7 +126,7 @@ const ProfileInfo = () => {
               className="hidden"
             />
             <PageButton
-              text="변경"
+              text={profileImage ? "이미지 변경" : "이미지 추가"}
               variant="default"
               onClick={handleChangeImage}
             />

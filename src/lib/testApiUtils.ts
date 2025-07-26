@@ -23,7 +23,7 @@ const refreshToken = async (): Promise<string | null> => {
       setAuth(
         data.accessToken,
         refreshTokenValue,
-        useTestStore.getState().user
+        useTestStore.getState().user,
       );
 
       return data.accessToken;
@@ -48,7 +48,7 @@ const refreshToken = async (): Promise<string | null> => {
 // API 요청 시 자동으로 토큰을 재발급받는 함수
 export const testApiRequest = async (
   url: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<Response> => {
   const accessToken = localStorage.getItem("testAccessToken");
 

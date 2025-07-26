@@ -17,11 +17,10 @@ const ImageCropModal = ({
   currentImage,
 }: ImageCropModalProps) => {
   const [imageSrc, setImageSrc] = useState<string>("");
-  const [cropArea, setCropArea] = useState({ x: 10, y: 10, size: 60 });
+  const [cropArea, setCropArea] = useState({ x: 50, y: 50, size: 80 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [imageOffset, setImageOffset] = useState({ x: 0, y: 0 });
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -47,6 +46,10 @@ const ImageCropModal = ({
     }
   };
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!containerRef.current || !imageRef.current) return;
 
@@ -58,10 +61,8 @@ const ImageCropModal = ({
     setDragStart({ x, y });
 
     const imgRect = imageRef.current.getBoundingClientRect();
-    const adjustedX = (x - imageOffset.x) / zoom;
-    const adjustedY = (y - imageOffset.y) / zoom;
-    const percentX = (adjustedX / imgRect.width) * 100;
-    const percentY = (adjustedY / imgRect.height) * 100;
+    const percentX = ((x - imgRect.left) / imgRect.width) * 100;
+    const percentY = ((y - imgRect.top) / imgRect.height) * 100;
 
     const newX = Math.max(
       0,
@@ -85,8 +86,8 @@ const ImageCropModal = ({
     const deltaY = y - dragStart.y;
 
     const imgRect = imageRef.current.getBoundingClientRect();
-    const deltaPercentX = (deltaX / zoom / imgRect.width) * 100;
-    const deltaPercentY = (deltaY / zoom / imgRect.height) * 100;
+    const deltaPercentX = (deltaX / imgRect.width) * 100;
+    const deltaPercentY = (deltaY / imgRect.height) * 100;
 
     setCropArea((prev) => ({
       ...prev,
@@ -95,22 +96,6 @@ const ImageCropModal = ({
     }));
 
     setDragStart({ x, y });
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newZoom = Math.max(0.1, Math.min(5, zoom * delta));
-
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (rect) {
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-      const newOffsetX = mouseX - (mouseX - imageOffset.x) * (newZoom / zoom);
-      const newOffsetY = mouseY - (mouseY - imageOffset.y) * (newZoom / zoom);
-      setImageOffset({ x: newOffsetX, y: newOffsetY });
-    }
-    setZoom(newZoom);
   };
 
   const handleCrop = () => {
@@ -124,23 +109,16 @@ const ImageCropModal = ({
         canvas.height = 200;
 
         const imgRect = image.getBoundingClientRect();
-        const actualImgWidth = imgRect.width / zoom;
-        const actualImgHeight = imgRect.height / zoom;
-
-        const cropX =
-          (cropArea.x / 100) * actualImgWidth - imageOffset.x / zoom;
-        const cropY =
-          (cropArea.y / 100) * actualImgHeight - imageOffset.y / zoom;
+        const cropX = (cropArea.x / 100) * image.naturalWidth;
+        const cropY = (cropArea.y / 100) * image.naturalHeight;
         const cropSize =
-          Math.min(actualImgWidth, actualImgHeight) * (cropArea.size / 100);
+          Math.min(image.naturalWidth, image.naturalHeight) *
+          (cropArea.size / 100);
 
-        const scaleX = image.naturalWidth / actualImgWidth;
-        const scaleY = image.naturalHeight / actualImgHeight;
-
-        const sourceX = Math.max(0, cropX * scaleX);
-        const sourceY = Math.max(0, cropY * scaleY);
+        const sourceX = Math.max(0, cropX);
+        const sourceY = Math.max(0, cropY);
         const sourceSize = Math.min(
-          cropSize * Math.min(scaleX, scaleY),
+          cropSize,
           Math.min(image.naturalWidth - sourceX, image.naturalHeight - sourceY),
         );
 
@@ -164,8 +142,8 @@ const ImageCropModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
-      <div className="bg-gray-100 p-6 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">프로필 이미지 편집</h3>
           <input
@@ -187,15 +165,33 @@ const ImageCropModal = ({
           사용됩니다)
         </p>
 
-        <div className="relative mb-4 overflow-auto w-full h-96 border border-gray-300 rounded-lg">
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            크롭 영역 크기: {cropArea.size}%
+          </label>
+          <input
+            type="range"
+            min="20"
+            max="100"
+            value={cropArea.size}
+            onChange={(e) =>
+              setCropArea((prev) => ({
+                ...prev,
+                size: parseInt(e.target.value),
+              }))
+            }
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+        </div>
+
+        <div className="relative mb-4 w-full h-[500px] border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
           <div
             ref={containerRef}
-            className="relative cursor-move w-full h-full flex items-center justify-center"
+            className="relative w-full h-full flex items-center justify-center"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={() => setIsDragging(false)}
             onMouseLeave={() => setIsDragging(false)}
-            onWheel={handleWheel}
           >
             {imageSrc ? (
               <img
@@ -203,25 +199,22 @@ const ImageCropModal = ({
                 src={imageSrc}
                 alt="크롭할 이미지"
                 className="max-w-full max-h-full object-contain"
-                style={{
-                  transform: `scale(${zoom}) translate(${imageOffset.x / zoom}px, ${imageOffset.y / zoom}px)`,
-                  transformOrigin: "center",
-                }}
+                onLoad={handleImageLoad}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-500">
                 이미지를 선택해주세요
               </div>
             )}
-            {imageSrc && (
+            {imageSrc && imageLoaded && (
               <div
                 className="absolute border-2 border-blue-500 pointer-events-none"
                 style={{
                   left: `${cropArea.x}%`,
                   top: `${cropArea.y}%`,
-                  width: "200px",
-                  height: "200px",
-                  backgroundColor: "transparent",
+                  width: `${cropArea.size}%`,
+                  height: `${cropArea.size}%`,
+                  backgroundColor: "rgba(59, 130, 246, 0.1)",
                 }}
               />
             )}

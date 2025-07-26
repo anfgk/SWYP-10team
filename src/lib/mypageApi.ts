@@ -180,7 +180,7 @@ export const getRecentPlaces = async (page: number = 1, limit: number = 8) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      }
+      },
     );
 
     if (response.ok) {
@@ -205,7 +205,7 @@ export const getMyReviews = async (page: number = 1, limit: number = 10) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      }
+      },
     );
 
     if (response.ok) {
@@ -264,7 +264,7 @@ export const updateReview = async (
     rating?: number;
     content?: string;
     images?: File[];
-  }
+  },
 ) => {
   try {
     const formData = new FormData();

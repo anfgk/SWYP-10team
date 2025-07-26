@@ -48,7 +48,7 @@ const WishPlaces = () => {
   const itemsPerPage = 8;
   const paginatedWish = wishList.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleToggleWish = async (id: number) => {

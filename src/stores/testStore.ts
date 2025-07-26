@@ -10,7 +10,7 @@ interface TestAuthState {
   setAuth: (
     accessToken: string,
     refreshToken: string,
-    user: TestAuthState["user"]
+    user: TestAuthState["user"],
   ) => void;
   setUser: (user: TestAuthState["user"]) => void;
   refreshAccessToken: () => Promise<string | null>;
