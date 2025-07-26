@@ -17,7 +17,7 @@ const ImageCropModal = ({
   currentImage,
 }: ImageCropModalProps) => {
   const [imageSrc, setImageSrc] = useState<string>("");
-  const [cropArea, setCropArea] = useState({ x: 50, y: 50, size: 80 });
+  const [cropArea, setCropArea] = useState({ x: 50, y: 50, size: 60 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -159,7 +159,7 @@ const ImageCropModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">프로필 이미지 편집</h3>
@@ -186,19 +186,6 @@ const ImageCropModal = ({
           <label className="block text-sm font-medium text-gray-700 mb-2">
             크롭 영역 크기: {cropArea.size}%
           </label>
-          <input
-            type="range"
-            min="20"
-            max="100"
-            value={cropArea.size}
-            onChange={(e) =>
-              setCropArea((prev) => ({
-                ...prev,
-                size: parseInt(e.target.value),
-              }))
-            }
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
         </div>
 
         <div className="relative mb-4 w-full h-[500px] border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
