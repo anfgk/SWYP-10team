@@ -19,7 +19,6 @@ const ImageCropModal = ({
   const [imageSrc, setImageSrc] = useState<string>("");
   const [cropArea, setCropArea] = useState({ x: 50, y: 50, size: 60 });
   const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -58,7 +57,6 @@ const ImageCropModal = ({
     const y = e.clientY - rect.top;
 
     setIsDragging(true);
-    setDragStart({ x, y });
 
     const imgRect = imageRef.current.getBoundingClientRect();
 
