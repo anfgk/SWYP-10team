@@ -72,15 +72,14 @@ const ImageCropModal = ({
       const percentX = ((x - imgRect.left) / imgRect.width) * 100;
       const percentY = ((y - imgRect.top) / imgRect.height) * 100;
 
-      // 크롭 영역의 중심이 마우스 위치에 오도록 설정 (고정 크기 300px 기준)
-      const cropSizePercent = (300 / imgRect.width) * 100;
+      // 크롭 영역의 중심이 마우스 위치에 오도록 설정
       const newX = Math.max(
         0,
-        Math.min(percentX - cropSizePercent / 2, 100 - cropSizePercent)
+        Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
       );
       const newY = Math.max(
         0,
-        Math.min(percentY - cropSizePercent / 2, 100 - cropSizePercent)
+        Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
       );
       setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
     }
@@ -129,15 +128,11 @@ const ImageCropModal = ({
         canvas.width = 200;
         canvas.height = 200;
 
-        const imgRect = image.getBoundingClientRect();
         const cropX = (cropArea.x / 100) * image.naturalWidth;
         const cropY = (cropArea.y / 100) * image.naturalHeight;
-
-        // 고정 크기 300px를 이미지의 실제 크기에 맞게 변환
-        const cropSizePx = 300;
-        const scaleX = image.naturalWidth / imgRect.width;
-        const scaleY = image.naturalHeight / imgRect.height;
-        const cropSize = Math.min(cropSizePx * scaleX, cropSizePx * scaleY);
+        const cropSize =
+          Math.min(image.naturalWidth, image.naturalHeight) *
+          (cropArea.size / 100);
 
         const sourceX = Math.max(0, cropX);
         const sourceY = Math.max(0, cropY);
@@ -195,46 +190,6 @@ const ImageCropModal = ({
           <div
             ref={containerRef}
             className="relative w-full h-full flex items-center justify-center"
-            onMouseMove={(e) => {
-              if (!isDragging && imageRef.current) {
-                const rect = containerRef.current?.getBoundingClientRect();
-                if (!rect) return;
-
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const imgRect = imageRef.current.getBoundingClientRect();
-
-                // 이미지 영역 내에서만 크롭 영역을 미리보기로 이동
-                if (
-                  x >= imgRect.left &&
-                  x <= imgRect.right &&
-                  y >= imgRect.top &&
-                  y <= imgRect.bottom
-                ) {
-                  const percentX = ((x - imgRect.left) / imgRect.width) * 100;
-                  const percentY = ((y - imgRect.top) / imgRect.height) * 100;
-
-                  // 크롭 영역의 중심이 마우스 위치에 오도록 설정 (고정 크기 300px 기준)
-                  const cropSizePercent = (300 / imgRect.width) * 100;
-                  const newX = Math.max(
-                    0,
-                    Math.min(
-                      percentX - cropSizePercent / 2,
-                      100 - cropSizePercent
-                    )
-                  );
-                  const newY = Math.max(
-                    0,
-                    Math.min(
-                      percentY - cropSizePercent / 2,
-                      100 - cropSizePercent
-                    )
-                  );
-
-                  setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
-                }
-              }
-            }}
           >
             {imageSrc ? (
               <img
@@ -256,8 +211,8 @@ const ImageCropModal = ({
                   style={{
                     left: `${cropArea.x}%`,
                     top: `${cropArea.y}%`,
-                    width: `300px`,
-                    height: `300px`,
+                    width: `${cropArea.size}%`,
+                    height: `${cropArea.size}%`,
                     backgroundColor: "rgba(59, 130, 246, 0.1)",
                   }}
                   onMouseDown={handleMouseDown}
@@ -269,9 +224,9 @@ const ImageCropModal = ({
                 <div
                   className="absolute w-4 h-4 bg-blue-500 border-2 border-white rounded-full cursor-se-resize"
                   style={{
-                    left: `${cropArea.x}%`,
-                    top: `${cropArea.y}%`,
-                    transform: "translate(293px, 291px)",
+                    left: `${cropArea.x + cropArea.size}%`,
+                    top: `${cropArea.y + cropArea.size}%`,
+                    transform: "translate(-50%, -50%)",
                   }}
                   onMouseDown={(e) => {
                     e.stopPropagation();
