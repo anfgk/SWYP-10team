@@ -4,13 +4,6 @@ import SocialIdSection from "@/components/mypage/SocialIdSection";
 import NicknameSection from "@/components/mypage/NicknameSection";
 import ImageCropModal from "@/components/mypage/ImageCropModal";
 
-// TODO: 백엔드 연동 시 아래 import 사용
-// import {
-//   getUserProfile,
-//   updateUserProfile,
-//   uploadProfileImage,
-// } from "@/lib/mypageApi";
-
 const ProfileInfo = () => {
   const [profileImage, setProfileImage] = useState<string>("");
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
