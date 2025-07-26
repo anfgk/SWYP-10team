@@ -14,7 +14,6 @@ const ProfileInfo = () => {
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [currentImageForCrop, setCurrentImageForCrop] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 컴포넌트 마운트 시 프로필 정보 로드
@@ -24,7 +23,6 @@ const ProfileInfo = () => {
 
   const loadUserProfile = async () => {
     try {
-      setIsLoading(true);
       const profileData = await getUserProfile();
       if (profileData.profileImage) {
         setProfileImage(profileData.profileImage);
@@ -32,8 +30,6 @@ const ProfileInfo = () => {
     } catch (error) {
       console.error("프로필 정보 로드 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -53,8 +49,6 @@ const ProfileInfo = () => {
 
   const handleCrop = async (croppedImage: string) => {
     try {
-      setIsLoading(true);
-
       // 크롭된 이미지를 Blob으로 변환
       const response = await fetch(croppedImage);
       const blob = await response.blob();
@@ -75,15 +69,11 @@ const ProfileInfo = () => {
     } catch (error) {
       console.error("이미지 업로드 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleDeleteImage = async () => {
     try {
-      setIsLoading(true);
-
       // 프로필 정보에서 이미지 제거
       await updateUserProfile({ profileImage: "" });
 
@@ -96,8 +86,6 @@ const ProfileInfo = () => {
     } catch (error) {
       console.error("이미지 삭제 실패:", error);
       // 에러가 발생해도 UI는 그대로 유지
-    } finally {
-      setIsLoading(false);
     }
   };
 

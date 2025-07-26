@@ -1,5 +1,5 @@
 import { useTestStore } from "@/stores/testStore";
-import { testLoginAPI, testGetUserInfoAPI } from "@/lib/testApiUtils";
+import { testGetUserInfoAPI } from "@/lib/testApiUtils";
 import PageButton from "@/components/ui/page-button";
 
 const TestAuthComponent = () => {

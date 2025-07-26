@@ -66,11 +66,11 @@ const ImageCropModal = ({
 
     const newX = Math.max(
       0,
-      Math.min(percentX - cropArea.size / 2, 100 - cropArea.size),
+      Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
     );
     const newY = Math.max(
       0,
-      Math.min(percentY - cropArea.size / 2, 100 - cropArea.size),
+      Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
     );
     setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
   };
@@ -108,7 +108,6 @@ const ImageCropModal = ({
         canvas.width = 200;
         canvas.height = 200;
 
-        const imgRect = image.getBoundingClientRect();
         const cropX = (cropArea.x / 100) * image.naturalWidth;
         const cropY = (cropArea.y / 100) * image.naturalHeight;
         const cropSize =
@@ -119,7 +118,7 @@ const ImageCropModal = ({
         const sourceY = Math.max(0, cropY);
         const sourceSize = Math.min(
           cropSize,
-          Math.min(image.naturalWidth - sourceX, image.naturalHeight - sourceY),
+          Math.min(image.naturalWidth - sourceX, image.naturalHeight - sourceY)
         );
 
         ctx.drawImage(
@@ -131,7 +130,7 @@ const ImageCropModal = ({
           0,
           0,
           200,
-          200,
+          200
         );
         onCrop(canvas.toDataURL("image/jpeg", 0.8));
         onClose();
