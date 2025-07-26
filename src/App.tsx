@@ -5,6 +5,7 @@ import MypageLayout from "./components/layouts/MypageLayout";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import MyPage from "./pages/MyPage";
+import TestPage from "./pages/TestPage";
 import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
 
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="reviewwrite" element={<MyPage />} />
+          <Route path="test" element={<TestPage />} />
 
           {/* 마이페이지 레이아웃 */}
           <Route path="myinfo" element={<MypageLayout />}>
