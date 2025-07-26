@@ -9,10 +9,15 @@
   --footer-border: #000000;
   --text-color: #000000;
   --card-bg: #aaaaaa;
-  --search-bg: #cdcdcd;
+
+  --search-bar-bg: #ffffff;
+  --search-element-bg: #8c8c8c29;
+  --search-element-text: #666666;
 
   --main-color: #ee6768;
   --main-color-sub: #ffe5e4;
+  --main-text: #ffffff;
+
   --header-text: #ffffff;
 
   --card-text: #ffffff;
