@@ -49,73 +49,6 @@ const ImageCropModal = ({
     setImageLoaded(true);
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!containerRef.current || !imageRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setIsDragging(true);
-
-    const imgRect = imageRef.current.getBoundingClientRect();
-
-    // 이미지 영역 내에서만 크롭 영역을 설정
-    if (
-      x >= imgRect.left &&
-      x <= imgRect.right &&
-      y >= imgRect.top &&
-      y <= imgRect.bottom
-    ) {
-      const percentX = ((x - imgRect.left) / imgRect.width) * 100;
-      const percentY = ((y - imgRect.top) / imgRect.height) * 100;
-
-      // 크롭 영역의 중심이 마우스 위치에 오도록 설정
-      const newX = Math.max(
-        0,
-        Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
-      );
-      const newY = Math.max(
-        0,
-        Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
-      );
-      setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !containerRef.current || !imageRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const imgRect = imageRef.current.getBoundingClientRect();
-
-    // 이미지 영역 내에서만 크롭 영역을 이동
-    if (
-      x >= imgRect.left &&
-      x <= imgRect.right &&
-      y >= imgRect.top &&
-      y <= imgRect.bottom
-    ) {
-      const percentX = ((x - imgRect.left) / imgRect.width) * 100;
-      const percentY = ((y - imgRect.top) / imgRect.height) * 100;
-
-      // 크롭 영역의 중심이 마우스 위치에 오도록 설정
-      const newX = Math.max(
-        0,
-        Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
-      );
-      const newY = Math.max(
-        0,
-        Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
-      );
-
-      setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
-    }
-  };
-
   const handleCrop = () => {
     if (canvasRef.current && imageRef.current) {
       const canvas = canvasRef.current;
@@ -188,6 +121,39 @@ const ImageCropModal = ({
           <div
             ref={containerRef}
             className="relative w-full h-full flex items-center justify-center"
+            onMouseMove={(e) => {
+              if (!isDragging && imageRef.current) {
+                const rect = containerRef.current?.getBoundingClientRect();
+                if (!rect) return;
+
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const imgRect = imageRef.current.getBoundingClientRect();
+
+                // 이미지 영역 내에서만 크롭 영역을 미리보기로 이동 (드래그 중이 아닐 때만)
+                if (
+                  x >= imgRect.left &&
+                  x <= imgRect.right &&
+                  y >= imgRect.top &&
+                  y <= imgRect.bottom
+                ) {
+                  const percentX = ((x - imgRect.left) / imgRect.width) * 100;
+                  const percentY = ((y - imgRect.top) / imgRect.height) * 100;
+
+                  // 크롭 영역의 중심이 마우스 위치에 오도록 설정
+                  const newX = Math.max(
+                    0,
+                    Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
+                  );
+                  const newY = Math.max(
+                    0,
+                    Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
+                  );
+
+                  setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
+                }
+              }
+            }}
           >
             {imageSrc ? (
               <img
@@ -213,8 +179,47 @@ const ImageCropModal = ({
                     height: `${cropArea.size}%`,
                     backgroundColor: "rgba(59, 130, 246, 0.1)",
                   }}
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    // 클릭한 위치에 크롭 영역 고정
+                    if (containerRef.current && imageRef.current) {
+                      const rect = containerRef.current.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const y = e.clientY - rect.top;
+                      const imgRect = imageRef.current.getBoundingClientRect();
+
+                      if (
+                        x >= imgRect.left &&
+                        x <= imgRect.right &&
+                        y >= imgRect.top &&
+                        y <= imgRect.bottom
+                      ) {
+                        const percentX =
+                          ((x - imgRect.left) / imgRect.width) * 100;
+                        const percentY =
+                          ((y - imgRect.top) / imgRect.height) * 100;
+
+                        const newX = Math.max(
+                          0,
+                          Math.min(
+                            percentX - cropArea.size / 2,
+                            100 - cropArea.size
+                          )
+                        );
+                        const newY = Math.max(
+                          0,
+                          Math.min(
+                            percentY - cropArea.size / 2,
+                            100 - cropArea.size
+                          )
+                        );
+
+                        setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
+                      }
+                    }
+                    // 드래그 상태를 true로 설정하여 마우스 움직임에 따른 이동을 멈춤
+                    setIsDragging(true);
+                  }}
                   onMouseUp={() => setIsDragging(false)}
                   onMouseLeave={() => setIsDragging(false)}
                 />
