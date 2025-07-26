@@ -61,18 +61,27 @@ const ImageCropModal = ({
     setDragStart({ x, y });
 
     const imgRect = imageRef.current.getBoundingClientRect();
-    const percentX = ((x - imgRect.left) / imgRect.width) * 100;
-    const percentY = ((y - imgRect.top) / imgRect.height) * 100;
 
-    const newX = Math.max(
-      0,
-      Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
-    );
-    const newY = Math.max(
-      0,
-      Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
-    );
-    setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
+    // 이미지 영역 내에서만 크롭 영역을 설정
+    if (
+      x >= imgRect.left &&
+      x <= imgRect.right &&
+      y >= imgRect.top &&
+      y <= imgRect.bottom
+    ) {
+      const percentX = ((x - imgRect.left) / imgRect.width) * 100;
+      const percentY = ((y - imgRect.top) / imgRect.height) * 100;
+
+      const newX = Math.max(
+        0,
+        Math.min(percentX - cropArea.size / 2, 100 - cropArea.size)
+      );
+      const newY = Math.max(
+        0,
+        Math.min(percentY - cropArea.size / 2, 100 - cropArea.size)
+      );
+      setCropArea((prev) => ({ ...prev, x: newX, y: newY }));
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -86,14 +95,23 @@ const ImageCropModal = ({
     const deltaY = y - dragStart.y;
 
     const imgRect = imageRef.current.getBoundingClientRect();
-    const deltaPercentX = (deltaX / imgRect.width) * 100;
-    const deltaPercentY = (deltaY / imgRect.height) * 100;
 
-    setCropArea((prev) => ({
-      ...prev,
-      x: Math.max(0, Math.min(prev.x + deltaPercentX, 100 - cropArea.size)),
-      y: Math.max(0, Math.min(prev.y + deltaPercentY, 100 - cropArea.size)),
-    }));
+    // 이미지 영역 내에서만 크롭 영역을 이동
+    if (
+      x >= imgRect.left &&
+      x <= imgRect.right &&
+      y >= imgRect.top &&
+      y <= imgRect.bottom
+    ) {
+      const deltaPercentX = (deltaX / imgRect.width) * 100;
+      const deltaPercentY = (deltaY / imgRect.height) * 100;
+
+      setCropArea((prev) => ({
+        ...prev,
+        x: Math.max(0, Math.min(prev.x + deltaPercentX, 100 - cropArea.size)),
+        y: Math.max(0, Math.min(prev.y + deltaPercentY, 100 - cropArea.size)),
+      }));
+    }
 
     setDragStart({ x, y });
   };
@@ -187,10 +205,6 @@ const ImageCropModal = ({
           <div
             ref={containerRef}
             className="relative w-full h-full flex items-center justify-center"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={() => setIsDragging(false)}
-            onMouseLeave={() => setIsDragging(false)}
           >
             {imageSrc ? (
               <img
@@ -206,16 +220,56 @@ const ImageCropModal = ({
               </div>
             )}
             {imageSrc && imageLoaded && (
-              <div
-                className="absolute border-2 border-blue-500 pointer-events-none"
-                style={{
-                  left: `${cropArea.x}%`,
-                  top: `${cropArea.y}%`,
-                  width: `${cropArea.size}%`,
-                  height: `${cropArea.size}%`,
-                  backgroundColor: "rgba(59, 130, 246, 0.1)",
-                }}
-              />
+              <>
+                <div
+                  className="absolute border-2 border-blue-500 pointer-events-auto cursor-move"
+                  style={{
+                    left: `${cropArea.x}%`,
+                    top: `${cropArea.y}%`,
+                    width: `${cropArea.size}%`,
+                    height: `${cropArea.size}%`,
+                    backgroundColor: "rgba(59, 130, 246, 0.1)",
+                  }}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={() => setIsDragging(false)}
+                  onMouseLeave={() => setIsDragging(false)}
+                />
+                {/* 크기 조절 핸들 */}
+                <div
+                  className="absolute w-4 h-4 bg-blue-500 border-2 border-white rounded-full cursor-se-resize"
+                  style={{
+                    left: `${cropArea.x + cropArea.size}%`,
+                    top: `${cropArea.y + cropArea.size}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    const startSize = cropArea.size;
+                    const startX = e.clientX;
+                    const startY = e.clientY;
+
+                    const handleResize = (e: MouseEvent) => {
+                      const deltaX = e.clientX - startX;
+                      const deltaY = e.clientY - startY;
+                      const delta = Math.max(deltaX, deltaY);
+                      const newSize = Math.max(
+                        20,
+                        Math.min(100, startSize + delta / 5)
+                      );
+                      setCropArea((prev) => ({ ...prev, size: newSize }));
+                    };
+
+                    const handleMouseUp = () => {
+                      document.removeEventListener("mousemove", handleResize);
+                      document.removeEventListener("mouseup", handleMouseUp);
+                    };
+
+                    document.addEventListener("mousemove", handleResize);
+                    document.addEventListener("mouseup", handleMouseUp);
+                  }}
+                />
+              </>
             )}
           </div>
         </div>
