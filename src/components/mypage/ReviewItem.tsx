@@ -56,7 +56,7 @@ const ReviewItem = ({
   const renderButtons = () => {
     if (isEditing) {
       return (
-        <div className="flex gap-2 mb-3">
+        <div className="flex gap-2">
           <Button
             onClick={() => onSaveEdit(item.id, editText)}
             variant="secondary"
@@ -77,7 +77,7 @@ const ReviewItem = ({
 
     if (hasReview) {
       return (
-        <div className="flex gap-2 mb-3">
+        <div className="flex gap-3 mb-5">
           <Button
             onClick={() => {
               console.log("수정 버튼 클릭됨", item);
@@ -115,7 +115,7 @@ const ReviewItem = ({
   const renderReviewText = () => {
     if (!hasReview) {
       return (
-        <div className="w-150 h-24 p-3 rounded-lg border border-gray-200">
+        <div className="w-[903px] h-[72px] p-3 rounded-lg border border-gray-200">
           아직 리뷰를 작성하지 않았습니다!
         </div>
       );
@@ -126,7 +126,7 @@ const ReviewItem = ({
 
     if (isReadOnly) {
       return (
-        <div className="w-150 h-24 p-3 border border-gray-200 rounded-lg bg-gray-50">
+        <div className="w-[903px] h-[72px] p-3 border border-gray-200 rounded-lg">
           {text}
         </div>
       );
@@ -154,13 +154,13 @@ const ReviewItem = ({
     }
 
     return (
-      <div className="flex gap-2 mb-2">
+      <div className="flex gap-2 mt-[30px] mb-[12px]">
         {item.imageBase64s.map((imageBase64, index) => (
           <img
             key={index}
             src={imageBase64}
             alt={`리뷰 이미지 ${index + 1}`}
-            className="w-12 h-12 object-cover rounded border"
+            className="w-[75px] h-[56px] object-cover rounded border"
           />
         ))}
       </div>
@@ -168,25 +168,20 @@ const ReviewItem = ({
   };
 
   return (
-    <div className="flex gap-4 p-4 rounded-lg">
-      <div className="w-32 h-32 lex-shrink-0">
+    <div className="flex p-4 rounded-lg">
+      <div className="w-[0px]">
         <div className="w-[200px] flex items-center gap-2 mb-3">
           <h3 className="text-lg font-semibold text-black">{item.place}</h3>
           <StarRating
             rating={isEditing ? tempRating : item.rating}
             onRatingChange={handleRatingChange}
-            size="sm"
+            size="lg"
           />
         </div>
-        <img
-          src="/assets/place.png"
-          alt={item.place}
-          className="w-[150px] h-[150px] object-cover rounded-lg"
-        />
       </div>
 
-      <div className="flex-1 mt-10">
-        <div className="w-145 flex justify-between items-center">
+      <div className="">
+        <div className="w-[902px] flex justify-between">
           <div className="flex flex-col">{renderImages()}</div>
           {renderButtons()}
         </div>

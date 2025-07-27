@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import PageButton from "../ui/page-button";
 import StarRating from "./StarRating";
-import ReviewForm from "../ui/review-form";
 
 const ReviewWriteForm = () => {
   const location = useLocation();
@@ -81,30 +80,66 @@ const ReviewWriteForm = () => {
 
   return (
     <main className="flex-1 px-16 py-12">
-      <div className="text-2xl font-bold mb-8">
-        {isEditMode ? "리뷰수정" : "리뷰작성"}
-      </div>
-
-      <div className="flex items-center gap-8 mb-8">
-        <div className="w-32 h-32 bg-[var(--sidebar-ring)]" />
-        <div>
-          <div className="text-xl font-semibold mb-2">
-            {reviewData?.place || "숙소 이름"}
+      {/* 방문한 장소 및 별점 섹션 */}
+      <div className="flex flex-col text-[20px] gap-[9px]">
+        <div className="flex font-medium gap-[44px] items-center">
+          <span>방문한 장소</span>
+          <span>{reviewData?.place || "장소명"}</span>
+          <div className="flex gap-2 ml-auto">
+            <PageButton
+              text="수정하기"
+              variant="default"
+              onClick={() =>
+                navigate("/reviewwrite", { state: { reviewData: reviewData } })
+              }
+            />
+            <PageButton
+              text="삭제하기"
+              variant="default"
+              onClick={() => {
+                if (window.confirm("리뷰를 삭제하시겠습니까?")) {
+                  // 삭제 로직
+                  navigate("/myreview");
+                }
+              }}
+            />
           </div>
-          <StarRating rating={rating} onRatingChange={setRating} />
+        </div>
+        <div className="flex mb-[9px]">
+          <span className="w-[135px] text-[20px] font-medium">상세 리뷰</span>
+          <div className="flex flex-col gap-[9px]">
+            <StarRating rating={rating} onRatingChange={setRating} />
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder="리뷰를 작성해주세요."
+              className="w-[756px] h-[141px] text-[16px] p-4 border border-gray-300 rounded-lg resize-none focus:outline-none mb-[72px]"
+            />
+          </div>
         </div>
       </div>
 
-      <ReviewForm reviewText={reviewText} onReviewChange={setReviewText} />
-
+      {/* 사진 첨부 섹션 */}
       <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="font-semibold">사진첨부</div>
+        <div className="flex items-center gap-4 mb-[24px]">
+          <div className="font-medium mr-[50px] text-[20px]">사진첨부</div>
           <PageButton
-            text="사진첨부하기"
+            text="사진 첨부하기"
             onClick={() => fileInputRef.current?.click()}
           />
-          <span>{selectedFiles.length}/3</span>
+          <span className="text-gray-600">{selectedFiles.length}/3</span>
+          <div className="flex gap-4 ml-auto">
+            <PageButton
+              text="저장하기"
+              variant="default"
+              onClick={handleSubmit}
+            />
+            <PageButton
+              text="취소하기"
+              variant="default"
+              onClick={() => navigate("/myreview")}
+            />
+          </div>
         </div>
         <input
           type="file"
@@ -115,13 +150,13 @@ const ReviewWriteForm = () => {
           className="hidden"
         />
         {selectedFiles.length > 0 && (
-          <div className="grid grid-cols-5 gap-4">
+          <div className="flex gap-[16px]">
             {selectedFiles.map((file, index) => (
               <div key={index} className="relative">
                 <img
                   src={URL.createObjectURL(file)}
                   alt={`첨부파일 ${index + 1}`}
-                  className="w-full h-24 object-contain rounded border bg-gray-100"
+                  className="w-[212px] h-[141px] object-cover rounded-lg"
                 />
                 <button
                   onClick={() =>
@@ -129,7 +164,7 @@ const ReviewWriteForm = () => {
                       prev.filter((_, i) => i !== index)
                     )
                   }
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"
+                  className="absolute -top-2 -right-[11px] bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"
                 >
                   ×
                 </button>
@@ -137,15 +172,6 @@ const ReviewWriteForm = () => {
             ))}
           </div>
         )}
-      </div>
-
-      <div className="flex justify-end gap-4">
-        <PageButton text="저장" variant="default" onClick={handleSubmit} />
-        <PageButton
-          text="취소"
-          variant="default"
-          onClick={() => navigate("/myreview")}
-        />
       </div>
     </main>
   );
