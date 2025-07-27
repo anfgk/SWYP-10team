@@ -31,7 +31,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
-          <Route path="/authrediect" element={<AuthCallBackPage />} />
+          <Route path="/authredirect" element={<AuthCallBackPage />} />
 
           <Route path="/myinfo" element={<MyInfo />} />
           <Route path="/myreview" element={<MyReview />} />

@@ -34,19 +34,6 @@ const SearchBar = () => {
           value={selectedRegion}
           onChange={setSelectedRegion}
         />
-        <div className="relative h-[48px] flex-1">
-          <img
-            src="/assets/icons/search.png"
-            alt="search_icon"
-            className="absolute left-[16px] top-[12px] w-[24px] h-[24px]"
-          />
-          <Input
-            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px]"
-            placeholder="장소 명"
-            defaultValue={inputkeyword}
-            onChange={(e) => setInputKeyword(e.target.value)}
-          />
-        </div>
 
         <SearchSelectBox
           options={categories}
@@ -55,14 +42,28 @@ const SearchBar = () => {
           onChange={setSelectedCategory}
         />
 
-        {user && (
-          <SearchSelectBox
-            options={test}
-            placeholder="반려동물 정보"
-            value={selectedPet}
-            onChange={setSelectedPet}
+        <SearchSelectBox
+          options={test}
+          placeholder="반려동물 정보"
+          value={selectedPet}
+          onChange={setSelectedPet}
+          isDisabled={!user}
+        />
+
+        <div className="relative h-[48px] flex-1">
+          <img
+            src="/assets/icons/search.png"
+            alt="search_icon"
+            className="absolute left-[16px] top-[12px] w-[24px] h-[24px]"
           />
-        )}
+          <Input
+            id="place_input"
+            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px]"
+            placeholder="장소 명"
+            defaultValue={inputkeyword}
+            onChange={(e) => setInputKeyword(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col justify-center w-[48px] h-[48px] shrink-0">
