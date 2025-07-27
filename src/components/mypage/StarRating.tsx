@@ -1,4 +1,4 @@
-import { TiStarFullOutline, TiStarHalfOutline } from "react-icons/ti";
+import { TiStarFullOutline } from "react-icons/ti";
 
 interface StarRatingProps {
   rating: number;

@@ -2,7 +2,7 @@ import { useAuthStore } from "@/stores/authStore";
 import InputField from "@/components/ui/input-field";
 
 const SocialIdSection = () => {
-  const { user, setUser } = useAuthStore();
+  const { user } = useAuthStore();
 
   return (
     <div>
