@@ -15,10 +15,10 @@ const PageButton = ({
     <Button
       variant={variant === "primary" ? "default" : "secondary"}
       onClick={onClick}
-      className={`transition-all duration-200 hover:scale-105 ${
+      className={`transition-all duration-200 ${
         variant === "primary"
-          ? "hover:bg-[var(--foreground)] hover:text-[var(--card)]"
-          : "hover:bg-[var(--foreground)] hover:text-[var(--card)]"
+          ? "hover:bg-[var(--main-color)] hover:text-white"
+          : "hover:bg-[var(--main-color)] hover:text-white"
       }`}
     >
       {text}

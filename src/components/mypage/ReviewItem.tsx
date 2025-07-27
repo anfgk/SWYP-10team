@@ -60,12 +60,16 @@ const ReviewItem = ({
           <Button
             onClick={() => onSaveEdit(item.id, editText)}
             variant="secondary"
-            className="hover:bg-black hover:text-white"
+            className="hover:bg-[var(--main-color)] hover:text-white"
           >
-            저장
+            저장하기
           </Button>
-          <Button onClick={() => setEditText("")} variant="secondary">
-            취소
+          <Button
+            onClick={() => setEditText("")}
+            variant="secondary"
+            className="hover:bg-[var(--main-color)] hover:text-white"
+          >
+            취소하기
           </Button>
         </div>
       );
@@ -80,16 +84,16 @@ const ReviewItem = ({
               navigate("/reviewwrite", { state: { reviewData: item } });
             }}
             variant="secondary"
-            className="hover:bg-black hover:text-white"
+            className="hover:bg-[var(--main-color)] hover:text-white"
           >
-            수정
+            수정하기
           </Button>
           <Button
             onClick={() => onDelete(item)}
             variant="secondary"
-            className="hover:bg-black hover:text-white"
+            className="hover:bg-[var(--main-color)] hover:text-white"
           >
-            삭제
+            삭제하기
           </Button>
         </div>
       );
@@ -100,7 +104,7 @@ const ReviewItem = ({
         <Button
           onClick={handleWrite}
           variant="secondary"
-          className="hover:bg-black hover:text-white"
+          className="hover:bg-[var(--main-color)] hover:text-white"
         >
           리뷰 작성하기
         </Button>
@@ -166,7 +170,14 @@ const ReviewItem = ({
   return (
     <div className="flex gap-4 p-4 rounded-lg">
       <div className="w-32 h-32 lex-shrink-0">
-        <h3 className="text-lg font-semibold text-black mb-3">{item.place}</h3>
+        <div className="w-[200px] flex items-center gap-2 mb-3">
+          <h3 className="text-lg font-semibold text-black">{item.place}</h3>
+          <StarRating
+            rating={isEditing ? tempRating : item.rating}
+            onRatingChange={handleRatingChange}
+            size="sm"
+          />
+        </div>
         <img
           src="/assets/place.png"
           alt={item.place}
@@ -176,13 +187,7 @@ const ReviewItem = ({
 
       <div className="flex-1 mt-10">
         <div className="w-145 flex justify-between items-center">
-          <div className="flex flex-col">
-            {renderImages()}
-            <StarRating
-              rating={isEditing ? tempRating : item.rating}
-              onRatingChange={handleRatingChange}
-            />
-          </div>
+          <div className="flex flex-col">{renderImages()}</div>
           {renderButtons()}
         </div>
         <div className="mb-2">{renderReviewText()}</div>

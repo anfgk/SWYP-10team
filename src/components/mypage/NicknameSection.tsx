@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import PageButton from "@/components/ui/page-button";
+import InputField from "@/components/ui/input-field";
 
 const NicknameSection = () => {
   const { user, setAuth } = useAuthStore();
@@ -23,7 +24,7 @@ const NicknameSection = () => {
   };
 
   return (
-    <div className="flex gap-4 items-center mb-2">
+    <div className="flex gap-4 items-center mb-[8px]">
       {isEditing ? (
         <>
           <input
@@ -40,11 +41,12 @@ const NicknameSection = () => {
         </>
       ) : (
         <>
-          <div className="w-70 h-6 bg-gray-200 mb-2 flex items-center px-2 text-sm text-gray-500">
-            {user?.name || "닉네임"}
+          <div className="flex justify-center items-center gap-9">
+            {user?.name || "이름"}
+            <InputField />
           </div>
           <PageButton
-            text="변경"
+            text="변경하기"
             variant="default"
             onClick={() => setIsEditing(true)}
           />

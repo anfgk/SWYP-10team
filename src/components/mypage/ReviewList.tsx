@@ -57,7 +57,7 @@ const ReviewList = () => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
         ? { ...review, review: text, hasReview: text.trim() !== "" }
-        : review,
+        : review
     );
     setReviews(updatedReviews);
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));
@@ -67,7 +67,7 @@ const ReviewList = () => {
 
   const handleRatingChange = (id: number, rating: number) => {
     const updatedReviews = reviews.map((review) =>
-      review.id === id ? { ...review, rating } : review,
+      review.id === id ? { ...review, rating } : review
     );
     setReviews(updatedReviews);
     localStorage.setItem("reviews", JSON.stringify(updatedReviews));
@@ -84,18 +84,22 @@ const ReviewList = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-black mt-9">방문한 장소</h2>
-      {reviews.map((item) => (
-        <ReviewItem
-          key={item.id}
-          item={item}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onSaveEdit={handleSaveEdit}
-          onRatingChange={handleRatingChange}
-          editingId={editingId}
-          editText={editText}
-          setEditText={setEditText}
-        />
+      {reviews.map((item, index) => (
+        <div key={item.id}>
+          <ReviewItem
+            item={item}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onSaveEdit={handleSaveEdit}
+            onRatingChange={handleRatingChange}
+            editingId={editingId}
+            editText={editText}
+            setEditText={setEditText}
+          />
+          {index < reviews.length - 1 && (
+            <div className="border-b border-gray-200 my-4"></div>
+          )}
+        </div>
       ))}
     </div>
   );
