@@ -48,11 +48,6 @@ const ReviewList = () => {
     return () => window.removeEventListener("focus", handleFocus);
   }, []);
 
-  const handleEdit = (item: any) => {
-    setEditingId(item.id);
-    setEditText(item.review);
-  };
-
   const handleSaveEdit = (id: number, text: string) => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
@@ -88,7 +83,6 @@ const ReviewList = () => {
         <div key={item.id}>
           <ReviewItem
             item={item}
-            onEdit={handleEdit}
             onDelete={handleDelete}
             onSaveEdit={handleSaveEdit}
             onRatingChange={handleRatingChange}

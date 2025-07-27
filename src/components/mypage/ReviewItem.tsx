@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import StarRating from "./StarRating";
+import ReviewHeader from "./ReviewHeader";
 import { Button } from "@/components/ui/button";
 
 interface ReviewItemProps {
@@ -10,9 +10,8 @@ interface ReviewItemProps {
     review: string;
     hasReview: boolean;
     rating: number;
-    imageBase64s?: string[]; // 이미지 base64 배열 추가
+    imageBase64s?: string[];
   };
-  onEdit: (item: any) => void;
   onDelete: (item: any) => void;
   onSaveEdit: (id: number, text: string) => void;
   onRatingChange: (id: number, rating: number) => void;
@@ -35,16 +34,9 @@ const ReviewItem = ({
   const isEditing = editingId === item.id;
   const hasReview = item.hasReview && item.review;
 
-  // 편집 모드 진입 시 현재 별점으로 초기화
   useEffect(() => {
-    if (isEditing) {
-      setTempRating(item.rating);
-    }
+    if (isEditing) setTempRating(item.rating);
   }, [isEditing, item.rating]);
-
-  const handleWrite = () => {
-    navigate("/reviewwrite", { state: { reviewData: item } });
-  };
 
   const handleRatingChange = (newRating: number) => {
     if (isEditing) {
@@ -53,6 +45,8 @@ const ReviewItem = ({
     }
   };
 
+  const buttonStyle = "hover:bg-[var(--main-color)] hover:text-white";
+
   const renderButtons = () => {
     if (isEditing) {
       return (
@@ -60,14 +54,14 @@ const ReviewItem = ({
           <Button
             onClick={() => onSaveEdit(item.id, editText)}
             variant="secondary"
-            className="hover:bg-[var(--main-color)] hover:text-white"
+            className={buttonStyle}
           >
             저장하기
           </Button>
           <Button
             onClick={() => setEditText("")}
             variant="secondary"
-            className="hover:bg-[var(--main-color)] hover:text-white"
+            className={buttonStyle}
           >
             취소하기
           </Button>
@@ -79,19 +73,18 @@ const ReviewItem = ({
       return (
         <div className="flex gap-3 mb-5">
           <Button
-            onClick={() => {
-              console.log("수정 버튼 클릭됨", item);
-              navigate("/reviewwrite", { state: { reviewData: item } });
-            }}
+            onClick={() =>
+              navigate("/reviewwrite", { state: { reviewData: item } })
+            }
             variant="secondary"
-            className="hover:bg-[var(--main-color)] hover:text-white"
+            className={buttonStyle}
           >
             수정하기
           </Button>
           <Button
             onClick={() => onDelete(item)}
             variant="secondary"
-            className="hover:bg-[var(--main-color)] hover:text-white"
+            className={buttonStyle}
           >
             삭제하기
           </Button>
@@ -102,9 +95,11 @@ const ReviewItem = ({
     return (
       <div className="flex gap-2 mb-3">
         <Button
-          onClick={handleWrite}
+          onClick={() =>
+            navigate("/reviewwrite", { state: { reviewData: item } })
+          }
           variant="secondary"
-          className="hover:bg-[var(--main-color)] hover:text-white"
+          className={buttonStyle}
         >
           리뷰 작성하기
         </Button>
@@ -122,9 +117,8 @@ const ReviewItem = ({
     }
 
     const text = isEditing ? editText : item.review;
-    const isReadOnly = !isEditing;
 
-    if (isReadOnly) {
+    if (!isEditing) {
       return (
         <div className="w-[903px] h-[72px] p-3 border border-gray-200 rounded-lg">
           {text}
@@ -149,9 +143,7 @@ const ReviewItem = ({
   };
 
   const renderImages = () => {
-    if (!item.imageBase64s || item.imageBase64s.length === 0) {
-      return null;
-    }
+    if (!item.imageBase64s?.length) return null;
 
     return (
       <div className="flex gap-2 mt-[30px] mb-[12px]">
@@ -170,10 +162,11 @@ const ReviewItem = ({
   return (
     <div className="flex p-4 rounded-lg">
       <div className="w-[0px]">
-        <div className="w-[200px] flex items-center gap-2 mb-3">
-          <h3 className="text-lg font-semibold text-black">{item.place}</h3>
-          <StarRating
+        <div className="w-[200px]">
+          <ReviewHeader
+            place={item.place}
             rating={isEditing ? tempRating : item.rating}
+            isEditing={isEditing}
             onRatingChange={handleRatingChange}
             size="lg"
           />
