@@ -3,7 +3,6 @@ import StarRating from "./StarRating";
 interface ReviewHeaderProps {
   place: string;
   rating: number;
-  isEditing?: boolean;
   onRatingChange?: (rating: number) => void;
   size?: "sm" | "md" | "lg";
 }
@@ -11,7 +10,6 @@ interface ReviewHeaderProps {
 const ReviewHeader = ({
   place,
   rating,
-  isEditing = false,
   onRatingChange,
   size = "lg",
 }: ReviewHeaderProps) => {

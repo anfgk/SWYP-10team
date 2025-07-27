@@ -166,7 +166,6 @@ const ReviewItem = ({
           <ReviewHeader
             place={item.place}
             rating={isEditing ? tempRating : item.rating}
-            isEditing={isEditing}
             onRatingChange={handleRatingChange}
             size="lg"
           />
