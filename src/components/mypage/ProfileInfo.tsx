@@ -125,17 +125,15 @@ const ProfileInfo = () => {
 
   return (
     <div className="relative w-full">
-      <div className="text-[20px] font-semibold">프로필 정보</div>
-      <div className="flex items-center gap-4 mb-[32px]">
-        <div className="w-32 h-32 bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-lg">
-          {profileImage ? (
+      <div className="text-[20px] font-semibold mb-[16px]">프로필 정보</div>
+      <div className="flex items-center gap-[24px] mb-[32px]">
+        <div className="w-[212px] h-[141px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-lg">
+          {profileImage && (
             <img
               src={profileImage}
               alt="프로필 이미지"
               className="w-full h-full object-cover"
             />
-          ) : (
-            "프로필 이미지"
           )}
         </div>
         <div className="flex flex-col gap-2 flex-1 justify-end h-32">
