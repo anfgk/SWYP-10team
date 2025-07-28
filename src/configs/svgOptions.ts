@@ -1,1 +1,5 @@
-export type IconOptions = "star" | "vector";
+export type IconOptions =
+  | "star"
+  | "vector"
+  | "thumbnailShare"
+  | "thumbnailHeart";
