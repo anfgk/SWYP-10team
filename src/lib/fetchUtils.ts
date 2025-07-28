@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 const fetchWithAuth = async (
   input: RequestInfo,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<Response> => {
   const { accessToken, setAuth, logout } = useAuthStore.getState();
 
@@ -28,7 +28,7 @@ const fetchWithAuth = async (
         {
           method: "POST",
           credentials: "include",
-        }
+        },
       );
 
       //access토큰 재발급 실패 시

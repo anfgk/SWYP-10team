@@ -52,7 +52,7 @@ const useSearchBarState = () => {
       selectedSubRegion,
       inputkeyword,
       selectedCategory,
-      selectedPet
+      selectedPet,
     );
     navigate("/search?" + query);
   };

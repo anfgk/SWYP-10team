@@ -3,7 +3,7 @@ const getQueryString = (
   subregions: string[],
   keyword: string,
   category: string,
-  pets: string
+  pets: string,
 ) => {
   const params = new URLSearchParams();
   if (region) params.append("region", region);
