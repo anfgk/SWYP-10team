@@ -54,4 +54,23 @@ const fetchWithAuth = async (
   return res;
 };
 
-export { fetchWithAuth };
+const fetchWithoutAuth = async (
+  endPoint: string,
+  init?: RequestInit
+): Promise<Response> => {
+  const fullURL = `${import.meta.env.VITE_API_BASE_URL}${endPoint}`;
+
+  try {
+    const res = await fetch(fullURL, {
+      ...init,
+      credentials: "include", // 쿠키를 포함할 필요 있다면 유지
+    });
+
+    return res;
+  } catch (error) {
+    console.error("fetchWithoutAuth 에러:", error);
+    throw error;
+  }
+};
+
+export { fetchWithAuth, fetchWithoutAuth };
