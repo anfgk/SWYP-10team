@@ -124,7 +124,7 @@ const ProfileInfo = () => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mb-[56px]">
       <div className="text-[20px] font-semibold mb-[16px]">프로필 정보</div>
       <div className="flex items-center gap-[24px] mb-[32px]">
         <div className="w-[212px] h-[141px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-lg">

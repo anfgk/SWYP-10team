@@ -28,17 +28,17 @@ const MyInfoPage = () => {
           <ProfileInfo />
           {hasPetInfo && <PetInfoSection />}
         </div>
-        {!hasPetInfo && (
-          <div className="flex items-center">
-            <button
-              onClick={handleAddClick}
-              className="w-24 h-24 rounded-lg bg-gray-100 flex items-center justify-center text-5xl text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer"
-            >
-              <IoAdd className="w-12 h-12" />
-            </button>
-          </div>
-        )}
       </div>
+      {!hasPetInfo && (
+        <div className="flex items-center justify-center">
+          <button
+            onClick={handleAddClick}
+            className="w-24 h-24 rounded-lg bg-gray-100 flex items-center justify-center text-5xl text-gray-400 hover:bg-gray-200 transition-colors cursor-pointer"
+          >
+            <IoAdd className="w-12 h-12" />
+          </button>
+        </div>
+      )}
 
       <PetInfoModal
         isOpen={isModalOpen}

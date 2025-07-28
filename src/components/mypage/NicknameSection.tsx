@@ -44,12 +44,12 @@ const NicknameSection = () => {
           <div className="flex justify-center items-center gap-9">
             {user?.name || "이름"}
             <InputField />
+            <PageButton
+              text="변경하기"
+              variant="default"
+              onClick={() => setIsEditing(true)}
+            />
           </div>
-          <PageButton
-            text="변경하기"
-            variant="default"
-            onClick={() => setIsEditing(true)}
-          />
         </section>
       )}
     </div>
