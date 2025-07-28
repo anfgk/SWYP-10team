@@ -11,6 +11,7 @@ import useUserLocation from "./hooks/useUserLocation";
 import ScrollToTop from "./hooks/ScrollToTop";
 import useIssueAccessToken from "./hooks/useIssueAccessToken";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
+import MainFooter from "./components/layout/MainFooter";
 
 function App() {
   useUserLocation();
@@ -42,6 +43,7 @@ function App() {
             <Route index element={<MyPage />} />
           </Route>
         </Routes>
+        <MainFooter />
       </div>
     </BrowserRouter>
   );

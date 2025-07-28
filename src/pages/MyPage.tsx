@@ -16,7 +16,11 @@ const MyPage = () => {
     "/reviewwrite": <ReviewWritePage />,
   };
 
-  return <>{pages[pathname as keyof typeof pages] || pages["/myinfo"]}</>;
+  return (
+    <section>
+      {pages[pathname as keyof typeof pages] || pages["/myinfo"]}
+    </section>
+  );
 };
 
 export default MyPage;

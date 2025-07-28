@@ -22,7 +22,7 @@ const MyInfoPage = () => {
   };
 
   return (
-    <>
+    <section>
       <div className="flex gap-16 mt-12">
         <div className="flex-1 flex flex-col">
           <ProfileInfo />
@@ -45,7 +45,7 @@ const MyInfoPage = () => {
         onClose={handleCloseModal}
         onPetInfoAdded={handlePetInfoAdded}
       />
-    </>
+    </section>
   );
 };
 

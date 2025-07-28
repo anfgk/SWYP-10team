@@ -26,7 +26,7 @@ const NicknameSection = () => {
   return (
     <div className="flex gap-4 items-center mb-[8px]">
       {isEditing ? (
-        <>
+        <section>
           <input
             type="text"
             value={nickname}
@@ -38,9 +38,9 @@ const NicknameSection = () => {
             <PageButton text="저장" variant="default" onClick={handleSave} />
             <PageButton text="취소" variant="default" onClick={handleCancel} />
           </div>
-        </>
+        </section>
       ) : (
-        <>
+        <section>
           <div className="flex justify-center items-center gap-9">
             {user?.name || "이름"}
             <InputField />
@@ -50,7 +50,7 @@ const NicknameSection = () => {
             variant="default"
             onClick={() => setIsEditing(true)}
           />
-        </>
+        </section>
       )}
     </div>
   );

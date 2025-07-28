@@ -8,7 +8,7 @@ const PetInfoCard = () => {
   const petFields = ["이름", "종류", "나이", "사이즈"];
 
   return (
-    <>
+    <section>
       <div className="text-lg font-semibold mb-2">반려동물 정보</div>
       <div className="p-[24px] rounded-lg flex flex-col gap-4 border border-[#BFBFBF66]/40">
         <div className="flex gap-8 items-start">
@@ -81,7 +81,7 @@ const PetInfoCard = () => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

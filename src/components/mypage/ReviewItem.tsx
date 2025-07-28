@@ -127,7 +127,7 @@ const ReviewItem = ({
     }
 
     return (
-      <>
+      <section>
         <textarea
           value={text}
           onChange={(e) => setEditText(e.target.value)}
@@ -138,7 +138,7 @@ const ReviewItem = ({
         <div className="absolute bottom-98 right-100 text-sm text-gray-500">
           {text.length}/2000
         </div>
-      </>
+      </section>
     );
   };
 
