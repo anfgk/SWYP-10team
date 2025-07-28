@@ -41,7 +41,7 @@ const SearchBar = () => {
             className="absolute left-[16px] top-[12px] w-[24px] h-[24px]"
           />
           <Input
-            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px]"
+            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] border-1 border-[var(--search-element-border)] !text-[var(--search-element-text)] !text-[14px] pl-[40px]"
             placeholder="장소 명"
             defaultValue={inputkeyword}
             onChange={(e) => setInputKeyword(e.target.value)}

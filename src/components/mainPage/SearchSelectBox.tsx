@@ -18,7 +18,7 @@ const SearchSelectBox = ({ options, placeholder, value, onChange }: Props) => {
   return (
     <div className="flex-1">
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] !text-[14px] rounded-[26px]">
+        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] border-1 border-[var(--search-element-border)] !text-[var(--search-element-text)] !text-[14px] rounded-[26px]">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

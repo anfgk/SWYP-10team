@@ -36,10 +36,10 @@ const PopularSection = () => {
         {/* 카드 컨테이너 div */}
         <div className="w-full h-[380px] mx-auto overflow-hidden ">
           <div
-            className="flex transition-transform duration-700 ease-in-out"
+            className="flex transition-transform duration-700 ease-in-out gap-[20px]"
             style={{
-              transform: `translateX(-${index * 1200}px)`,
-              width: `${(testPopular20.length / 4) * 100}%`,
+              transform: `translateX(-${index * (1200 + 20)}px)`,
+              width: `${1200 * slides.length + 20 * (slides.length - 1)}px`,
             }}
           >
             {slides.map((group, i) => (

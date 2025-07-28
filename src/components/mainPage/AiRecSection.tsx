@@ -42,11 +42,11 @@ const AiRecList = () => {
         </div>
       </div>
       {/* 인디케이터 */}
-      <div className="flex gap-[24px] w-full h-[8px]">
+      <div className="flex gap-[8px] w-fit h-[8px] mx-auto">
         {testAiRec.map((_, i) => (
           <button
             key={i}
-            className={`h-full w-[220px] rounded-[16px] transition-colors duratin-500 ${i === index ? "bg-[var(--main-color)]" : "bg-[var(--main-color-sub)]"} cursor-pointer`}
+            className={`h-full rounded-[16px] transition-width duration-500 ${i === index ? "w-[40px] bg-[var(--main-color)]" : "w-[8px] bg-[var(--indicator-disabled)]"} cursor-pointer`}
             onClick={() => handleIndicatorClick(i)}
           />
         ))}

@@ -11,12 +11,15 @@
   --card-bg: #aaaaaa;
 
   --search-bar-bg: #ffffff;
-  --search-element-bg: #8c8c8c29;
-  --search-element-text: #666666;
+  --search-element-bg: rgba(140, 140, 140, 0.16);
+  --search-element-border: rgba(191, 191, 191, 0.4);
+  --search-element-text: rgba(38, 38, 38, 0.8);
 
   --main-color: #ee6768;
   --main-color-sub: #ffe5e4;
   --main-text: #ffffff;
+
+  --indicator-disabled: rgba(69, 69, 69, 0.16);
 
   --header-text: #ffffff;
 
