@@ -1,0 +1,15 @@
+export const placeDetailDummy = {
+  title: "도그밀리 DOGMILY",
+  thumbnail: "/assets/samples/placeThumbnail_sample.png",
+  isVisited: false,
+  likedCount: 63,
+  viewCount: 63,
+  isLiked: false,
+  lat: 37.8171378819,
+  lng: 127.5276443195,
+  tags: ["가족과 함께", "힐링", "즐거운"],
+  desc: "도그밀리에는 반려견과 보호자가 함께 편안한 시간을 보낼 수 있는 감성 펫카페입니다. 고급스러운 인테리어와 청결한 환경 속에서, 반려견은 자유롭게 뛰놀고 보호자는 여유로운 커피 타임을 즐길 수 있어요. 강아지를 위한 수제 간식과 보호자를 위한 음료/디저트 메뉴도 준비되어 있어, 모두가 행복한 공간을 지향합니다.",
+  address: "서울시 노원구 노원로 37길",
+  number: "134-4567",
+  reviewCount: 10,
+};

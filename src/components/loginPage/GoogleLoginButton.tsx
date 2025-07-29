@@ -7,10 +7,15 @@ export default function GoogleLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[61px] rounded-[16px] bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33 cursor-pointer"
+      className="w-[514px] h-[61px] rounded-[16px] flex gap-[16px] justify-center items-center bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33 cursor-pointer text-semibold"
       onClick={handleLogin}
     >
-      구글 로그인
+      <img
+        src="/assets/logo/google_logo.png"
+        alt="goolge logo"
+        className="w-[24px] h-[24px]"
+      />
+      <p>Google로 시작하기</p>
     </button>
   );
 }

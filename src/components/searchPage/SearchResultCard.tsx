@@ -6,6 +6,7 @@ import { getDistanceInKm } from "@/lib/searchResultCardUtils";
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../layout/SVGIcons";
 import SvgButton from "./SvgButton";
+import { copyCurrentUrl } from "@/lib/placeDetailUtils";
 
 interface Props {
   id?: string;
@@ -40,22 +41,24 @@ const SearchResultCard = ({
         onClick={() => navigate(`/placedetail/${id}`)}
       >
         <MainCard
-          className="w-[340px] h-full bg-cover bg-center"
+          className="w-[340px] h-full bg-cover bg-center relative"
           style={{ backgroundImage: `url(${img})` }}
         >
-          <SvgButton
-            svgname="thumbnailHeart"
-            width={40}
-            height={40}
-            onClick={() => alert("test")}
-            color="white"
-          />
-          <SvgButton
-            svgname="thumbnailShare"
-            width={40}
-            height={40}
-            onClick={() => alert("test")}
-          />
+          <div className="absolute w-fit h-[40px] flex gap-[8px] bottom-[15px] right-[15px]">
+            <SvgButton
+              svgname="thumbnailHeart"
+              width={40}
+              height={40}
+              onClick={() => alert("test")}
+              color="white"
+            />
+            <SvgButton
+              svgname="thumbnailShare"
+              width={40}
+              height={40}
+              onClick={copyCurrentUrl}
+            />
+          </div>
         </MainCard>
         <div className="w-[828px] h-[114px] flex flex-col gap-[12px]">
           <div className="w-full h-[32px] flex flex-row justify-between">
@@ -85,7 +88,7 @@ const SearchResultCard = ({
               </p>
             </div>
           </div>
-          <div className="w-full h-[36px] flex flex-row gap-[8px]">
+          <div className="w-full h-[28px] flex flex-row gap-[8px]">
             {tags.map((tag, i) => (
               <TagLabel key={i} value={tag} />
             ))}

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import PopularSlide from "./PopularSlide";
+import PopularToolTip from "./PopularTooltip";
 
 const PopularSection = () => {
   const testPopular20 = Array.from({ length: 20 }, (_, i) => i + 1);
@@ -20,12 +21,16 @@ const PopularSection = () => {
   };
 
   return (
-    <section className="relative flex flex-col gap-[10px] w-full h-[527px] py-[36px]">
+    <section className="relative flex flex-col gap-[24px] w-full h-[527px] py-[36px]">
       {/* 텍스트 div */}
       <div className="flex justify-between items-center w-full h-[51px]">
-        <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
-          인기
-        </p>
+        <div className="flex gap-[10px] w-fit h-full items-center">
+          <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
+            인기
+          </p>
+          <PopularToolTip />
+        </div>
+
         <Link to={"/search"} className="text-[14px]">
           더보기
         </Link>

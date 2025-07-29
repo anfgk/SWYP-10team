@@ -20,11 +20,17 @@
   --main-text: #ffffff;
 
   --indicator-disabled: rgba(69, 69, 69, 0.16);
+  --deactivated-text: rgba(69, 69, 69, 0.33);
 
   --header-text: #ffffff;
 
   --card-text: #ffffff;
   --card-subText: rgba(38, 38, 38, 0.8);
+
+  --tooltip-bg: rgba(38, 38, 38, 0.8);
+  --tooltip-text: rgba(255, 255, 255, 1);
+
+  --place-neutral: rgba(38, 38, 38, 0.8);
 
   --kakao: #fee500;
   --naver: #03c75a;

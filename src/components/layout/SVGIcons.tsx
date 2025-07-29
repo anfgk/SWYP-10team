@@ -2,6 +2,10 @@ import StarSVG from "@/assets/icons/star.svg?react";
 import VectorSVG from "@/assets/icons/vector.svg?react";
 import ThumnailHeartSVG from "@/assets/icons/thumbnail_heart.svg?react";
 import ThumnailShareSVG from "@/assets/icons/thumbnail_share.svg?react";
+import PlacedetailHeartSVG from "@/assets/icons/placedetail_heart.svg?react";
+import PlacedetailViewSVG from "@/assets/icons/placedetail_view.svg?react";
+import PlacedetailShareSVG from "@/assets/icons/placedetail_share.svg?react";
+import SortCheckSVG from "@/assets/icons/sort_check.svg?react";
 import type { IconOptions } from "@/configs/svgOptions";
 
 const icons: Record<IconOptions, React.FC<React.SVGProps<SVGSVGElement>>> = {
@@ -9,6 +13,10 @@ const icons: Record<IconOptions, React.FC<React.SVGProps<SVGSVGElement>>> = {
   vector: VectorSVG,
   thumbnailShare: ThumnailShareSVG,
   thumbnailHeart: ThumnailHeartSVG,
+  placedetailHeart: PlacedetailHeartSVG,
+  placedetailView: PlacedetailViewSVG,
+  placedetailShare: PlacedetailShareSVG,
+  sortCheck: SortCheckSVG,
 };
 
 type Props = {

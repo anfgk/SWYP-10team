@@ -13,7 +13,7 @@ const SvgButton = ({ svgname, width, height, onClick, color }: Props) => {
       className="w-[40px] h-[40px] cursor-pointer"
       onClick={(e) => {
         e.stopPropagation();
-        onClick;
+        onClick();
       }}
     >
       <SVGIcons

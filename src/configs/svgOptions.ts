@@ -2,4 +2,8 @@ export type IconOptions =
   | "star"
   | "vector"
   | "thumbnailShare"
-  | "thumbnailHeart";
+  | "thumbnailHeart"
+  | "placedetailHeart"
+  | "placedetailView"
+  | "placedetailShare"
+  | "sortCheck";
