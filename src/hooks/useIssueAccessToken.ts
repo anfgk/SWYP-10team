@@ -1,11 +1,13 @@
-import { decodeJWT } from "@/lib/fetchUtils";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect } from "react";
 
+import { decodeAndSetAuth } from "@/lib/authUtils";
+
 const useIssueAccessToken = () => {
-  const { setAuth, logout } = useAuthStore();
+  const { accessToken, logout, hasRefreshed, setHasRefreshed } = useAuthStore();
 
   useEffect(() => {
+    if (accessToken || hasRefreshed) return;
     const fetchRefresh = async () => {
       try {
         const res = await fetch(
@@ -16,23 +18,26 @@ const useIssueAccessToken = () => {
           },
         );
 
-        if (!res.ok) throw new Error("토큰 발급 실패");
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 403) {
+            logout();
+          } else {
+            console.error("서버 오류 발생");
+          }
+          return;
+        }
 
         const data = await res.json();
-
-        const decoded = decodeJWT(data.accessToken);
-
-        const { name, email } = decoded;
-
-        setAuth(data.accessToken, { name, email });
+        decodeAndSetAuth(data);
+        setHasRefreshed(true);
       } catch (error) {
-        console.error("토큰 재발급 에러:", error);
+        console.error("네트워크 에러:", error);
         logout();
       }
     };
 
     fetchRefresh();
-  }, [setAuth, logout]);
+  }, [hasRefreshed]);
 };
 
 export default useIssueAccessToken;

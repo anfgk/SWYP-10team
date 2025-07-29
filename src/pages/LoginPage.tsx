@@ -4,31 +4,34 @@ import NaverLoginButton from "@/components/loginPage/NaverLoginButton";
 
 const LoginPage = () => {
   return (
-    <main className="flex flex-col h-[1090.7px] pt-[280px] pb-[330px] gap-[120px] items-center justify-center">
+    <main className="flex flex-col h-[1000.7px] pt-[280px] pb-[330px] gap-[56px] items-center justify-center">
       <img
         className="w-[513.09px] h-[81.7px]"
         src="/assets/logo/login_logo.png"
         alt="login_logo"
       />
 
-      <div className="w-[514px] h-[279px] flex flex-col items-center gap-[24px]">
-        <KakaoLoginButton />
-        <NaverLoginButton />
-        <GoogleLoginButton />
-        <div className="flex w-full justify-start">
+      <div className="w-[514px] h-[253px] flex flex-col gap-[24px]">
+        <div className="w-full h-[205px] flex flex-col gap-[16px]">
+          <KakaoLoginButton />
+          <NaverLoginButton />
+          <GoogleLoginButton />
+        </div>
+
+        <div className="flex w-[93px] h-[24px] gap-[8px] items-center">
           <input
             id="auto-login"
             type="checkbox"
-            defaultChecked={false}
+            defaultChecked={sessionStorage.getItem("autoLogin") === "true"}
             onChange={(e) =>
               sessionStorage.setItem(
                 "autoLogin",
-                e.target.checked ? "true" : "false",
+                e.target.checked ? "true" : "false"
               )
             }
-            className="mr-2 w-5 h-5 rounded-full border-2 border-gray-300 appearance-none checked:bg-gray-400 checked:border-gray-400 transition-colors duration-200 focus:outline-none"
+            className="w-[20px] h-[20px] rounded-[50px] appearance-none border-[1.5px] border-[#BFBFBF38] checked:bg-[#BFBFBF38]"
           />
-          <label htmlFor="auto-login" className="text-lg">
+          <label htmlFor="auto-login" className="text-[14px]">
             자동로그인
           </label>
         </div>
