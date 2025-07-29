@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import SearchCard from "./SearchCard";
 import MainCard from "../mainPage/MainCard";
 import TagLabel from "./TagLabel";
-import { getDistanceInKm } from "@/lib/searchResultCardUtils";
+import { getDistanceInKm, heartClicked } from "@/lib/searchResultCardUtils";
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../layout/SVGIcons";
 import SvgButton from "./SvgButton";
 import { copyCurrentUrl } from "@/lib/placeDetailUtils";
+import { useState } from "react";
 
 interface Props {
   id?: string;
@@ -18,6 +19,7 @@ interface Props {
   rating?: number;
   tags?: string[];
   img?: string;
+  isLiked?: boolean;
 }
 
 const SearchResultCard = ({
@@ -30,7 +32,9 @@ const SearchResultCard = ({
   rating = 3.5,
   tags = ["장소의 테마", "댕댕이", "냥냥이"],
   img = "/assets/samples/resultcard_sample.jpg",
+  isLiked = true,
 }: Props) => {
+  const [liked, setLiked] = useState(isLiked);
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
 
@@ -46,11 +50,10 @@ const SearchResultCard = ({
         >
           <div className="absolute w-fit h-[40px] flex gap-[8px] bottom-[15px] right-[15px]">
             <SvgButton
-              svgname="thumbnailHeart"
+              svgname={liked ? "thumbnailHeartClicked" : "thumbnailHeart"}
               width={40}
               height={40}
-              onClick={() => alert("test")}
-              color="white"
+              onClick={() => heartClicked(id, liked, setLiked)}
             />
             <SvgButton
               svgname="thumbnailShare"

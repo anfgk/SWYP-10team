@@ -17,6 +17,7 @@ const PlaceDetailPage = () => {
         title="도그밀리 DOGMILY"
         thumbnail="/assets/samples/placeThumbnail_sample.png"
         isVisited={false}
+        placeId={"test"}
       />
       <PlacePupularitySection likedCount={63} viewCount={63} isLiked={false} />
       <MapSection

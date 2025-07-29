@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import SearchResultList from "./SearchResultList";
 import SearchSortButton from "./SearchSortButton";
 import { useSearchParams } from "react-router-dom";
-import { getValueFromURLParams } from "@/lib/searchUtils";
+//import { getValueFromURLParams } from "@/lib/searchUtils";
 
 const SearchResultSection = () => {
   const [sort, setSort] = useState<"popular" | "latest" | "">("");
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchResults = async () => {
-      setLoading(true);
-    };
-  }, [searchParams, sort]);
+  useEffect(() => {}, [searchParams, sort]);
   return (
     <section className="w-full flex flex-col gap-[32px] pt-[44px] pb-[32px] ">
       <div className="w-full h-[55px] flex justify-between border-b-[1px]">

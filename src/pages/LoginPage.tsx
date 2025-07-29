@@ -1,6 +1,7 @@
 import GoogleLoginButton from "@/components/loginPage/GoogleLoginButton";
 import KakaoLoginButton from "@/components/loginPage/KakaoLoginButton";
 import NaverLoginButton from "@/components/loginPage/NaverLoginButton";
+import AutoLoginCheckBox from "@/components/loginPage/AutoLoginCheckBox";
 
 const LoginPage = () => {
   return (
@@ -19,21 +20,8 @@ const LoginPage = () => {
         </div>
 
         <div className="flex w-[93px] h-[24px] gap-[8px] items-center">
-          <input
-            id="auto-login"
-            type="checkbox"
-            defaultChecked={sessionStorage.getItem("autoLogin") === "true"}
-            onChange={(e) =>
-              sessionStorage.setItem(
-                "autoLogin",
-                e.target.checked ? "true" : "false"
-              )
-            }
-            className="w-[20px] h-[20px] rounded-[50px] appearance-none border-[1.5px] border-[#BFBFBF38] checked:bg-[#BFBFBF38]"
-          />
-          <label htmlFor="auto-login" className="text-[14px]">
-            자동로그인
-          </label>
+          <AutoLoginCheckBox />
+          <label className="text-[14px]">자동로그인</label>
         </div>
       </div>
     </main>

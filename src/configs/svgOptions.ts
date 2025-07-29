@@ -3,7 +3,10 @@ export type IconOptions =
   | "vector"
   | "thumbnailShare"
   | "thumbnailHeart"
+  | "thumbnailHeartClicked"
   | "placedetailHeart"
   | "placedetailView"
   | "placedetailShare"
-  | "sortCheck";
+  | "sortCheck"
+  | "checkDefault"
+  | "checkChecked";
