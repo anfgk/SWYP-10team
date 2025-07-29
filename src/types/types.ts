@@ -1,6 +1,9 @@
 type JWTPayLoad = {
-  displayName: string;
+  sub?: string;
   email: string;
+  displayName: string;
+  iat?: number;
+  exp?: number;
 };
 
 export type { JWTPayLoad };

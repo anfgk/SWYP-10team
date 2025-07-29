@@ -21,6 +21,8 @@
 
   --indicator-disabled: rgba(69, 69, 69, 0.16);
   --deactivated-text: rgba(69, 69, 69, 0.33);
+  --sidebar: #f49fa0;
+  --sidebar-text: #262626cc;
 
   --header-text: #ffffff;
 
