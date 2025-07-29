@@ -11,4 +11,14 @@ const copyCurrentUrl = () => {
     });
 };
 
-export { copyCurrentUrl };
+const formatDateToString = (date: Date) => {
+  const formatted = date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+
+  return formatted;
+};
+
+export { copyCurrentUrl, formatDateToString };

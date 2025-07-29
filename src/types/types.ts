@@ -6,4 +6,16 @@ type JWTPayLoad = {
   exp?: number;
 };
 
-export type { JWTPayLoad };
+type ReviewData = {
+  id: string;
+  profileImg: string;
+  name: string;
+  date: Date;
+  rating: number;
+  content: string;
+  heartCount: number;
+  isLiked: boolean;
+  thumbnail: string;
+};
+
+export type { JWTPayLoad, ReviewData };

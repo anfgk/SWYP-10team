@@ -3,7 +3,7 @@ import MapSection from "@/components/placeDetailPage/MapSection";
 import PlaceInfoSection from "@/components/placeDetailPage/PlaceInfoSection";
 import PlaceMainSection from "@/components/placeDetailPage/PlaceMainSection";
 import PlacePupularitySection from "@/components/placeDetailPage/PlacePopularitySection";
-import ReviewPhotoSection from "@/components/placeDetailPage/ReviewSection";
+import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { placeDetailDummy } from "@/configs/dummyData";
 //import { useParams } from "react-router-dom";
@@ -31,10 +31,7 @@ const PlaceDetailPage = () => {
         address={placeDetailDummy.address}
         phoneNumber={placeDetailDummy.number}
       />
-      <ReviewPhotoSection
-        reviewCount={placeDetailDummy.reviewCount}
-        photos={[""]}
-      />
+      <ReviewSection />
     </MainContainer>
   );
 };

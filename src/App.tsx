@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/layout/MainHeader";
 import MypageLayout from "./components/layouts/MypageLayout";
@@ -28,6 +28,7 @@ function App() {
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
 
           {/* 마이페이지 레이아웃 */}
           <Route path="/myinfo" element={<MypageLayout />}>
