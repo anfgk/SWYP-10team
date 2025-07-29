@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import PageButton from "@/components/ui/page-button";
-import InputField from "@/components/ui/input-field";
 
 const NicknameSection = () => {
   const { user, setAuth } = useAuthStore();
