@@ -6,7 +6,7 @@ const SocialIdSection = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-5 mb-[56px]">
+      <div className="flex items-center text-[16px] font-[400] gap-[24px] mb-[56px]">
         {user?.email || "소셜ID"}
         <InputField />
       </div>

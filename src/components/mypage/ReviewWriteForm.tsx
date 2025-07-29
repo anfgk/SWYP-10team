@@ -69,20 +69,6 @@ const ReviewWriteForm = () => {
         <div className="flex font-medium gap-[44px] items-center">
           <span>방문한 장소</span>
           <span>{reviewData?.place || "장소명"}</span>
-          <div className="flex gap-2 ml-auto">
-            <PageButton
-              text="수정하기"
-              variant="default"
-              onClick={() =>
-                navigate("/reviewwrite", { state: { reviewData: reviewData } })
-              }
-            />
-            <PageButton
-              text="삭제하기"
-              variant="default"
-              onClick={handleDelete}
-            />
-          </div>
         </div>
         <div className="flex mb-[9px]">
           <span className="w-[135px] text-[20px] font-medium">상세 리뷰</span>
