@@ -42,7 +42,11 @@ const MapSection = ({ title, lat, lng }: Props) => {
     });
   }, [title, lat, lng]);
 
-  return <div ref={mapRef} className="w-full h-[202px] mb-5"></div>;
+  return (
+    <section className="w-full h-fit pb-[44px]">
+      <div ref={mapRef} className="w-full h-[202px]"></div>
+    </section>
+  );
 };
 
 export default MapSection;

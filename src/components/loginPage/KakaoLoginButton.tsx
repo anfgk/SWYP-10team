@@ -6,10 +6,15 @@ export default function KakaoLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[56px] rounded-[12px] bg-[var(--kakao)]"
+      className="w-[514px] h-[56px] flex gap-[16px] justify-center items-center rounded-[12px] bg-[var(--kakao)] text-semibold"
       onClick={handleLogin}
     >
-      카카오 로그인
+      <img
+        src="/assets/logo/kakao_logo.png"
+        alt="kakao logo"
+        className="w-[24px] h-[24px]"
+      />
+      <p>카카오로 시작하기</p>
     </button>
   );
 }

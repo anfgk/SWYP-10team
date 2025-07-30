@@ -2,30 +2,26 @@ import MainCard from "./MainCard";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  title?: string;
-  caption?: string;
-  img?: string;
-  link?: string;
+  title: string;
+  img: string;
 }
 
-const ThemeCard = ({
-  title = "title",
-  caption = "caption",
-  img = "/assets/images/theme/theme_1.jpg",
-  link = "",
-}: Props) => {
+const ThemeCard = ({ title, img }: Props) => {
   const navigate = useNavigate();
   return (
     <MainCard
-      className="w-[150px] h-[212px] gap-[8px] cursor-pointer"
-      onClick={() => navigate(`/search/${link}`)}
+      className="w-[150px] h-[187px] gap-[8px] cursor-pointer"
+      onClick={() => navigate(`/search?category=${title}`)}
     >
       <div className="w-full aspect-square overflow-hidden rounded-[16px]">
-        <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+        <img
+          src={img}
+          alt={`thumbnail_{${title}}`}
+          className="w-full h-full object-cover"
+        />
       </div>
-      <div className="w-full h-[54px]">
-        <p className="text-[20px] font-semibold">{title}</p>
-        <p className="text-[16px]">{caption}</p>
+      <div className="w-fit h-[29px]">
+        <p className="text-[18px] font-semibold">{title}</p>
       </div>
     </MainCard>
   );
