@@ -1,4 +1,4 @@
-import TagLabel from "../searchPage/TagLabel";
+import TagLabel from "../common/TagLabel";
 import PlaceDescriptionDiv from "./PlaceDescriptionDiv";
 
 interface Props {

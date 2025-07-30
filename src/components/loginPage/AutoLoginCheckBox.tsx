@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SVGCheckBox from "../layout/SVGCheckBox";
+import SVGCheckBox from "../common/SVGCheckBox";
 const AUTO_LOGIN_KEY = "autoLogin";
 
 const AutoLoginCheckBox = () => {

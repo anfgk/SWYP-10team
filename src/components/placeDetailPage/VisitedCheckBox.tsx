@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SVGCheckBox from "../layout/SVGCheckBox";
+import SVGCheckBox from "../common/SVGCheckBox";
 
 interface Props {
   placeId: string;

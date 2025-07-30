@@ -1,6 +1,6 @@
 import MainCard from "../mainPage/MainCard";
 import StarsFromRating from "./StarsFromRating";
-import SVGIcons from "../layout/SVGIcons";
+import SVGIcons from "../common/SVGIcons";
 
 import { useState } from "react";
 import type { ReviewData } from "@/types/types";

@@ -1,4 +1,4 @@
-import SVGIcons from "../layout/SVGIcons";
+import SVGIcons from "./SVGIcons";
 
 interface Props {
   name: string;

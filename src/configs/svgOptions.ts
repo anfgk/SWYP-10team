@@ -9,4 +9,5 @@ export type IconOptions =
   | "placedetailShare"
   | "sortCheck"
   | "checkDefault"
-  | "checkChecked";
+  | "checkChecked"
+  | "scrollTop";

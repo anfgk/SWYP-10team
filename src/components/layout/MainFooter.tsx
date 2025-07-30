@@ -1,6 +1,6 @@
 const MainFooter = () => {
   return (
-    <footer className="flex justify-center items-center w-full h-[343.91px] border-t-[1px] border-[var(--footer-border)]">
+    <footer className="flex justify-center items-center w-full h-[343.91px]">
       <div className="flex flex-col justify-center gap-[46px] w-[471px] h-[239.1px]">
         <img src="/assets/logo/footer_logo.png" alt="footer_logo" />
         <div className="flex flex-col items-center gap-[21px] w-[460px] h-[134.91px]">

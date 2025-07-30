@@ -1,3 +1,4 @@
+import ScrollToTopButton from "@/components/common/ScrollToTopButton";
 import MainContainer from "@/components/layout/MainContainer";
 import MapSection from "@/components/placeDetailPage/MapSection";
 import PlaceInfoSection from "@/components/placeDetailPage/PlaceInfoSection";
@@ -13,6 +14,7 @@ const PlaceDetailPage = () => {
 
   return (
     <MainContainer>
+      <ScrollToTopButton />
       <PlaceMainSection
         title="도그밀리 DOGMILY"
         thumbnail="/assets/samples/placeThumbnail_sample.png"

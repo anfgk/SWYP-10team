@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import SearchCard from "./SearchCard";
 import MainCard from "../mainPage/MainCard";
-import TagLabel from "./TagLabel";
+import TagLabel from "../common/TagLabel";
 import { getDistanceInKm, heartClicked } from "@/lib/searchResultCardUtils";
 import { useLocationStore } from "@/stores/locationStore";
-import SVGIcons from "../layout/SVGIcons";
-import SvgButton from "./SvgButton";
+import SVGIcons from "../common/SVGIcons";
+import SvgButton from "../common/SvgButton";
 import { copyCurrentUrl } from "@/lib/placeDetailUtils";
 import { useState } from "react";
 

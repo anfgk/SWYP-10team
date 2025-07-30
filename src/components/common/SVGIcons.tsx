@@ -9,6 +9,7 @@ import PlacedetailShareSVG from "@/assets/icons/placedetail_share.svg?react";
 import SortCheckSVG from "@/assets/icons/sort_check.svg?react";
 import CheckDefaultSVG from "@/assets/icons/check_default.svg?react";
 import CheckCheckedSVG from "@/assets/icons/check_checked.svg?react";
+import ScrollTopSVG from "@/assets/icons/scroll_top.svg?react";
 import type { IconOptions } from "@/configs/svgOptions";
 
 const icons: Record<IconOptions, React.FC<React.SVGProps<SVGSVGElement>>> = {
@@ -23,6 +24,7 @@ const icons: Record<IconOptions, React.FC<React.SVGProps<SVGSVGElement>>> = {
   sortCheck: SortCheckSVG,
   checkDefault: CheckDefaultSVG,
   checkChecked: CheckCheckedSVG,
+  scrollTop: ScrollTopSVG,
 };
 
 type Props = {

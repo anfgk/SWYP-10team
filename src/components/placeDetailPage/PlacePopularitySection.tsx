@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SVGIcons from "../layout/SVGIcons";
+import SVGIcons from "../common/SVGIcons";
 import { copyCurrentUrl } from "@/lib/placeDetailUtils";
 import { Toaster } from "sonner";
 

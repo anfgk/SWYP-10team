@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchResultList from "./SearchResultList";
-import SearchSortButton from "./SearchSortButton";
+import SortButton from "../common/SortButton";
 import { useSearchParams } from "react-router-dom";
 //import { getValueFromURLParams } from "@/lib/searchUtils";
 
@@ -15,15 +15,15 @@ const SearchResultSection = () => {
       <div className="w-full h-[55px] flex justify-between border-b-[1px]">
         <p className="font-semibold text-[24px] ">검색결과</p>
         <div className="w-fit h-[38px] flex gap-[12px]">
-          <SearchSortButton
-            name={"인기순"}
+          <SortButton
+            name={"인기 순"}
             isActive={sort === "popular"}
             onToggle={() =>
               setSort((prev) => (prev === "popular" ? "" : "popular"))
             }
           />
-          <SearchSortButton
-            name={"최신순"}
+          <SortButton
+            name={"최신 순"}
             isActive={sort === "latest"}
             onToggle={() =>
               setSort((prev) => (prev === "latest" ? "" : "latest"))

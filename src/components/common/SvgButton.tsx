@@ -1,5 +1,5 @@
 import type { IconOptions } from "@/configs/svgOptions";
-import SVGIcons from "../layout/SVGIcons";
+import SVGIcons from "./SVGIcons";
 interface Props {
   svgname: IconOptions;
   width: number;
