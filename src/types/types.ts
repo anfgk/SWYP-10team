@@ -18,4 +18,19 @@ type ReviewData = {
   thumbnail: string;
 };
 
-export type { JWTPayLoad, ReviewData };
+type SearchCardData = {
+  id: string;
+  title: string;
+  address: string;
+  closeDay: string;
+  mapX: number;
+  mapY: number;
+  rating: number;
+  tags: string[];
+  img: string;
+  isLiked: boolean;
+  createdAt: Date;
+  heartCount: number;
+};
+
+export type { JWTPayLoad, ReviewData, SearchCardData };
