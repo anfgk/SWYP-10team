@@ -6,19 +6,14 @@ const NicknameSection = () => {
   const { user, setAuth } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("");
-  const [originalName, setOriginalName] = useState(user?.name || "이름");
   const [savedNickname, setSavedNickname] = useState("");
 
-  // 컴포넌트 마운트 시에만 원래 이름 설정 (한 번만)
   useEffect(() => {
-    if (user?.name && !originalName) {
-      setOriginalName(user.name);
-    }
     setNickname(user?.name || "");
     setSavedNickname(user?.name || "");
-  }, [user?.name, originalName]);
+  }, [user?.name]);
 
-  const handleSave = () => {
+  const saveNickname = () => {
     if (nickname.trim()) {
       setAuth(user?.email || "", {
         name: nickname.trim(),
@@ -29,28 +24,11 @@ const NicknameSection = () => {
     }
   };
 
-  const handleCancel = () => {
-    setNickname(savedNickname);
-    setIsEditing(false);
-  };
-
-  const handleEdit = () => {
-    // 변경하기 버튼을 누르면 현재 입력된 닉네임을 저장
-    if (nickname.trim()) {
-      setAuth(user?.email || "", {
-        name: nickname.trim(),
-        email: user?.email || "",
-      });
-      setSavedNickname(nickname.trim());
-    }
-    setIsEditing(true);
-  };
-
   return (
     <div className="flex gap-4 items-center mb-[8px]">
       <section>
         <div className="flex justify-center items-center gap-[39px]">
-          <span className="">이름</span>
+          <span>이름</span>
           {isEditing ? (
             <input
               type="text"
@@ -66,18 +44,34 @@ const NicknameSection = () => {
 
           {isEditing ? (
             <div className="flex gap-2">
-              <PageButton text="저장" variant="default" onClick={handleSave} />
+              <PageButton
+                text="저장"
+                variant="default"
+                onClick={saveNickname}
+              />
               <PageButton
                 text="취소"
                 variant="default"
-                onClick={handleCancel}
+                onClick={() => {
+                  setNickname(savedNickname);
+                  setIsEditing(false);
+                }}
               />
             </div>
           ) : (
             <PageButton
               text="변경하기"
               variant="default"
-              onClick={handleEdit}
+              onClick={() => {
+                if (nickname.trim()) {
+                  setAuth(user?.email || "", {
+                    name: nickname.trim(),
+                    email: user?.email || "",
+                  });
+                  setSavedNickname(nickname.trim());
+                }
+                setIsEditing(true);
+              }}
             />
           )}
         </div>

@@ -172,7 +172,7 @@ const ReviewItem = ({
         </div>
       </div>
 
-      <div className="">
+      <div className="flex flex-col">
         <div className="w-[902px] flex justify-between">
           <div className="flex flex-col">{renderImages()}</div>
           {renderButtons()}

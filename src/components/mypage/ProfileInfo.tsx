@@ -127,7 +127,7 @@ const ProfileInfo = () => {
     <div className="relative w-full mb-[56px]">
       <div className="text-[20px] font-semibold mb-[16px]">프로필 정보</div>
       <div className="flex items-center gap-[24px] mb-[32px]">
-        <div className="w-[212px] h-[141px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-lg">
+        <div className="w-[150px] h-[150px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-[16px]">
           {profileImage && (
             <img
               src={profileImage}
@@ -136,7 +136,7 @@ const ProfileInfo = () => {
             />
           )}
         </div>
-        <div className="flex flex-col gap-2 flex-1 justify-end h-32">
+        <div className="flex flex-col gap-2 flex-1 justify-end h-35">
           <div className="flex gap-2">
             <input
               ref={fileInputRef}
