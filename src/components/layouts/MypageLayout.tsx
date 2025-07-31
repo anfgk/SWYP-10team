@@ -26,15 +26,21 @@ const MypageLayout = () => {
     else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
   };
 
+  const isReviewWritePage = location.pathname === "/reviewwrite";
+
   return (
     <div className="w-[1200px] mx-auto">
       <div className="flex min-h-screen bg-white">
-        <Sidebar
-          menus={sidebarMenus}
-          activeMenu={getActiveMenu()}
-          onMenuClick={handleSidebarMenuClick}
-        />
-        <section className="flex-1 px-16 py-12">
+        {!isReviewWritePage && (
+          <Sidebar
+            menus={sidebarMenus}
+            activeMenu={getActiveMenu()}
+            onMenuClick={handleSidebarMenuClick}
+          />
+        )}
+        <section
+          className={`flex-1 px-16 py-12 ${isReviewWritePage ? "w-full" : ""}`}
+        >
           <Outlet />
         </section>
       </div>

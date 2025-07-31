@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewHeader from "./ReviewHeader";
 import { Button } from "@/components/ui/button";
+import ConfirmModal from "./ConfirmModal";
 
 interface ReviewItemProps {
   item: {
@@ -30,6 +31,8 @@ const ReviewItem = ({
   setEditText,
 }: ReviewItemProps) => {
   const [tempRating, setTempRating] = useState(item.rating);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const navigate = useNavigate();
   const isEditing = editingId === item.id;
   const hasReview = item.hasReview && item.review;
@@ -43,6 +46,16 @@ const ReviewItem = ({
       setTempRating(newRating);
       onRatingChange(item.id, newRating);
     }
+  };
+
+  const handleDelete = () => {
+    onDelete(item);
+    setShowDeleteModal(false);
+  };
+
+  const handleCancel = () => {
+    setEditText("");
+    setShowCancelModal(false);
   };
 
   const buttonStyle = "hover:bg-[var(--main-color)] hover:text-white";
@@ -59,7 +72,7 @@ const ReviewItem = ({
             저장하기
           </Button>
           <Button
-            onClick={() => setEditText("")}
+            onClick={() => setShowCancelModal(true)}
             variant="secondary"
             className={buttonStyle}
           >
@@ -82,7 +95,7 @@ const ReviewItem = ({
             수정하기
           </Button>
           <Button
-            onClick={() => onDelete(item)}
+            onClick={() => setShowDeleteModal(true)}
             variant="secondary"
             className={buttonStyle}
           >
@@ -179,6 +192,25 @@ const ReviewItem = ({
         </div>
         <div className="mb-2">{renderReviewText()}</div>
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="리뷰를 삭제하시겠어요?"
+        confirmText="예"
+        cancelText="아니오"
+      />
+
+      <ConfirmModal
+        isOpen={showCancelModal}
+        onClose={() => setShowCancelModal(false)}
+        onConfirm={handleCancel}
+        title="편집을 취소하시겠어요?"
+        confirmText="예"
+        cancelText="아니오"
+        height="h-[266px]"
+      />
     </div>
   );
 };

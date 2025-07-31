@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import StarRating from "./StarRating";
 import ImageUploadSection from "./ImageUploadSection";
+import ConfirmModal from "./ConfirmModal";
 
 const ReviewWriteForm = () => {
   const location = useLocation();
@@ -11,6 +12,8 @@ const ReviewWriteForm = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [rating, setRating] = useState(reviewData?.rating || 0);
   const [reviewText, setReviewText] = useState(reviewData?.review || "");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const convertFilesToBase64 = async (files: File[]) => {
     const base64Promises = files.map((file) => {
@@ -23,7 +26,7 @@ const ReviewWriteForm = () => {
     return Promise.all(base64Promises);
   };
 
-  const handleSubmit = async () => {
+  const handleSaveReview = async () => {
     if (!reviewText.trim()) {
       alert("리뷰 내용을 입력해주세요.");
       return;
@@ -56,10 +59,16 @@ const ReviewWriteForm = () => {
     navigate("/myreview");
   };
 
-  const handleDelete = () => {
-    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
-      navigate("/myreview");
+  const handleSubmit = () => {
+    if (!reviewText.trim()) {
+      alert("리뷰 내용을 입력해주세요.");
+      return;
     }
+    setShowConfirmModal(true);
+  };
+
+  const handleCancel = () => {
+    navigate("/myreview");
   };
 
   return (
@@ -90,8 +99,25 @@ const ReviewWriteForm = () => {
           setSelectedFiles((prev) => prev.filter((_, i) => i !== index))
         }
         onSave={handleSubmit}
-        onCancel={() => navigate("/myreview")}
+        onCancel={() => setShowCancelModal(true)}
         maxFiles={3}
+      />
+
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleSaveReview}
+        title="리뷰를 저장하시겠어요?"
+      />
+
+      <ConfirmModal
+        isOpen={showCancelModal}
+        onClose={() => setShowCancelModal(false)}
+        onConfirm={handleCancel}
+        title="리뷰를 취소하시겠어요?<br/>이 페이지를 나가면 저장되지 않아요."
+        confirmText="예"
+        cancelText="아니오"
+        height="h-[266px]"
       />
     </main>
   );
