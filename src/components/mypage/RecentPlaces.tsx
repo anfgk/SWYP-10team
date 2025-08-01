@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 const RecentPlaces = () => {
+  const [data, setData] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const recentList = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
@@ -20,10 +21,24 @@ const RecentPlaces = () => {
     );
   };
 
-  const visibleItems = Array.from({ length: 5 }, (_, i) => {
-    const index = (currentIndex + i) % recentList.length;
-    return recentList[index];
-  });
+  const visibleItems = [
+    { id: 1, imgUrl: "https://picsum.photos/200/300", title: "제목1" },
+    { id: 2, imgUrl: "https://picsum.photos/200/300", title: "제목2" },
+    { id: 3, imgUrl: "https://picsum.photos/200/300", title: "제목3" },
+    { id: 4, imgUrl: "https://picsum.photos/200/300", title: "제목4" },
+    { id: 5, imgUrl: "https://picsum.photos/200/300", title: "제목5" },
+  ];
+
+  // 처음에 무조건 한 번 실행, 그리고 배열에 있는 값이 바뀌면 또 실행
+  useEffect(() => {
+    const 실제데이터 = async () => {
+      const response = await fetch("api주소");
+      const data = await response.json();
+      setData(data);
+    };
+
+    실제데이터();
+  }, []);
 
   const buttonStyle =
     "absolute top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 bg-red-500 text-white hover:bg-red-600 hover:scale-110 cursor-pointer";
@@ -38,7 +53,8 @@ const RecentPlaces = () => {
               <div className="w-45 h-30 bg-gray-300 rounded-lg flex items-center justify-center text-gray-500">
                 장소 이미지
               </div>
-              <div className="mt-2 text-sm font-medium">{item.name}</div>
+
+              <div className="mt-2 text-sm font-medium">{item.title}</div>
             </div>
           ))}
         </div>
