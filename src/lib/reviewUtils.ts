@@ -1,15 +1,5 @@
-const formatDateToString = (date: Date) => {
-  const formatted = date.toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
-
-  return formatted;
-};
-
 const heartClickedWithLogin = (
-  placeid: string,
+  reviewid: string,
   checked: boolean,
   setChecked: (value: boolean) => void,
   likeChecked: boolean,
@@ -22,9 +12,9 @@ const heartClickedWithLogin = (
   }
   setChecked(!checked);
   //api 요청 부분(장소 좋아요)
-  const endPoint = `/api/heart/XXX/${placeid}`;
+  const endPoint = `/api/heart/XXX/${reviewid}`;
   const method = !checked ? "POST" : "DELETE";
   alert(endPoint + " / " + method);
 };
 
-export { formatDateToString, heartClickedWithLogin };
+export { heartClickedWithLogin };

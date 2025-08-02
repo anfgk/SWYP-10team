@@ -34,6 +34,14 @@
 
   --place-neutral: rgba(38, 38, 38, 0.8);
 
+  --label-normal: rgba(31, 31, 31, 1);
+
+  --modal-bg: rgba(0, 0, 0, 0.2);
+
+  --neutral-600: #8c8c8c;
+
+  --textarea-border: rgba(191, 191, 191, 0.4);
+
   --kakao: #fee500;
   --naver: #03c75a;
   --google: #ffffff;
@@ -263,4 +271,14 @@
 
 .font-dunggeunmiso {
   font-family: var(--font-dunggeunmiso);
+}
+
+.kakao-info {
+  width: fit-content;
+  height: fit-content;
+  padding: 0px, 8px;
+  border-radius: 16px;
+  justify-items: center;
+  font-family: var(--font-dunggeunmiso);
+  color: #ee6768;
 }

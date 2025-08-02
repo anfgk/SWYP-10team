@@ -6,7 +6,7 @@ import SortButton from "../common/SortButton";
 
 const ReviewListSection = () => {
   const [visibleCount, setVisibleCount] = useState(4);
-  const [sort, setSort] = useState<"popular" | "latest">("latest");
+  const [sort, setSort] = useState<"popular" | "latest">("popular");
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 4);
@@ -34,14 +34,14 @@ const ReviewListSection = () => {
       {/* 정렬버튼 */}
       <div className="w-[148px] h-[24px] flex gap-[16px] ml-auto mb-[16px]">
         <SortButton
-          name={"최신 순"}
-          isActive={sort === "latest"}
-          onToggle={() => setSort("latest")}
-        />
-        <SortButton
           name={"인기 순"}
           isActive={sort === "popular"}
           onToggle={() => setSort("popular")}
+        />
+        <SortButton
+          name={"최신 순"}
+          isActive={sort === "latest"}
+          onToggle={() => setSort("latest")}
         />
       </div>
 

@@ -7,10 +7,10 @@ import PlacePupularitySection from "@/components/placeDetailPage/PlacePopularity
 import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { placeDetailDummy } from "@/configs/dummyData";
-//import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
-  //const { id } = useParams();
+  const { id } = useParams();
 
   return (
     <MainContainer>
@@ -21,7 +21,12 @@ const PlaceDetailPage = () => {
         isVisited={false}
         placeId={"test"}
       />
-      <PlacePupularitySection likedCount={63} viewCount={63} isLiked={false} />
+      <PlacePupularitySection
+        placeId={id!}
+        likedCount={67}
+        viewCount={63}
+        isLiked={true}
+      />
       <MapSection
         title="자라섬 페스티벌"
         lat={37.8171378819}

@@ -17,16 +17,16 @@ const getDistanceInKm = (x1: number, y1: number, x2: number, y2: number) => {
   return Math.round(distance * 100) / 100 + "km";
 };
 
-const heartClicked = (
-  placeId: string,
+const heartClickedWithLogin = (
+  id: string,
   checked: boolean,
   setChecked: (value: boolean) => void
 ) => {
   setChecked(!checked);
   //api 요청 부분
-  const endPoint = `/api/user/XXX/${placeId}`;
+  const endPoint = `/api/user/XXX/${id}`;
   const method = !checked ? "POST" : "DELETE";
   alert(endPoint + " / " + method);
 };
 
-export { getDistanceInKm, heartClicked };
+export { getDistanceInKm, heartClickedWithLogin };

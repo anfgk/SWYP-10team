@@ -2,20 +2,27 @@ import { useNavigate } from "react-router-dom";
 import SearchCard from "./SearchCard";
 import MainCard from "../mainPage/MainCard";
 import TagLabel from "../common/TagLabel";
-import { getDistanceInKm, heartClicked } from "@/lib/searchResultCardUtils";
+import {
+  getDistanceInKm,
+  heartClickedWithLogin,
+} from "@/lib/searchResultCardUtils";
+import { loginConfirmAlert } from "@/lib/commonUtils";
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../common/SVGIcons";
 import SvgButton from "../common/SvgButton";
-import { copyCurrentUrl } from "@/lib/placeDetailUtils";
+import { copyCurrentUrl } from "@/lib/commonUtils";
 import { useState } from "react";
 import type { SearchCardData } from "@/types/types";
+import { useAuthStore } from "@/stores/authStore";
 
 interface Props {
   cardData: SearchCardData;
 }
 
 const SearchResultCard = ({ cardData }: Props) => {
-  const [liked, setLiked] = useState(cardData.isLiked);
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
+  const [liked, setLiked] = useState(cardData.isLiked ?? false);
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
 
@@ -31,10 +38,20 @@ const SearchResultCard = ({ cardData }: Props) => {
         >
           <div className="absolute w-fit h-[40px] flex gap-[8px] bottom-[15px] right-[15px]">
             <SvgButton
-              svgname={liked ? "thumbnailHeartClicked" : "thumbnailHeart"}
+              svgname={
+                isLoggedIn
+                  ? liked
+                    ? "thumbnailHeartClicked"
+                    : "thumbnailHeart"
+                  : "thumbnailHeart"
+              }
               width={40}
               height={40}
-              onClick={() => heartClicked(cardData.id, liked, setLiked)}
+              onClick={() => {
+                isLoggedIn
+                  ? heartClickedWithLogin(cardData.id, liked, setLiked)
+                  : loginConfirmAlert(navigate);
+              }}
             />
             <SvgButton
               svgname="thumbnailShare"

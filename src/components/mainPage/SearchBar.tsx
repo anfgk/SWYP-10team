@@ -7,21 +7,15 @@ import SubRegionList from "./SubRegionList";
 import { Input } from "../ui/input";
 
 const SearchBar = () => {
-  const { user } = useAuthStore();
-
-  const test = ["덕구", "뭉치"];
-
   const {
     selectedRegion,
     selectedCategory,
     selectedSubRegion,
     inputkeyword,
-    selectedPet,
     setSelectedRegion,
     setSelectedCategory,
     setSelectedSubRegion,
     setInputKeyword,
-    setSelectedPet,
     onSearch,
   } = useSearchBarState();
 
@@ -42,13 +36,13 @@ const SearchBar = () => {
           onChange={setSelectedCategory}
         />
 
-        <SearchSelectBox
+        {/* <SearchSelectBox
           options={test}
           placeholder="반려동물 정보"
           value={selectedPet}
           onChange={setSelectedPet}
           isDisabled={!user}
-        />
+        /> */}
 
         <div className="relative h-[48px] flex-1">
           <img
@@ -58,7 +52,7 @@ const SearchBar = () => {
           />
           <Input
             id="place_input"
-            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px]"
+            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px] focus:ring-[1px] focus:ring-[var(--main-color)]"
             placeholder="장소 명"
             defaultValue={inputkeyword}
             onChange={(e) => setInputKeyword(e.target.value)}

@@ -36,6 +36,14 @@ const MapSection = ({ title, lat, lng }: Props) => {
 
       marker.setMap(mapInstance.current);
 
+      // const iwContent = `<div class="kakao-info">${title}</div>`;
+      // const infoWindow = new kakao.maps.InfoWindow({
+      //   position: markerPosition,
+      //   content: iwContent,
+      // });
+
+      // infoWindow.open(mapInstance.current, marker);
+
       kakao.maps.event.addListener(mapInstance.current, "click", () => {
         window.open(`https://map.kakao.com/link/to/${title},${lat},${lng}`);
       });

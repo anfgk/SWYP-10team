@@ -1,64 +1,70 @@
 import MainCard from "../mainPage/MainCard";
 import StarsFromRating from "./StarsFromRating";
+import ReportModal from "../modals/ReportModal";
 import SVGIcons from "../common/SVGIcons";
 
 import { useState } from "react";
 import type { ReviewData } from "@/types/types";
 import { formatDateToString } from "@/lib/placeDetailUtils";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/stores/authStore";
+import { heartClickedWithLogin } from "@/lib/reviewUtils";
+import { loginConfirmAlert } from "@/lib/commonUtils";
+import { useModalOpenClose } from "@/hooks/useModalOpenClose";
 
-const ReviewCard = ({
-  id,
-  profileImg,
-  name,
-  date,
-  rating,
-  content,
-  heartCount,
-  isLiked,
-  thumbnail,
-}: ReviewData) => {
-  const [likedAmount, setLikedAmount] = useState(heartCount);
-  const [likeChecked, setLikeChecked] = useState(isLiked);
+interface Props {
+  reviewData: ReviewData;
+}
 
-  const handleLikeClick = () => {
-    if (likeChecked) {
-      setLikedAmount((prev) => prev - 1);
-    } else {
-      setLikedAmount((prev) => prev + 1);
-    }
+const ReviewCard = ({ reviewData }: Props) => {
+  const [likedAmount, setLikedAmount] = useState(reviewData.heartCount);
+  const [likeChecked, setLikeChecked] = useState(reviewData.isLiked ?? false);
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
+  const navigate = useNavigate();
 
-    setLikeChecked(!likeChecked);
-  };
+  const { isOpen, setIsOpen } = useModalOpenClose();
+
   return (
     <div className="w-full h-[212px] flex flex-col border-b-[1px] border-[var(--search-element-border)] gap-[8px]">
       <div className="w-full h-[24px] flex gap-[16px] items-center">
         {/* 프로필 */}
         <div className="w-fit h-[24px] flex gap-[8px] items-center">
           <img
-            src={profileImg}
+            src={reviewData.profileImg}
             className="w-[24px] h-[24px] rounded-[67.5px]"
           />
-          <p className="w-fit text-[14px]">{name}</p>
+          <p className="w-fit text-[14px]">{reviewData.name}</p>
         </div>
         {/* 날짜 */}
-        <p className="text-[11px]">{formatDateToString(date)}</p>
+        <p className="text-[11px]">{formatDateToString(reviewData.date)}</p>
       </div>
       <div className="w-full h-[141px] flex gap-[16px]">
         {/* 썸네일 */}
         <MainCard
           className="w-[212px] h-full bg-cover cursor-pointer"
-          style={{ backgroundImage: `url(${thumbnail})` }}
-          onClick={() => alert("모달창 오픈 넣는자리 " + id)}
+          style={{ backgroundImage: `url(${reviewData.thumbnail})` }}
+          onClick={() => alert("모달창 오픈 넣는자리 " + reviewData.id)}
         />
         <div className="w-[972px] h-full flex flex-col gap-[8px]">
           <div className="w-full h-[24px] flex justify-between items-center">
             {/* 별점 */}
-            <StarsFromRating rating={rating} />
+            <StarsFromRating rating={reviewData.rating} />
             {/* 좋아요 */}
             <div className="w-fit flex gap-[2px]">
               <button
                 className="w-[24px] h-[24px] cursor-pointer"
-                onClick={handleLikeClick}
+                onClick={() => {
+                  isLoggedIn
+                    ? heartClickedWithLogin(
+                        reviewData.id,
+                        likeChecked,
+                        setLikeChecked,
+                        likeChecked,
+                        setLikedAmount
+                      )
+                    : loginConfirmAlert(navigate);
+                }}
               >
                 <SVGIcons
                   name="placedetailHeart"
@@ -74,16 +80,19 @@ const ReviewCard = ({
           </div>
           {/* 리뷰 내용 */}
           <p className="w-full h-[109px] overflow-y-auto rounded-[16px] border-[1px] border-[var(--search-element-border)] text-[16px] px-[18px] py-[16px] whitespace-pre-wrap">
-            {content}
+            {reviewData.content}
           </p>
         </div>
       </div>
       <button
         className="w-[25px] h-[20px] ml-auto text-[14px] font-semibold cursor-pointer"
-        onClick={() => alert("신고 모달 오픈 넣는자리 " + id)}
+        onClick={() => setIsOpen(true)}
       >
         신고
       </button>
+      {isOpen && (
+        <ReportModal onClose={() => setIsOpen(false)} reviewId="test" />
+      )}
     </div>
   );
 };

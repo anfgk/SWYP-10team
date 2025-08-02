@@ -40,6 +40,12 @@ const AiRecList = () => {
             </div>
           ))}
         </div>
+        {/* 페이지 카운터 */}
+        <div className="absolute top-[243px] left-[1097px] w-[56px] h-[32px] rounded-[60px] flex justify-center items-center gap-[4px] bg-[#8c8c8c] font-semibold text-[var(--main-text)]">
+          <p>{index + 1}</p>
+          <p>/</p>
+          <p>{max}</p>
+        </div>
       </div>
       {/* 인디케이터 */}
       <div className="flex gap-[8px] w-fit h-[8px] mx-auto">

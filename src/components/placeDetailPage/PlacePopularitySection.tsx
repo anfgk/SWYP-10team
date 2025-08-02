@@ -1,34 +1,48 @@
 import { useState } from "react";
+import { useAuthStore } from "@/stores/authStore";
 import SVGIcons from "../common/SVGIcons";
-import { copyCurrentUrl } from "@/lib/placeDetailUtils";
-import { Toaster } from "sonner";
+import { copyCurrentUrl } from "@/lib/commonUtils";
+import { heartClickedWithLogin } from "@/lib/placeDetailUtils";
+import { loginConfirmAlert } from "@/lib/commonUtils";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
+  placeId: string;
   likedCount: number;
   viewCount: number;
-  isLiked: boolean;
+  isLiked?: boolean;
 }
-const PlacePupularitySection = ({ likedCount, viewCount, isLiked }: Props) => {
-  const [likedAmount, setLikedAmount] = useState(likedCount);
-  const [likeChecked, setLikeChecked] = useState(isLiked);
-  const handleLikeClick = () => {
-    if (likeChecked) {
-      setLikedAmount((prev) => prev - 1);
-    } else {
-      setLikedAmount((prev) => prev + 1);
-    }
+const PlacePupularitySection = ({
+  placeId,
+  likedCount,
+  viewCount,
+  isLiked,
+}: Props) => {
+  const { user } = useAuthStore();
+  const isLoggedIn = !!user;
+  const navigate = useNavigate();
 
-    setLikeChecked(!likeChecked);
-  };
+  const [likedAmount, setLikedAmount] = useState(likedCount);
+  const [likeChecked, setLikeChecked] = useState(isLiked ?? false);
+
   return (
     <section className="w-full h-[73px] flex flex-col gap-[16px] py-[16px] text-[var(--place-neutral)]">
-      <Toaster />
       <div className="w-full h-[24px] flex justify-between">
         <div className="w-[110px] flex gap-[16px]">
           <div className="w-fit flex gap-[4px]">
             <button
               className="w-[24px] h-[24px] cursor-pointer"
-              onClick={handleLikeClick}
+              onClick={() => {
+                isLoggedIn
+                  ? heartClickedWithLogin(
+                      placeId,
+                      likeChecked,
+                      setLikeChecked,
+                      likeChecked,
+                      setLikedAmount
+                    )
+                  : loginConfirmAlert(navigate);
+              }}
             >
               <SVGIcons
                 name="placedetailHeart"

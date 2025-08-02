@@ -12,6 +12,7 @@ import ScrollToTop from "./hooks/ScrollToTop";
 import useIssueAccessToken from "./hooks/useIssueAccessToken";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
 import MainFooter from "./components/layout/MainFooter";
+import CustomToast from "./components/common/CustomToast";
 
 function App() {
   useUserLocation();
@@ -20,6 +21,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <CustomToast />
       <div className="App font-pretendard">
         <MainHeader />
         <Routes>
