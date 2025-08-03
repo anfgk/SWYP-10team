@@ -28,10 +28,16 @@ const MapSection = ({ title, lat, lng }: Props) => {
       };
       mapInstance.current = new kakao.maps.Map(mapRef.current, options);
 
+      const imgSrc = "/assets/icons/location_marker.png";
+      const imgSize = new kakao.maps.Size(48, 58);
+      const imgOption = { offset: new kakao.maps.Point(24, 58) };
+      const markerImg = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
+
       const markerPosition = new kakao.maps.LatLng(lat, lng);
 
       const marker = new kakao.maps.Marker({
         position: markerPosition,
+        image: markerImg,
       });
 
       marker.setMap(mapInstance.current);

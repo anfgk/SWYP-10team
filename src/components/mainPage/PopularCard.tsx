@@ -12,8 +12,8 @@ interface Props {
 
 const PopularCard = ({
   rank = 1,
-  tag = "물놀이",
   place = "난지 한강공원",
+  tag = "물놀이",
   distance = 5,
   img = "/assets/samples/popularcard_sample.jpg",
   id = "test",
@@ -28,10 +28,10 @@ const PopularCard = ({
       <div className="w-[193px] h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)] z-10">
         <div className="h-[115px]">
           <p className="h-[77px] text-[48px] font-bold">{rank}</p>
-          <p className="h-[38px] text-[24px] font-semibold">#{tag}</p>
+          <p className="h-[38px] text-[24px] font-semibold">{place}</p>
         </div>
         <div className="h-[42px]">
-          <p className="h-[22px] text-[16px]">{place}</p>
+          <p className="h-[22px] text-[16px]">#{tag}</p>
           <p className="h-[22px] text-[14px]">여기서 {distance}km</p>
         </div>
       </div>

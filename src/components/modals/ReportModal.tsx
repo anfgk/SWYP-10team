@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ModalButton from "./ModalButton";
+import ModalBackground from "./ModalBackground";
 
 interface Props {
   onClose: () => void;
@@ -19,13 +20,15 @@ const ReportModal = ({ onClose, reviewId }: Props) => {
   }, [onClose]);
 
   return (
-    <div
-      className="fixed inset-0 z-500 flex justify-center items-center bg-[var(--modal-bg)]"
-      onClick={onClose}
-    >
+    <ModalBackground onClose={onClose}>
       <div
         className="w-[562px] h-[457px] bg-white flex flex-col gap-[44px] px-[24px] py-[32px] rounded-[24px]"
         onClick={(e) => e.stopPropagation()}
+        style={{
+          boxShadow: `0px 0px 1px 0px rgba(0, 0, 0, 0.08),
+            0px 1px 4px 0px rgba(0, 0, 0, 0.08),
+            0px 2px 8px 0px rgba(0, 0, 0, 0.12)`,
+        }}
       >
         <div className="w-[514px] h-[229px] flex flex-col gap-[32px]">
           <div className="w-full h-[32px] flex justify-between">
@@ -92,7 +95,7 @@ const ReportModal = ({ onClose, reviewId }: Props) => {
           />
         </div>
       </div>
-    </div>
+    </ModalBackground>
   );
 };
 

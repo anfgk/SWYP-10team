@@ -12,6 +12,17 @@ const copyCurrentUrl = () => {
     });
 };
 
+const copyCurrentAddress = () => {
+  navigator.clipboard
+    .writeText(window.location.href)
+    .then(() => {
+      toast.message("주소가 복사되었습니다.");
+    })
+    .catch(() => {
+      toast.message("주소 복사에 실패하였습니다.");
+    });
+};
+
 const loginConfirmAlert = (navigate: ReturnType<typeof useNavigate>) => {
   const goToLogin = window.confirm(
     "로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?"
@@ -23,4 +34,4 @@ const loginConfirmAlert = (navigate: ReturnType<typeof useNavigate>) => {
   return;
 };
 
-export { copyCurrentUrl, loginConfirmAlert };
+export { copyCurrentUrl, copyCurrentAddress, loginConfirmAlert };

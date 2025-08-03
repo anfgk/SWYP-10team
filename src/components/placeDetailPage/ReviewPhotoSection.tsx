@@ -34,7 +34,7 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
             }}
           >
             {slides.map((slide, i) => (
-              <ReviewPhotoSlide key={i} imgs={slide} />
+              <ReviewPhotoSlide key={i} imgs={slide} offset={i * 7} />
             ))}
           </div>
         </div>

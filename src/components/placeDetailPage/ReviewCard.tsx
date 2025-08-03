@@ -86,12 +86,17 @@ const ReviewCard = ({ reviewData }: Props) => {
       </div>
       <button
         className="w-[25px] h-[20px] ml-auto text-[14px] font-semibold cursor-pointer"
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          isLoggedIn ? setIsOpen(true) : loginConfirmAlert(navigate);
+        }}
       >
         신고
       </button>
       {isOpen && (
-        <ReportModal onClose={() => setIsOpen(false)} reviewId="test" />
+        <ReportModal
+          onClose={() => setIsOpen(false)}
+          reviewId={reviewData.id}
+        />
       )}
     </div>
   );

@@ -18,11 +18,17 @@ const PhotoSlideModal = ({ photoList, index, onClose }: Props) => {
 
   return (
     <div
-      className="fixed inset-0 z-100 flex justify-center items-center bg-[var(--modal-bg)]"
+      className="fixed inset-0 z-501 flex justify-center items-center bg-[var(--modal-bg)]"
       onClick={onClose}
     >
       <div className="w-[888px] h-[600px] rounded-[24px]">
-        <img src={photoList[currentIdx]} alt="photo_slide" className="" />
+        {/* 사진 확대 div */}
+        <div className="w-[300px] h-[300px]"></div>
+        <img
+          src={photoList[currentIdx]}
+          alt="photo_big"
+          className="w-full h-full object-contain"
+        />
       </div>
     </div>
   );
