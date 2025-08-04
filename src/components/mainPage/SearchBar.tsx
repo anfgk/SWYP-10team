@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/stores/authStore";
 import { categories, regionMap } from "@/configs/searchConstants";
 import useSearchBarState from "@/hooks/useSearchBarState";
 

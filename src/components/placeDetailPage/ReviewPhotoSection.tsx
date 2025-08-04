@@ -23,14 +23,24 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
         <p className="text-[14px]">({reviewCount}건)</p>
       </div>
       {/* 리뷰 사진 모음 */}
-      <div className="relative w-full h-[150px]">
+      <div className="w-full h-[150px] flex flex-row items-center justify-between">
+        <button
+          className="w-[24px] h-[24px] cursor-pointer"
+          onClick={handlePrev}
+        >
+          <img
+            src="/assets/buttons/button_photo_left.png"
+            alt="left"
+            className="w-full h-full"
+          />
+        </button>
         {/* 카드 컨테이너 div */}
-        <div className="w-full h-[150px] mx-auto overflow-hidden ">
+        <div className="w-[1128px] h-[150px] mx-auto overflow-hidden ">
           <div
-            className="flex transition-transform duration-700 ease-in-out gap-[20px]"
+            className="flex transition-transform duration-700 ease-in-out gap-[12px]"
             style={{
-              transform: `translateX(-${index * (1200 + 20)}px)`,
-              width: `${1200 * slides.length + 20 * (slides.length - 1)}px`,
+              transform: `translateX(-${index * (1128 + 12)}px)`,
+              width: `${1128 * slides.length + 12 * (slides.length - 1)}px`,
             }}
           >
             {slides.map((slide, i) => (
@@ -41,21 +51,11 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
 
         {/* 이동 버튼 */}
         <button
-          className="absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
-          onClick={handlePrev}
-        >
-          <img
-            src="/assets/buttons/button_left.png"
-            alt="left"
-            className="w-full h-full"
-          />
-        </button>
-        <button
-          className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+          className="w-[24px] h-[24px] cursor-pointer"
           onClick={handleNext}
         >
           <img
-            src="/assets/buttons/button_right.png"
+            src="/assets/buttons/button_photo_right.png"
             alt="left"
             className="w-full h-full"
           />

@@ -14,7 +14,7 @@ type ReviewData = {
   rating: number;
   content: string;
   heartCount: number;
-  isLiked?: boolean;
+  isLiked: boolean;
   thumbnail: string;
 };
 
@@ -28,7 +28,7 @@ type SearchCardData = {
   rating: number;
   tags: string[];
   img: string;
-  isLiked?: boolean;
+  isLiked: boolean;
   createdAt: Date;
   heartCount: number;
 };

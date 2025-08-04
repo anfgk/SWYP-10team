@@ -17,10 +17,12 @@ interface Props {
 }
 
 const ReviewCard = ({ reviewData }: Props) => {
+  const { isLoggedIn } = useAuthStore();
   const [likedAmount, setLikedAmount] = useState(reviewData.heartCount);
-  const [likeChecked, setLikeChecked] = useState(reviewData.isLiked ?? false);
-  const { user } = useAuthStore();
-  const isLoggedIn = !!user;
+  const [likeChecked, setLikeChecked] = useState(
+    isLoggedIn ? reviewData.isLiked : false
+  );
+
   const navigate = useNavigate();
 
   const { isOpen, setIsOpen } = useModalOpenClose();

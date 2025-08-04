@@ -20,9 +20,8 @@ interface Props {
 }
 
 const SearchResultCard = ({ cardData }: Props) => {
-  const { user } = useAuthStore();
-  const isLoggedIn = !!user;
-  const [liked, setLiked] = useState(cardData.isLiked ?? false);
+  const { isLoggedIn } = useAuthStore();
+  const [liked, setLiked] = useState(isLoggedIn ? cardData.isLiked : false);
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
 

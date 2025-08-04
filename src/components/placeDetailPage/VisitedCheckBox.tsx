@@ -10,11 +10,12 @@ interface Props {
 }
 
 const VisitedCheckBox = ({ placeId, isVisited }: Props) => {
-  const { user } = useAuthStore();
-  const isLoggedIn = !!user;
+  const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
-  const [checked, setChecked] = useState(isVisited);
+  const [checked, setChecked] = useState(
+    isLoggedIn ? (isVisited ?? false) : false
+  );
 
   const handleChange = (next: boolean) => {
     // 비로그인 일 경우

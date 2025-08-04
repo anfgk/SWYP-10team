@@ -18,12 +18,13 @@ const PlacePupularitySection = ({
   viewCount,
   isLiked,
 }: Props) => {
-  const { user } = useAuthStore();
-  const isLoggedIn = !!user;
+  const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
   const [likedAmount, setLikedAmount] = useState(likedCount);
-  const [likeChecked, setLikeChecked] = useState(isLiked ?? false);
+  const [likeChecked, setLikeChecked] = useState(
+    isLoggedIn ? (isLiked ?? false) : false
+  );
 
   return (
     <section className="w-full h-[73px] flex flex-col gap-[16px] py-[16px] text-[var(--place-neutral)]">

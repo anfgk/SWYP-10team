@@ -6,7 +6,7 @@ interface Props {
 }
 const ReviewPhotoSlide = ({ imgs, offset }: Props) => {
   return (
-    <div className="w-[1200px] h-full flex gap-[25px] flex-shrink-0">
+    <div className="w-[1128px] h-full flex gap-[13px] flex-shrink-0">
       {imgs.map((img, i) => (
         <ReviewPhotoCard key={i} img={img} index={offset + i} />
       ))}
