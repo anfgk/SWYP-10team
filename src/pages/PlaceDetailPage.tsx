@@ -7,10 +7,10 @@ import PlacePupularitySection from "@/components/placeDetailPage/PlacePopularity
 import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { placeDetailDummy } from "@/configs/dummyData";
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
-  const { id } = useParams();
+  //const { id } = useParams();
 
   return (
     <MainContainer>
