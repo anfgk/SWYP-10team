@@ -18,10 +18,9 @@ const MainPage = () => {
         property="og:description"
         content="어디가냥?같이가개! 메인 페이지"
       />
-      <meta property="og:image" content="/assets/images/og_thumbnail.jpg" />
       <meta
-        property="og:url"
-        content="https://frontend-dev-bukp.onrender.com/"
+        property="og:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
       />
       <meta property="og:type" content="website" />
 
@@ -34,7 +33,10 @@ const MainPage = () => {
         name="twitter:description"
         content="어디가냥?같이가개! 메인 페이지"
       />
-      <meta name="twitter:image" content="/assets/images/og_thumbnail.jpg" />
+      <meta
+        name="twitter:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
 
       <ScrollToTopButton />
       <SearchSection />
