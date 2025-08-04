@@ -13,11 +13,11 @@ const LoginPage = () => {
         property="og:description"
         content="어디가냥?같이가개! 로그인 페이지"
       />
-      <meta property="og:image" content="/assets/images/og_thumbnail.jpg" />
       <meta
-        property="og:url"
-        content="https://frontend-dev-bukp.onrender.com/login"
+        property="og:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
       />
+
       <meta property="og:type" content="website" />
 
       <meta name="twitter:card" content="summary_large_image" />
@@ -26,7 +26,10 @@ const LoginPage = () => {
         name="twitter:description"
         content="어디가냥?같이가개! 로그인 페이지"
       />
-      <meta name="twitter:image" content="/assets/images/og_thumbnail.jpg" />
+      <meta
+        name="twitter:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
 
       <img
         className="w-[513.09px] h-[81.7px]"

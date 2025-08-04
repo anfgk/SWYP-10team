@@ -14,8 +14,10 @@ const SearchResultPage = () => {
         property="og:description"
         content="어디가냥?같이가개! 검색 페이지"
       />
-      <meta property="og:image" content="/assets/images/og_thumbnail.jpg" />
-      <meta property="og:url" content={window.location.href} />
+      <meta
+        property="og:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
       <meta property="og:type" content="website" />
 
       <meta name="twitter:card" content="summary_large_image" />
@@ -24,7 +26,10 @@ const SearchResultPage = () => {
         name="twitter:description"
         content="어디가냥?같이가개! 검색 페이지"
       />
-      <meta name="twitter:image" content="/assets/images/og_thumbnail.jpg" />
+      <meta
+        name="twitter:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
       <ScrollToTopButton />
       <Toaster />
       <SearchSectionOnSearch />
