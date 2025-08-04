@@ -6,6 +6,9 @@ const ProfileOnHeader = () => {
       <p className="cursor-pointer" onClick={() => alert("고도화 항목입니다.")}>
         AI 플래너
       </p>
+      <p className="cursor-pointer" onClick={() => alert("고도화 항목입니다.")}>
+        알림
+      </p>
       <LoginProfileOnHeader />
     </div>
   );
