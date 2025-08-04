@@ -9,34 +9,26 @@ const ProfileInfo = () => {
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [currentImageForCrop, setCurrentImageForCrop] = useState<string>("");
+  const [profileData, setProfileData] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 컴포넌트 마운트 시 프로필 정보 로드
   useEffect(() => {
     loadUserProfile();
   }, []);
 
   const loadUserProfile = async () => {
     try {
-      // 로컬스토리지에서 프로필 이미지 불러오기
-      const savedProfileImage = localStorage.getItem("profileImage");
-      if (savedProfileImage) {
-        setProfileImage(savedProfileImage);
+      const response = await fetch("/api/user/profile");
+      const data = await response.json();
+      setProfileData(data);
+
+      if (data.profileImage) {
+        setProfileImage(data.profileImage);
       }
 
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      const profileData = await getUserProfile();
-      if (profileData.profileImage) {
-        setProfileImage(profileData.profileImage);
-      }
-      */
-
-      // 로컬에서 테스트용 (백엔드 없이)
-      console.log("프로필 정보 로드 완료");
+      console.log("프로필 정보 로드 완료:", data);
     } catch (error) {
       console.error("프로필 정보 로드 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
     }
   };
 
@@ -50,76 +42,63 @@ const ProfileInfo = () => {
   };
 
   const handleChangeImage = () => {
-    // 기존 사진을 띄우지 않고 바로 파일 선택
     fileInputRef.current?.click();
   };
 
   const handleCrop = async (croppedImage: string) => {
     try {
-      // 크롭된 이미지를 바로 로컬 상태에 적용 (백엔드 없이 테스트용)
-      setProfileImage(croppedImage);
-
-      // 로컬스토리지에 프로필 이미지 저장
-      localStorage.setItem("profileImage", croppedImage);
-
-      setSelectedImageFile(null);
-      setCurrentImageForCrop("");
-      setIsCropModalOpen(false);
-
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      // 크롭된 이미지를 Blob으로 변환
       const response = await fetch(croppedImage);
       const blob = await response.blob();
       const file = new File([blob], "profile-image.jpg", {
         type: "image/jpeg",
       });
 
-      // 이미지 업로드
-      const uploadResult = await uploadProfileImage(file);
+      const formData = new FormData();
+      formData.append("profileImage", file);
 
-      // 프로필 정보 업데이트
-      await updateUserProfile({ profileImage: uploadResult.imageUrl });
+      const uploadResponse = await fetch("/api/user/profile/image", {
+        method: "POST",
+        body: formData,
+      });
 
-      // 로컬 상태 업데이트
-      setProfileImage(uploadResult.imageUrl);
-      setSelectedImageFile(null);
-      setCurrentImageForCrop("");
-      */
+      if (uploadResponse.ok) {
+        const uploadResult = await uploadResponse.json();
+
+        const updateResponse = await fetch("/api/user/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ profileImage: uploadResult.imageUrl }),
+        });
+
+        if (updateResponse.ok) {
+          setProfileImage(uploadResult.imageUrl);
+          setSelectedImageFile(null);
+          setCurrentImageForCrop("");
+          setIsCropModalOpen(false);
+
+          await loadUserProfile();
+        }
+      }
     } catch (error) {
       console.error("이미지 업로드 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
     }
   };
 
   const handleDeleteImage = async () => {
     try {
-      // 로컬 상태에서 이미지 제거 (백엔드 없이 테스트용)
-      setProfileImage("");
+      const response = await fetch("/api/user/profile/image", {
+        method: "DELETE",
+      });
 
-      // 로컬스토리지에서 프로필 이미지 제거
-      localStorage.removeItem("profileImage");
+      if (response.ok) {
+        setProfileImage("");
 
-      setCurrentImageForCrop("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        await loadUserProfile();
       }
-
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      // 프로필 정보에서 이미지 제거
-      await updateUserProfile({ profileImage: "" });
-
-      // 로컬 상태 업데이트
-      setProfileImage("");
-      setCurrentImageForCrop("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      */
     } catch (error) {
       console.error("이미지 삭제 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
     }
   };
 

@@ -76,6 +76,15 @@ const ModalInput = ({
               key={option.value}
               className="flex items-center gap-2 cursor-pointer"
             >
+              <span
+                className={`text-lg ${
+                  option.color === "pink"
+                    ? "text-[var(--main-color)]"
+                    : `text-${option.color}-500`
+                }`}
+              >
+                {option.icon}
+              </span>
               <input
                 type="radio"
                 name={label}
@@ -104,15 +113,6 @@ const ModalInput = ({
                   />
                 )}
               </div>
-              <span
-                className={`text-lg ${
-                  option.color === "pink"
-                    ? "text-[var(--main-color)]"
-                    : `text-${option.color}-500`
-                }`}
-              >
-                {option.icon}
-              </span>
             </label>
           ))}
         </div>

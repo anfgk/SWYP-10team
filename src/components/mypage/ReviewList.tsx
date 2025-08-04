@@ -24,29 +24,22 @@ const ReviewList = () => {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
 
+  // 처음에 무조건 한 번 실행
   useEffect(() => {
-    const loadReviews = () => {
-      const savedReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-      if (savedReviews.length > 0) {
-        setReviews(savedReviews);
-      } else {
-        localStorage.setItem("reviews", JSON.stringify(dummyReviews));
-        setReviews(dummyReviews);
-      }
-    };
     loadReviews();
   }, []);
 
-  useEffect(() => {
-    const handleFocus = () => {
-      const savedReviews = JSON.parse(localStorage.getItem("reviews") || "[]");
-      if (savedReviews.length > 0) {
-        setReviews(savedReviews);
-      }
-    };
-    window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, []);
+  const loadReviews = async () => {
+    try {
+      const response = await fetch("/api/user/reviews");
+      const data = await response.json();
+      setReviews(data.reviews || dummyReviews);
+      console.log("리뷰 목록 로드 완료:", data);
+    } catch (error) {
+      console.error("리뷰 목록 로드 실패:", error);
+      // 에러가 발생해도 UI는 그대로 유지
+    }
+  };
 
   const handleSaveEdit = (id: number, text: string) => {
     const updatedReviews = reviews.map((review) =>
@@ -55,7 +48,6 @@ const ReviewList = () => {
         : review
     );
     setReviews(updatedReviews);
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
     setEditingId(null);
     setEditText("");
   };
@@ -65,15 +57,11 @@ const ReviewList = () => {
       review.id === id ? { ...review, rating } : review
     );
     setReviews(updatedReviews);
-    localStorage.setItem("reviews", JSON.stringify(updatedReviews));
   };
 
   const handleDelete = (item: any) => {
-    if (window.confirm("리뷰를 삭제하시겠습니까?")) {
-      const updatedReviews = reviews.filter((review) => review.id !== item.id);
-      setReviews(updatedReviews);
-      localStorage.setItem("reviews", JSON.stringify(updatedReviews));
-    }
+    const updatedReviews = reviews.filter((review) => review.id !== item.id);
+    setReviews(updatedReviews);
   };
 
   return (

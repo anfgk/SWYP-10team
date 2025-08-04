@@ -41,6 +41,7 @@ const WishPlaces = () => {
   const [wishList, setWishList] = useState<WishItem[]>(dummyWishItems);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 처음에 무조건 한 번 실행, 그리고 currentPage가 바뀌면 또 실행
   useEffect(() => {
     loadWishPlaces();
   }, [currentPage]);
@@ -48,9 +49,26 @@ const WishPlaces = () => {
   const loadWishPlaces = async () => {
     try {
       setIsLoading(true);
-      setWishList(dummyWishItems);
+      const response = await fetch(`/api/user/wish?page=${currentPage}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        // API가 없을 때 기본 데이터 사용
+        setWishList(dummyWishItems);
+        return;
+      }
+
+      const data = await response.json();
+      setWishList(data.wishList || dummyWishItems);
+      console.log("찜한 장소 목록 로드 완료:", data);
     } catch (error) {
       console.error("찜한 장소 목록 로드 실패:", error);
+      // 에러가 발생해도 UI는 그대로 유지
+      setWishList(dummyWishItems);
     } finally {
       setIsLoading(false);
     }
@@ -66,17 +84,23 @@ const WishPlaces = () => {
   const handleToggleWish = async (id: number) => {
     try {
       setIsLoading(true);
-      setWishList((prev) => {
-        const newList = prev.filter((item) => item.id !== id);
-        if (
-          newList.length > 0 &&
-          paginatedWish.length === 1 &&
-          currentPage > 1
-        ) {
-          setCurrentPage(currentPage - 1);
-        }
-        return newList;
+      const response = await fetch(`/api/user/wish/${id}`, {
+        method: "DELETE",
       });
+
+      if (response.ok) {
+        setWishList((prev) => {
+          const newList = prev.filter((item) => item.id !== id);
+          if (
+            newList.length > 0 &&
+            paginatedWish.length === 1 &&
+            currentPage > 1
+          ) {
+            setCurrentPage(currentPage - 1);
+          }
+          return newList;
+        });
+      }
     } catch (error) {
       console.error("찜한 장소 제거 실패:", error);
     } finally {

@@ -17,8 +17,27 @@ const PetInfoModal = ({
   const [type, setType] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [size, setSize] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   if (!isOpen) return null;
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
 
   const handleSave = () => {
     // 여기에 저장 로직 추가
@@ -32,7 +51,7 @@ const PetInfoModal = ({
 
   return (
     <div className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-[562px] h-[679px] shadow-[0_2px_8px_0_rgba(0,0,0,0.12),0_1px_4px_0_rgba(0,0,0,0.08),0_0_1px_0_rgba(0,0,0,0.08)] overflow-y-auto">
+      <div className="bg-white rounded-lg p-6 w-[562px] h-[896px] shadow-[0_2px_8px_0_rgba(0,0,0,0.12),0_1px_4px_0_rgba(0,0,0,0.08),0_0_1px_0_rgba(0,0,0,0.08)] overflow-y-auto">
         <div className="relative flex justify-between items-center mb-[56px]">
           <div className="w-6"></div>
           <h3 className="text-[20px] font-semibold">반려동물 정보</h3>
@@ -44,6 +63,40 @@ const PetInfoModal = ({
           </button>
         </div>
         <div className="space-y-4">
+          {/* 이미지 업로드 */}
+          <div className="flex justify-center mb-[24px]">
+            <div className="flex items-center gap-4">
+              {imagePreview ? (
+                <div className="relative">
+                  <img
+                    src={imagePreview}
+                    alt="반려동물 사진"
+                    className="w-[100px] h-[100px] object-cover rounded-lg border"
+                  />
+                  <button
+                    onClick={handleRemoveImage}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                <label className="w-[300px] h-[200px] bg-gray-100 border-1 border-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                  <div className="text-center flex items-center justify-center gap-2">
+                    <div className="text-gray-400 text-2xl mb-1">+</div>
+                    <div className="text-xs text-gray-500">사진 추가</div>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </label>
+              )}
+            </div>
+          </div>
+
           {/* 성별 선택 */}
           <ModalInput
             label="성별"

@@ -158,6 +158,14 @@ const ReviewItem = ({
   const renderImages = () => {
     if (!item.imageBase64s?.length) return null;
 
+    const handleImageClick = (index: number) => {
+      // 사진 모달을 여는 함수
+      // 첫 번째 인자: 전체 사진 배열, 두 번째 인자: 클릭한 사진의 인덱스
+      console.log("사진 클릭:", item.imageBase64s, index);
+      // 여기에 모달을 여는 로직을 추가하세요
+      // 예: openImageModal(item.imageBase64s, index);
+    };
+
     return (
       <div className="flex gap-2 mt-[30px] mb-[12px]">
         {item.imageBase64s.map((imageBase64, index) => (
@@ -165,7 +173,8 @@ const ReviewItem = ({
             key={index}
             src={imageBase64}
             alt={`리뷰 이미지 ${index + 1}`}
-            className="w-[75px] h-[56px] object-cover rounded border"
+            className="w-[75px] h-[56px] object-cover rounded border cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => handleImageClick(index)}
           />
         ))}
       </div>
