@@ -6,6 +6,28 @@ import AutoLoginCheckBox from "@/components/loginPage/AutoLoginCheckBox";
 const LoginPage = () => {
   return (
     <main className="flex flex-col h-[1000.7px] pt-[280px] pb-[330px] gap-[56px] items-center justify-center">
+      <title>어다가냥?같이가개! | 로그인</title>
+      <meta name="description" content="어디가냥?같이가개! 로그인 페이지" />
+      <meta property="og:title" content="어다가냥?같이가개! | 로그인" />
+      <meta
+        property="og:description"
+        content="어디가냥?같이가개! 로그인 페이지"
+      />
+      <meta property="og:image" content="/assets/images/og_thumbnail.jpg" />
+      <meta
+        property="og:url"
+        content="https://frontend-dev-bukp.onrender.com/login"
+      />
+      <meta property="og:type" content="website" />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="어다가냥?같이가개! | 로그인" />
+      <meta
+        name="twitter:description"
+        content="어디가냥?같이가개! 로그인 페이지"
+      />
+      <meta name="twitter:image" content="/assets/images/og_thumbnail.jpg" />
+
       <img
         className="w-[513.09px] h-[81.7px]"
         src="/assets/logo/login_logo.png"
