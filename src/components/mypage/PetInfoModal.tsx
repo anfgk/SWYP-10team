@@ -4,7 +4,14 @@ import ModalInput from "./ModalInput";
 interface PetInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPetInfoAdded: () => void;
+  onPetInfoAdded: (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File;
+  }) => void;
 }
 
 const PetInfoModal = ({
@@ -40,8 +47,14 @@ const PetInfoModal = ({
   };
 
   const handleSave = () => {
-    // 여기에 저장 로직 추가
-    onPetInfoAdded();
+    onPetInfoAdded({
+      name,
+      type,
+      gender,
+      birthYear,
+      size,
+      image: selectedImage || undefined,
+    });
   };
 
   const handleAddMore = () => {

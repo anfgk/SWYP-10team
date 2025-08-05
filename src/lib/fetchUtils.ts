@@ -4,14 +4,15 @@ import { jwtDecode } from "jwt-decode";
 
 const fetchWithAuth = async (
   input: RequestInfo,
-  init?: RequestInit,
+  init?: RequestInit
 ): Promise<Response> => {
   const { accessToken, setAuth, logout } = useAuthStore.getState();
 
   //access토큰 기반 헤더 생성
   const addAuthHeader = (headers: HeadersInit = {}) => ({
     ...headers,
-    Authorization: `Bearer ${accessToken}`,
+    // Authorization: `Bearer ${accessToken}`,
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
   });
 
   //보안 헤더 포함해서 요청
@@ -24,11 +25,11 @@ const fetchWithAuth = async (
   if (res.status === 401) {
     try {
       const refreshRes = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/백엔드 refresh URL`,
+        `${import.meta.env.VITE_API_BASE_URL}api/user/reissue`,
         {
           method: "POST",
           credentials: "include",
-        },
+        }
       );
 
       //access토큰 재발급 실패 시

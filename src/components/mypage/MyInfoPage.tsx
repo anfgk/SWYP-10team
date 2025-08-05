@@ -16,9 +16,41 @@ const MyInfoPage = () => {
     setIsModalOpen(false);
   };
 
-  const handlePetInfoAdded = () => {
-    setHasPetInfo(true);
-    setIsModalOpen(false);
+  const handlePetInfoAdded = async (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File;
+  }) => {
+    console.log("petInfo", petInfo);
+
+    try {
+      // 현재 연도에서 출생년도를 빼서 나이 계산
+      const currentYear = new Date().getFullYear();
+      const age = currentYear - parseInt(petInfo.birthYear);
+
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}api/pet/profile`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: petInfo.name,
+          type: petInfo.type,
+          gender: petInfo.gender,
+          age: age,
+          size: petInfo.size,
+        }),
+      });
+
+      setHasPetInfo(true);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

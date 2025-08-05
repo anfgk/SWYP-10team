@@ -9,11 +9,11 @@ const useIssueAccessToken = () => {
     const fetchRefresh = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/user/reissue`,
+          `${import.meta.env.VITE_API_BASE_URL}api/user/reissue`,
           {
             method: "POST",
             credentials: "include",
-          },
+          }
         );
 
         if (!res.ok) throw new Error("토큰 발급 실패");
