@@ -2,6 +2,7 @@ import PageButton from "@/components/ui/page-button";
 import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
 
 interface PetInfo {
+  id: number;
   name: string;
   type: string;
   gender: string;
@@ -13,9 +14,16 @@ interface PetInfo {
 interface PetInfoCardProps {
   petInfo: PetInfo | null;
   isLoading: boolean;
+  onDelete?: (petId: number) => void;
 }
 
-const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
+const PetInfoCard = ({ petInfo, isLoading, onDelete }: PetInfoCardProps) => {
+  console.log(
+    "PetInfoCard 렌더링, onDelete:",
+    onDelete,
+    "petInfo.id:",
+    petInfo?.id
+  );
   if (isLoading) {
     return (
       <section>
@@ -33,17 +41,28 @@ const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
 
   // 성별 표시 텍스트 변환
   const getGenderText = (gender: string) => {
-    if (gender === "수컷" || gender === "male" || gender === "M") return "수컷";
-    if (gender === "암컷" || gender === "female" || gender === "F")
+    if (gender === "M" || gender === "male" || gender === "수컷") return "수컷";
+    if (gender === "F" || gender === "female" || gender === "암컷")
       return "암컷";
     return gender;
   };
 
   // 종류 표시 텍스트 변환
-  const getTypeText = (type: string) => {
-    if (type === "dog" || type === "강아지") return "강아지";
-    if (type === "cat" || type === "고양이") return "고양이";
-    return type;
+  const getTypeText = (type: any) => {
+    console.log("종류 변환 시도, 원본 type:", type);
+    if (type === "dog" || type === "강아지" || type === "DOG" || type === "Dog")
+      return "강아지";
+    if (type === "cat" || type === "고양이" || type === "CAT" || type === "Cat")
+      return "고양이";
+    if (
+      type === "fierceDog" ||
+      type === "맹견" ||
+      type === "true" ||
+      type === true
+    )
+      return "맹견";
+    if (type === "false" || type === false) return "강아지";
+    return type || "종류 없음";
   };
 
   // 사이즈 표시 텍스트 변환
@@ -70,22 +89,6 @@ const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
 
           {/* 정보 영역 */}
           <div className="flex-1 flex flex-col gap-4">
-            {/* 이름 */}
-            <div className="flex items-center">
-              <div className="w-20 font-medium text-gray-700">이름</div>
-              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
-                {petInfo.name || "이름 없음"}
-              </div>
-            </div>
-
-            {/* 종류 */}
-            <div className="flex items-center">
-              <div className="w-20 font-medium text-gray-700">종류</div>
-              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
-                {getTypeText(petInfo.type) || "종류 없음"}
-              </div>
-            </div>
-
             {/* 성별 */}
             <div className="flex items-center">
               <div className="w-20 font-medium text-gray-700">성별</div>
@@ -140,6 +143,30 @@ const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
                 </label>
               </div>
             </div>
+            {/* 이름 */}
+            <div className="flex items-center">
+              <div className="w-20 font-medium text-gray-700">이름</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {petInfo.name || "이름 없음"}
+              </div>
+            </div>
+
+            {/* 종류 */}
+            <div className="flex items-center">
+              <div className="w-20 font-medium text-gray-700">종류</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {(() => {
+                  // 가능한 종류 필드들을 시도
+                  const petType =
+                    petInfo.type ||
+                    (petInfo as any).petType ||
+                    (petInfo as any).animalType ||
+                    (petInfo as any).fierceDog;
+                  console.log("종류 표시 시도, petType:", petType);
+                  return getTypeText(petType) || "종류 없음";
+                })()}
+              </div>
+            </div>
 
             {/* 생년월일 */}
             <div className="flex items-center">
@@ -160,7 +187,38 @@ const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
             {/* 버튼 영역 */}
             <div className="flex justify-end gap-2 mt-4">
               <PageButton text="수정하기" variant="default" />
-              <PageButton text="삭제하기" variant="default" />
+              <PageButton
+                text="삭제하기"
+                variant="default"
+                onClick={() => {
+                  console.log("전체 petInfo 객체:", petInfo);
+                  console.log(
+                    "삭제 버튼 클릭됨",
+                    petInfo.id,
+                    "onDelete:",
+                    onDelete
+                  );
+                  // 가능한 ID 필드들을 시도
+                  const petId =
+                    petInfo.id ||
+                    (petInfo as any).petId ||
+                    (petInfo as any).profileId ||
+                    (petInfo as any).pet_id;
+                  console.log("시도한 petId:", petId);
+
+                  if (onDelete && petId) {
+                    console.log("onDelete 함수 호출 시도");
+                    onDelete(petId);
+                  } else {
+                    console.log(
+                      "onDelete 함수 호출 실패 - onDelete:",
+                      onDelete,
+                      "petId:",
+                      petId
+                    );
+                  }
+                }}
+              />
             </div>
           </div>
         </div>

@@ -42,11 +42,24 @@ const MyInfoPage = () => {
       }
 
       const data = await response.json();
-      if (data?.data?.length) {
-        setHasPetInfo(true);
-      }
-      setPetInfos(data.data);
       console.log("반려동물 정보 로드 완료:", data);
+      console.log("반려동물 정보 상세:", JSON.stringify(data.data, null, 2));
+
+      // API 응답 구조 확인
+      const petData = data?.data || data?.pets || data;
+      console.log("처리할 반려동물 데이터:", petData);
+
+      if (petData && Array.isArray(petData) && petData.length > 0) {
+        setHasPetInfo(true);
+        setPetInfos(petData);
+      } else if (petData && !Array.isArray(petData)) {
+        // 단일 객체인 경우 배열로 변환
+        setHasPetInfo(true);
+        setPetInfos([petData]);
+      } else {
+        setHasPetInfo(false);
+        setPetInfos(null);
+      }
     } catch (error) {
       console.error("반려동물 정보 로드 실패:", error);
     } finally {
@@ -112,17 +125,62 @@ const MyInfoPage = () => {
     }
   };
 
+  const handleDeletePet = async (petId: number) => {
+    console.log("삭제 요청 시작, petId:", petId);
+
+    if (!confirm("정말로 이 반려동물 정보를 삭제하시겠습니까?")) {
+      return;
+    }
+
+    try {
+      console.log(
+        "삭제 API 호출:",
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`
+      );
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+          },
+        }
+      );
+
+      console.log("삭제 응답 상태:", response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("삭제 응답 에러:", errorText);
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorText}`
+        );
+      }
+
+      // 삭제 성공 후 반려동물 정보 다시 로드
+      await fetchPetInfo();
+      console.log("반려동물 정보 삭제 완료");
+    } catch (error) {
+      console.error("반려동물 정보 삭제 실패:", error);
+      alert("삭제에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
   return (
     <section>
       <div className="flex gap-16 mt-12">
         <div className="flex-1 flex flex-col">
           <ProfileInfo />
           {hasPetInfo &&
-            petInfos?.map((petInfo) => (
+            petInfos?.map((petInfo, index) => (
               <PetInfoSection
-                key={petInfo.id}
+                key={petInfo.id || `pet-${index}`}
                 petInfo={petInfo}
                 isLoading={isLoading}
+                onDelete={handleDeletePet}
               />
             ))}
         </div>
