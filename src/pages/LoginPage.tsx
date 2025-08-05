@@ -10,8 +10,8 @@ const LoginPage = () => {
       <meta name="description" content="어디가냥?같이가개! 로그인 페이지" />
 
       <img
-        className="w-[513.09px] h-[81.7px]"
-        src="/assets/logo/login_logo.png"
+        className="w-[471px] "
+        src="/assets/logo/footer_logo.png"
         alt="login_logo"
       />
 

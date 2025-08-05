@@ -4,7 +4,7 @@ const MainFooter = () => {
       <img
         src="/assets/logo/footer_logo.png"
         alt="footer_logo"
-        className="w-[471px] h-[59px]"
+        className="w-[471px]"
       />
       <div className="flex flex-col justify-center items-center gap-[16px] w-[460px] h-[134px]">
         <div className="flex justify-between items-center w-[402px] h-[22px] text-[var(--label-normal)]">
