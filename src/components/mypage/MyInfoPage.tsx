@@ -27,20 +27,34 @@ const MyInfoPage = () => {
     console.log("petInfo", petInfo);
 
     try {
+      const formData = new FormData();
+      formData.append("name", petInfo.name);
+      formData.append(
+        "fierceDog",
+        petInfo.type === "fierceDog" ? "true" : "false"
+      );
+      formData.append("gender", petInfo.gender === "female" ? "F" : "M");
+      formData.append("birth", petInfo.birthYear);
+      formData.append(
+        "size",
+        petInfo.size === "large"
+          ? "대형"
+          : petInfo.size === "medium"
+            ? "중형"
+            : "소형"
+      );
+
+      if (petInfo.image) {
+        formData.append("image", petInfo.image);
+      }
+
       await fetch(`${import.meta.env.VITE_API_BASE_URL}api/pet/profile`, {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
         },
-        body: JSON.stringify({
-          name: petInfo.name,
-          fierceDog: petInfo.type === "fierceDog",
-          gender: petInfo.gender === "female" ? "F" : "M",
-          birth: petInfo.birthYear,
-          size: petInfo.size,
-        }),
+        body: formData,
       });
 
       setHasPetInfo(true);
