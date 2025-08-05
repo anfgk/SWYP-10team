@@ -1,5 +1,5 @@
 const heartClickedWithLogin = (
-  reviewid: string,
+  reviewid: number,
   checked: boolean,
   setChecked: (value: boolean) => void,
   likeChecked: boolean,

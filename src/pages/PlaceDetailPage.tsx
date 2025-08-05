@@ -43,7 +43,7 @@ const PlaceDetailPage = () => {
         address={placeDetailDummy.address}
         phoneNumber={placeDetailDummy.number}
       />
-      <ReviewSection />
+      <ReviewSection placeId={id!} />
     </MainContainer>
   );
 };

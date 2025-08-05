@@ -6,16 +6,23 @@ type JWTPayLoad = {
   exp?: number;
 };
 
+type ReviewImage = {
+  imageId: number;
+  imageUrl: string;
+};
+
 type ReviewData = {
-  id: string;
-  profileImg: string;
-  name: string;
-  date: Date;
-  rating: number;
+  contentId: number;
+  reviewId: number;
+  userId: number;
+  displayName: string;
+  profileImageUrl: string;
   content: string;
-  heartCount: number;
-  isLiked: boolean;
-  thumbnail: string;
+  score: number;
+  createdAt: string; // ISO date string
+  recommendedNumber: number;
+  isRecommended: boolean;
+  images: ReviewImage[];
 };
 
 type SearchCardData = {

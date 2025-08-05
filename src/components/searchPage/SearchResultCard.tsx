@@ -12,7 +12,7 @@ import SVGIcons from "../common/SVGIcons";
 import SvgButton from "../common/SvgButton";
 import { copyCurrentUrl } from "@/lib/commonUtils";
 import { useState } from "react";
-import type { SearchCardData } from "@/types/types";
+import type { SearchCardData } from "@/types/apiResponseTypes";
 import { useAuthStore } from "@/stores/authStore";
 
 interface Props {

@@ -4,7 +4,7 @@ import ModalBackground from "./ModalBackground";
 
 interface Props {
   onClose: () => void;
-  reviewId: string;
+  reviewId: number;
 }
 
 const ReportModal = ({ onClose, reviewId }: Props) => {

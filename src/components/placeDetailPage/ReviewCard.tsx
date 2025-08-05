@@ -4,7 +4,7 @@ import ReportModal from "../modals/ReportModal";
 import SVGIcons from "../common/SVGIcons";
 
 import { useState } from "react";
-import type { ReviewData } from "@/types/types";
+import type { ReviewData } from "@/types/apiResponseTypes";
 import { formatDateToString } from "@/lib/placeDetailUtils";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
@@ -18,10 +18,8 @@ interface Props {
 
 const ReviewCard = ({ reviewData }: Props) => {
   const { isLoggedIn } = useAuthStore();
-  const [likedAmount, setLikedAmount] = useState(reviewData.heartCount);
-  const [likeChecked, setLikeChecked] = useState(
-    isLoggedIn ? reviewData.isLiked : false
-  );
+  const [likedAmount, setLikedAmount] = useState(reviewData.score);
+  const [likeChecked, setLikeChecked] = useState(reviewData.isRecommended);
 
   const navigate = useNavigate();
 
@@ -33,25 +31,27 @@ const ReviewCard = ({ reviewData }: Props) => {
         {/* 프로필 */}
         <div className="w-fit h-[24px] flex gap-[8px] items-center">
           <img
-            src={reviewData.profileImg}
+            src={reviewData.profileImageUrl}
             className="w-[24px] h-[24px] rounded-[67.5px]"
           />
-          <p className="w-fit text-[14px]">{reviewData.name}</p>
+          <p className="w-fit text-[14px]">{reviewData.displayName}</p>
         </div>
         {/* 날짜 */}
-        <p className="text-[11px]">{formatDateToString(reviewData.date)}</p>
+        <p className="text-[11px]">
+          {formatDateToString(new Date(reviewData.createdAt))}
+        </p>
       </div>
       <div className="w-full h-[141px] flex gap-[16px]">
         {/* 썸네일 */}
         <MainCard
           className="w-[212px] h-full bg-cover cursor-pointer"
-          style={{ backgroundImage: `url(${reviewData.thumbnail})` }}
-          onClick={() => alert("모달창 오픈 넣는자리 " + reviewData.id)}
+          style={{ backgroundImage: `url(${reviewData.images[0]})` }}
+          onClick={() => alert("모달창 오픈 넣는자리 " + reviewData.reviewId)}
         />
         <div className="w-[972px] h-full flex flex-col gap-[8px]">
           <div className="w-full h-[24px] flex justify-between items-center">
             {/* 별점 */}
-            <StarsFromRating rating={reviewData.rating} />
+            <StarsFromRating rating={reviewData.score} />
             {/* 좋아요 */}
             <div className="w-fit flex gap-[2px]">
               <button
@@ -59,7 +59,7 @@ const ReviewCard = ({ reviewData }: Props) => {
                 onClick={() => {
                   isLoggedIn
                     ? heartClickedWithLogin(
-                        reviewData.id,
+                        reviewData.reviewId,
                         likeChecked,
                         setLikeChecked,
                         likeChecked,
@@ -97,7 +97,7 @@ const ReviewCard = ({ reviewData }: Props) => {
       {isOpen && (
         <ReportModal
           onClose={() => setIsOpen(false)}
-          reviewId={reviewData.id}
+          reviewId={reviewData.reviewId}
         />
       )}
     </div>
