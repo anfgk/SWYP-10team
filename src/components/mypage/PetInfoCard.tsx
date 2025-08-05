@@ -1,5 +1,4 @@
 import PageButton from "@/components/ui/page-button";
-import { useState, useEffect } from "react";
 import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
 
 interface PetInfo {
@@ -8,69 +7,15 @@ interface PetInfo {
   gender: string;
   birth: string;
   size: string;
-  image?: string;
+  imageUrl: string;
 }
 
-const PetInfoCard = () => {
-  const [petInfo, setPetInfo] = useState<PetInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface PetInfoCardProps {
+  petInfo: PetInfo | null;
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    const fetchPetInfo = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}api/pet/profile`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-            },
-          }
-        );
-
-        console.log("response", response);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-          // API가 없을 때 기본 데이터 사용
-          setPetInfo({
-            name: "기본 이름",
-            type: "강아지",
-            gender: "수컷",
-            birth: "2025-08-05",
-            size: "중형",
-          });
-          return;
-        }
-
-        const data = await response.json();
-        setPetInfo(data);
-        console.log("반려동물 정보 로드 완료:", data);
-      } catch (error) {
-        console.error("반려동물 정보 로드 실패:", error);
-        // 에러 시 기본 데이터 사용
-        setPetInfo({
-          name: "기본 이름",
-          type: "강아지",
-          gender: "수컷",
-          birth: "2025-08-05",
-          size: "중형",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPetInfo();
-  }, []);
-
+const PetInfoCard = ({ petInfo, isLoading }: PetInfoCardProps) => {
   if (isLoading) {
     return (
       <section>
@@ -86,15 +31,64 @@ const PetInfoCard = () => {
     return null;
   }
 
+  // 성별 표시 텍스트 변환
+  const getGenderText = (gender: string) => {
+    if (gender === "수컷" || gender === "male" || gender === "M") return "수컷";
+    if (gender === "암컷" || gender === "female" || gender === "F")
+      return "암컷";
+    return gender;
+  };
+
+  // 종류 표시 텍스트 변환
+  const getTypeText = (type: string) => {
+    if (type === "dog" || type === "강아지") return "강아지";
+    if (type === "cat" || type === "고양이") return "고양이";
+    return type;
+  };
+
+  // 사이즈 표시 텍스트 변환
+  const getSizeText = (size: string) => {
+    if (size === "large" || size === "대형") return "대형";
+    if (size === "medium" || size === "중형") return "중형";
+    if (size === "small" || size === "소형") return "소형";
+    return size;
+  };
+
   return (
     <section>
       <div className="text-lg font-semibold mb-2">반려동물 정보</div>
       <div className="p-[24px] rounded-lg flex flex-col gap-4 border border-[#BFBFBF66]/40">
         <div className="flex gap-8 items-start">
-          <div className="w-[300px] h-[200px] bg-gray-300" />
-          <div className="flex-1 flex flex-col gap-2">
+          {/* 이미지 영역 */}
+          <div className="w-[300px] h-[200px] bg-gray-300 rounded-lg flex items-center justify-center">
+            <img
+              src={petInfo.imageUrl}
+              alt="반려동물 이미지"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+
+          {/* 정보 영역 */}
+          <div className="flex-1 flex flex-col gap-4">
+            {/* 이름 */}
             <div className="flex items-center">
-              <div className="w-20">성별</div>
+              <div className="w-20 font-medium text-gray-700">이름</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {petInfo.name || "이름 없음"}
+              </div>
+            </div>
+
+            {/* 종류 */}
+            <div className="flex items-center">
+              <div className="w-20 font-medium text-gray-700">종류</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {getTypeText(petInfo.type) || "종류 없음"}
+              </div>
+            </div>
+
+            {/* 성별 */}
+            <div className="flex items-center">
+              <div className="w-20 font-medium text-gray-700">성별</div>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <AiOutlineMan className="text-blue-500 w-[24px] h-[24px]" />
@@ -103,23 +97,20 @@ const PetInfoCard = () => {
                       type="radio"
                       name="gender"
                       value="수컷"
-                      checked={
-                        petInfo.gender === "수컷" || petInfo.gender === "male"
-                      }
+                      checked={getGenderText(petInfo.gender) === "수컷"}
                       className="sr-only"
+                      readOnly
                     />
-
                     <div
                       className={`w-[24px] h-[24px] border-2 rounded-full flex items-center justify-center ${
-                        petInfo.gender === "수컷" || petInfo.gender === "male"
+                        getGenderText(petInfo.gender) === "수컷"
                           ? "bg-blue-500"
                           : "border-gray-300 bg-white"
                       }`}
                     >
-                      {petInfo.gender === "수컷" ||
-                        (petInfo.gender === "male" && (
-                          <div className="w-2 h-2 rounded-full"></div>
-                        ))}
+                      {getGenderText(petInfo.gender) === "수컷" && (
+                        <div className="w-2 h-2 rounded-full bg-white"></div>
+                      )}
                     </div>
                   </div>
                 </label>
@@ -130,63 +121,43 @@ const PetInfoCard = () => {
                       type="radio"
                       name="gender"
                       value="암컷"
-                      checked={
-                        petInfo.gender === "암컷" || petInfo.gender === "female"
-                      }
+                      checked={getGenderText(petInfo.gender) === "암컷"}
                       className="sr-only"
+                      readOnly
                     />
                     <div
                       className={`w-[24px] h-[24px] border-2 rounded-full flex items-center justify-center ${
-                        petInfo.gender === "암컷" || petInfo.gender === "female"
+                        getGenderText(petInfo.gender) === "암컷"
                           ? "bg-[var(--main-color)]"
                           : "border-gray-300 bg-white"
                       }`}
                     >
-                      {petInfo.gender === "암컷" ||
-                        (petInfo.gender === "female" && (
-                          <div className="w-2 h-2 rounded-full"></div>
-                        ))}
+                      {getGenderText(petInfo.gender) === "암컷" && (
+                        <div className="w-2 h-2 rounded-full bg-white"></div>
+                      )}
                     </div>
                   </div>
                 </label>
               </div>
             </div>
+
+            {/* 생년월일 */}
             <div className="flex items-center">
-              <div className="w-20">이름</div>
-              <input
-                type="text"
-                value={petInfo.name}
-                readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700"
-              />
+              <div className="w-20 font-medium text-gray-700">생년월일</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {petInfo.birth || "생년월일 없음"}
+              </div>
             </div>
+
+            {/* 사이즈 */}
             <div className="flex items-center">
-              <div className="w-20">종류</div>
-              <input
-                type="text"
-                value={petInfo.type}
-                readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700"
-              />
+              <div className="w-20 font-medium text-gray-700">사이즈</div>
+              <div className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700">
+                {getSizeText(petInfo.size) || "사이즈 없음"}
+              </div>
             </div>
-            <div className="flex items-center">
-              <div className="w-20">나이</div>
-              <input
-                type="text"
-                value={`${petInfo.birth}세`}
-                readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700"
-              />
-            </div>
-            <div className="flex items-center">
-              <div className="w-20">사이즈</div>
-              <input
-                type="text"
-                value={petInfo.size}
-                readOnly
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700"
-              />
-            </div>
+
+            {/* 버튼 영역 */}
             <div className="flex justify-end gap-2 mt-4">
               <PageButton text="수정하기" variant="default" />
               <PageButton text="삭제하기" variant="default" />
