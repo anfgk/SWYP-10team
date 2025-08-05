@@ -73,4 +73,17 @@ const fetchWithoutAuth = async (
   }
 };
 
-export { fetchWithAuth, fetchWithoutAuth };
+const fetchSmart = async (
+  endPoint: string,
+  init?: RequestInit
+): Promise<Response> => {
+  const { isLoggedIn } = useAuthStore.getState();
+
+  if (isLoggedIn) {
+    return await fetchWithAuth(endPoint, init);
+  } else {
+    return await fetchWithoutAuth(endPoint, init);
+  }
+};
+
+export { fetchWithAuth, fetchWithoutAuth, fetchSmart };
