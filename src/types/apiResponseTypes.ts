@@ -11,7 +11,7 @@ type ReviewImage = {
   imageUrl: string;
 };
 
-type ReviewData = {
+type Review = {
   contentId: number;
   reviewId: number;
   userId: number;
@@ -22,7 +22,19 @@ type ReviewData = {
   createdAt: string; // ISO date string
   recommendedNumber: number;
   isRecommended: boolean;
+  isBlind: boolean;
   images: ReviewImage[];
+};
+
+type ReviewData = {
+  reviews: Review[];
+  reviewImages: ReviewImage[];
+  totalElements: number;
+  totalPages: number;
+  currentPage: number;
+  size: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
 };
 
 type SearchCardData = {
@@ -40,4 +52,4 @@ type SearchCardData = {
   heartCount: number;
 };
 
-export type { JWTPayLoad, ReviewData, SearchCardData };
+export type { JWTPayLoad, Review, ReviewImage, ReviewData, SearchCardData };

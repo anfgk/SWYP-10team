@@ -4,7 +4,6 @@ import useSearchBarState from "@/hooks/useSearchBarState";
 import SearchSelectBox from "./SearchSelectBox";
 import SubRegionList from "./SubRegionList";
 import { Input } from "../ui/input";
-import { searchTest } from "@/lib/testUtils";
 
 const SearchBar = () => {
   const {
@@ -61,10 +60,7 @@ const SearchBar = () => {
       </div>
 
       <div className="flex flex-col justify-center w-[48px] h-[48px] shrink-0">
-        <button
-          className="w-[40px] h-[40px] cursor-pointer"
-          onClick={searchTest}
-        >
+        <button className="w-[40px] h-[40px] cursor-pointer" onClick={onSearch}>
           <img
             src="/assets/buttons/search_button.png"
             alt="left"

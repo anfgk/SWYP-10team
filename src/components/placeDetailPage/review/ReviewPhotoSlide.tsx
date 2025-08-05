@@ -1,7 +1,8 @@
+import type { ReviewImage } from "@/types/apiResponseTypes";
 import ReviewPhotoCard from "./ReviewPhotoCard";
 
 interface Props {
-  imgs: string[];
+  imgs: ReviewImage[];
   offset: number;
   onPhotoClick: (idx: number) => void;
 }
@@ -11,7 +12,7 @@ const ReviewPhotoSlide = ({ imgs, offset, onPhotoClick }: Props) => {
       {imgs.map((img, i) => (
         <ReviewPhotoCard
           key={i}
-          img={img}
+          img={img.imageUrl}
           onClick={() => onPhotoClick(offset + i)}
         />
       ))}

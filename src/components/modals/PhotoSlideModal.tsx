@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalBackground from "./ModalBackground";
 import PhotoSlideSection from "./photoSlideModal/PhotoSlideSection";
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
+import type { ReviewImage } from "@/types/apiResponseTypes";
 
 interface Props {
-  photoList: string[];
+  photoList: ReviewImage[];
   index?: number;
   onClose: () => void;
 }
@@ -43,7 +44,7 @@ const PhotoSlideModal = ({ photoList, index = 0, onClose }: Props) => {
         {/* 사진 확대 div */}
         <section className="w-[600px] h-[450px] bg-[var(--place-neutral)] rounded-[24px] overflow-hidden">
           <img
-            src={photoList[currentIdx]}
+            src={photoList[currentIdx].imageUrl}
             alt="photo_big"
             className="w-full h-full object-contain"
           />

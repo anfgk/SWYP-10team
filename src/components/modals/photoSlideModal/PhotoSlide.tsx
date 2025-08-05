@@ -1,7 +1,8 @@
+import type { ReviewImage } from "@/types/apiResponseTypes";
 import PhotoCard from "./PhotoCard";
 
 interface Props {
-  imgs: string[];
+  imgs: ReviewImage[];
   offset: number;
   activeIndex: number;
   onPhotoClick: (idx: number) => void;
@@ -20,7 +21,7 @@ const ReviewPhotoSlide = ({
         return (
           <PhotoCard
             key={i}
-            img={img}
+            img={img.imageUrl}
             onClick={() => onPhotoClick(offset + i)}
             isActive={isActive}
           />

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import type { ReviewData } from "@/types/apiResponseTypes";
+import type { ReviewData, Review } from "@/types/apiResponseTypes";
 import { fetchSmart } from "@/lib/fetchUtils";
+
 interface Props {
   placeId: string;
 }
 
 const useReviewList = ({ placeId }: Props) => {
-  const [reviews, setReviews] = useState<ReviewData[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewData, setReviewData] = useState<ReviewData>();
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState<"r" | "c">("r");
   const [hasMore, setHasMore] = useState(true);
@@ -37,10 +39,12 @@ const useReviewList = ({ placeId }: Props) => {
         const data = await res.json();
         if (controller.signal.aborted) return;
 
+        setReviewData(data.data);
+
         setReviews((prev) =>
-          page === 0 ? data.data : [...prev, ...data.data]
+          page === 0 ? data.data.reviews : [...prev, ...data.data.reviews]
         );
-        setHasMore(data.data.length === SIZE);
+        setHasMore(data.data.hasNext);
       } catch (e) {
         console.error("리뷰 불러오기 실패", e);
       } finally {
@@ -60,7 +64,15 @@ const useReviewList = ({ placeId }: Props) => {
     setPage((p) => p + 1);
   };
 
-  return { sort, setSort, reviews, hasMore, loading, handleLoadMore };
+  return {
+    sort,
+    reviews,
+    hasMore,
+    loading,
+    reviewData,
+    setSort,
+    handleLoadMore,
+  };
 };
 
 export { useReviewList };

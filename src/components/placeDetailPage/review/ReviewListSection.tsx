@@ -1,13 +1,23 @@
 import ReviewList from "./ReviewList";
-import SortButton from "../common/SortButton";
-import { useReviewList } from "@/hooks/useReviewList";
+import SortButton from "../../common/SortButton";
+import type { Review } from "@/types/apiResponseTypes";
 
 interface Props {
-  placeId: string;
+  sort: "r" | "c";
+  setSort: React.Dispatch<React.SetStateAction<"r" | "c">>;
+  reviews: Review[];
+  hasMore: boolean;
+  loading: boolean;
+  handleLoadMore: () => void;
 }
-const ReviewListSection = ({ placeId }: Props) => {
-  const { sort, setSort, reviews, hasMore, loading, handleLoadMore } =
-    useReviewList({ placeId });
+const ReviewListSection = ({
+  sort,
+  setSort,
+  reviews,
+  hasMore,
+  loading,
+  handleLoadMore,
+}: Props) => {
   return (
     <section className="w-full h-fit flex flex-col">
       {/* 정렬버튼 */}
