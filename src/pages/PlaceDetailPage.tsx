@@ -5,7 +5,6 @@ import PlaceInfoSection from "@/components/placeDetailPage/PlaceInfoSection";
 import PlaceMainSection from "@/components/placeDetailPage/PlaceMainSection";
 import PlacePupularitySection from "@/components/placeDetailPage/PlacePopularitySection";
 import ReviewSection from "@/components/placeDetailPage/ReviewSection";
-import TestSection from "@/components/placeDetailPage/TestSection";
 
 import { placeDetailDummy } from "@/configs/dummyData";
 import { useParams } from "react-router-dom";
@@ -36,7 +35,6 @@ const PlaceDetailPage = () => {
         lat={37.8171378819}
         lng={127.5276443195}
       />
-      <TestSection />
       <PlaceInfoSection
         desc={placeDetailDummy.desc}
         tags={placeDetailDummy.tags}

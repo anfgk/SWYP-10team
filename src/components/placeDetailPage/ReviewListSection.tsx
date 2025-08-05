@@ -32,13 +32,13 @@ const ReviewListSection = ({ placeId }: Props) => {
       ) : reviews.length > 0 ? (
         <ReviewList reviews={reviews} />
       ) : (
-        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8">
+        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8 border-t-1 border-b-1">
           작성된 리뷰가 없습니다.
         </p>
       )}
 
       {/* 더보기 버튼 */}
-      {hasMore && (
+      {hasMore && reviews.length > 0 && (
         <button
           className="w-fit h-[24px] mx-auto flex gap-[2px] mt-[24px] items-center cursor-pointer"
           onClick={handleLoadMore}

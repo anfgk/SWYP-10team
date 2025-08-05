@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 import { heartClickedWithLogin } from "@/lib/reviewUtils";
 import { loginConfirmAlert } from "@/lib/commonUtils";
-import { useModalOpenClose } from "@/hooks/useModalOpenClose";
 
 interface Props {
   reviewData: ReviewData;
@@ -20,10 +19,9 @@ const ReviewCard = ({ reviewData }: Props) => {
   const { isLoggedIn } = useAuthStore();
   const [likedAmount, setLikedAmount] = useState(reviewData.score);
   const [likeChecked, setLikeChecked] = useState(reviewData.isRecommended);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-
-  const { isOpen, setIsOpen } = useModalOpenClose();
 
   return (
     <div className="w-full h-[212px] flex flex-col border-b-[1px] border-[var(--search-element-border)] gap-[8px]">
@@ -89,14 +87,14 @@ const ReviewCard = ({ reviewData }: Props) => {
       <button
         className="w-[25px] h-[20px] ml-auto text-[14px] font-semibold cursor-pointer"
         onClick={() => {
-          isLoggedIn ? setIsOpen(true) : loginConfirmAlert(navigate);
+          isLoggedIn ? setOpen(true) : loginConfirmAlert(navigate);
         }}
       >
         신고
       </button>
-      {isOpen && (
+      {open && (
         <ReportModal
-          onClose={() => setIsOpen(false)}
+          onClose={() => setOpen(false)}
           reviewId={reviewData.reviewId}
         />
       )}

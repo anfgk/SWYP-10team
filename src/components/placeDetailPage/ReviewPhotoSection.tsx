@@ -2,6 +2,8 @@ import useSlideIndex from "@/hooks/useSlideIndex";
 import ReviewPhotoSlide from "./ReviewPhotoSlide";
 
 import { testReviewPhotos } from "@/configs/dummyData";
+import { usePhotoModalState } from "@/hooks/usePhotoModalState";
+import PhotoSlideModal from "../modals/PhotoSlideModal";
 
 interface Props {
   reviewCount: number;
@@ -14,6 +16,8 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
   }
 
   const { index, handleNext, handlePrev } = useSlideIndex(slides);
+
+  const { isOpen, photoIndex, openModal, closeModal } = usePhotoModalState();
 
   return (
     <section className="w-full h-[215px] flex flex-col gap-[24px] border-t-[1px] border-[var(--search-element-border)] pt-[8px]">
@@ -44,7 +48,12 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
             }}
           >
             {slides.map((slide, i) => (
-              <ReviewPhotoSlide key={i} imgs={slide} offset={i * 7} />
+              <ReviewPhotoSlide
+                key={i}
+                imgs={slide}
+                offset={i * 7}
+                onPhotoClick={openModal}
+              />
             ))}
           </div>
         </div>
@@ -61,6 +70,13 @@ const ReviewPhotoSection = ({ reviewCount }: Props) => {
           />
         </button>
       </div>
+      {isOpen && (
+        <PhotoSlideModal
+          photoList={testReviewPhotos}
+          index={photoIndex}
+          onClose={closeModal}
+        />
+      )}
     </section>
   );
 };

@@ -22,10 +22,9 @@ const useReviewList = ({ placeId }: Props) => {
   }, [sort, placeId]);
 
   useEffect(() => {
-    let cancelled = false;
+    const controller = new AbortController();
 
     const fetchReviews = async () => {
-      if (loading) return;
       setLoading(true);
 
       try {
@@ -36,7 +35,7 @@ const useReviewList = ({ placeId }: Props) => {
         if (!res.ok) throw new Error("리뷰 요청 실패");
 
         const data = await res.json();
-        if (cancelled) return;
+        if (controller.signal.aborted) return;
 
         setReviews((prev) =>
           page === 0 ? data.data : [...prev, ...data.data]
@@ -45,14 +44,14 @@ const useReviewList = ({ placeId }: Props) => {
       } catch (e) {
         console.error("리뷰 불러오기 실패", e);
       } finally {
-        if (!cancelled) setLoading(false);
+        setLoading(false);
       }
     };
 
     fetchReviews();
 
     return () => {
-      cancelled = true;
+      controller.abort();
     };
   }, [page, sort, placeId]);
 

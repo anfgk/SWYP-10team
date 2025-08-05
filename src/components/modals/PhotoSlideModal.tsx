@@ -1,36 +1,62 @@
 import { useEffect, useState } from "react";
+import ModalBackground from "./ModalBackground";
+import PhotoSlideSection from "./photoSlideModal/PhotoSlideSection";
+import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 
 interface Props {
   photoList: string[];
-  index: number;
+  index?: number;
   onClose: () => void;
 }
 
-const PhotoSlideModal = ({ photoList, index, onClose }: Props) => {
+const PhotoSlideModal = ({ photoList, index = 0, onClose }: Props) => {
   const [currentIdx, setCurrentIdx] = useState(index);
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
-  }, [onClose]);
+  useModalEscapeKey(onClose);
 
   return (
-    <div
-      className="fixed inset-0 z-501 flex justify-center items-center bg-[var(--modal-bg)]"
-      onClick={onClose}
-    >
-      <div className="w-[888px] h-[600px] rounded-[24px]">
+    <ModalBackground onClose={onClose}>
+      <div
+        className="w-[1000px] h-[800px] bg-white flex flex-col gap-[24px] items-center px-[24px] py-[32px] rounded-[24px]"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          boxShadow: `0px 0px 1px 0px rgba(0, 0, 0, 0.08),
+            0px 1px 4px 0px rgba(0, 0, 0, 0.08),
+            0px 2px 8px 0px rgba(0, 0, 0, 0.12)`,
+        }}
+      >
+        <div className="w-full h-[32px] flex justify-between">
+          <div className="w-[24x] h-[24px]"></div>
+          <p className="w-fit h-full text-[20px] font-semibold flex justify-center items-center">
+            사진 모아 보기
+          </p>
+          <button
+            className="w-[24px] h-[24px] cursor-pointer"
+            onClick={onClose}
+          >
+            <img
+              className="w-full h-full"
+              src="/assets/buttons/modal_close.png"
+              alt="close button"
+            />
+          </button>
+        </div>
         {/* 사진 확대 div */}
-        <div className="w-[300px] h-[300px]"></div>
-        <img
-          src={photoList[currentIdx]}
-          alt="photo_big"
-          className="w-full h-full object-contain"
+        <section className="w-[600px] h-[450px] bg-[var(--place-neutral)] rounded-[24px] overflow-hidden">
+          <img
+            src={photoList[currentIdx]}
+            alt="photo_big"
+            className="w-full h-full object-contain"
+          />
+        </section>
+        <p className="text-[16px]">{`${currentIdx + 1}/${photoList.length}`}</p>
+
+        <PhotoSlideSection
+          photoList={photoList}
+          setIndex={setCurrentIdx}
+          activeIndex={currentIdx}
         />
       </div>
-    </div>
+    </ModalBackground>
   );
 };
 
