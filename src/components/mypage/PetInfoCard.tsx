@@ -1,5 +1,4 @@
 import PageButton from "@/components/ui/page-button";
-import InputField from "@/components/ui/input-field";
 import { useState, useEffect } from "react";
 import { AiOutlineMan, AiOutlineWoman } from "react-icons/ai";
 
@@ -7,21 +6,14 @@ interface PetInfo {
   name: string;
   type: string;
   gender: string;
-  age: number;
+  birth: string;
   size: string;
   image?: string;
 }
 
 const PetInfoCard = () => {
-  const [gender, setGender] = useState("수컷");
   const [petInfo, setPetInfo] = useState<PetInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const petFields = ["이름", "종류", "나이", "사이즈"];
-
-  console.log("petInfo", petInfo);
-
-  // 아까전에 cors 에러 때문에 막혀있었는데, 이제 해결되었고,
-  // 근데 지금 로컬에서 로그인이 불가능해서 계속 401로 막혀요. 혹시 임시 토큰이 있을까요 ?
 
   useEffect(() => {
     const fetchPetInfo = async () => {
@@ -34,6 +26,7 @@ const PetInfoCard = () => {
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
             },
           }
         );
@@ -51,7 +44,7 @@ const PetInfoCard = () => {
             name: "기본 이름",
             type: "강아지",
             gender: "수컷",
-            age: 3,
+            birth: "2025-08-05",
             size: "중형",
           });
           return;
@@ -67,7 +60,7 @@ const PetInfoCard = () => {
           name: "기본 이름",
           type: "강아지",
           gender: "수컷",
-          age: 3,
+          birth: "2025-08-05",
           size: "중형",
         });
       } finally {
@@ -113,7 +106,6 @@ const PetInfoCard = () => {
                       checked={
                         petInfo.gender === "수컷" || petInfo.gender === "male"
                       }
-                      onChange={(e) => setGender(e.target.value)}
                       className="sr-only"
                     />
 
@@ -141,7 +133,6 @@ const PetInfoCard = () => {
                       checked={
                         petInfo.gender === "암컷" || petInfo.gender === "female"
                       }
-                      onChange={(e) => setGender(e.target.value)}
                       className="sr-only"
                     />
                     <div
@@ -182,7 +173,7 @@ const PetInfoCard = () => {
               <div className="w-20">나이</div>
               <input
                 type="text"
-                value={`${petInfo.age}세`}
+                value={`${petInfo.birth}세`}
                 readOnly
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700"
               />
