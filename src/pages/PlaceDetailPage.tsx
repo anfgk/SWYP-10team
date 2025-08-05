@@ -15,6 +15,9 @@ const PlaceDetailPage = () => {
 
   return (
     <MainContainer>
+      <title>어다가냥?같이가개! | 상세페이지 </title>
+      <meta name="description" content={`어디가냥?같이가개! 상세 페이지`} />
+
       <ScrollToTopButton />
       <PlaceMainSection
         title="도그밀리 DOGMILY"
