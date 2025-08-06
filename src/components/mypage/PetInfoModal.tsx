@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalInput from "./ModalInput";
+import { AiOutlineCamera } from "react-icons/ai";
 
 interface PetInfoModalProps {
   isOpen: boolean;
@@ -12,12 +13,35 @@ interface PetInfoModalProps {
     size: string;
     image?: File;
   }) => void;
+  onPetInfoUpdated?: (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File;
+  }) => void;
+  isEditMode?: boolean;
+  editingPetInfo?: {
+    id: number;
+    name: string;
+    type: string;
+    gender: string;
+    birth: string;
+    size: string;
+    imageUrl: string;
+  } | null;
+  isSaving?: boolean;
 }
 
 const PetInfoModal = ({
   isOpen,
   onClose,
   onPetInfoAdded,
+  onPetInfoUpdated,
+  isEditMode = false,
+  editingPetInfo = null,
+  isSaving = false,
 }: PetInfoModalProps) => {
   const [gender, setGender] = useState<"female" | "male">("female");
   const [name, setName] = useState("");
@@ -26,6 +50,31 @@ const PetInfoModal = ({
   const [size, setSize] = useState("");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const resetForm = () => {
+    setGender("female");
+    setName("");
+    setType("");
+    setBirthYear("");
+    setSize("");
+    setSelectedImage(null);
+    setImagePreview(null);
+  };
+
+  // 수정 모드일 때 기존 정보로 폼 초기화
+  useEffect(() => {
+    if (isEditMode && editingPetInfo) {
+      setName(editingPetInfo.name);
+      setGender(editingPetInfo.gender === "F" ? "female" : "male");
+      setType(editingPetInfo.type);
+      setBirthYear(editingPetInfo.birth);
+      setSize(editingPetInfo.size);
+      setImagePreview(editingPetInfo.imageUrl);
+    } else {
+      // 새로 추가하는 경우 폼 초기화
+      resetForm();
+    }
+  }, [isEditMode, editingPetInfo]);
 
   if (!isOpen) return null;
 
@@ -47,14 +96,20 @@ const PetInfoModal = ({
   };
 
   const handleSave = () => {
-    onPetInfoAdded({
+    const petInfo = {
       name,
       type,
       gender,
       birthYear,
       size,
       image: selectedImage || undefined,
-    });
+    };
+
+    if (isEditMode && onPetInfoUpdated) {
+      onPetInfoUpdated(petInfo);
+    } else {
+      onPetInfoAdded(petInfo);
+    }
   };
 
   const handleAddMore = () => {
@@ -64,12 +119,15 @@ const PetInfoModal = ({
 
   return (
     <div className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-[562px] h-[896px] shadow-[0_2px_8px_0_rgba(0,0,0,0.12),0_1px_4px_0_rgba(0,0,0,0.08),0_0_1px_0_rgba(0,0,0,0.08)] overflow-y-auto">
+      <div className="bg-white rounded-lg p-6 w-[562px] h-[780px] shadow-[0_2px_8px_0_rgba(0,0,0,0.12),0_1px_4px_0_rgba(0,0,0,0.08),0_0_1px_0_rgba(0,0,0,0.08)] overflow-y-auto">
         <div className="relative flex justify-between items-center mb-[56px]">
           <div className="w-6"></div>
           <h3 className="text-[20px] font-semibold">반려동물 정보</h3>
           <button
-            onClick={onClose}
+            onClick={() => {
+              resetForm();
+              onClose();
+            }}
             className="text-gray-500 hover:text-gray-700 w-6"
           >
             ✕
@@ -84,19 +142,30 @@ const PetInfoModal = ({
                   <img
                     src={imagePreview}
                     alt="반려동물 사진"
-                    className="w-[100px] h-[100px] object-cover rounded-lg border"
+                    className="w-[300px] h-[200px] object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => {
+                      // 이미지 클릭 시 파일 선택 다이얼로그 열기
+                      const fileInput = document.createElement("input");
+                      fileInput.type = "file";
+                      fileInput.accept = "image/*";
+                      fileInput.onchange = (e) => {
+                        const file = (e.target as HTMLInputElement).files?.[0];
+                        if (file) {
+                          handleImageChange({
+                            target: { files: [file] },
+                          } as unknown as React.ChangeEvent<HTMLInputElement>);
+                        }
+                      };
+                      fileInput.click();
+                    }}
                   />
-                  <button
-                    onClick={handleRemoveImage}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
-                  >
-                    ✕
-                  </button>
                 </div>
               ) : (
                 <label className="w-[300px] h-[200px] bg-gray-100 border-1 border-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
                   <div className="text-center flex items-center justify-center gap-2">
-                    <div className="text-gray-400 text-2xl mb-1">+</div>
+                    <div className="text-gray-400 text-2xl mb-1">
+                      <AiOutlineCamera />
+                    </div>
                     <div className="text-xs text-gray-500">사진 추가</div>
                   </div>
                   <input
@@ -172,18 +241,26 @@ const PetInfoModal = ({
           <div className="flex flex-col gap-3">
             <button
               onClick={handleAddMore}
-              className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors mb-[48px]"
+              className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
             >
               반려동물을 더 추가할게요
             </button>
             <button
               onClick={handleSave}
-              className="w-[514px] h-[56px] py-3 px-4 bg-[var(--main-color)] text-white rounded-lg hover:bg-red-600 transition-colors"
+              disabled={isSaving}
+              className={`w-[514px] h-[56px] py-3 px-4 rounded-lg transition-colors ${
+                isSaving
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[var(--main-color)] text-white hover:bg-red-600"
+              }`}
             >
-              저장할게요
+              {isSaving ? "저장 중..." : "저장할게요"}
             </button>
             <button
-              onClick={onClose}
+              onClick={() => {
+                resetForm();
+                onClose();
+              }}
               className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
             >
               다음에 할게요

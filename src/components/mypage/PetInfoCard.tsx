@@ -15,9 +15,15 @@ interface PetInfoCardProps {
   petInfo: PetInfo | null;
   isLoading: boolean;
   onDelete?: (petId: number) => void;
+  onEdit?: (petInfo: PetInfo) => void;
 }
 
-const PetInfoCard = ({ petInfo, isLoading, onDelete }: PetInfoCardProps) => {
+const PetInfoCard = ({
+  petInfo,
+  isLoading,
+  onDelete,
+  onEdit,
+}: PetInfoCardProps) => {
   console.log(
     "PetInfoCard 렌더링, onDelete:",
     onDelete,
@@ -186,7 +192,46 @@ const PetInfoCard = ({ petInfo, isLoading, onDelete }: PetInfoCardProps) => {
 
             {/* 버튼 영역 */}
             <div className="flex justify-end gap-2 mt-4">
-              <PageButton text="수정하기" variant="default" />
+              <PageButton
+                text="수정하기"
+                variant="default"
+                onClick={() => {
+                  console.log("수정 버튼 클릭됨, petInfo:", petInfo);
+                  console.log(
+                    "petInfo 전체 구조:",
+                    JSON.stringify(petInfo, null, 2)
+                  );
+                  console.log(
+                    "petInfo.id:",
+                    petInfo?.id,
+                    "타입:",
+                    typeof petInfo?.id
+                  );
+
+                  // 가능한 ID 필드들 확인
+                  const possibleId =
+                    petInfo?.id ||
+                    (petInfo as any)?.petId ||
+                    (petInfo as any)?.profileId ||
+                    (petInfo as any)?.pet_id;
+                  console.log("가능한 ID 필드들:", {
+                    id: petInfo?.id,
+                    petId: (petInfo as any)?.petId,
+                    profileId: (petInfo as any)?.profileId,
+                    pet_id: (petInfo as any)?.pet_id,
+                    possibleId: possibleId,
+                  });
+
+                  if (onEdit && petInfo && possibleId) {
+                    onEdit(petInfo);
+                  } else {
+                    console.error(
+                      "수정할 수 없습니다 - petInfo 또는 id가 없음:",
+                      petInfo
+                    );
+                  }
+                }}
+              />
               <PageButton
                 text="삭제하기"
                 variant="default"

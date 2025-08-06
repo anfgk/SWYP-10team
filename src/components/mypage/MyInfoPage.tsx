@@ -16,9 +16,12 @@ interface PetInfo {
 
 const MyInfoPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingPetInfo, setEditingPetInfo] = useState<PetInfo | null>(null);
   const [hasPetInfo, setHasPetInfo] = useState(false);
   const [petInfos, setPetInfos] = useState<PetInfo[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   console.log("hasPetInfo", hasPetInfo);
 
@@ -77,6 +80,14 @@ const MyInfoPage = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setIsEditMode(false);
+    setEditingPetInfo(null);
+  };
+
+  const handleEditClick = (petInfo: PetInfo) => {
+    setEditingPetInfo(petInfo);
+    setIsEditMode(true);
+    setIsModalOpen(true);
   };
 
   const handlePetInfoAdded = async (petInfo: {
@@ -87,7 +98,11 @@ const MyInfoPage = () => {
     size: string;
     image?: File;
   }) => {
+    if (isSaving) return; // 중복 저장 방지
+
     try {
+      setIsSaving(true);
+
       const formData = new FormData();
       formData.append("name", petInfo.name);
       formData.append(
@@ -129,7 +144,89 @@ const MyInfoPage = () => {
       await fetchPetInfo();
       setIsModalOpen(false);
     } catch (error) {
-      console.error(error);
+      console.error("반려동물 정보 저장 실패:", error);
+      alert("저장에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handlePetInfoUpdated = async (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File;
+  }) => {
+    if (!editingPetInfo) return;
+
+    try {
+      // 이름 유효성 검사
+      if (!petInfo.name?.trim()) {
+        alert("반려동물 이름을 입력해주세요.");
+        return;
+      }
+
+      // petId 확인
+      const petId =
+        editingPetInfo.id ||
+        (editingPetInfo as any).petId ||
+        (editingPetInfo as any).profileId ||
+        (editingPetInfo as any).pet_id;
+      if (!petId) {
+        alert("수정할 반려동물 정보를 찾을 수 없습니다.");
+        return;
+      }
+
+      // FormData 생성
+      const formData = new FormData();
+      formData.append("name", petInfo.name.trim());
+      formData.append(
+        "fierceDog",
+        petInfo.type === "fierceDog" ? "true" : "false"
+      );
+      formData.append("gender", petInfo.gender === "female" ? "F" : "M");
+      formData.append("birth", petInfo.birthYear);
+      formData.append(
+        "size",
+        petInfo.size === "large"
+          ? "대형"
+          : petInfo.size === "medium"
+            ? "중형"
+            : "소형"
+      );
+
+      // 이미지 처리
+      if (petInfo.image) {
+        formData.append("image", petInfo.image);
+      }
+
+      // API 호출
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${parseInt(petId.toString(), 10)}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // 성공 처리
+      await fetchPetInfo();
+      setIsModalOpen(false);
+      setIsEditMode(false);
+      setEditingPetInfo(null);
+    } catch (error) {
+      console.error("반려동물 정보 수정 실패:", error);
+      alert("수정에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -189,6 +286,7 @@ const MyInfoPage = () => {
                 petInfo={petInfo}
                 isLoading={isLoading}
                 onDelete={handleDeletePet}
+                onEdit={handleEditClick}
               />
             ))}
         </div>
@@ -208,6 +306,10 @@ const MyInfoPage = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onPetInfoAdded={handlePetInfoAdded}
+        onPetInfoUpdated={handlePetInfoUpdated}
+        isEditMode={isEditMode}
+        editingPetInfo={editingPetInfo}
+        isSaving={isSaving}
       />
     </section>
   );
