@@ -5,8 +5,14 @@ import { decodeAndSetAuth } from "@/lib/authUtils";
 import { fetchWithAuth } from "@/lib/fetchUtils";
 
 const useIssueAccessToken = () => {
-  const { accessToken, logout, hasRefreshed, setHasRefreshed, setProfileImg } =
-    useAuthStore();
+  const {
+    accessToken,
+    logout,
+    hasRefreshed,
+    setHasRefreshed,
+    setProfileImg,
+    setProvider,
+  } = useAuthStore();
 
   useEffect(() => {
     if (accessToken || hasRefreshed) return;
@@ -37,6 +43,7 @@ const useIssueAccessToken = () => {
         //user profile 사진 저장
         const profileRes = await fetchWithAuth("/api/user/profile");
         const profileData = await profileRes.json();
+        setProvider(profileData.data.provider);
         setProfileImg(profileData.data.imageUrl);
       } catch (error) {
         console.error("네트워크 에러:", error);
