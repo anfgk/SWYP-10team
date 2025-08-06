@@ -6,11 +6,10 @@ import {
   getDistanceInKm,
   heartClickedWithLogin,
 } from "@/lib/searchResultCardUtils";
-import { loginConfirmAlert } from "@/lib/commonUtils";
+import { copyPlacePage, loginConfirmAlert } from "@/lib/commonUtils";
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../common/SVGIcons";
 import SvgButton from "../common/SvgButton";
-import { copyCurrentUrl } from "@/lib/commonUtils";
 import { useState } from "react";
 import type { SearchCardData } from "@/types/apiResponseTypes";
 import { useAuthStore } from "@/stores/authStore";
@@ -56,7 +55,7 @@ const SearchResultCard = ({ cardData }: Props) => {
               svgname="thumbnailShare"
               width={40}
               height={40}
-              onClick={copyCurrentUrl}
+              onClick={() => copyPlacePage(cardData.id)}
             />
           </div>
         </MainCard>

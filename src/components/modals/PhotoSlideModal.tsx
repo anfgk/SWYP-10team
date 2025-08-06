@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ModalBackground from "./ModalBackground";
+import ModalBackground from "./common/ModalBackground";
 import PhotoSlideSection from "./photoSlideModal/PhotoSlideSection";
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 import type { ReviewImage } from "@/types/apiResponseTypes";

@@ -9,7 +9,7 @@ interface Props {
 
 const AiRecCard = ({
   desc = "",
-  img = "/assets/samples/aicard_sample.jpg",
+  img = "/assets/samples/aicard_sample.png",
   link = "",
 }: Props) => {
   const navigate = useNavigate();
@@ -17,13 +17,16 @@ const AiRecCard = ({
   return (
     <MainCard
       className="bg-[var(--card-bg)] w-[1200px] h-[304px] cursor-pointer bg-cover bg-center"
+      // style={{
+      //   backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.5) 6.08%, rgba(0, 0, 0, 0) 63.54%), url(${img})`,
+      // }}
       style={{
-        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.5) 6.08%, rgba(0, 0, 0, 0) 63.54%), url(${img})`,
+        backgroundImage: `url(${img})`,
       }}
       onClick={() => navigate(`/${link}`)}
     >
       <div className="w-[182px] h-[102px] mt-[50px] ml-[67px]">
-        <p className="text-[32px] font-semibold text-[var(--card-text)] break-keep">
+        <p className="text-[32px] font-semibold text-black break-keep">
           {desc}
         </p>
       </div>

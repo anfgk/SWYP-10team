@@ -5,7 +5,7 @@ const SearchSection = () => {
     <nav
       className="w-full h-fit pt-[88px] pb-[36px] flex flex-col items-center bg-cover"
       style={{
-        backgroundImage: `url('/assets/images/search_panel_bg.jpg')`,
+        backgroundImage: `url('/assets/images/common/search_panel_bg.jpg')`,
       }}
     >
       <div className="w-[1200px] h-[109px] mb-[24px] z-20">

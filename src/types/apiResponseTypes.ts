@@ -52,4 +52,16 @@ type SearchCardData = {
   heartCount: number;
 };
 
-export type { JWTPayLoad, Review, ReviewImage, ReviewData, SearchCardData };
+type ReasonCode = {
+  reasonId: number;
+  content: string;
+};
+
+export type {
+  JWTPayLoad,
+  Review,
+  ReviewImage,
+  ReviewData,
+  SearchCardData,
+  ReasonCode,
+};

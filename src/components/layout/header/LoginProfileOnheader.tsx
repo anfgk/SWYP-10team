@@ -16,7 +16,7 @@ const LoginProfileOnHeader = () => {
     >
       {/* 클릭할 사진 */}
       <img
-        src={profileImg}
+        src={profileImg!}
         alt="thumbnail"
         className="w-[32px] h-[32px] rounded-full cursor-pointer"
         onClick={() => setIsOpen((prev) => !prev)}

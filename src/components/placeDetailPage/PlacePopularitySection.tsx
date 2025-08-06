@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import SVGIcons from "../common/SVGIcons";
-import { copyCurrentUrl } from "@/lib/commonUtils";
+import { copyPlacePage } from "@/lib/commonUtils";
 import { heartClickedWithLogin } from "@/lib/placeDetailUtils";
 import { loginConfirmAlert } from "@/lib/commonUtils";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +63,7 @@ const PlacePupularitySection = ({
         </div>
         <button
           className="w-[75px] h-[24px] flex gap-[2px] items-center cursor-pointer"
-          onClick={copyCurrentUrl}
+          onClick={() => copyPlacePage(placeId)}
         >
           <SVGIcons name="placedetailShare" width={24} height={24} color="" />
           <p className="w-[49px] h-[20px] text-[14px] font-semibold">
