@@ -17,15 +17,16 @@ const SubRegionList = ({ subregions, current, onChange }: Props) => {
       >
         전체
       </button>
-      {subregions.map((subrigion) => (
+      {subregions.map((subregion) => (
         <button
-          key={subrigion}
+          key={subregion}
           onClick={() => {
-            onChange(insertOrDeleteFromArr(current, subrigion));
+            //onChange(insertOrDeleteFromArr(current, subrigion));
+            onChange([subregion]);
           }}
-          className={`w-[76px] h-[38px] border-[1px] text-[16px] border-[var(--main-color)] rounded-[40px] ${current.includes(subrigion) ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
+          className={`w-[76px] h-[38px] border-[1px] text-[16px] border-[var(--main-color)] rounded-[40px] ${current.includes(subregion) ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
         >
-          {subrigion}
+          {subregion}
         </button>
       ))}
     </div>

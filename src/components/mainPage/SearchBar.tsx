@@ -4,6 +4,7 @@ import useSearchBarState from "@/hooks/useSearchBarState";
 import SearchSelectBox from "./SearchSelectBox";
 import SubRegionList from "./SubRegionList";
 import { Input } from "../ui/input";
+import { useEnterKey } from "@/hooks/useEnterkey";
 
 const SearchBar = () => {
   const {
@@ -17,6 +18,8 @@ const SearchBar = () => {
     setInputKeyword,
     onSearch,
   } = useSearchBarState();
+
+  useEnterKey(onSearch);
 
   return (
     <div className="w-[1200px] h-fit flex flex-wrap rounded-[40px] bg-[var(--search-bar-bg)] px-[12px] py-[12px] gap-[12px] shadow-[0px_0px_1px_0px_#00000014,0px_1px_2px_0px_#0000001F] z-20">

@@ -1,78 +1,21 @@
-import { useEffect, useState, useMemo } from "react";
 import SearchResultList from "./SearchResultList";
 import SortButton from "../common/SortButton";
-import { useSearchParams } from "react-router-dom";
-import { createSearchApiParam } from "@/lib/searchUtils";
-
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { testSearchData } from "@/configs/dummyData";
-import { fetchSmart } from "@/lib/fetchUtils";
+import { useSearchListSection } from "@/hooks/useSearchListSection";
+import { useLocationStore } from "@/stores/locationStore";
 
 const SearchResultSection = () => {
-  const [sort, setSort] = useState<"popular" | "latest" | "">("");
-  const [visibleCount, setVisibleCount] = useState(4);
-  const [loading, setLoading] = useState(false);
-  const [searchParams] = useSearchParams();
-  const [resultList, setResultList] = useState([]);
+  const {
+    sort,
+    loading,
+    resultList,
+    slicedData,
+    visibleCount,
+    sortedData,
+    observerRef,
+    setSort,
+  } = useSearchListSection();
 
-  // 정렬 기능
-  const sortedData = useMemo(() => {
-    if (sort === "latest") {
-      return [...testSearchData].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-    } else if (sort === "popular") {
-      return [...testSearchData].sort((a, b) => b.heartCount - a.heartCount);
-    } else {
-      return testSearchData;
-    }
-  }, [sort]);
-
-  // 보여질 데이터
-  const slicedData = resultList.slice(0, visibleCount);
-
-  //무한 스크롤 콜백
-  const loadMore = () => {
-    if (visibleCount < sortedData.length) {
-      setVisibleCount((prev) => prev + 4);
-    }
-  };
-
-  const observerRef = useInfiniteScroll(loadMore);
-
-  //정렬 바뀔때마다 갯수 4개로 초기화
-  useEffect(() => {
-    setVisibleCount(4);
-  }, [sort]);
-
-  useEffect(() => {
-    // 백엔드 api 자리
-    const apiParam = createSearchApiParam(searchParams);
-
-    const fetchSearch = async () => {
-      setLoading(true);
-
-      try {
-        const res = await fetchSmart(`/api/content/search?${apiParam}`, {
-          method: "GET",
-        });
-
-        if (!res.ok) throw new Error("검색 요청 실패");
-
-        const data = await res.json();
-        console.log(apiParam.toString());
-        console.log(`/api/content/search?${apiParam}`);
-        console.log(data);
-      } catch (e) {
-        console.error("검색 목록 불러오기 실패", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSearch();
-  }, [searchParams, sort]);
+  const { isCoordsSet } = useLocationStore();
 
   return (
     <section className="w-full flex flex-col gap-[32px] pt-[44px] pb-[32px] ">
@@ -92,6 +35,17 @@ const SearchResultSection = () => {
             onToggle={() =>
               setSort((prev) => (prev === "latest" ? "" : "latest"))
             }
+          />
+          <SortButton
+            name={"거리 순"}
+            isActive={sort === "distance"}
+            onToggle={() => {
+              if (isCoordsSet) {
+                setSort((prev) => (prev === "distance" ? "" : "distance"));
+              } else {
+                alert("위치 정보 허용이 필요합니다.");
+              }
+            }}
           />
         </div>
       </div>

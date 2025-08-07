@@ -23,7 +23,11 @@ const PopularSection = () => {
           <PopularToolTip />
         </div>
 
-        <Link to={"/search"} className="text-[14px]">
+        <Link
+          to={"/search"}
+          state={{ sort: "popular" }}
+          className="text-[14px]"
+        >
           더보기
         </Link>
       </div>

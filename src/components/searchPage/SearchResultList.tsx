@@ -8,7 +8,7 @@ const SearchResultList = ({ searchDataList }: Props) => {
   return (
     <div className="w-full flex flex-col gap-[24px]">
       {searchDataList.map((data) => (
-        <SearchResultCard key={data.id} cardData={data} />
+        <SearchResultCard key={data.contentId} cardData={data} />
       ))}
     </div>
   );

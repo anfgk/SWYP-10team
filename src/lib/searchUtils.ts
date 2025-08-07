@@ -76,8 +76,10 @@ const createSearchApiParam = (param: URLSearchParams): URLSearchParams => {
   const { paramRegion, paramKeyword, paramcategory, paramSubRegionStr } =
     getValueFromURLParams(param);
   const apiParam = new URLSearchParams();
-  if (paramKeyword) apiParam.append("title", paramKeyword);
-  if (paramRegion) apiParam.append("sido", getSidoCodeByName(paramRegion));
+  if (paramKeyword && paramKeyword !== "전체")
+    apiParam.append("title", paramKeyword);
+  if (paramRegion && paramRegion !== "전체")
+    apiParam.append("sido", getSidoCodeByName(paramRegion));
   if (paramSubRegionStr)
     apiParam.append(
       "sigungu",

@@ -60,6 +60,9 @@ type SearchCardData = {
   };
   hashtag: string[];
   restDate: string;
+  totalView: number;
+  wishCnt: number;
+  createdAt: string;
 };
 
 type PlaceDetailData = {

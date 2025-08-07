@@ -2,7 +2,12 @@ const toRad = (deg: number): number => {
   return deg * (Math.PI / 180);
 };
 
-const getDistanceInKm = (x1: number, y1: number, x2: number, y2: number) => {
+const getDistanceInKm = (
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+): number => {
   const R = 6371;
   const dX = toRad(x2 - x1); // long
   const dY = toRad(y2 - y1); // lat
@@ -14,7 +19,7 @@ const getDistanceInKm = (x1: number, y1: number, x2: number, y2: number) => {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
 
-  return Math.round(distance * 100) / 100 + "km";
+  return Math.round(distance * 100) / 100;
 };
 
 const heartClickedWithLogin = (

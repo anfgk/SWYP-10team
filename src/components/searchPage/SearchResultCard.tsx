@@ -6,7 +6,11 @@ import {
   getDistanceInKm,
   heartClickedWithLogin,
 } from "@/lib/searchResultCardUtils";
-import { copyPlacePage, loginConfirmAlert } from "@/lib/commonUtils";
+import {
+  copyPlacePage,
+  loginConfirmAlert,
+  removeTags,
+} from "@/lib/commonUtils";
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../common/SVGIcons";
 import SvgButton from "../common/SvgButton";
@@ -20,7 +24,7 @@ interface Props {
 
 const SearchResultCard = ({ cardData }: Props) => {
   const { isLoggedIn } = useAuthStore();
-  const [liked, setLiked] = useState(isLoggedIn ? cardData.isLiked : false);
+  const [liked, setLiked] = useState(isLoggedIn ? cardData.wishData : false);
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
 
@@ -28,11 +32,13 @@ const SearchResultCard = ({ cardData }: Props) => {
     <div className="w-full h-[280px] border-b-[1px]">
       <SearchCard
         className="w-full h-[255px] flex flex-row gap-[32px] cursor-pointer"
-        onClick={() => navigate(`/placedetail/${cardData.id}`)}
+        onClick={() => navigate(`/placedetail/${cardData.contentId}`)}
       >
         <MainCard
           className="w-[340px] h-full bg-cover bg-center relative"
-          style={{ backgroundImage: `url(${cardData.img})` }}
+          style={{
+            backgroundImage: `url(${cardData.image || "/assets/images/common/default_thumbnail.png"})`,
+          }}
         >
           <div className="absolute w-fit h-[40px] flex gap-[8px] bottom-[15px] right-[15px]">
             <SvgButton
@@ -47,7 +53,11 @@ const SearchResultCard = ({ cardData }: Props) => {
               height={40}
               onClick={() => {
                 isLoggedIn
-                  ? heartClickedWithLogin(cardData.id, liked, setLiked)
+                  ? heartClickedWithLogin(
+                      cardData.contentId.toString(),
+                      liked,
+                      setLiked
+                    )
                   : loginConfirmAlert(navigate);
               }}
             />
@@ -55,7 +65,7 @@ const SearchResultCard = ({ cardData }: Props) => {
               svgname="thumbnailShare"
               width={40}
               height={40}
-              onClick={() => copyPlacePage(cardData.id)}
+              onClick={() => copyPlacePage(cardData.contentId.toString())}
             />
           </div>
         </MainCard>
@@ -73,7 +83,7 @@ const SearchResultCard = ({ cardData }: Props) => {
                   color="var(--main-color)"
                 />
                 <p className="text-[18px]">
-                  {Math.round(cardData.rating * 10) / 10}
+                  {Math.round(cardData.avgScore * 10) / 10}
                 </p>
               </div>
             </div>
@@ -86,20 +96,32 @@ const SearchResultCard = ({ cardData }: Props) => {
               />
               <p className="text-[14px]">
                 {lon && lat
-                  ? getDistanceInKm(lon, lat, cardData.mapX, cardData.mapY)
+                  ? getDistanceInKm(lon, lat, cardData.mapx, cardData.mapy) +
+                    "km"
                   : "위치권한이 없습니다"}
               </p>
             </div>
           </div>
-          <div className="w-full h-[28px] flex flex-row gap-[8px]">
-            {cardData.tags.map((tag, i) => (
-              <TagLabel key={i} value={tag} />
-            ))}
-          </div>
+          {cardData.hashtag.length > 0 && (
+            <div className="w-full h-[28px] flex flex-row gap-[8px]">
+              {cardData.hashtag.map((tag, i) => (
+                <TagLabel key={i} value={tag} />
+              ))}
+            </div>
+          )}
+
           <div className="w-full h-[22px] flex gap-[8px] text-[16px] text-[var(--card-subText)]">
-            <p>{cardData.address}</p>
+            <p>
+              {cardData.regionName.sidoName +
+                " " +
+                cardData.regionName.sigunguName}
+            </p>
             <p>·</p>
-            <p>{cardData.closeDay}</p>
+            <p>
+              {cardData.restDate && cardData.restDate.trim()
+                ? removeTags(cardData.restDate)
+                : "휴무정보 없음"}
+            </p>
           </div>
         </div>
       </SearchCard>
