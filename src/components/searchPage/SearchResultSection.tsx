@@ -2,16 +2,18 @@ import { useEffect, useState, useMemo } from "react";
 import SearchResultList from "./SearchResultList";
 import SortButton from "../common/SortButton";
 import { useSearchParams } from "react-router-dom";
-//import { getValueFromURLParams } from "@/lib/searchUtils";
+import { createSearchApiParam } from "@/lib/searchUtils";
 
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { testSearchData } from "@/configs/dummyData";
+import { fetchSmart } from "@/lib/fetchUtils";
 
 const SearchResultSection = () => {
   const [sort, setSort] = useState<"popular" | "latest" | "">("");
   const [visibleCount, setVisibleCount] = useState(4);
-  //const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
+  const [resultList, setResultList] = useState([]);
 
   // 정렬 기능
   const sortedData = useMemo(() => {
@@ -28,7 +30,7 @@ const SearchResultSection = () => {
   }, [sort]);
 
   // 보여질 데이터
-  const slicedData = sortedData.slice(0, visibleCount);
+  const slicedData = resultList.slice(0, visibleCount);
 
   //무한 스크롤 콜백
   const loadMore = () => {
@@ -46,6 +48,30 @@ const SearchResultSection = () => {
 
   useEffect(() => {
     // 백엔드 api 자리
+    const apiParam = createSearchApiParam(searchParams);
+
+    const fetchSearch = async () => {
+      setLoading(true);
+
+      try {
+        const res = await fetchSmart(`/api/content/search?${apiParam}`, {
+          method: "GET",
+        });
+
+        if (!res.ok) throw new Error("검색 요청 실패");
+
+        const data = await res.json();
+        console.log(apiParam.toString());
+        console.log(`/api/content/search?${apiParam}`);
+        console.log(data);
+      } catch (e) {
+        console.error("검색 목록 불러오기 실패", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSearch();
   }, [searchParams, sort]);
 
   return (
@@ -69,7 +95,18 @@ const SearchResultSection = () => {
           />
         </div>
       </div>
-      <SearchResultList searchDataList={slicedData} />
+      {loading ? (
+        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8">
+          불러오는 중...
+        </p>
+      ) : resultList.length > 0 ? (
+        <SearchResultList searchDataList={slicedData} />
+      ) : (
+        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8 border-t-1 border-b-1">
+          선택된 조건에 해당하는 검색 결과가 없습니다.
+        </p>
+      )}
+
       {/* 관찰 대상 div */}
       {visibleCount < sortedData.length && (
         <div ref={observerRef} className="h-[1px]" />

@@ -17,7 +17,10 @@ const ReviewSection = ({ placeId }: Props) => {
   } = useReviewList({ placeId });
   return (
     <section className="w-full h-fit flex flex-col gap-[56px]">
-      <ReviewPhotoSection reviewData={reviewData!} />
+      <ReviewPhotoSection
+        reviewImageList={reviewData?.reviewImages ?? []}
+        reviewCount={reviewData?.totalElements ?? 0}
+      />
       <ReviewListSection
         sort={sort}
         reviews={reviews}

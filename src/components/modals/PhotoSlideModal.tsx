@@ -2,22 +2,18 @@ import { useState } from "react";
 import ModalBackground from "./common/ModalBackground";
 import PhotoSlideSection from "./photoSlideModal/PhotoSlideSection";
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
-import type { ReviewImage } from "@/types/apiResponseTypes";
+import { usePhotoModalStore } from "@/stores/photoModalStore";
 
-interface Props {
-  photoList: ReviewImage[];
-  index?: number;
-  onClose: () => void;
-}
-
-const PhotoSlideModal = ({ photoList, index = 0, onClose }: Props) => {
+const PhotoSlideModal = () => {
+  const { photoList, index, modalClose } = usePhotoModalStore();
   const [currentIdx, setCurrentIdx] = useState(index);
-  useModalEscapeKey(onClose);
+
+  useModalEscapeKey(modalClose);
 
   return (
-    <ModalBackground onClose={onClose}>
+    <ModalBackground onClose={modalClose}>
       <div
-        className="w-[1000px] h-[800px] bg-white flex flex-col gap-[24px] items-center px-[24px] py-[32px] rounded-[24px]"
+        className="w-[1000px] h-[800px] bg-white flex flex-col gap-[24px] items-center px-[24px] py-[24px] rounded-[24px]"
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow: `0px 0px 1px 0px rgba(0, 0, 0, 0.08),
@@ -32,7 +28,7 @@ const PhotoSlideModal = ({ photoList, index = 0, onClose }: Props) => {
           </p>
           <button
             className="w-[24px] h-[24px] cursor-pointer"
-            onClick={onClose}
+            onClick={modalClose}
           >
             <img
               className="w-full h-full"
@@ -42,9 +38,9 @@ const PhotoSlideModal = ({ photoList, index = 0, onClose }: Props) => {
           </button>
         </div>
         {/* 사진 확대 div */}
-        <section className="w-[600px] h-[450px] bg-[var(--place-neutral)] rounded-[24px] overflow-hidden">
+        <section className="w-[640px] h-[480px] bg-[var(--place-neutral)] rounded-[24px] overflow-hidden">
           <img
-            src={photoList[currentIdx].imageUrl}
+            src={photoList[currentIdx]?.imageUrl ?? ""}
             alt="photo_big"
             className="w-full h-full object-contain"
           />

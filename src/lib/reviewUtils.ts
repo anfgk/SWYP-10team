@@ -17,4 +17,11 @@ const heartClickedWithLogin = (
   alert(endPoint + " / " + method);
 };
 
-export { heartClickedWithLogin };
+const createMaskedNickname = (name: string) => {
+  const length = name.length;
+  const maskLength = Math.floor(length / 2);
+
+  return name.slice(0, length - maskLength) + "*".repeat(maskLength);
+};
+
+export { heartClickedWithLogin, createMaskedNickname };

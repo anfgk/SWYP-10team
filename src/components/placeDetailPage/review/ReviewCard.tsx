@@ -8,8 +8,9 @@ import type { Review } from "@/types/apiResponseTypes";
 import { formatDateToString } from "@/lib/placeDetailUtils";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
-import { heartClickedWithLogin } from "@/lib/reviewUtils";
+import { heartClickedWithLogin, createMaskedNickname } from "@/lib/reviewUtils";
 import { loginConfirmAlert } from "@/lib/commonUtils";
+import { usePhotoModalStore } from "@/stores/photoModalStore";
 
 interface Props {
   review: Review;
@@ -20,6 +21,8 @@ const ReviewCard = ({ review }: Props) => {
   const [likedAmount, setLikedAmount] = useState(review.recommendedNumber);
   const [likeChecked, setLikeChecked] = useState(review.isRecommended);
   const [open, setOpen] = useState(false);
+
+  const { modalOpen } = usePhotoModalStore();
 
   const navigate = useNavigate();
 
@@ -32,7 +35,9 @@ const ReviewCard = ({ review }: Props) => {
             src={review.profileImageUrl}
             className="w-[24px] h-[24px] rounded-[67.5px]"
           />
-          <p className="w-fit text-[14px]">{review.displayName}</p>
+          <p className="w-fit text-[14px]">
+            {createMaskedNickname(review.displayName)}
+          </p>
         </div>
         {/* 날짜 */}
         <p className="text-[11px]">
@@ -44,10 +49,17 @@ const ReviewCard = ({ review }: Props) => {
         <MainCard
           className="w-[212px] h-full cursor-pointer"
           // style={{ backgroundImage: `url(${review.images[0].imageUrl})` }}
-          onClick={() => alert("모달창 오픈 넣는자리 " + review.reviewId)}
+          onClick={() => {
+            if (review.images.length > 0) {
+              modalOpen(review.images, 0);
+            }
+          }}
         >
           <img
-            src={review.images[0].imageUrl}
+            src={
+              review.images[0]?.imageUrl ??
+              "/assets/images/common/default_thumbnail.png"
+            }
             className="w-full h-full object-cover object-center"
           />
         </MainCard>

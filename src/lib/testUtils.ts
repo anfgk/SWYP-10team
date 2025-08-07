@@ -1,4 +1,6 @@
+import { useSearchParams } from "react-router-dom";
 import { fetchWithAuth, fetchWithoutAuth } from "./fetchUtils";
+import { getSigunguCodesByNames } from "./searchUtils";
 
 const searchTest = async () => {
   try {
@@ -17,26 +19,24 @@ const searchTest = async () => {
 };
 
 const reviewWriteTest = async () => {
-  const content = "찰떡이는 고양이 귀여워";
-  const images = ["/1.jpeg", "/2.jpeg", "/3.jpeg"];
-  const formData = new FormData();
-  for (const imgPath of images) {
-    const response = await fetch(imgPath);
-    const blob = await response.blob();
-    // "images"는 서버에서 받는 파라미터명 맞춰야 함
-    formData.append("images", blob, imgPath.split("/").pop() || "image.jpg");
-  }
+  const content = "비비드라라러브";
+
   try {
     await fetchWithAuth(
-      `/api/review/125419?contentId=125419&score=4.0&content=${encodeURIComponent(content)}`,
+      `/api/review/125419?contentId=125419&score=2.0&content=${encodeURIComponent(content)}`,
 
       {
         method: "POST",
-        body: formData,
       }
     );
   } catch (e) {
     console.log("실패", e);
   }
 };
-export { searchTest, reviewWriteTest };
+
+const paramTest = () => {
+  const test = getSigunguCodesByNames("충남", "논산,서산,보령");
+  alert(test);
+};
+
+export { searchTest, reviewWriteTest, paramTest };

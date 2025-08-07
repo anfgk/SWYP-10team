@@ -10,7 +10,7 @@ interface Props {
   placeId: string;
   likedCount: number;
   viewCount: number;
-  isLiked?: boolean;
+  isLiked: boolean;
 }
 const PlacePupularitySection = ({
   placeId,

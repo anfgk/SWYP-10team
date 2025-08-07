@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ReviewData, Review } from "@/types/apiResponseTypes";
 import { fetchSmart } from "@/lib/fetchUtils";
+import { useAuthStore } from "@/stores/authStore";
 
 interface Props {
   placeId: string;
@@ -13,6 +14,7 @@ const useReviewList = ({ placeId }: Props) => {
   const [sort, setSort] = useState<"r" | "c">("r");
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useAuthStore();
 
   const SIZE = 4;
 
@@ -57,7 +59,7 @@ const useReviewList = ({ placeId }: Props) => {
     return () => {
       controller.abort();
     };
-  }, [page, sort, placeId]);
+  }, [page, sort, placeId, isLoggedIn]);
 
   const handleLoadMore = () => {
     if (loading || !hasMore) return;

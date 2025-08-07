@@ -3,7 +3,7 @@ import SVGIcons from "./SVGIcons";
 interface Props {
   checked: boolean;
   onChange: (checked: boolean) => void;
-  id: string;
+  id?: string;
 }
 const SVGCheckBox = ({ checked, onChange, id = "" }: Props) => {
   return (

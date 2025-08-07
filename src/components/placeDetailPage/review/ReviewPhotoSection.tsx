@@ -1,36 +1,30 @@
 import useSlideIndex from "@/hooks/useSlideIndex";
 import ReviewPhotoSlide from "./ReviewPhotoSlide";
 
-import { usePhotoModalState } from "@/hooks/usePhotoModalState";
-import PhotoSlideModal from "../../modals/PhotoSlideModal";
-import type { ReviewData, ReviewImage } from "@/types/apiResponseTypes";
+import type { ResponseImage } from "@/types/apiResponseTypes";
 
 interface Props {
-  reviewData?: ReviewData;
+  reviewImageList: ResponseImage[];
+  reviewCount: number;
 }
-const ReviewPhotoSection = ({ reviewData }: Props) => {
-  const slides: ReviewImage[][] = [];
+const ReviewPhotoSection = ({ reviewImageList, reviewCount }: Props) => {
+  const slides: ResponseImage[][] = [];
 
-  const images: ReviewImage[] = reviewData?.reviewImages ?? [];
-  const reviewsCount = reviewData?.totalElements ?? 0;
-
-  for (let i = 0; i < images.length; i += 7) {
-    slides.push(images.slice(i, i + 7));
+  for (let i = 0; i < reviewImageList.length; i += 7) {
+    slides.push(reviewImageList.slice(i, i + 7));
   }
 
   const { index, handleNext, handlePrev } = useSlideIndex(slides);
-
-  const { isOpen, photoIndex, openModal, closeModal } = usePhotoModalState();
 
   return (
     <section className="w-full h-fit flex flex-col gap-[24px] border-t-[1px] border-[var(--search-element-border)] pt-[8px]">
       {/* 전체 리뷰 갯수 */}
       <div className="w-fit h-[32px] flex gap-[8px] items-center">
         <h2 className="text-[20px] font-semibold">리뷰</h2>
-        <p className="text-[14px]">({reviewsCount}건)</p>
+        <p className="text-[14px]">({reviewCount}건)</p>
       </div>
 
-      {reviewsCount > 0 && (
+      {reviewCount > 0 && (
         // 리뷰 사진 모음
         <div className="w-full h-[150px] flex flex-row items-center justify-between">
           <button
@@ -57,7 +51,7 @@ const ReviewPhotoSection = ({ reviewData }: Props) => {
                   key={i}
                   imgs={slide}
                   offset={i * 7}
-                  onPhotoClick={openModal}
+                  photoLists={reviewImageList}
                 />
               ))}
             </div>
@@ -75,14 +69,6 @@ const ReviewPhotoSection = ({ reviewData }: Props) => {
             />
           </button>
         </div>
-      )}
-
-      {isOpen && (
-        <PhotoSlideModal
-          photoList={images}
-          index={photoIndex}
-          onClose={closeModal}
-        />
       )}
     </section>
   );

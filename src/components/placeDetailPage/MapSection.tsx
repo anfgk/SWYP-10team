@@ -1,10 +1,4 @@
-import { useEffect, useRef } from "react";
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import { useKakaoMap } from "@/hooks/useKakaoMap";
 
 interface Props {
   title: string;
@@ -13,48 +7,7 @@ interface Props {
 }
 
 const MapSection = ({ title, lat, lng }: Props) => {
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  const mapInstance = useRef<any | null>(null);
-
-  useEffect(() => {
-    const { kakao } = window;
-
-    if (!kakao || !mapRef.current || mapInstance.current) return;
-
-    kakao.maps.load(() => {
-      const options = {
-        center: new kakao.maps.LatLng(lat, lng),
-        level: 3,
-      };
-      mapInstance.current = new kakao.maps.Map(mapRef.current, options);
-
-      const imgSrc = "/assets/icons/location_marker.png";
-      const imgSize = new kakao.maps.Size(48, 58);
-      const imgOption = { offset: new kakao.maps.Point(24, 58) };
-      const markerImg = new kakao.maps.MarkerImage(imgSrc, imgSize, imgOption);
-
-      const markerPosition = new kakao.maps.LatLng(lat, lng);
-
-      const marker = new kakao.maps.Marker({
-        position: markerPosition,
-        image: markerImg,
-      });
-
-      marker.setMap(mapInstance.current);
-
-      // const iwContent = `<div class="kakao-info">${title}</div>`;
-      // const infoWindow = new kakao.maps.InfoWindow({
-      //   position: markerPosition,
-      //   content: iwContent,
-      // });
-
-      // infoWindow.open(mapInstance.current, marker);
-
-      kakao.maps.event.addListener(mapInstance.current, "click", () => {
-        window.open(`https://map.kakao.com/link/to/${title},${lat},${lng}`);
-      });
-    });
-  }, [title, lat, lng]);
+  const { mapRef } = useKakaoMap({ title, lat, lng });
 
   return (
     <section className="w-full h-fit pb-[44px]">

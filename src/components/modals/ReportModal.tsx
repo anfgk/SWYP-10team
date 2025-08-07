@@ -21,7 +21,7 @@ const ReportModal = ({ onClose, reviewId }: Props) => {
   return (
     <ModalBackground onClose={onClose}>
       <div
-        className="w-[562px] h-fit bg-white flex flex-col gap-[44px] px-[24px] py-[32px] rounded-[24px]"
+        className="w-[562px] h-fit bg-white flex flex-col gap-[44px] px-[24px] py-[24px] rounded-[24px]"
         onClick={(e) => e.stopPropagation()}
         style={{
           boxShadow: `0px 0px 1px 0px rgba(0, 0, 0, 0.08),

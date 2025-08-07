@@ -6,7 +6,7 @@ type JWTPayLoad = {
   exp?: number;
 };
 
-type ReviewImage = {
+type ResponseImage = {
   imageId: number;
   imageUrl: string;
 };
@@ -23,12 +23,12 @@ type Review = {
   recommendedNumber: number;
   isRecommended: boolean;
   isBlind: boolean;
-  images: ReviewImage[];
+  images: ResponseImage[];
 };
 
 type ReviewData = {
   reviews: Review[];
-  reviewImages: ReviewImage[];
+  reviewImages: ResponseImage[];
   totalElements: number;
   totalPages: number;
   currentPage: number;
@@ -38,18 +38,52 @@ type ReviewData = {
 };
 
 type SearchCardData = {
-  id: string;
+  contentId: number;
   title: string;
-  address: string;
-  closeDay: string;
-  mapX: number;
-  mapY: number;
-  rating: number;
-  tags: string[];
-  img: string;
-  isLiked: boolean;
-  createdAt: Date;
-  heartCount: number;
+  addr1: string;
+  addr2: string;
+  image: string;
+  thumbImage: string;
+  categoryId: string;
+  contentTypeId: number;
+  copyright: string;
+  mapx: number;
+  mapy: number;
+  mlevel: number;
+  tel: string;
+  zipcode: number;
+  avgScore: number;
+  wishData: boolean;
+  regionName: {
+    sidoName: string;
+    sigunguName: string;
+  };
+  hashtag: string[];
+  restDate: string;
+};
+
+type PlaceDetailData = {
+  contentId: 0;
+  title: string;
+  addr1: string;
+  addr2: string;
+  image: string;
+  thumbImage: string;
+  categoryId: string;
+  contentTypeId: number;
+  copyright: string;
+  mapx: number;
+  mapy: number;
+  mlevel: number;
+  tel: string;
+  zipcode: number;
+  avgScore: number;
+  wishData: true;
+  wishCnt: number;
+  visited: true;
+  totalView: number;
+  overview: string;
+  detailImage: ResponseImage[];
 };
 
 type ReasonCode = {
@@ -60,8 +94,9 @@ type ReasonCode = {
 export type {
   JWTPayLoad,
   Review,
-  ReviewImage,
+  ResponseImage,
   ReviewData,
   SearchCardData,
+  PlaceDetailData,
   ReasonCode,
 };

@@ -1,15 +1,15 @@
 import useSlideIndex from "@/hooks/useSlideIndex";
 import PhotoSlide from "./PhotoSlide";
-import type { ReviewImage } from "@/types/apiResponseTypes";
+import type { ResponseImage } from "@/types/apiResponseTypes";
 
 interface Props {
-  photoList: ReviewImage[];
+  photoList: ResponseImage[];
   setIndex: (idx: number) => void;
   activeIndex: number;
 }
 
 const PhotoSlideSection = ({ photoList, setIndex, activeIndex }: Props) => {
-  const slides: ReviewImage[][] = [];
+  const slides: ResponseImage[][] = [];
   for (let i = 0; i < photoList.length; i += 7) {
     slides.push(photoList.slice(i, i + 7));
   }

@@ -27,4 +27,12 @@ const heartClickedWithLogin = (
   alert(endPoint + " / " + method);
 };
 
-export { formatDateToString, heartClickedWithLogin };
+const emptyStringToDefault = (str: string): string => {
+  if (str === "") {
+    return "추후 업데이트 예정입니다.";
+  } else {
+    return str;
+  }
+};
+
+export { formatDateToString, heartClickedWithLogin, emptyStringToDefault };
