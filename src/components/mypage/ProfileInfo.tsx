@@ -1,183 +1,75 @@
-import { useState, useRef, useEffect } from "react";
-import PageButton from "@/components/ui/page-button";
-import SocialIdSection from "@/components/mypage/SocialIdSection";
-import NicknameSection from "@/components/mypage/NicknameSection";
-import ImageCropModal from "@/components/mypage/ImageCropModal";
+import { useState, useEffect } from "react";
+import { useAuthStore } from "@/stores/authStore";
+import { fetchUserProfile } from "@/lib/apiUtils";
 
 const ProfileInfo = () => {
-  const [profileImage, setProfileImage] = useState<string>("");
-  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
-  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
-  const [currentImageForCrop, setCurrentImageForCrop] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { accessToken, user } = useAuthStore();
+  const [profileData, setProfileData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 컴포넌트 마운트 시 프로필 정보 로드
+  const loadProfileData = async () => {
+    if (!accessToken) {
+      setError("로그인이 필요합니다.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const data = await fetchUserProfile(accessToken);
+      setProfileData(data);
+    } catch (error) {
+      setError("프로필 정보를 불러오는데 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    loadUserProfile();
-  }, []);
+    loadProfileData();
+  }, [accessToken]);
 
-  const loadUserProfile = async () => {
-    try {
-      // 로컬스토리지에서 프로필 이미지 불러오기
-      const savedProfileImage = localStorage.getItem("profileImage");
-      if (savedProfileImage) {
-        setProfileImage(savedProfileImage);
-      }
+  if (loading) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center">
+        <p className="text-gray-500">프로필 정보를 불러오는 중...</p>
+      </div>
+    );
+  }
 
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      const profileData = await getUserProfile();
-      if (profileData.profileImage) {
-        setProfileImage(profileData.profileImage);
-      }
-      */
+  if (error) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
-      // 로컬에서 테스트용 (백엔드 없이)
-      console.log("프로필 정보 로드 완료");
-    } catch (error) {
-      console.error("프로필 정보 로드 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
-    }
-  };
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImageFile(file);
-      setCurrentImageForCrop("");
-      setIsCropModalOpen(true);
-    }
-  };
-
-  const handleChangeImage = () => {
-    // 기존 사진을 띄우지 않고 바로 파일 선택
-    fileInputRef.current?.click();
-  };
-
-  const handleCrop = async (croppedImage: string) => {
-    try {
-      // 크롭된 이미지를 바로 로컬 상태에 적용 (백엔드 없이 테스트용)
-      setProfileImage(croppedImage);
-
-      // 로컬스토리지에 프로필 이미지 저장
-      localStorage.setItem("profileImage", croppedImage);
-
-      setSelectedImageFile(null);
-      setCurrentImageForCrop("");
-      setIsCropModalOpen(false);
-
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      // 크롭된 이미지를 Blob으로 변환
-      const response = await fetch(croppedImage);
-      const blob = await response.blob();
-      const file = new File([blob], "profile-image.jpg", {
-        type: "image/jpeg",
-      });
-
-      // 이미지 업로드
-      const uploadResult = await uploadProfileImage(file);
-
-      // 프로필 정보 업데이트
-      await updateUserProfile({ profileImage: uploadResult.imageUrl });
-
-      // 로컬 상태 업데이트
-      setProfileImage(uploadResult.imageUrl);
-      setSelectedImageFile(null);
-      setCurrentImageForCrop("");
-      */
-    } catch (error) {
-      console.error("이미지 업로드 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
-    }
-  };
-
-  const handleDeleteImage = async () => {
-    try {
-      // 로컬 상태에서 이미지 제거 (백엔드 없이 테스트용)
-      setProfileImage("");
-
-      // 로컬스토리지에서 프로필 이미지 제거
-      localStorage.removeItem("profileImage");
-
-      setCurrentImageForCrop("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
-      // TODO: 백엔드 연동 시 아래 코드 사용
-      /*
-      // 프로필 정보에서 이미지 제거
-      await updateUserProfile({ profileImage: "" });
-
-      // 로컬 상태 업데이트
-      setProfileImage("");
-      setCurrentImageForCrop("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      */
-    } catch (error) {
-      console.error("이미지 삭제 실패:", error);
-      // 에러가 발생해도 UI는 그대로 유지
-    }
-  };
+  const displayName =
+    profileData?.displayName || profileData?.name || user?.name || "사용자";
+  const email = profileData?.email || user?.email || "";
+  const profileImage = profileData?.profileImage || profileData?.image;
 
   return (
-    <div className="relative w-full mb-[56px]">
-      <div className="text-[20px] font-semibold mb-[16px]">프로필 정보</div>
-      <div className="flex items-center gap-[24px] mb-[32px]">
-        <div className="w-[212px] h-[141px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-lg">
-          {profileImage && (
-            <img
-              src={profileImage}
-              alt="프로필 이미지"
-              className="w-full h-full object-cover"
-            />
-          )}
-        </div>
-        <div className="flex flex-col gap-2 flex-1 justify-end h-32">
-          <div className="flex gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            <PageButton
-              text={profileImage ? "변경하기" : "이미지 추가"}
-              variant="default"
-              onClick={handleChangeImage}
-            />
-            {profileImage && (
-              <PageButton
-                text="삭제하기"
-                variant="default"
-                onClick={handleDeleteImage}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-      <NicknameSection />
-      <SocialIdSection />
-
-      {/* 모달을 ProfileInfo 컴포넌트 내부에 배치 */}
-      {isCropModalOpen && (
-        <div className="absolute inset-0 z-10">
-          <ImageCropModal
-            isOpen={isCropModalOpen}
-            onClose={() => {
-              setIsCropModalOpen(false);
-              setCurrentImageForCrop("");
-            }}
-            onCrop={handleCrop}
-            imageFile={selectedImageFile}
-            currentImage={currentImageForCrop}
+    <div className="flex items-center gap-4 p-4">
+      <div className="w-16 h-16 rounded-full overflow-hidden">
+        {profileImage ? (
+          <img
+            src={profileImage}
+            alt="프로필 이미지"
+            className="w-full h-full object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+            프로필
+          </div>
+        )}
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold">{displayName}</h2>
+        <p className="text-gray-600">{email}</p>
+      </div>
     </div>
   );
 };

@@ -1,24 +1,38 @@
-import { useEffect } from "react";
-import { useLocationStore } from "@/stores/locationStore";
+import { useState, useEffect } from "react";
+
+interface Location {
+  latitude: number;
+  longitude: number;
+}
 
 const useUserLocation = () => {
-  const { setCoords } = useLocationStore();
+  const [location, setLocation] = useState<Location | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { longitude, latitude } = position.coords;
-          setCoords(longitude, latitude);
-        },
-        (error) => {
-          console.log("위치 거부됨 또는 오류", error.message);
-        },
-      );
-    } else {
-      console.log("Geolocation API를 지원하지 않음");
+    if (!navigator.geolocation) {
+      setError("Geolocation API를 지원하지 않음");
+      setLoading(false);
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setLoading(false);
+      },
+      (error) => {
+        setError("위치 거부됨 또는 오류");
+        setLoading(false);
+      }
+    );
   }, []);
+
+  return { location, error, loading };
 };
 
 export default useUserLocation;
