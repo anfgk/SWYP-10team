@@ -344,12 +344,15 @@ const WishPlaces = () => {
 
       if (response.ok) {
         // 찜하기 취소 성공 시 목록 새로고침
-        loadWishPlaces();
+        console.log("찜하기 취소 성공, 목록 새로고침 중...");
+        await loadWishPlaces();
       } else {
         console.error("찜하기 취소 실패");
+        alert("찜하기 취소에 실패했습니다.");
       }
     } catch (error) {
       console.error("찜하기 취소 중 오류:", error);
+      alert("찜하기 취소 중 오류가 발생했습니다.");
     }
   };
 
