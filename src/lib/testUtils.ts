@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+//import { useSearchParams } from "react-router-dom";
 import { fetchWithAuth, fetchWithoutAuth } from "./fetchUtils";
 import { getSigunguCodesByNames } from "./searchUtils";
 

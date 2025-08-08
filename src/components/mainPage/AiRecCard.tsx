@@ -3,15 +3,10 @@ import MainCard from "./MainCard";
 
 interface Props {
   desc?: string;
-  img?: string;
   link?: string;
 }
 
-const AiRecCard = ({
-  desc = "",
-  img = "/assets/samples/aicard_sample.png",
-  link = "",
-}: Props) => {
+const AiRecCard = ({ desc = "", link = "" }: Props) => {
   const navigate = useNavigate();
 
   return (

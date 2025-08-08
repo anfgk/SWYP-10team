@@ -1,8 +1,8 @@
-import type { ReviewImage } from "@/types/apiResponseTypes";
+import type { ResponseImage } from "@/types/apiResponseTypes";
 import PhotoCard from "./PhotoCard";
 
 interface Props {
-  imgs: ReviewImage[];
+  imgs: ResponseImage[];
   offset: number;
   activeIndex: number;
   onPhotoClick: (idx: number) => void;

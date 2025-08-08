@@ -1,4 +1,4 @@
-import { insertOrDeleteFromArr } from "@/lib/searchUtils";
+//import { insertOrDeleteFromArr } from "@/lib/searchUtils";
 
 interface Props {
   subregions: string[];
