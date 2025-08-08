@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { createSearchApiParam } from "@/lib/searchUtils";
 
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
@@ -17,7 +17,6 @@ const useSearchListSection = () => {
   const [resultList, setResultList] = useState<SearchCardData[]>([]);
   const { lon, lat } = useLocationStore();
   const { isLoggedIn } = useAuthStore();
-  const location = useLocation();
 
   // 정렬 기능
   const sortedData = useMemo(() => {
@@ -87,13 +86,6 @@ const useSearchListSection = () => {
 
     fetchSearch();
   }, [searchParams, isLoggedIn]);
-
-  // 인기목록 더보기를 눌렀을 경우 정렬값 인기순으로 세팅
-  useEffect(() => {
-    if (location.state?.sort) {
-      setSort(location.state.sort);
-    }
-  }, [location.state]);
 
   return {
     sort,

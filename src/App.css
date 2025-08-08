@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 #root {
+  white-space: pre-line;
   --header-bg: #c7c7c7;
   --headerItems-bg: #ffffff;
   --footer-border: #000000;
@@ -39,6 +40,8 @@
   --modal-bg: rgba(0, 0, 0, 0.2);
 
   --neutral-600: #8c8c8c;
+
+  --place-detail-heart: rgba(69, 69, 69, 0.33);
 
   --textarea-border: rgba(191, 191, 191, 0.4);
 

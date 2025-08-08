@@ -1,38 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import MainCard from "./MainCard";
+import type { PopularCardData } from "@/types/apiResponseTypes";
+import { getDistanceInKm } from "@/lib/searchResultCardUtils";
+import { useLocationStore } from "@/stores/locationStore";
 
 interface Props {
-  rank?: number;
-  tag?: string;
-  place?: string;
-  distance?: number;
-  img?: string;
-  id?: string;
+  place: PopularCardData;
 }
 
-const PopularCard = ({
-  rank = 1,
-  place = "난지 한강공원",
-  tag = "물놀이",
-  distance = 5,
-  img = "http://tong.visitkorea.or.kr/cms/resource/42/2704942_image2_1.jpg",
-  id = "test",
-}: Props) => {
+const PopularCard = ({ place }: Props) => {
   const navigate = useNavigate();
+  const { lat, lon, isCoordsSet } = useLocationStore();
   return (
     <MainCard
       className="relative w-[286px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
-      style={{ backgroundImage: `url(${img})` }}
-      onClick={() => navigate(`/placedetail/${id}`)}
+      style={{
+        backgroundImage: `url(${place.image || "/assets/images/common/default_thumbnail.png"})`,
+      }}
+      onClick={() => navigate(`/placedetail/${place.contentId}`)}
     >
       <div className="w-[193px] h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)] z-10">
         <div className="h-[115px]">
-          <p className="h-[77px] text-[48px] font-bold">{rank}</p>
-          <p className="h-[38px] text-[24px] font-semibold">{place}</p>
+          <p className="h-[77px] text-[48px] font-bold">{place.ranking}</p>
+          <p className="h-[38px] text-[24px] font-semibold">{place.title}</p>
         </div>
         <div className="h-[42px]">
-          <p className="h-[22px] text-[16px]">#{tag}</p>
-          <p className="h-[22px] text-[14px]">여기서 {distance}km</p>
+          <p className="h-[22px] text-[16px]">{place.hashtag[4]}</p>
+          <p className="h-[22px] text-[14px]">
+            {isCoordsSet
+              ? `여기서 ${getDistanceInKm(lon!, lat!, place.mapx, place.mapy)}km`
+              : "위치권한이 없습니다."}
+          </p>
         </div>
       </div>
       {/*상단 그라데이션*/}

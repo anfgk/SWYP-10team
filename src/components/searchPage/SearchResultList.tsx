@@ -1,8 +1,8 @@
-import type { SearchCardData } from "@/types/apiResponseTypes";
+import type { CardInputType } from "@/types/apiResponseTypes";
 import SearchResultCard from "./SearchResultCard";
 
 interface Props {
-  searchDataList: SearchCardData[];
+  searchDataList: CardInputType[];
 }
 const SearchResultList = ({ searchDataList }: Props) => {
   return (

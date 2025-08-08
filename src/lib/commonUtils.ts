@@ -42,4 +42,14 @@ const removeTags = (str: string) => {
   return str.replace(/<[^>]*>/g, "");
 };
 
-export { copyPlacePage, copyCurrentAddress, loginConfirmAlert, removeTags };
+const addNewLines = (str: string) => {
+  return str.replace(/\|/g, "\n");
+};
+
+export {
+  copyPlacePage,
+  copyCurrentAddress,
+  loginConfirmAlert,
+  removeTags,
+  addNewLines,
+};

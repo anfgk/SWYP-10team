@@ -1,4 +1,4 @@
-//import { insertOrDeleteFromArr } from "@/lib/searchUtils";
+import { insertOrDeleteFromArr } from "@/lib/searchUtils";
 
 interface Props {
   subregions: string[];
@@ -21,8 +21,7 @@ const SubRegionList = ({ subregions, current, onChange }: Props) => {
         <button
           key={subregion}
           onClick={() => {
-            //onChange(insertOrDeleteFromArr(current, subrigion));
-            onChange([subregion]);
+            onChange(insertOrDeleteFromArr(current, subregion));
           }}
           className={`w-[76px] h-[38px] border-[1px] text-[16px] border-[var(--main-color)] rounded-[40px] ${current.includes(subregion) ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
         >

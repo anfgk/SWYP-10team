@@ -13,6 +13,7 @@ import useIssueAccessToken from "./hooks/useIssueAccessToken";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
 import MainFooter from "./components/layout/MainFooter";
 import CustomToast from "./components/common/CustomToast";
+import TodaysPopularListPage from "./pages/TodaysPopularListPage";
 
 function App() {
   useUserLocation();
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
+          <Route path="/popularoftoday" element={<TodaysPopularListPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
 

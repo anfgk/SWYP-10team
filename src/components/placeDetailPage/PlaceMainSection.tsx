@@ -1,22 +1,14 @@
 import type { ResponseImage } from "@/types/apiResponseTypes";
-import VisitedCheckBox from "./VisitedCheckBox";
+//import VisitedCheckBox from "./VisitedCheckBox";
 import { usePhotoModalStore } from "@/stores/photoModalStore";
 
 interface Props {
   title: string;
   thumbnail: string;
-  isVisited: boolean;
-  placeId: string;
   imgList: ResponseImage[];
 }
 
-const PlaceMainSection = ({
-  title,
-  thumbnail,
-  isVisited,
-  placeId,
-  imgList,
-}: Props) => {
+const PlaceMainSection = ({ title, thumbnail, imgList }: Props) => {
   const { modalOpen } = usePhotoModalStore();
   const extendedList = [{ imageId: 0, imageUrl: thumbnail }, ...imgList];
   return (
@@ -29,12 +21,12 @@ const PlaceMainSection = ({
           onClick={() => modalOpen(extendedList, 0)}
         />
       </div>
-      <div className="w-[136px] h-[24px] flex gap-[4px] items-center">
+      {/* <div className="w-[136px] h-[24px] flex gap-[4px] items-center">
         <label className="w-[108px] h-[20px] text-[14px]">
           방문한 장소인가요?
         </label>
         <VisitedCheckBox placeId={placeId} isVisited={isVisited} />
-      </div>
+      </div> */}
     </section>
   );
 };

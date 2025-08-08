@@ -392,3 +392,7 @@ export const CONTENT_TYPE_ID: Record<string, number> = {
   쇼핑: 38,
   음식점: 39,
 };
+
+export const CONTENT_TYPE_NAME: Record<number, string> = Object.fromEntries(
+  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key])
+) as Record<number, string>;

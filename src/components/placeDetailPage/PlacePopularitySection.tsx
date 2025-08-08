@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import SVGIcons from "../common/SVGIcons";
 import { copyPlacePage } from "@/lib/commonUtils";
 import { heartClickedWithLogin } from "@/lib/placeDetailUtils";
 import { loginConfirmAlert } from "@/lib/commonUtils";
 import { useNavigate } from "react-router-dom";
+import { usePlacePopularity } from "@/hooks/usePlacePopularity";
 
 interface Props {
   placeId: string;
@@ -21,10 +21,13 @@ const PlacePupularitySection = ({
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
-  const [likedAmount, setLikedAmount] = useState(likedCount);
-  const [likeChecked, setLikeChecked] = useState(
-    isLoggedIn ? (isLiked ?? false) : false
-  );
+  const { likeChecked, likedAmount, setLikeChecked, setLikedAmount } =
+    usePlacePopularity({
+      likedCount,
+      isLiked,
+      placeId,
+      isLoggedIn,
+    });
 
   return (
     <section className="w-full h-[73px] flex flex-col gap-[16px] py-[16px] text-[var(--place-neutral)]">
@@ -50,7 +53,9 @@ const PlacePupularitySection = ({
                 width={24}
                 height={24}
                 color={
-                  likeChecked ? "var(--main-color)" : "var(--place-neutral)"
+                  likeChecked
+                    ? "var(--main-color)"
+                    : "var(--place-detail-heart)"
                 }
               />
             </button>

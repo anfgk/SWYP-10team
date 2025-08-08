@@ -1,20 +1,32 @@
+import { fetchWithAuth } from "./fetchUtils";
 const heartClickedWithLogin = (
-  reviewid: number,
+  reviewId: number,
   checked: boolean,
   setChecked: (value: boolean) => void,
   likeChecked: boolean,
   setLikedAmount: React.Dispatch<React.SetStateAction<number>>
 ) => {
-  if (likeChecked) {
-    setLikedAmount((prev) => prev - 1);
-  } else {
-    setLikedAmount((prev) => prev + 1);
-  }
-  setChecked(!checked);
-  //api 요청 부분(장소 좋아요)
-  const endPoint = `/api/heart/XXX/${reviewid}`;
-  const method = !checked ? "POST" : "DELETE";
-  alert(endPoint + " / " + method);
+  //api 요청 부분(리뷰 좋아요)
+  const fetchPlaceLike = async () => {
+    const method = checked ? "DELETE" : "POST";
+    try {
+      const res = await fetchWithAuth(`/api/review/recommend/${reviewId}`, {
+        method: method,
+      });
+
+      if (res.status === 200) {
+        if (likeChecked) {
+          setLikedAmount((prev) => prev - 1);
+        } else {
+          setLikedAmount((prev) => prev + 1);
+        }
+        setChecked(!checked);
+      }
+    } catch (e) {
+      console.log("리뷰 좋아요 실패: ", e);
+    }
+  };
+  fetchPlaceLike();
 };
 
 const createMaskedNickname = (name: string) => {

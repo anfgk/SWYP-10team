@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import PopularSlide from "./PopularSlide";
 import PopularToolTip from "./PopularTooltip";
 import useSlideIndex from "@/hooks/useSlideIndex";
+import { usePopularPlaces } from "@/hooks/usePopularPlaces";
 
 const PopularSection = () => {
-  const testPopular20 = Array.from({ length: 20 }, (_, i) => i + 1);
-  const slides = Array.from(
-    { length: Math.ceil(testPopular20.length / 4) },
-    (_, i) => testPopular20.slice(i * 4, i * 4 + 4)
-  );
+  const { resultList } = usePopularPlaces();
+  const slides = [];
+
+  for (let i = 0; i < resultList.length; i += 4) {
+    slides.push(resultList.slice(i, i + 4));
+  }
 
   const { index, handleNext, handlePrev } = useSlideIndex(slides);
 
@@ -23,11 +25,7 @@ const PopularSection = () => {
           <PopularToolTip />
         </div>
 
-        <Link
-          to={"/search"}
-          state={{ sort: "popular" }}
-          className="text-[14px] hover:underline"
-        >
+        <Link to={"/popularoftoday"} className="text-[14px] hover:underline">
           더보기
         </Link>
       </div>
@@ -43,8 +41,8 @@ const PopularSection = () => {
               width: `${1200 * slides.length + 20 * (slides.length - 1)}px`,
             }}
           >
-            {slides.map((group, i) => (
-              <PopularSlide key={i} items={group} />
+            {slides.map((slide, i) => (
+              <PopularSlide key={i} placeList={slide} />
             ))}
           </div>
         </div>

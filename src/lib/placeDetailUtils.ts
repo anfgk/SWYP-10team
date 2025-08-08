@@ -42,7 +42,7 @@ const heartClickedWithLogin = (
 
 const emptyStringToDefault = (str: string): string => {
   if (str === "") {
-    return "추후 업데이트 예정입니다.";
+    return "-";
   } else {
     return str;
   }

@@ -9,6 +9,7 @@ import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { usePlaceDetail } from "@/hooks/usePlaceDetail";
 import { usePhotoModalStore } from "@/stores/photoModalStore";
+import type { PetGuideData } from "@/types/apiResponseTypes";
 import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
@@ -30,8 +31,6 @@ const PlaceDetailPage = () => {
               placeDetail?.image ||
               "/assets/images/common/default_thumbnail.png"
             }
-            isVisited={placeDetail?.visited ?? false}
-            placeId={id!}
             imgList={placeDetail?.detailImage ?? []}
           />
           <PlacePupularitySection
@@ -50,6 +49,7 @@ const PlaceDetailPage = () => {
             addr1={placeDetail?.addr1 ?? ""}
             addr2={placeDetail?.addr2 ?? ""}
             phoneNumber={placeDetail?.tel ?? ""}
+            petGuide={placeDetail?.petGuide ?? ({} as PetGuideData)}
           />
           <ReviewSection placeId={id!} />
           {isOpen && <PhotoSlideModal />}

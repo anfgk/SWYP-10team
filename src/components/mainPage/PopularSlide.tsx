@@ -1,13 +1,14 @@
+import type { PopularCardData } from "@/types/apiResponseTypes";
 import PopularCard from "./PopularCard";
 
 interface Props {
-  items: number[];
+  placeList: PopularCardData[];
 }
-const PopularSlide = ({ items }: Props) => {
+const PopularSlide = ({ placeList }: Props) => {
   return (
     <div className="w-[1200px] h-full flex justify-between flex-shrink-0">
-      {items.map((item) => (
-        <PopularCard key={item} rank={item} />
+      {placeList.map((place) => (
+        <PopularCard key={place.contentId} place={place} />
       ))}
     </div>
   );

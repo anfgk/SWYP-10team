@@ -22,7 +22,7 @@ const fetchWithAuth = async (
   });
 
   //access토큰 거부 시 재발급 요청
-  if (res.status === 401) {
+  if (!(res.status == 200 || res.status === 201)) {
     try {
       const refreshRes = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/reissue`,

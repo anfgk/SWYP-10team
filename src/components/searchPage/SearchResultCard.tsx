@@ -14,19 +14,25 @@ import {
 import { useLocationStore } from "@/stores/locationStore";
 import SVGIcons from "../common/SVGIcons";
 import SvgButton from "../common/SvgButton";
-import { useState } from "react";
-import type { SearchCardData } from "@/types/apiResponseTypes";
+import type { CardInputType } from "@/types/apiResponseTypes";
 import { useAuthStore } from "@/stores/authStore";
+import { useSearchResultCard } from "@/hooks/useSearchResultCard";
+import { CONTENT_TYPE_NAME } from "@/configs/searchConstants";
 
 interface Props {
-  cardData: SearchCardData;
+  cardData: CardInputType;
 }
 
 const SearchResultCard = ({ cardData }: Props) => {
   const { isLoggedIn } = useAuthStore();
-  const [liked, setLiked] = useState(isLoggedIn ? cardData.wishData : false);
+
   const { lon, lat } = useLocationStore();
   const navigate = useNavigate();
+
+  const { liked, setLiked } = useSearchResultCard({
+    isLoggedIn,
+    isLiked: Boolean(cardData.wishData),
+  });
 
   return (
     <div className="w-full h-[280px] border-b-[1px]">
@@ -104,7 +110,10 @@ const SearchResultCard = ({ cardData }: Props) => {
           </div>
           {cardData.hashtag.length > 0 && (
             <div className="w-full h-fit flex flex-wrap gap-[8px]">
-              {cardData.hashtag.slice(0, 5).map((tag, i) => (
+              <TagLabel
+                value={"#" + CONTENT_TYPE_NAME[cardData.contentTypeId]}
+              />
+              {cardData.hashtag.slice(0, 4).map((tag, i) => (
                 <TagLabel key={i} value={tag} />
               ))}
             </div>
