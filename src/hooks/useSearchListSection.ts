@@ -7,6 +7,7 @@ import { fetchSmart } from "@/lib/fetchUtils";
 import type { SearchCardData } from "@/types/apiResponseTypes";
 import { getDistanceInKm } from "@/lib/searchResultCardUtils";
 import { useLocationStore } from "@/stores/locationStore";
+import { useAuthStore } from "@/stores/authStore";
 
 const useSearchListSection = () => {
   const [sort, setSort] = useState<"popular" | "latest" | "distance" | "">("");
@@ -15,6 +16,7 @@ const useSearchListSection = () => {
   const [searchParams] = useSearchParams();
   const [resultList, setResultList] = useState<SearchCardData[]>([]);
   const { lon, lat } = useLocationStore();
+  const { isLoggedIn } = useAuthStore();
   const location = useLocation();
 
   // 정렬 기능
@@ -84,7 +86,7 @@ const useSearchListSection = () => {
     };
 
     fetchSearch();
-  }, [searchParams]);
+  }, [searchParams, isLoggedIn]);
 
   // 인기목록 더보기를 눌렀을 경우 정렬값 인기순으로 세팅
   useEffect(() => {

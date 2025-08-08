@@ -21,6 +21,7 @@ const usePlaceDetail = (id: string) => {
 
         if (!res.ok) throw new Error("장소 정보 불러오기 실패");
         const data = await res.json();
+        console.log(data);
         setPlaceDetail(data);
       } catch (e) {
         console.error("장소 api 에러: ", e);

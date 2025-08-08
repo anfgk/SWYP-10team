@@ -67,7 +67,7 @@ const SearchBar = () => {
           <img
             src="/assets/buttons/search_button.png"
             alt="left"
-            className="w-full h-full"
+            className="w-full h-full transition hover:brightness-90"
           />
         </button>
       </div>

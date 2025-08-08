@@ -31,7 +31,7 @@ const SearchResultCard = ({ cardData }: Props) => {
   return (
     <div className="w-full h-[280px] border-b-[1px]">
       <SearchCard
-        className="w-full h-[255px] flex flex-row gap-[32px] cursor-pointer"
+        className="w-full h-[255px] flex flex-row gap-[32px] rounded-[16px] cursor-pointer transition-none hover:brightness-95"
         onClick={() => navigate(`/placedetail/${cardData.contentId}`)}
       >
         <MainCard
@@ -103,8 +103,8 @@ const SearchResultCard = ({ cardData }: Props) => {
             </div>
           </div>
           {cardData.hashtag.length > 0 && (
-            <div className="w-full h-[28px] flex flex-row gap-[8px]">
-              {cardData.hashtag.map((tag, i) => (
+            <div className="w-full h-fit flex flex-wrap gap-[8px]">
+              {cardData.hashtag.slice(0, 5).map((tag, i) => (
                 <TagLabel key={i} value={tag} />
               ))}
             </div>

@@ -25,7 +25,7 @@ const PlaceMainSection = ({
       <div className="w-[340px] h-[255px] rounded-[16px] overflow-hidden">
         <img
           src={thumbnail}
-          className="w-full h-full cursor-pointer"
+          className="w-full h-full cursor-pointer transition hover:brightness-90"
           onClick={() => modalOpen(extendedList, 0)}
         />
       </div>

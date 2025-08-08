@@ -8,11 +8,15 @@ const MainFooter = () => {
       />
       <div className="flex flex-col justify-center items-center gap-[16px] w-[460px] h-[134px]">
         <div className="flex justify-between items-center w-[402px] h-[22px] text-[var(--label-normal)]">
-          <p className="text-[16px] cursor-pointer">이용약관</p>
+          <p className="text-[16px] cursor-pointer hover:underline">이용약관</p>
           <div className="w-px h-[16px] bg-[var(--search-element-border)]" />
-          <p className="text-[16px] cursor-pointer">개인정보처리방침</p>
+          <p className="text-[16px] cursor-pointer hover:underline">
+            개인정보처리방침
+          </p>
           <div className="w-px h-[16px] bg-[var(--search-element-border)]" />
-          <p className="text-[16px] cursor-pointer">프로젝트소개</p>
+          <p className="text-[16px] cursor-pointer hover:underline">
+            프로젝트소개
+          </p>
         </div>
 
         <div className="w-[501px] h-[96px] flex flex-col gap-[8px] text-[var(--place-neutral)]">

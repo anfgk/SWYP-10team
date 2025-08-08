@@ -46,7 +46,7 @@ const useKakaoMap = ({ title, lat, lng }: Props) => {
         }
         const imgSrc = "/assets/icons/location_marker.png";
         const imgSize = new kakao.maps.Size(48, 58);
-        const imgOption = { offset: new kakao.maps.Point(24, 58) };
+        const imgOption = { offset: new kakao.maps.Point(24, 40) };
         const markerImg = new kakao.maps.MarkerImage(
           imgSrc,
           imgSize,

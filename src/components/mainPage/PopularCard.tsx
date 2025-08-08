@@ -15,13 +15,13 @@ const PopularCard = ({
   place = "난지 한강공원",
   tag = "물놀이",
   distance = 5,
-  img = "/assets/samples/popularcard_sample.jpg",
+  img = "http://tong.visitkorea.or.kr/cms/resource/42/2704942_image2_1.jpg",
   id = "test",
 }: Props) => {
   const navigate = useNavigate();
   return (
     <MainCard
-      className="relative w-[286px] h-[380px] bg-cover cursor-pointer"
+      className="relative w-[286px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
       style={{ backgroundImage: `url(${img})` }}
       onClick={() => navigate(`/placedetail/${id}`)}
     >

@@ -26,7 +26,7 @@ const PopularSection = () => {
         <Link
           to={"/search"}
           state={{ sort: "popular" }}
-          className="text-[14px]"
+          className="text-[14px] hover:underline"
         >
           더보기
         </Link>
@@ -57,17 +57,17 @@ const PopularSection = () => {
           <img
             src="/assets/buttons/button_left.png"
             alt="left"
-            className="w-full h-full"
+            className="w-full h-full transition hover:brightness-80"
           />
         </button>
         <button
-          className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+          className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer "
           onClick={handleNext}
         >
           <img
             src="/assets/buttons/button_right.png"
-            alt="left"
-            className="w-full h-full"
+            alt="right"
+            className="w-full h-full transition hover:brightness-80"
           />
         </button>
       </div>

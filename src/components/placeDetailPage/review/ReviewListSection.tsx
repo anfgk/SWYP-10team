@@ -50,7 +50,7 @@ const ReviewListSection = ({
       {/* 더보기 버튼 */}
       {hasMore && reviews.length > 0 && (
         <button
-          className="w-fit h-[24px] mx-auto flex gap-[2px] mt-[24px] items-center cursor-pointer"
+          className="w-fit h-[24px] mx-auto flex gap-[2px] mt-[24px] items-center cursor-pointer hover:underline"
           onClick={handleLoadMore}
           disabled={loading}
         >

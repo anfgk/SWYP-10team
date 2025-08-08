@@ -1,3 +1,5 @@
+import { fetchWithAuth } from "./fetchUtils";
+
 const formatDateToString = (date: Date) => {
   const formatted = date.toLocaleDateString("ko-KR", {
     year: "numeric",
@@ -11,20 +13,31 @@ const formatDateToString = (date: Date) => {
 const heartClickedWithLogin = (
   placeid: string,
   checked: boolean,
-  setChecked: (value: boolean) => void,
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>,
   likeChecked: boolean,
   setLikedAmount: React.Dispatch<React.SetStateAction<number>>
 ) => {
-  if (likeChecked) {
-    setLikedAmount((prev) => prev - 1);
-  } else {
-    setLikedAmount((prev) => prev + 1);
-  }
-  setChecked(!checked);
   //api 요청 부분(장소 좋아요)
-  const endPoint = `/api/heart/XXX/${placeid}`;
-  const method = !checked ? "POST" : "DELETE";
-  alert(endPoint + " / " + method);
+  const fetchPlaceLike = async () => {
+    try {
+      const res = await fetchWithAuth(
+        `/api/content/wish-check?contentId=${placeid}`,
+        { method: "POST" }
+      );
+
+      if (res.status === 200) {
+        if (likeChecked) {
+          setLikedAmount((prev) => prev - 1);
+        } else {
+          setLikedAmount((prev) => prev + 1);
+        }
+        setChecked(!checked);
+      }
+    } catch (e) {
+      console.log("장소 찜 실패: ", e);
+    }
+  };
+  fetchPlaceLike();
 };
 
 const emptyStringToDefault = (str: string): string => {

@@ -62,7 +62,7 @@ const PlacePupularitySection = ({
           </div>
         </div>
         <button
-          className="w-[75px] h-[24px] flex gap-[2px] items-center cursor-pointer"
+          className="w-[75px] h-[24px] flex gap-[2px] items-center cursor-pointer transition hover:underline"
           onClick={() => copyPlacePage(placeId)}
         >
           <SVGIcons name="placedetailShare" width={24} height={24} color="" />
