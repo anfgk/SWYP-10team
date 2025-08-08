@@ -67,4 +67,143 @@ const decodeJWT = (accessToken: string) => {
   }
 };
 
+// 사용자 프로필 정보 가져오기
+export const fetchUserProfile = async (accessToken: string) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("사용자 프로필 API 에러 응답:", errorText);
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const responseText = await response.text();
+      console.error("JSON이 아닌 응답:", responseText);
+      throw new Error("API가 JSON을 반환하지 않습니다");
+    }
+
+    const data = await response.json();
+    console.log("사용자 프로필 로드 성공:", data);
+
+    // API 응답 구조에 따라 사용자 정보 추출
+    const userData = data?.data || data?.user || data;
+    return userData;
+  } catch (error) {
+    console.error("사용자 프로필 로드 실패:", error);
+    throw error;
+  }
+};
+
+// 사용자 프로필 정보 수정
+export const updateUserProfile = async (
+  accessToken: string,
+  displayName: string,
+  image: File
+) => {
+  try {
+    // FormData 생성 (API 스펙에 맞게)
+    const formData = new FormData();
+
+    // request 객체 구조로 전송
+    const requestData = {
+      displayName: displayName,
+      image: [image], // 이미지는 배열로 전송
+    };
+
+    // FormData에 request 객체 추가
+    formData.append("request", JSON.stringify(requestData));
+    formData.append("image", image); // 실제 이미지 파일도 추가
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("사용자 프로필 수정 API 에러 응답:", errorText);
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const responseText = await response.text();
+      console.error("JSON이 아닌 응답:", responseText);
+      throw new Error("API가 JSON을 반환하지 않습니다");
+    }
+
+    const data = await response.json();
+    console.log("사용자 프로필 수정 성공:", data);
+
+    return data;
+  } catch (error) {
+    console.error("사용자 프로필 수정 실패:", error);
+    throw error;
+  }
+};
+
+// 사용자 프로필 이미지 삭제
+export const deleteUserProfileImage = async (accessToken: string) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}api/user/profile/image`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("프로필 이미지 삭제 API 에러 응답:", errorText);
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`
+      );
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const responseText = await response.text();
+      console.error("JSON이 아닌 응답:", responseText);
+      throw new Error("API가 JSON을 반환하지 않습니다");
+    }
+
+    const data = await response.json();
+    console.log("프로필 이미지 삭제 성공:", data);
+
+    return data;
+  } catch (error) {
+    console.error("프로필 이미지 삭제 실패:", error);
+    throw error;
+  }
+};
+
 export { fetchWithAuth, decodeJWT };

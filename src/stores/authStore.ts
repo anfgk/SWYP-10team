@@ -5,6 +5,7 @@ interface AuthState {
   user: {
     name: string;
     email: string;
+    profileImage?: string;
   } | null;
   setAuth: (token: string, user: AuthState["user"]) => void;
   setUser: (user: AuthState["user"]) => void;

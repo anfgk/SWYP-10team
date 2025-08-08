@@ -1,26 +1,66 @@
 import { useState, useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import PageButton from "@/components/ui/page-button";
+import { updateUserProfile } from "@/lib/fetchUtils";
 
 const NicknameSection = () => {
-  const { user, setAuth } = useAuthStore();
+  const { user, setUser, accessToken } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("");
   const [savedNickname, setSavedNickname] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setNickname(user?.name || "");
     setSavedNickname(user?.name || "");
   }, [user?.name]);
 
-  const saveNickname = () => {
-    if (nickname.trim()) {
-      setAuth(user?.email || "", {
+  const saveNickname = async () => {
+    if (!accessToken || !user) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    if (!nickname.trim()) {
+      alert("이름을 입력해주세요.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      // 기본 이미지 파일 생성 (기존 이미지 유지)
+      const defaultImageBlob = new Blob([], { type: "image/jpeg" });
+      const defaultImageFile = new File(
+        [defaultImageBlob],
+        "default-image.jpg",
+        {
+          type: "image/jpeg",
+        }
+      );
+
+      // API를 통해 사용자 정보 수정
+      const result = await updateUserProfile(
+        accessToken,
+        nickname.trim(),
+        defaultImageFile
+      );
+
+      // 성공 시 로컬 상태 업데이트
+      setUser({
         name: nickname.trim(),
-        email: user?.email || "",
+        email: user.email,
+        profileImage: user.profileImage, // 기존 이미지 유지
       });
       setSavedNickname(nickname.trim());
       setIsEditing(false);
+
+      alert("이름이 성공적으로 변경되었습니다.");
+    } catch (error) {
+      console.error("이름 변경 실패:", error);
+      alert("이름 변경에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -45,17 +85,21 @@ const NicknameSection = () => {
           {isEditing ? (
             <div className="flex gap-2">
               <PageButton
-                text="저장"
+                text={isLoading ? "저장 중..." : "저장"}
                 variant="default"
-                onClick={saveNickname}
+                onClick={isLoading ? undefined : saveNickname}
               />
               <PageButton
                 text="취소"
                 variant="default"
-                onClick={() => {
-                  setNickname(savedNickname);
-                  setIsEditing(false);
-                }}
+                onClick={
+                  isLoading
+                    ? undefined
+                    : () => {
+                        setNickname(savedNickname);
+                        setIsEditing(false);
+                      }
+                }
               />
             </div>
           ) : (
@@ -63,13 +107,6 @@ const NicknameSection = () => {
               text="변경하기"
               variant="default"
               onClick={() => {
-                if (nickname.trim()) {
-                  setAuth(user?.email || "", {
-                    name: nickname.trim(),
-                    email: user?.email || "",
-                  });
-                  setSavedNickname(nickname.trim());
-                }
                 setIsEditing(true);
               }}
             />

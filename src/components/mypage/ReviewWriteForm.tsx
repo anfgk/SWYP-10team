@@ -15,13 +15,6 @@ const ReviewWriteForm = () => {
   const urlContentId = pathSegments.length > 2 ? pathSegments[2] : null;
   const finalContentId = contentId || urlContentId;
 
-  // 디버깅용 로그
-  console.log("현재 URL:", location.pathname);
-  console.log("pathSegments:", pathSegments);
-  console.log("urlContentId:", urlContentId);
-  console.log("contentId (useParams):", contentId);
-  console.log("finalContentId:", finalContentId);
-
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [rating, setRating] = useState(reviewData?.rating || 0);
   const [reviewText, setReviewText] = useState(reviewData?.review || "");
@@ -36,7 +29,6 @@ const ReviewWriteForm = () => {
       finalContentId === "reviewwrite" ||
       isNaN(Number(finalContentId))
     ) {
-      console.log("유효한 contentId가 없음:", finalContentId);
       return;
     }
 
