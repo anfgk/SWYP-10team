@@ -4,24 +4,6 @@ import StarRating from "./StarRating";
 import ImageUploadSection from "./ImageUploadSection";
 import ConfirmModal from "./ConfirmModal";
 
-interface FormState {
-  rating: number;
-  reviewText: string;
-  placeName: string;
-  isLoading: boolean;
-  errors: {
-    rating: string;
-    reviewText: string;
-    placeName: string;
-  };
-  isValid: boolean;
-}
-
-interface ModalState {
-  showConfirmModal: boolean;
-  showCancelModal: boolean;
-}
-
 const ReviewWriteForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,51 +12,38 @@ const ReviewWriteForm = () => {
 
   // URL에서 contentId 추출
   const pathSegments = location.pathname.split("/");
-  const urlContentId = pathSegments.length > 2 ? pathSegments[2] : null;
-  const finalContentId = contentId || urlContentId;
+  const finalContentId =
+    contentId || (pathSegments.length > 2 ? pathSegments[2] : null);
 
   // 폼 상태 통합 관리
-  const [formState, setFormState] = useState<FormState>({
+  const [formState, setFormState] = useState({
     rating: reviewData?.rating || 0,
     reviewText: reviewData?.review || "",
     placeName: reviewData?.place || "장소명",
     isLoading: false,
-    errors: {
-      rating: "",
-      reviewText: "",
-      placeName: "",
-    },
+    errors: { rating: "", reviewText: "", placeName: "" },
     isValid: false,
   });
 
-  // 모달 상태 관리
-  const [modalState, setModalState] = useState<ModalState>({
+  const [modalState, setModalState] = useState({
     showConfirmModal: false,
     showCancelModal: false,
   });
 
-  // 파일 상태 관리
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  // 폼 상태 업데이트 함수
-  const updateFormState = (updates: Partial<FormState>) => {
+  // 상태 업데이트 함수들
+  const updateFormState = (updates: Partial<typeof formState>) =>
     setFormState((prev) => ({ ...prev, ...updates }));
-  };
-
-  // 에러 상태 업데이트 함수
-  const updateErrors = (errors: Partial<FormState["errors"]>) => {
+  const updateErrors = (errors: Partial<typeof formState.errors>) =>
     setFormState((prev) => ({
       ...prev,
       errors: { ...prev.errors, ...errors },
     }));
-  };
-
-  // 모달 상태 업데이트 함수
-  const updateModalState = (updates: Partial<ModalState>) => {
+  const updateModalState = (updates: Partial<typeof modalState>) =>
     setModalState((prev) => ({ ...prev, ...updates }));
-  };
 
-  // 유효성 검사 함수
+  // 유효성 검사
   const validateForm = () => {
     const errors = {
       rating: formState.rating === 0 ? "별점을 선택해주세요." : "",
@@ -83,24 +52,20 @@ const ReviewWriteForm = () => {
       placeName:
         formState.placeName === "장소명" ? "장소 정보를 찾을 수 없습니다." : "",
     };
-
     const isValid = !errors.rating && !errors.reviewText && !errors.placeName;
-
     updateErrors(errors);
     updateFormState({ isValid });
-
     return isValid;
   };
 
   // 장소 정보 로드
   const loadPlaceInfo = async () => {
     if (!finalContentId || isNaN(Number(finalContentId))) return;
-
     try {
       updateFormState({ isLoading: true });
       let placeData = null;
 
-      // 먼저 /api/place/{contentId} 시도
+      // /api/place/{contentId} 시도
       let response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}api/place/${finalContentId}`,
         {
@@ -117,7 +82,7 @@ const ReviewWriteForm = () => {
         const data = await response.json();
         placeData = data?.data || data?.place || data;
       } else {
-        // /api/place/{contentId} 실패 시 /api/content/search 시도
+        // /api/content/search 시도
         const searchResponse = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}api/content/search?contentId=${finalContentId}`,
           {
@@ -129,20 +94,12 @@ const ReviewWriteForm = () => {
             },
           }
         );
-
-        if (!searchResponse.ok) {
-          const errorText = await searchResponse.text();
-          console.error("검색 API 에러 응답:", errorText);
-          throw new Error(
-            `검색 API 실패: ${searchResponse.status} - ${errorText}`
-          );
-        }
-
+        if (!searchResponse.ok)
+          throw new Error(`검색 API 실패: ${searchResponse.status}`);
         const searchData = await searchResponse.json();
         placeData = searchData?.data || searchData?.content || searchData;
       }
 
-      // 장소명 설정
       const newPlaceName = placeData?.name || placeData?.title || "장소명";
       updateFormState({ placeName: newPlaceName });
     } catch (error) {
@@ -157,15 +114,11 @@ const ReviewWriteForm = () => {
     loadPlaceInfo();
   }, [finalContentId]);
 
-  // 리뷰 저장 핸들러
+  // 리뷰 저장
   const handleSaveReview = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     try {
       updateFormState({ isLoading: true });
-
       const url = new URL(
         `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`
       );
@@ -173,9 +126,9 @@ const ReviewWriteForm = () => {
       url.searchParams.append("content", formState.reviewText.trim());
 
       const formData = new FormData();
-      selectedFiles.slice(0, 3).forEach((file) => {
-        formData.append("images", file);
-      });
+      selectedFiles
+        .slice(0, 3)
+        .forEach((file) => formData.append("images", file));
 
       const response = await fetch(url.toString(), {
         method: "POST",
@@ -186,12 +139,7 @@ const ReviewWriteForm = () => {
         body: formData,
       });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("리뷰 저장 실패:", errorText);
-        throw new Error(`리뷰 저장 실패: ${response.status} - ${errorText}`);
-      }
-
+      if (!response.ok) throw new Error(`리뷰 저장 실패: ${response.status}`);
       alert("리뷰가 성공적으로 저장되었습니다.");
       navigate("/myreview");
     } catch (error) {
@@ -202,27 +150,16 @@ const ReviewWriteForm = () => {
     }
   };
 
-  // 저장 확인 모달 열기
-  const handleSubmit = () => {
-    if (validateForm()) {
-      updateModalState({ showConfirmModal: true });
-    }
-  };
-
-  // 별점 변경 핸들러
+  // 이벤트 핸들러들
+  const handleSubmit = () =>
+    validateForm() && updateModalState({ showConfirmModal: true });
   const handleRatingChange = (newRating: number) => {
     updateFormState({ rating: newRating });
-    if (formState.errors.rating) {
-      updateErrors({ rating: "" });
-    }
+    if (formState.errors.rating) updateErrors({ rating: "" });
   };
-
-  // 리뷰 텍스트 변경 핸들러
   const handleReviewTextChange = (text: string) => {
     updateFormState({ reviewText: text });
-    if (formState.errors.reviewText) {
-      updateErrors({ reviewText: "" });
-    }
+    if (formState.errors.reviewText) updateErrors({ reviewText: "" });
   };
 
   return (

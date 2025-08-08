@@ -8,35 +8,23 @@ import { updateUserProfile, deleteUserProfileImage } from "@/lib/fetchUtils";
 
 const ProfileInfo = () => {
   const { accessToken, user, setUser } = useAuthStore();
-  const [profileImage, setProfileImage] = useState<string>(
-    user?.profileImage || ""
-  );
+  const [profileImage, setProfileImage] = useState(user?.profileImage || "");
   const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // authStore의 이미지가 있으면 우선 사용
+  // 프로필 이미지 상태 동기화 및 blob URL 정리
   useEffect(() => {
     if (user?.profileImage && !profileImage) setProfileImage(user.profileImage);
+    return () => {
+      if (profileImage?.startsWith("blob:")) URL.revokeObjectURL(profileImage);
+    };
   }, [user?.profileImage, profileImage]);
 
-  // 컴포넌트 언마운트 시 생성된 blob URL 정리
-  useEffect(() => {
-    return () => {
-      if (profileImage && profileImage.startsWith("blob:"))
-        URL.revokeObjectURL(profileImage);
-    };
-  }, [profileImage]);
-
-  useEffect(() => {
-    if (accessToken) loadUserProfile();
-  }, [accessToken]);
-
-  // 사용자 프로필 정보 로드
+  // 프로필 정보 로드
   const loadUserProfile = async () => {
     if (!accessToken) return;
-
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
@@ -49,23 +37,14 @@ const ProfileInfo = () => {
           },
         }
       );
-
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new Error("API가 JSON을 반환하지 않습니다");
-      }
-
       const data = await response.json();
-      // 다양한 필드명에서 이미지 URL 추출
       const imageUrl =
         data.profileImage ||
         data.image ||
         data.profileImageUrl ||
         data.imageUrl;
-
       if (imageUrl) {
         setProfileImage(imageUrl);
         if (user) setUser({ ...user, profileImage: imageUrl });
@@ -75,7 +54,11 @@ const ProfileInfo = () => {
     }
   };
 
-  // 이미지 파일 선택 및 크롭 모달 열기
+  useEffect(() => {
+    if (accessToken) loadUserProfile();
+  }, [accessToken]);
+
+  // 이미지 업로드 처리
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -85,13 +68,12 @@ const ProfileInfo = () => {
     }
   };
 
-  // 크롭된 이미지 처리 및 서버 업로드
+  // 크롭된 이미지 처리
   const handleCrop = async (croppedImage: string) => {
     if (!accessToken || !user) {
       alert("로그인이 필요합니다.");
       return;
     }
-
     try {
       setIsLoading(true);
       const response = await fetch(croppedImage);
@@ -99,14 +81,10 @@ const ProfileInfo = () => {
       const file = new File([blob], "profile-image.jpg", {
         type: "image/jpeg",
       });
-
       const croppedImageUrl = URL.createObjectURL(blob);
       setProfileImage(croppedImageUrl);
-
       await updateUserProfile(accessToken, user.name, file);
-
       if (user) setUser({ ...user, profileImage: croppedImageUrl });
-
       setSelectedImageFile(null);
       setIsCropModalOpen(false);
       alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
@@ -118,20 +96,15 @@ const ProfileInfo = () => {
     }
   };
 
-  // 프로필 이미지 삭제
+  // 이미지 삭제
   const handleDeleteImage = async () => {
-    if (!accessToken || !user) {
-      alert("로그인이 필요합니다.");
+    if (!accessToken || !user || !confirm("프로필 이미지를 삭제하시겠습니까?"))
       return;
-    }
-    if (!confirm("프로필 이미지를 삭제하시겠습니까?")) return;
     try {
       setIsLoading(true);
       await deleteUserProfileImage(accessToken);
-
       setProfileImage("");
       if (user) setUser({ ...user, profileImage: "" });
-
       alert("프로필 이미지가 삭제되었습니다.");
     } catch (error) {
       console.error("이미지 삭제 실패:", error);
