@@ -24,12 +24,6 @@ const PetInfoCard = ({
   onDelete,
   onEdit,
 }: PetInfoCardProps) => {
-  console.log(
-    "PetInfoCard 렌더링, onDelete:",
-    onDelete,
-    "petInfo.id:",
-    petInfo?.id
-  );
   if (isLoading) {
     return (
       <section>
@@ -55,7 +49,6 @@ const PetInfoCard = ({
 
   // 종류 표시 텍스트 변환
   const getTypeText = (type: any) => {
-    console.log("종류 변환 시도, 원본 type:", type);
     if (type === "dog" || type === "강아지" || type === "DOG" || type === "Dog")
       return "강아지";
     if (type === "cat" || type === "고양이" || type === "CAT" || type === "Cat")
@@ -168,7 +161,7 @@ const PetInfoCard = ({
                     (petInfo as any).petType ||
                     (petInfo as any).animalType ||
                     (petInfo as any).fierceDog;
-                  console.log("종류 표시 시도, petType:", petType);
+
                   return getTypeText(petType) || "종류 없음";
                 })()}
               </div>
@@ -196,39 +189,15 @@ const PetInfoCard = ({
                 text="수정하기"
                 variant="default"
                 onClick={() => {
-                  console.log("수정 버튼 클릭됨, petInfo:", petInfo);
-                  console.log(
-                    "petInfo 전체 구조:",
-                    JSON.stringify(petInfo, null, 2)
-                  );
-                  console.log(
-                    "petInfo.id:",
-                    petInfo?.id,
-                    "타입:",
-                    typeof petInfo?.id
-                  );
-
                   // 가능한 ID 필드들 확인
                   const possibleId =
                     petInfo?.id ||
                     (petInfo as any)?.petId ||
                     (petInfo as any)?.profileId ||
                     (petInfo as any)?.pet_id;
-                  console.log("가능한 ID 필드들:", {
-                    id: petInfo?.id,
-                    petId: (petInfo as any)?.petId,
-                    profileId: (petInfo as any)?.profileId,
-                    pet_id: (petInfo as any)?.pet_id,
-                    possibleId: possibleId,
-                  });
 
                   if (onEdit && petInfo && possibleId) {
                     onEdit(petInfo);
-                  } else {
-                    console.error(
-                      "수정할 수 없습니다 - petInfo 또는 id가 없음:",
-                      petInfo
-                    );
                   }
                 }}
               />
@@ -236,31 +205,15 @@ const PetInfoCard = ({
                 text="삭제하기"
                 variant="default"
                 onClick={() => {
-                  console.log("전체 petInfo 객체:", petInfo);
-                  console.log(
-                    "삭제 버튼 클릭됨",
-                    petInfo.id,
-                    "onDelete:",
-                    onDelete
-                  );
                   // 가능한 ID 필드들을 시도
                   const petId =
                     petInfo.id ||
                     (petInfo as any).petId ||
                     (petInfo as any).profileId ||
                     (petInfo as any).pet_id;
-                  console.log("시도한 petId:", petId);
 
                   if (onDelete && petId) {
-                    console.log("onDelete 함수 호출 시도");
                     onDelete(petId);
-                  } else {
-                    console.log(
-                      "onDelete 함수 호출 실패 - onDelete:",
-                      onDelete,
-                      "petId:",
-                      petId
-                    );
                   }
                 }}
               />

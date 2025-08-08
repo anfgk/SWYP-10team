@@ -114,7 +114,6 @@ const PetInfoModal = ({
 
   const handleAddMore = () => {
     // 추가 반려동물 입력을 위한 로직
-    console.log("더 많은 반려동물 추가");
   };
 
   return (

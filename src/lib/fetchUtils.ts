@@ -55,7 +55,16 @@ const fetchWithAuth = async (
 };
 
 const decodeJWT = (accessToken: string) => {
-  return jwtDecode<JWTPayLoad>(accessToken);
+  if (!accessToken || typeof accessToken !== "string") {
+    throw new Error("Invalid token specified: must be a string");
+  }
+
+  try {
+    return jwtDecode<JWTPayLoad>(accessToken);
+  } catch (error) {
+    console.error("JWT 디코딩 실패:", error);
+    throw new Error("Invalid token format");
+  }
 };
 
 export { fetchWithAuth, decodeJWT };

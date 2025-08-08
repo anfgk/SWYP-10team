@@ -23,8 +23,6 @@ const MyInfoPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  console.log("hasPetInfo", hasPetInfo);
-
   const fetchPetInfo = async () => {
     try {
       setIsLoading(true);
@@ -45,12 +43,9 @@ const MyInfoPage = () => {
       }
 
       const data = await response.json();
-      console.log("반려동물 정보 로드 완료:", data);
-      console.log("반려동물 정보 상세:", JSON.stringify(data.data, null, 2));
 
       // API 응답 구조 확인
       const petData = data?.data || data?.pets || data;
-      console.log("처리할 반려동물 데이터:", petData);
 
       if (petData && Array.isArray(petData) && petData.length > 0) {
         setHasPetInfo(true);
@@ -231,8 +226,6 @@ const MyInfoPage = () => {
   };
 
   const handleDeletePet = async (petId: number) => {
-    console.log("삭제 요청 시작, petId:", petId);
-
     if (!confirm("정말로 이 반려동물 정보를 삭제하시겠습니까?")) {
       return;
     }
@@ -255,8 +248,6 @@ const MyInfoPage = () => {
         }
       );
 
-      console.log("삭제 응답 상태:", response.status);
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error("삭제 응답 에러:", errorText);
@@ -267,7 +258,6 @@ const MyInfoPage = () => {
 
       // 삭제 성공 후 반려동물 정보 다시 로드
       await fetchPetInfo();
-      console.log("반려동물 정보 삭제 완료");
     } catch (error) {
       console.error("반려동물 정보 삭제 실패:", error);
       alert("삭제에 실패했습니다. 다시 시도해주세요.");

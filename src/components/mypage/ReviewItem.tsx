@@ -7,6 +7,7 @@ import ConfirmModal from "./ConfirmModal";
 interface ReviewItemProps {
   item: {
     id: number;
+    contentId?: number; // 실제 contentId
     place: string;
     review: string;
     hasReview: boolean;
@@ -86,9 +87,14 @@ const ReviewItem = ({
       return (
         <div className="flex gap-3 mb-5">
           <Button
-            onClick={() =>
-              navigate("/reviewwrite", { state: { reviewData: item } })
-            }
+            onClick={() => {
+              const targetContentId = item.contentId || item.id;
+              console.log("리뷰 수정 클릭 - item:", item);
+              console.log("사용할 contentId:", targetContentId);
+              navigate(`/reviewwrite/${targetContentId}`, {
+                state: { reviewData: item },
+              });
+            }}
             variant="secondary"
             className={buttonStyle}
           >
@@ -108,9 +114,14 @@ const ReviewItem = ({
     return (
       <div className="flex gap-2 mb-3">
         <Button
-          onClick={() =>
-            navigate("/reviewwrite", { state: { reviewData: item } })
-          }
+          onClick={() => {
+            const targetContentId = item.contentId || item.id;
+            console.log("리뷰 작성 클릭 - item:", item);
+            console.log("사용할 contentId:", targetContentId);
+            navigate(`/reviewwrite/${targetContentId}`, {
+              state: { reviewData: item },
+            });
+          }}
           variant="secondary"
           className={buttonStyle}
         >
@@ -161,7 +172,6 @@ const ReviewItem = ({
     const handleImageClick = (index: number) => {
       // 사진 모달을 여는 함수
       // 첫 번째 인자: 전체 사진 배열, 두 번째 인자: 클릭한 사진의 인덱스
-      console.log("사진 클릭:", item.imageBase64s, index);
       // 여기에 모달을 여는 로직을 추가하세요
       // 예: openImageModal(item.imageBase64s, index);
     };

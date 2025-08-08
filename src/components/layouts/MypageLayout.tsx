@@ -10,7 +10,6 @@ const MypageLayout = () => {
   // 현재 경로에 따른 활성 메뉴 결정
   const getActiveMenu = () => {
     const path = location.pathname;
-    console.log("Current path:", path); // 디버깅용
 
     if (path === "/myinfo") return "내 정보";
     if (path === "/wish") return "최근 본/찜한 장소";

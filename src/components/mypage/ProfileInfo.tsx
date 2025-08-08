@@ -25,8 +25,6 @@ const ProfileInfo = () => {
       if (data.profileImage) {
         setProfileImage(data.profileImage);
       }
-
-      console.log("프로필 정보 로드 완료:", data);
     } catch (error) {
       console.error("프로필 정보 로드 실패:", error);
     }
