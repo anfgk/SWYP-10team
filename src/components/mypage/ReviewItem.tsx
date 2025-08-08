@@ -7,7 +7,7 @@ import ConfirmModal from "./ConfirmModal";
 interface ReviewItemProps {
   item: {
     id: number;
-    contentId?: number; // 실제 contentId
+    contentId?: number;
     place: string;
     review: string;
     hasReview: boolean;
@@ -38,10 +38,12 @@ const ReviewItem = ({
   const isEditing = editingId === item.id;
   const hasReview = item.hasReview && item.review;
 
+  // 편집 모드일 때 임시 별점 상태 업데이트
   useEffect(() => {
     if (isEditing) setTempRating(item.rating);
   }, [isEditing, item.rating]);
 
+  // 별점 변경 핸들러 (편집 모드에서만 동작)
   const handleRatingChange = (newRating: number) => {
     if (isEditing) {
       setTempRating(newRating);
@@ -49,18 +51,17 @@ const ReviewItem = ({
     }
   };
 
-  const handleDelete = () => {
-    onDelete(item);
-    setShowDeleteModal(false);
-  };
-
-  const handleCancel = () => {
-    setEditText("");
-    setShowCancelModal(false);
+  // 리뷰 작성/수정 페이지로 네비게이션
+  const handleNavigate = () => {
+    const targetContentId = item.contentId || item.id;
+    navigate(`/reviewwrite/${targetContentId}`, {
+      state: { reviewData: item },
+    });
   };
 
   const buttonStyle = "hover:bg-[var(--main-color)] hover:text-white";
 
+  // 편집/수정/삭제 버튼 렌더링
   const renderButtons = () => {
     if (isEditing) {
       return (
@@ -87,14 +88,7 @@ const ReviewItem = ({
       return (
         <div className="flex gap-3 mb-5">
           <Button
-            onClick={() => {
-              const targetContentId = item.contentId || item.id;
-              console.log("리뷰 수정 클릭 - item:", item);
-              console.log("사용할 contentId:", targetContentId);
-              navigate(`/reviewwrite/${targetContentId}`, {
-                state: { reviewData: item },
-              });
-            }}
+            onClick={handleNavigate}
             variant="secondary"
             className={buttonStyle}
           >
@@ -114,14 +108,7 @@ const ReviewItem = ({
     return (
       <div className="flex gap-2 mb-3">
         <Button
-          onClick={() => {
-            const targetContentId = item.contentId || item.id;
-            console.log("리뷰 작성 클릭 - item:", item);
-            console.log("사용할 contentId:", targetContentId);
-            navigate(`/reviewwrite/${targetContentId}`, {
-              state: { reviewData: item },
-            });
-          }}
+          onClick={handleNavigate}
           variant="secondary"
           className={buttonStyle}
         >
@@ -131,6 +118,7 @@ const ReviewItem = ({
     );
   };
 
+  // 리뷰 텍스트 렌더링 (편집 모드/읽기 모드)
   const renderReviewText = () => {
     if (!hasReview) {
       return (
@@ -166,15 +154,9 @@ const ReviewItem = ({
     );
   };
 
+  // 리뷰 이미지 렌더링
   const renderImages = () => {
     if (!item.imageBase64s?.length) return null;
-
-    const handleImageClick = (index: number) => {
-      // 사진 모달을 여는 함수
-      // 첫 번째 인자: 전체 사진 배열, 두 번째 인자: 클릭한 사진의 인덱스
-      // 여기에 모달을 여는 로직을 추가하세요
-      // 예: openImageModal(item.imageBase64s, index);
-    };
 
     return (
       <div className="flex gap-2 mt-[30px] mb-[12px]">
@@ -184,7 +166,6 @@ const ReviewItem = ({
             src={imageBase64}
             alt={`리뷰 이미지 ${index + 1}`}
             className="w-[75px] h-[56px] object-cover rounded border cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={() => handleImageClick(index)}
           />
         ))}
       </div>
@@ -215,7 +196,10 @@ const ReviewItem = ({
       <ConfirmModal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleDelete}
+        onConfirm={() => {
+          onDelete(item);
+          setShowDeleteModal(false);
+        }}
         title="리뷰를 삭제하시겠어요?"
         confirmText="예"
         cancelText="아니오"
@@ -224,7 +208,10 @@ const ReviewItem = ({
       <ConfirmModal
         isOpen={showCancelModal}
         onClose={() => setShowCancelModal(false)}
-        onConfirm={handleCancel}
+        onConfirm={() => {
+          setEditText("");
+          setShowCancelModal(false);
+        }}
         title="편집을 취소하시겠어요?"
         confirmText="예"
         cancelText="아니오"

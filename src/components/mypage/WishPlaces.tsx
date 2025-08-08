@@ -18,67 +18,19 @@ const WishPlaces = () => {
   const [wishList, setWishList] = useState<WishItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 처음에 무조건 한 번 실행, 그리고 currentPage가 바뀌면 또 실행
+  // 페이지 변경 시 찜한 장소 목록 로드
   useEffect(() => {
     loadWishPlaces();
   }, [currentPage]);
 
+  // 찜한 장소 목록 로드 (백엔드 API 제공 시 활성화 예정)
   const loadWishPlaces = async () => {
     // TODO: 백엔드 API 제공 시 활성화 예정
     setWishList([]);
     setIsLoading(false);
-
-    /*
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/mypage/wish?page=${currentPage}`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("API 에러 응답:", errorText);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
-        );
-      }
-
-      // 응답이 JSON인지 확인
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const responseText = await response.text();
-        console.error("JSON이 아닌 응답:", responseText);
-        throw new Error("API가 JSON을 반환하지 않습니다");
-      }
-
-      const data = await response.json();
-      const wishData = data?.data || data?.wishList || data;
-
-      if (wishData && Array.isArray(wishData) && wishData.length > 0) {
-        setWishList(wishData);
-      } else if (wishData && !Array.isArray(wishData)) {
-        // 단일 객체인 경우 배열로 변환
-        setWishList([wishData]);
-      } else {
-        setWishList([]);
-      }
-    } catch (error) {
-      console.error("찜한 장소 목록 로드 실패:", error);
-      setWishList([]);
-    } finally {
-      setIsLoading(false);
-    }
-    */
   };
 
+  // 페이지네이션 설정
   const itemsPerPage = 8;
   const totalPages = Math.ceil(wishList.length / itemsPerPage);
   const paginatedWish = wishList.slice(
@@ -86,51 +38,19 @@ const WishPlaces = () => {
     currentPage * itemsPerPage
   );
 
-  // TODO: 백엔드에서 삭제 API 제공 시 활성화 예정
+  // 찜하기 토글 핸들러 (백엔드 API 제공 시 활성화 예정)
   const handleToggleWish = async (id: number) => {
-    // TODO: 백엔드 API 제공 시 아래 코드 주석 해제
-    /*
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/mypage/wish/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        setWishList((prev) => {
-          const newList = prev.filter((item) => item.id !== id);
-          if (
-            newList.length > 0 &&
-            paginatedWish.length === 1 &&
-            currentPage > 1
-          ) {
-            setCurrentPage(currentPage - 1);
-          }
-          return newList;
-        });
-      }
-    } catch (error) {
-      console.error("찜한 장소 제거 실패:", error);
-    } finally {
-      setIsLoading(false);
-    }
-    */
+    // TODO: 백엔드 API 제공 시 활성화 예정
   };
 
+  // 페이지 범위 초과 시 마지막 페이지로 이동
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
       setCurrentPage(totalPages);
     }
   }, [totalPages, currentPage]);
 
+  // 로딩 상태 및 빈 상태 처리
   if (isLoading)
     return <div className="text-center py-12 text-gray-500">로딩 중...</div>;
   if (wishList.length === 0)

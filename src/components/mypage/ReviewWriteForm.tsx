@@ -23,17 +23,18 @@ const ReviewWriteForm = () => {
   const [placeName, setPlaceName] = useState(reviewData?.place || "장소명");
   const [isLoading, setIsLoading] = useState(false);
 
+  // 장소 정보 로드 (두 개의 API 엔드포인트 시도)
   const loadPlaceInfo = async () => {
     if (
       !finalContentId ||
       finalContentId === "reviewwrite" ||
       isNaN(Number(finalContentId))
-    ) {
+    )
       return;
-    }
 
     try {
       setIsLoading(true);
+      let placeData = null;
 
       // 먼저 /api/place/{contentId} 시도
       let response = await fetch(
@@ -48,23 +49,22 @@ const ReviewWriteForm = () => {
         }
       );
 
-      let placeData = null;
-
       if (response.ok) {
         const data = await response.json();
         placeData = data?.data || data?.place || data;
       } else {
         // /api/place/{contentId} 실패 시 /api/content/search 시도
-        const searchUrl = `${import.meta.env.VITE_API_BASE_URL}api/content/search?contentId=${finalContentId}`;
-
-        const searchResponse = await fetch(searchUrl, {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-          },
-        });
+        const searchResponse = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}api/content/search?contentId=${finalContentId}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+            },
+          }
+        );
 
         if (!searchResponse.ok) {
           const errorText = await searchResponse.text();
@@ -78,7 +78,7 @@ const ReviewWriteForm = () => {
         placeData = searchData?.data || searchData?.content || searchData;
       }
 
-      // 장소명 설정
+      // 장소명 설정 (다양한 필드명 지원)
       if (placeData && placeData.name) {
         setPlaceName(placeData.name);
       } else if (placeData && placeData.title) {
@@ -94,13 +94,12 @@ const ReviewWriteForm = () => {
     }
   };
 
-  // 컴포넌트 마운트 시 장소 정보 로드
   useEffect(() => {
     loadPlaceInfo();
   }, [finalContentId]);
 
+  // 리뷰 저장 핸들러
   const handleSaveReview = async () => {
-    // 필수 파라미터 검증
     if (!reviewText.trim()) {
       alert("리뷰 내용을 입력해주세요.");
       return;
@@ -117,17 +116,13 @@ const ReviewWriteForm = () => {
     }
 
     try {
-      // API 스펙에 맞게 URL 파라미터 구성
       const url = new URL(
         `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`
       );
       url.searchParams.append("score", rating.toString());
       url.searchParams.append("content", reviewText.trim());
 
-      // FormData 생성 (이미지만)
       const formData = new FormData();
-
-      // 이미지 파일 추가 (최대 3장)
       selectedFiles.slice(0, 3).forEach((file) => {
         formData.append("images", file);
       });
@@ -147,8 +142,6 @@ const ReviewWriteForm = () => {
         throw new Error(`리뷰 저장 실패: ${response.status} - ${errorText}`);
       }
 
-      const data = await response.json();
-
       alert("리뷰가 성공적으로 저장되었습니다.");
       navigate("/myreview");
     } catch (error) {
@@ -157,8 +150,8 @@ const ReviewWriteForm = () => {
     }
   };
 
+  // 저장 확인 모달 열기
   const handleSubmit = () => {
-    // 필수 파라미터 검증
     if (!reviewText.trim()) {
       alert("리뷰 내용을 입력해주세요.");
       return;
@@ -172,17 +165,15 @@ const ReviewWriteForm = () => {
     setShowConfirmModal(true);
   };
 
-  const handleCancel = () => {
-    navigate("/myreview");
-  };
-
   return (
     <main className="flex-1 px-16 py-12">
       <div className="flex flex-col text-[20px] gap-[9px]">
+        {/* 장소명 표시 */}
         <div className="flex font-medium gap-[44px] items-center mb-[44px]">
           <span>방문한 장소</span>
           <span>{isLoading ? "로딩 중..." : placeName}</span>
         </div>
+        {/* 별점 및 리뷰 텍스트 입력 */}
         <div className="flex mb-[9px]">
           <span className="w-[135px] text-[20px] font-medium">상세 리뷰</span>
           <div className="flex flex-col gap-[9px]">
@@ -197,6 +188,7 @@ const ReviewWriteForm = () => {
         </div>
       </div>
 
+      {/* 이미지 업로드 섹션 */}
       <ImageUploadSection
         selectedFiles={selectedFiles}
         onFileSelect={setSelectedFiles}
@@ -208,6 +200,7 @@ const ReviewWriteForm = () => {
         maxFiles={3}
       />
 
+      {/* 저장 확인 모달 */}
       <ConfirmModal
         isOpen={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
@@ -215,10 +208,11 @@ const ReviewWriteForm = () => {
         title="리뷰를 저장하시겠어요?"
       />
 
+      {/* 취소 확인 모달 */}
       <ConfirmModal
         isOpen={showCancelModal}
         onClose={() => setShowCancelModal(false)}
-        onConfirm={handleCancel}
+        onConfirm={() => navigate("/myreview")}
         title="리뷰를 취소하시겠어요?<br/>이 페이지를 나가면 저장되지 않아요."
         confirmText="예"
         cancelText="아니오"

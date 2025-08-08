@@ -2,25 +2,20 @@ import React, { useState, useEffect } from "react";
 import ModalInput from "./ModalInput";
 import { AiOutlineCamera } from "react-icons/ai";
 
+interface PetInfo {
+  name: string;
+  type: string;
+  gender: string;
+  birthYear: string;
+  size: string;
+  image?: File;
+}
+
 interface PetInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPetInfoAdded: (petInfo: {
-    name: string;
-    type: string;
-    gender: string;
-    birthYear: string;
-    size: string;
-    image?: File;
-  }) => void;
-  onPetInfoUpdated?: (petInfo: {
-    name: string;
-    type: string;
-    gender: string;
-    birthYear: string;
-    size: string;
-    image?: File;
-  }) => void;
+  onPetInfoAdded: (petInfo: PetInfo) => void;
+  onPetInfoUpdated?: (petInfo: PetInfo) => void;
   isEditMode?: boolean;
   editingPetInfo?: {
     id: number;
@@ -43,78 +38,79 @@ const PetInfoModal = ({
   editingPetInfo = null,
   isSaving = false,
 }: PetInfoModalProps) => {
-  const [gender, setGender] = useState<"female" | "male">("female");
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [birthYear, setBirthYear] = useState("");
-  const [size, setSize] = useState("");
+  // 폼 데이터 상태 관리
+  const [formData, setFormData] = useState({
+    gender: "female" as "female" | "male",
+    name: "",
+    type: "",
+    birthYear: "",
+    size: "",
+  });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const resetForm = () => {
-    setGender("female");
-    setName("");
-    setType("");
-    setBirthYear("");
-    setSize("");
-    setSelectedImage(null);
-    setImagePreview(null);
-  };
-
-  // 수정 모드일 때 기존 정보로 폼 초기화
+  // 편집 모드일 때 기존 정보로 폼 초기화, 새로 추가할 때는 빈 폼으로 초기화
   useEffect(() => {
     if (isEditMode && editingPetInfo) {
-      setName(editingPetInfo.name);
-      setGender(editingPetInfo.gender === "F" ? "female" : "male");
-      setType(editingPetInfo.type);
-      setBirthYear(editingPetInfo.birth);
-      setSize(editingPetInfo.size);
+      setFormData({
+        gender: editingPetInfo.gender === "F" ? "female" : "male",
+        name: editingPetInfo.name,
+        type: editingPetInfo.type,
+        birthYear: editingPetInfo.birth,
+        size: editingPetInfo.size,
+      });
       setImagePreview(editingPetInfo.imageUrl);
     } else {
-      // 새로 추가하는 경우 폼 초기화
-      resetForm();
+      setFormData({
+        gender: "female",
+        name: "",
+        type: "",
+        birthYear: "",
+        size: "",
+      });
+      setSelectedImage(null);
+      setImagePreview(null);
     }
   }, [isEditMode, editingPetInfo]);
 
   if (!isOpen) return null;
 
+  // 이미지 파일 선택 및 미리보기 처리
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedImage(file);
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-      };
+      reader.onload = (e) => setImagePreview(e.target?.result as string);
       reader.readAsDataURL(file);
     }
   };
 
-  const handleRemoveImage = () => {
+  // 반려동물 정보 저장 (추가 또는 수정)
+  const handleSave = () => {
+    const petInfo = { ...formData, image: selectedImage || undefined };
+    isEditMode && onPetInfoUpdated
+      ? onPetInfoUpdated(petInfo)
+      : onPetInfoAdded(petInfo);
+  };
+
+  // 모달 닫기 및 폼 초기화
+  const handleClose = () => {
+    setFormData({
+      gender: "female",
+      name: "",
+      type: "",
+      birthYear: "",
+      size: "",
+    });
     setSelectedImage(null);
     setImagePreview(null);
+    onClose();
   };
 
-  const handleSave = () => {
-    const petInfo = {
-      name,
-      type,
-      gender,
-      birthYear,
-      size,
-      image: selectedImage || undefined,
-    };
-
-    if (isEditMode && onPetInfoUpdated) {
-      onPetInfoUpdated(petInfo);
-    } else {
-      onPetInfoAdded(petInfo);
-    }
-  };
-
-  const handleAddMore = () => {
-    // 추가 반려동물 입력을 위한 로직
-  };
+  // 폼 필드 업데이트 헬퍼 함수
+  const updateField = (field: keyof typeof formData, value: string) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
   return (
     <div className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50">
@@ -123,88 +119,73 @@ const PetInfoModal = ({
           <div className="w-6"></div>
           <h3 className="text-[20px] font-semibold">반려동물 정보</h3>
           <button
-            onClick={() => {
-              resetForm();
-              onClose();
-            }}
+            onClick={handleClose}
             className="text-gray-500 hover:text-gray-700 w-6"
           >
             ✕
           </button>
         </div>
-        <div className="space-y-4">
-          {/* 이미지 업로드 */}
-          <div className="flex justify-center mb-[24px]">
-            <div className="flex items-center gap-4">
-              {imagePreview ? (
-                <div className="relative">
-                  <img
-                    src={imagePreview}
-                    alt="반려동물 사진"
-                    className="w-[300px] h-[200px] object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => {
-                      // 이미지 클릭 시 파일 선택 다이얼로그 열기
-                      const fileInput = document.createElement("input");
-                      fileInput.type = "file";
-                      fileInput.accept = "image/*";
-                      fileInput.onchange = (e) => {
-                        const file = (e.target as HTMLInputElement).files?.[0];
-                        if (file) {
-                          handleImageChange({
-                            target: { files: [file] },
-                          } as unknown as React.ChangeEvent<HTMLInputElement>);
-                        }
-                      };
-                      fileInput.click();
-                    }}
-                  />
-                </div>
-              ) : (
-                <label className="w-[300px] h-[200px] bg-gray-100 border-1 border-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
-                  <div className="text-center flex items-center justify-center gap-2">
-                    <div className="text-gray-400 text-2xl mb-1">
-                      <AiOutlineCamera />
-                    </div>
-                    <div className="text-xs text-gray-500">사진 추가</div>
-                  </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-              )}
-            </div>
-          </div>
 
-          {/* 성별 선택 */}
+        <div className="space-y-4">
+          <div className="flex justify-center mb-[24px]">
+            {imagePreview ? (
+              <img
+                src={imagePreview}
+                alt="반려동물 사진"
+                className="w-[300px] h-[200px] object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => {
+                  const fileInput = document.createElement("input");
+                  fileInput.type = "file";
+                  fileInput.accept = "image/*";
+                  fileInput.onchange = (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (file)
+                      handleImageChange({
+                        target: { files: [file] },
+                      } as unknown as React.ChangeEvent<HTMLInputElement>);
+                  };
+                  fileInput.click();
+                }}
+              />
+            ) : (
+              <label className="w-[300px] h-[200px] bg-gray-100 border-1 border-gray-200 rounded-lg flex items-center justify-center cursor-pointer transition-colors">
+                <div className="text-center flex items-center justify-center gap-2">
+                  <AiOutlineCamera className="text-gray-400 text-2xl mb-1" />
+                  <div className="text-xs text-gray-500">사진 추가</div>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+            )}
+          </div>
           <ModalInput
             label="성별"
             type="radio"
-            value={gender}
-            onChange={(value) => setGender(value as "female" | "male")}
+            value={formData.gender}
+            onChange={(value) => updateField("gender", value)}
             radioOptions={[
               { value: "female", label: "여성", icon: "♀", color: "pink" },
               { value: "male", label: "남성", icon: "♂", color: "blue" },
             ]}
           />
 
-          {/* 이름 입력 */}
           <ModalInput
             label="이름"
             type="text"
-            value={name}
-            onChange={setName}
+            value={formData.name}
+            onChange={(value) => updateField("name", value)}
             placeholder="텍스트를 입력해주세요"
           />
 
-          {/* 종류 선택 */}
           <ModalInput
             label="종류"
             type="select"
-            value={type}
-            onChange={setType}
+            value={formData.type}
+            onChange={(value) => updateField("type", value)}
             placeholder="선택해주세요"
             options={[
               { value: "dog", label: "강아지" },
@@ -214,20 +195,18 @@ const PetInfoModal = ({
             ]}
           />
 
-          {/* 출생년도 선택 */}
           <ModalInput
             label="출생년도"
             type="date"
-            value={birthYear}
-            onChange={setBirthYear}
+            value={formData.birthYear}
+            onChange={(value) => updateField("birthYear", value)}
           />
 
-          {/* 사이즈 선택 */}
           <ModalInput
             label="사이즈"
             type="select"
-            value={size}
-            onChange={setSize}
+            value={formData.size}
+            onChange={(value) => updateField("size", value)}
             placeholder="선택해주세요"
             options={[
               { value: "small", label: "소형" },
@@ -236,12 +215,8 @@ const PetInfoModal = ({
             ]}
           />
 
-          {/* 버튼들 */}
           <div className="flex flex-col gap-3">
-            <button
-              onClick={handleAddMore}
-              className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-            >
+            <button className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
               반려동물을 더 추가할게요
             </button>
             <button
@@ -256,10 +231,7 @@ const PetInfoModal = ({
               {isSaving ? "저장 중..." : "저장할게요"}
             </button>
             <button
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
+              onClick={handleClose}
               className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
             >
               다음에 할게요

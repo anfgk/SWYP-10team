@@ -6,55 +6,38 @@ import { updateUserProfile } from "@/lib/fetchUtils";
 const NicknameSection = () => {
   const { user, setUser, accessToken } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [nickname, setNickname] = useState("");
-  const [savedNickname, setSavedNickname] = useState("");
+  const [nickname, setNickname] = useState(user?.name || "");
   const [isLoading, setIsLoading] = useState(false);
 
+  // 사용자 이름이 변경될 때마다 닉네임 상태 업데이트
   useEffect(() => {
     setNickname(user?.name || "");
-    setSavedNickname(user?.name || "");
   }, [user?.name]);
 
-  const saveNickname = async () => {
-    if (!accessToken || !user) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    if (!nickname.trim()) {
-      alert("이름을 입력해주세요.");
+  // 닉네임 저장 핸들러
+  const handleSave = async () => {
+    // 유효성 검사: 토큰, 사용자 정보, 닉네임 확인
+    if (!accessToken || !user || !nickname.trim()) {
+      alert(nickname.trim() ? "로그인이 필요합니다." : "이름을 입력해주세요.");
       return;
     }
 
     try {
       setIsLoading(true);
-
       // 기본 이미지 파일 생성 (기존 이미지 유지)
-      const defaultImageBlob = new Blob([], { type: "image/jpeg" });
-      const defaultImageFile = new File(
-        [defaultImageBlob],
-        "default-image.jpg",
-        {
-          type: "image/jpeg",
-        }
-      );
+      const defaultImageFile = new File([], "default-image.jpg", {
+        type: "image/jpeg",
+      });
 
-      // API를 통해 사용자 정보 수정
-      const result = await updateUserProfile(
-        accessToken,
-        nickname.trim(),
-        defaultImageFile
-      );
+      // API를 통해 사용자 프로필 업데이트
+      await updateUserProfile(accessToken, nickname.trim(), defaultImageFile);
 
       // 성공 시 로컬 상태 업데이트
       setUser({
+        ...user,
         name: nickname.trim(),
-        email: user.email,
-        profileImage: user.profileImage, // 기존 이미지 유지
       });
-      setSavedNickname(nickname.trim());
       setIsEditing(false);
-
       alert("이름이 성공적으로 변경되었습니다.");
     } catch (error) {
       console.error("이름 변경 실패:", error);
@@ -62,6 +45,12 @@ const NicknameSection = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // 편집 취소 핸들러
+  const handleCancel = () => {
+    setNickname(user?.name || "");
+    setIsEditing(false);
   };
 
   return (
@@ -78,7 +67,7 @@ const NicknameSection = () => {
             />
           ) : (
             <div className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 px-3">
-              {savedNickname}
+              {user?.name}
             </div>
           )}
 
@@ -87,28 +76,19 @@ const NicknameSection = () => {
               <PageButton
                 text={isLoading ? "저장 중..." : "저장"}
                 variant="default"
-                onClick={isLoading ? undefined : saveNickname}
+                onClick={isLoading ? undefined : handleSave}
               />
               <PageButton
                 text="취소"
                 variant="default"
-                onClick={
-                  isLoading
-                    ? undefined
-                    : () => {
-                        setNickname(savedNickname);
-                        setIsEditing(false);
-                      }
-                }
+                onClick={isLoading ? undefined : handleCancel}
               />
             </div>
           ) : (
             <PageButton
               text="변경하기"
               variant="default"
-              onClick={() => {
-                setIsEditing(true);
-              }}
+              onClick={() => setIsEditing(true)}
             />
           )}
         </div>
