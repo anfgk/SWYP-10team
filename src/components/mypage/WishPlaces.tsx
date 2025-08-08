@@ -75,25 +75,31 @@ const WishPlaces = () => {
       let wishData = null;
       let total = 0;
 
-      if (data?.content) {
+      // 콘솔에서 본 구조에 맞게 수정
+      if (data?.data?.wishes) {
+        wishData = data.data.wishes;
+        total = data.data.totalElements || 0;
+        console.log("data.data.wishes에서 찾음:", wishData);
+        console.log("총 아이템 수:", total);
+      } else if (data?.wishes) {
+        wishData = data.wishes;
+        total = data.totalElements || 0;
+        console.log("data.wishes에서 찾음:", wishData);
+        console.log("총 아이템 수:", total);
+      } else if (data?.data && Array.isArray(data.data)) {
+        wishData = data.data;
+        total = data.totalElements || data.total || 0;
+        console.log("data.data에서 찾음 (배열):", wishData);
+        console.log("총 아이템 수:", total);
+      } else if (data?.content) {
         wishData = data.content;
         total = data.totalElements || data.total || 0;
         console.log("data.content에서 찾음:", wishData);
         console.log("총 아이템 수:", total);
-      } else if (data?.data) {
+      } else if (data?.data && !Array.isArray(data.data)) {
         wishData = data.data;
         total = data.total || data.totalElements || 0;
-        console.log("data.data에서 찾음:", wishData);
-        console.log("총 아이템 수:", total);
-      } else if (data?.wish) {
-        wishData = data.wish;
-        total = data.total || data.totalElements || 0;
-        console.log("data.wish에서 찾음:", wishData);
-        console.log("총 아이템 수:", total);
-      } else if (data?.places) {
-        wishData = data.places;
-        total = data.total || data.totalElements || 0;
-        console.log("data.places에서 찾음:", wishData);
+        console.log("data.data에서 찾음 (객체):", wishData);
         console.log("총 아이템 수:", total);
       } else if (Array.isArray(data)) {
         wishData = data;
