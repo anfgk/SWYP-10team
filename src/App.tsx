@@ -42,6 +42,9 @@ function App() {
           <Route path="/reviewwrite" element={<MypageLayout />}>
             <Route index element={<MyPage />} />
           </Route>
+          <Route path="/reviewwrite/:contentId" element={<MypageLayout />}>
+            <Route index element={<MyPage />} />
+          </Route>
         </Routes>
         <MainFooter />
       </div>

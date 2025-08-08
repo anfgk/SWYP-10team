@@ -1,5 +1,5 @@
 import { GoHeartFill, GoHeart } from "react-icons/go";
-import { IoShareOutline } from "react-icons/io5";
+import { GoShareAndroid } from "react-icons/go";
 
 interface WishCardProps {
   id: number;
@@ -20,30 +20,40 @@ const WishCard = ({
   isWished,
   onToggleWish,
 }: WishCardProps) => {
-  const handleShare = () => {
+  const handleShare = async () => {
     // 공유하기 기능 구현
     if (navigator.share) {
-      navigator.share({
-        title: name,
-        text: description || `${name} - 반려동물과 함께하는 장소`,
-        url: window.location.href,
-      });
+      try {
+        await navigator.share({
+          title: name,
+          text: description || `${name} - 반려동물과 함께하는 장소`,
+          url: window.location.href,
+        });
+      } catch (error) {
+        // 사용자가 공유를 취소하거나 에러가 발생한 경우 무시
+        if (error instanceof Error && error.name !== "AbortError") {
+          console.error("공유하기 실패:", error);
+        }
+      }
     } else {
       // 공유 API가 지원되지 않는 경우 클립보드에 복사
-      const shareText = `${name} - 반려동물과 함께하는 장소\n${window.location.href}`;
-      navigator.clipboard.writeText(shareText).then(() => {
+      try {
+        const shareText = `${name} - 반려동물과 함께하는 장소\n${window.location.href}`;
+        await navigator.clipboard.writeText(shareText);
         alert("링크가 클립보드에 복사되었습니다.");
-      });
+      } catch (error) {
+        console.error("클립보드 복사 실패:", error);
+        alert("링크 복사에 실패했습니다.");
+      }
     }
   };
 
   const handleWishToggle = async () => {
     try {
       await onToggleWish(id);
-      // 성공적으로 찜하기가 취소되면 페이지 새로고침
-      window.location.reload();
+      // 성공적으로 찜하기가 토글되면 부모 컴포넌트에서 목록을 새로고침함
     } catch (error) {
-      console.error("찜하기 취소 실패:", error);
+      console.error("찜하기 토글 실패:", error);
     }
   };
 
@@ -68,7 +78,7 @@ const WishCard = ({
           장소 이미지
         </div>
 
-        {/* 이미지 위에 오버레이 버튼들 - 이미지에서 본 것처럼 */}
+        {/* 이미지 위에 오버레이 버튼들 */}
         <div className="absolute bottom-2 right-2 flex gap-2">
           {/* 찜하기 버튼 */}
           <button
@@ -85,7 +95,7 @@ const WishCard = ({
             )}
           </button>
 
-          {/* 공유하기 버튼 */}
+          {/* 공유하기 버튼 - GoShareAndroid 아이콘으로 변경 */}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -93,7 +103,7 @@ const WishCard = ({
             }}
             className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-black/70 transition-colors"
           >
-            <IoShareOutline className="text-white text-lg" />
+            <GoShareAndroid className="text-white text-lg" />
           </button>
         </div>
       </div>

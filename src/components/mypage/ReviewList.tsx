@@ -33,7 +33,7 @@ const ReviewList = () => {
   const loadReviews = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/user/reviews`,
+        `${import.meta.env.VITE_API_BASE_URL}api/review/`,
         {
           method: "GET",
           credentials: "include",
@@ -106,7 +106,7 @@ const ReviewList = () => {
     <div className="space-y-6">
       <h2 className="text-xl font-semibold text-black mt-9">방문한 장소</h2>
       {reviews.map((item, index) => (
-        <div key={item.id}>
+        <div key={item.id || `review-${index}`}>
           <ReviewItem
             item={item}
             onDelete={handleDelete}
@@ -117,7 +117,10 @@ const ReviewList = () => {
             setEditText={setEditText}
           />
           {index < reviews.length - 1 && (
-            <div className="border-b border-gray-200 my-4"></div>
+            <div
+              key={`divider-${index}`}
+              className="border-b border-gray-200 my-4"
+            ></div>
           )}
         </div>
       ))}

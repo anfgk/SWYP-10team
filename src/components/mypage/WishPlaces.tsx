@@ -330,10 +330,12 @@ const WishPlaces = () => {
   // 찜하기 토글 핸들러
   const handleToggleWish = async (id: number) => {
     try {
+      console.log("찜하기 토글 시작, contentId:", id);
+
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/mypage/wish/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}api/content/wish-check?contentId=${id}`,
         {
-          method: "DELETE",
+          method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
@@ -342,17 +344,25 @@ const WishPlaces = () => {
         }
       );
 
+      console.log("찜하기 토글 응답 상태:", response.status);
+      console.log("찜하기 토글 응답 헤더:", response.headers);
+
       if (response.ok) {
-        // 찜하기 취소 성공 시 목록 새로고침
-        console.log("찜하기 취소 성공, 목록 새로고침 중...");
+        const responseData = await response.json();
+        console.log("찜하기 토글 성공 응답:", responseData);
+
+        // 찜하기 토글 성공 시 목록 새로고침
+        console.log("찜하기 토글 성공, 목록 새로고침 중...");
         await loadWishPlaces();
       } else {
-        console.error("찜하기 취소 실패");
-        alert("찜하기 취소에 실패했습니다.");
+        const errorText = await response.text();
+        console.error("찜하기 토글 실패 - 상태:", response.status);
+        console.error("찜하기 토글 실패 - 응답:", errorText);
+        alert(`찜하기 토글에 실패했습니다. (${response.status})`);
       }
     } catch (error) {
-      console.error("찜하기 취소 중 오류:", error);
-      alert("찜하기 취소 중 오류가 발생했습니다.");
+      console.error("찜하기 토글 중 오류:", error);
+      alert("찜하기 토글 중 오류가 발생했습니다.");
     }
   };
 

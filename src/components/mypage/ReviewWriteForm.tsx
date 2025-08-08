@@ -94,12 +94,7 @@ const ReviewWriteForm = () => {
 
   // 장소 정보 로드
   const loadPlaceInfo = async () => {
-    if (
-      !finalContentId ||
-      finalContentId === "reviewwrite" ||
-      isNaN(Number(finalContentId))
-    )
-      return;
+    if (!finalContentId || isNaN(Number(finalContentId))) return;
 
     try {
       updateFormState({ isLoading: true });

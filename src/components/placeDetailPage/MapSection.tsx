@@ -1,15 +1,15 @@
 import { useEffect, useRef } from "react";
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
 interface Props {
   title: string;
   lat: number;
   lng: number;
+}
+
+declare global {
+  interface Window {
+    kakao: any;
+  }
 }
 
 const MapSection = ({ title, lat, lng }: Props) => {
@@ -17,29 +17,54 @@ const MapSection = ({ title, lat, lng }: Props) => {
   const mapInstance = useRef<any | null>(null);
 
   useEffect(() => {
-    const { kakao } = window;
+    const loadKakaoMap = () => {
+      const { kakao } = window;
 
-    if (!kakao || !mapRef.current || mapInstance.current) return;
+      if (!kakao || !mapRef.current || mapInstance.current) return;
 
-    kakao.maps.load(() => {
-      const options = {
-        center: new kakao.maps.LatLng(lat, lng),
-        level: 3,
-      };
-      mapInstance.current = new kakao.maps.Map(mapRef.current, options);
+      try {
+        kakao.maps.load(() => {
+          const options = {
+            center: new kakao.maps.LatLng(lat, lng),
+            level: 3,
+          };
 
-      const markerPosition = new kakao.maps.LatLng(lat, lng);
+          mapInstance.current = new kakao.maps.Map(mapRef.current, options);
 
-      const marker = new kakao.maps.Marker({
-        position: markerPosition,
-      });
+          const markerPosition = new kakao.maps.LatLng(lat, lng);
 
-      marker.setMap(mapInstance.current);
+          const marker = new kakao.maps.Marker({
+            position: markerPosition,
+          });
 
-      kakao.maps.event.addListener(mapInstance.current, "click", () => {
-        window.open(`https://map.kakao.com/link/to/${title},${lat},${lng}`);
-      });
-    });
+          marker.setMap(mapInstance.current);
+
+          kakao.maps.event.addListener(mapInstance.current, "click", () => {
+            window.open(`https://map.kakao.com/link/to/${title},${lat},${lng}`);
+          });
+        });
+      } catch (error) {
+        console.error("Kakao Map 로딩 실패:", error);
+      }
+    };
+
+    // SDK가 로드될 때까지 대기
+    const checkKakaoSDK = () => {
+      if (window.kakao) {
+        loadKakaoMap();
+      } else {
+        // SDK가 아직 로드되지 않았으면 잠시 후 다시 시도
+        setTimeout(checkKakaoSDK, 100);
+      }
+    };
+
+    checkKakaoSDK();
+
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current = null;
+      }
+    };
   }, [title, lat, lng]);
 
   return <div ref={mapRef} className="w-full h-[202px] mb-5"></div>;
