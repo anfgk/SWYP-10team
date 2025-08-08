@@ -4,26 +4,95 @@ import StarRating from "./StarRating";
 import ImageUploadSection from "./ImageUploadSection";
 import ConfirmModal from "./ConfirmModal";
 
+interface FormState {
+  rating: number;
+  reviewText: string;
+  placeName: string;
+  isLoading: boolean;
+  errors: {
+    rating: string;
+    reviewText: string;
+    placeName: string;
+  };
+  isValid: boolean;
+}
+
+interface ModalState {
+  showConfirmModal: boolean;
+  showCancelModal: boolean;
+}
+
 const ReviewWriteForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { contentId } = useParams();
   const reviewData = location.state?.reviewData;
 
-  // URL에서 contentId 추출 (예: /reviewwrite/123 -> 123)
+  // URL에서 contentId 추출
   const pathSegments = location.pathname.split("/");
   const urlContentId = pathSegments.length > 2 ? pathSegments[2] : null;
   const finalContentId = contentId || urlContentId;
 
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [rating, setRating] = useState(reviewData?.rating || 0);
-  const [reviewText, setReviewText] = useState(reviewData?.review || "");
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  const [placeName, setPlaceName] = useState(reviewData?.place || "장소명");
-  const [isLoading, setIsLoading] = useState(false);
+  // 폼 상태 통합 관리
+  const [formState, setFormState] = useState<FormState>({
+    rating: reviewData?.rating || 0,
+    reviewText: reviewData?.review || "",
+    placeName: reviewData?.place || "장소명",
+    isLoading: false,
+    errors: {
+      rating: "",
+      reviewText: "",
+      placeName: "",
+    },
+    isValid: false,
+  });
 
-  // 장소 정보 로드 (두 개의 API 엔드포인트 시도)
+  // 모달 상태 관리
+  const [modalState, setModalState] = useState<ModalState>({
+    showConfirmModal: false,
+    showCancelModal: false,
+  });
+
+  // 파일 상태 관리
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  // 폼 상태 업데이트 함수
+  const updateFormState = (updates: Partial<FormState>) => {
+    setFormState((prev) => ({ ...prev, ...updates }));
+  };
+
+  // 에러 상태 업데이트 함수
+  const updateErrors = (errors: Partial<FormState["errors"]>) => {
+    setFormState((prev) => ({
+      ...prev,
+      errors: { ...prev.errors, ...errors },
+    }));
+  };
+
+  // 모달 상태 업데이트 함수
+  const updateModalState = (updates: Partial<ModalState>) => {
+    setModalState((prev) => ({ ...prev, ...updates }));
+  };
+
+  // 유효성 검사 함수
+  const validateForm = () => {
+    const errors = {
+      rating: formState.rating === 0 ? "별점을 선택해주세요." : "",
+      reviewText:
+        formState.reviewText.trim() === "" ? "리뷰 내용을 입력해주세요." : "",
+      placeName:
+        formState.placeName === "장소명" ? "장소 정보를 찾을 수 없습니다." : "",
+    };
+
+    const isValid = !errors.rating && !errors.reviewText && !errors.placeName;
+
+    updateErrors(errors);
+    updateFormState({ isValid });
+
+    return isValid;
+  };
+
+  // 장소 정보 로드
   const loadPlaceInfo = async () => {
     if (
       !finalContentId ||
@@ -33,7 +102,7 @@ const ReviewWriteForm = () => {
       return;
 
     try {
-      setIsLoading(true);
+      updateFormState({ isLoading: true });
       let placeData = null;
 
       // 먼저 /api/place/{contentId} 시도
@@ -78,19 +147,14 @@ const ReviewWriteForm = () => {
         placeData = searchData?.data || searchData?.content || searchData;
       }
 
-      // 장소명 설정 (다양한 필드명 지원)
-      if (placeData && placeData.name) {
-        setPlaceName(placeData.name);
-      } else if (placeData && placeData.title) {
-        setPlaceName(placeData.title);
-      } else {
-        setPlaceName("장소명");
-      }
+      // 장소명 설정
+      const newPlaceName = placeData?.name || placeData?.title || "장소명";
+      updateFormState({ placeName: newPlaceName });
     } catch (error) {
       console.error("장소 정보 로드 중 오류:", error);
-      setPlaceName("장소명");
+      updateFormState({ placeName: "장소명" });
     } finally {
-      setIsLoading(false);
+      updateFormState({ isLoading: false });
     }
   };
 
@@ -100,27 +164,18 @@ const ReviewWriteForm = () => {
 
   // 리뷰 저장 핸들러
   const handleSaveReview = async () => {
-    if (!reviewText.trim()) {
-      alert("리뷰 내용을 입력해주세요.");
-      return;
-    }
-
-    if (!finalContentId) {
-      alert("장소 정보를 찾을 수 없습니다.");
-      return;
-    }
-
-    if (rating === 0) {
-      alert("별점을 선택해주세요.");
+    if (!validateForm()) {
       return;
     }
 
     try {
+      updateFormState({ isLoading: true });
+
       const url = new URL(
         `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`
       );
-      url.searchParams.append("score", rating.toString());
-      url.searchParams.append("content", reviewText.trim());
+      url.searchParams.append("score", formState.rating.toString());
+      url.searchParams.append("content", formState.reviewText.trim());
 
       const formData = new FormData();
       selectedFiles.slice(0, 3).forEach((file) => {
@@ -147,48 +202,70 @@ const ReviewWriteForm = () => {
     } catch (error) {
       console.error("리뷰 저장 중 오류:", error);
       alert("리뷰 저장에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      updateFormState({ isLoading: false });
     }
   };
 
   // 저장 확인 모달 열기
   const handleSubmit = () => {
-    if (!reviewText.trim()) {
-      alert("리뷰 내용을 입력해주세요.");
-      return;
+    if (validateForm()) {
+      updateModalState({ showConfirmModal: true });
     }
+  };
 
-    if (rating === 0) {
-      alert("별점을 선택해주세요.");
-      return;
+  // 별점 변경 핸들러
+  const handleRatingChange = (newRating: number) => {
+    updateFormState({ rating: newRating });
+    if (formState.errors.rating) {
+      updateErrors({ rating: "" });
     }
+  };
 
-    setShowConfirmModal(true);
+  // 리뷰 텍스트 변경 핸들러
+  const handleReviewTextChange = (text: string) => {
+    updateFormState({ reviewText: text });
+    if (formState.errors.reviewText) {
+      updateErrors({ reviewText: "" });
+    }
   };
 
   return (
     <main className="flex-1 px-16 py-12">
       <div className="flex flex-col text-[20px] gap-[9px]">
-        {/* 장소명 표시 */}
         <div className="flex font-medium gap-[44px] items-center mb-[44px]">
           <span>방문한 장소</span>
-          <span>{isLoading ? "로딩 중..." : placeName}</span>
+          <span>
+            {formState.isLoading ? "로딩 중..." : formState.placeName}
+          </span>
         </div>
-        {/* 별점 및 리뷰 텍스트 입력 */}
         <div className="flex mb-[9px]">
           <span className="w-[135px] text-[20px] font-medium">상세 리뷰</span>
           <div className="flex flex-col gap-[9px]">
-            <StarRating rating={rating} onRatingChange={setRating} />
+            <StarRating
+              rating={formState.rating}
+              onRatingChange={handleRatingChange}
+            />
+            {formState.errors.rating && (
+              <span className="text-red-500 text-sm">
+                {formState.errors.rating}
+              </span>
+            )}
             <textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
+              value={formState.reviewText}
+              onChange={(e) => handleReviewTextChange(e.target.value)}
               placeholder="리뷰를 작성해주세요."
               className="w-[756px] h-[141px] text-[16px] p-4 border border-gray-300 rounded-lg resize-none focus:outline-none mb-[72px]"
             />
+            {formState.errors.reviewText && (
+              <span className="text-red-500 text-sm">
+                {formState.errors.reviewText}
+              </span>
+            )}
           </div>
         </div>
       </div>
 
-      {/* 이미지 업로드 섹션 */}
       <ImageUploadSection
         selectedFiles={selectedFiles}
         onFileSelect={setSelectedFiles}
@@ -196,22 +273,20 @@ const ReviewWriteForm = () => {
           setSelectedFiles((prev) => prev.filter((_, i) => i !== index))
         }
         onSave={handleSubmit}
-        onCancel={() => setShowCancelModal(true)}
+        onCancel={() => updateModalState({ showCancelModal: true })}
         maxFiles={3}
       />
 
-      {/* 저장 확인 모달 */}
       <ConfirmModal
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
+        isOpen={modalState.showConfirmModal}
+        onClose={() => updateModalState({ showConfirmModal: false })}
         onConfirm={handleSaveReview}
         title="리뷰를 저장하시겠어요?"
       />
 
-      {/* 취소 확인 모달 */}
       <ConfirmModal
-        isOpen={showCancelModal}
-        onClose={() => setShowCancelModal(false)}
+        isOpen={modalState.showCancelModal}
+        onClose={() => updateModalState({ showCancelModal: false })}
         onConfirm={() => navigate("/myreview")}
         title="리뷰를 취소하시겠어요?<br/>이 페이지를 나가면 저장되지 않아요."
         confirmText="예"
