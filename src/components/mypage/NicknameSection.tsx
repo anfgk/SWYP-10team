@@ -22,15 +22,24 @@ const NicknameSection = () => {
       return;
     }
 
+    // displayName 유효성 검사 (2-12자, 영문/숫자/한글만 허용)
+    if (nickname.trim().length < 2 || nickname.trim().length > 12) {
+      alert("이름은 2-12자 사이여야 합니다.");
+      return;
+    }
+
+    const namePattern = /^[a-zA-Z0-9가-힐]*$/;
+    if (!namePattern.test(nickname.trim())) {
+      alert("이름은 영문, 숫자, 한글만 사용 가능합니다.");
+      return;
+    }
+
     try {
       setIsLoading(true);
-      // 기본 이미지 파일 생성 (기존 이미지 유지)
-      const defaultImageFile = new File([], "default-image.jpg", {
-        type: "image/jpeg",
-      });
 
-      // API를 통해 사용자 프로필 업데이트
-      await updateUserProfile(accessToken, nickname.trim(), defaultImageFile);
+      // 닉네임만 변경하는 경우 이미지는 전송하지 않음
+      // API가 기존 이미지를 유지하도록 함
+      await updateUserProfile(accessToken, nickname.trim());
 
       // 성공 시 로컬 상태 업데이트
       setUser({
@@ -64,6 +73,8 @@ const NicknameSection = () => {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] px-3 text-sm focus:outline-none focus:border-gray-400"
+              maxLength={12}
+              placeholder="2-12자, 영문/숫자/한글만 사용 가능"
             />
           ) : (
             <div className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 px-3">

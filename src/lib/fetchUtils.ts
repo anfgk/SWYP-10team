@@ -101,14 +101,34 @@ export const fetchUserProfile = async (accessToken: string) => {
 export const updateUserProfile = async (
   accessToken: string,
   displayName: string,
-  image: File
+  image?: File
 ) => {
   try {
+    // displayName 유효성 검사 (2-12자, 영문/숫자/한글만 허용)
+    if (displayName.length < 2 || displayName.length > 12) {
+      throw new Error("이름은 2-12자 사이여야 합니다.");
+    }
+
+    const namePattern = /^[a-zA-Z0-9가-힐]*$/;
+    if (!namePattern.test(displayName)) {
+      throw new Error("이름은 영문, 숫자, 한글만 사용 가능합니다.");
+    }
+
     const formData = new FormData();
-    const requestData = { displayName: displayName, image: [image] };
+
+    // API 문서에 따르면 image 필드는 문자열 배열이어야 함
+    // 새 이미지가 있으면 빈 배열, 없으면 기존 이미지 URL 유지
+    const requestData = {
+      displayName: displayName,
+      image: [], // 새 이미지가 있으면 빈 배열, 기존 이미지는 별도 처리 필요
+    };
 
     formData.append("request", JSON.stringify(requestData));
-    formData.append("image", image);
+
+    // 새 이미지가 있는 경우에만 추가
+    if (image) {
+      formData.append("image", image);
+    }
 
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
