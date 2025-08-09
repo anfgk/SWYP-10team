@@ -5,15 +5,17 @@ const fetchWithAuth = async (
   endPoint: string, // 상대 경로만 받음(/api/user/logout)
   init?: RequestInit
 ): Promise<Response> => {
-  const { accessToken, logout } = useAuthStore.getState();
+  const { logout } = useAuthStore.getState();
 
   const fullURL = `${import.meta.env.VITE_API_BASE_URL}${endPoint}`;
 
   //access토큰 기반 헤더 생성
-  const addAuthHeader = (headers: HeadersInit = {}) => ({
-    ...headers,
-    Authorization: `Bearer ${accessToken}`,
-  });
+  const addAuthHeader = (headers: HeadersInit = {}) => {
+    const { accessToken } = useAuthStore.getState();
+    return accessToken
+      ? { ...headers, Authorization: `Bearer ${accessToken}` }
+      : headers;
+  };
 
   //보안 헤더 포함해서 요청
   let res = await fetch(fullURL, {

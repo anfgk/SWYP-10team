@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/layout/MainHeader";
-import MypageLayout from "./components/layouts/MypageLayout";
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";
@@ -15,6 +14,10 @@ import MainFooter from "./components/layout/MainFooter";
 import CustomToast from "./components/common/CustomToast";
 import TodaysPopularListPage from "./pages/TodaysPopularListPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ProtectedLayout from "./components/auth/ProtectedMyPageLayout";
+import { mypagePaths } from "./configs/myPageRoutes";
+import ReviewWritePage from "./pages/ReviewWritePage";
+import ReviewEditPage from "./pages/ReviewEditPage";
 
 function App() {
   useUserLocation();
@@ -34,57 +37,31 @@ function App() {
           <Route path="/popularoftoday" element={<TodaysPopularListPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/reviewwrite/:id" element={<ReviewWritePage />} />
+          <Route path="/reviewedit/:id" element={<ReviewEditPage />} />
 
-          {/* 마이페이지 레이아웃 - 로그인 필요 */}
-          <Route
-            path="/myinfo"
+          {/* <Route
+            path="/reviewwrite/:id"
             element={
               <ProtectedRoute>
-                <MypageLayout />
+                <ReviewWritePage />
               </ProtectedRoute>
             }
-          >
-            <Route index element={<MyPage />} />
-          </Route>
+          />
           <Route
-            path="/myreview"
+            path="/reviewedit/:id"
             element={
               <ProtectedRoute>
-                <MypageLayout />
+                <ReviewWritePage />
               </ProtectedRoute>
             }
-          >
-            <Route index element={<MyPage />} />
-          </Route>
-          <Route
-            path="/wish"
-            element={
-              <ProtectedRoute>
-                <MypageLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<MyPage />} />
-          </Route>
-          <Route
-            path="/reviewwrite"
-            element={
-              <ProtectedRoute>
-                <MypageLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<MyPage />} />
-          </Route>
-          <Route
-            path="/reviewwrite/:contentId"
-            element={
-              <ProtectedRoute>
-                <MypageLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<MyPage />} />
+          /> */}
+
+          {/* 마이페이지 */}
+          <Route element={ProtectedLayout}>
+            {mypagePaths.map((path) => (
+              <Route key={path} path={path} element={<MyPage />} />
+            ))}
           </Route>
         </Routes>
         <MainFooter />
