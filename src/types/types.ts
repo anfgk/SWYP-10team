@@ -33,4 +33,25 @@ type SearchCardData = {
   heartCount: number;
 };
 
-export type { JWTPayLoad, ReviewData, SearchCardData };
+// 반려동물 정보 타입 (화면 표시용)
+type PetInfo = {
+  id: number;
+  name: string;
+  type: string;
+  gender: string;
+  birth: string;
+  size: string;
+  imageUrl: string;
+};
+
+// 반려동물 등록/수정용 타입 (API 전송용)
+type PetFormData = {
+  name: string;
+  type: string;
+  gender: string;
+  birthYear: string;
+  size: string;
+  image?: string;
+};
+
+export type { JWTPayLoad, ReviewData, SearchCardData, PetInfo, PetFormData };

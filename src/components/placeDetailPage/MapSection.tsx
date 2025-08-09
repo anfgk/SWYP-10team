@@ -20,7 +20,8 @@ const MapSection = ({ title, lat, lng }: Props) => {
     const loadKakaoMap = () => {
       const { kakao } = window;
 
-      if (!kakao || !mapRef.current || mapInstance.current) return;
+      if (!kakao || !kakao.maps || !mapRef.current || mapInstance.current)
+        return;
 
       try {
         kakao.maps.load(() => {

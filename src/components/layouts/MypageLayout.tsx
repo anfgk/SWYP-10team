@@ -1,37 +1,42 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Sidebar from "@/components/mypage/Sidebar";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../mypage/Sidebar";
+
+const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 
 const MypageLayout = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const path = location.pathname;
+  const location = useLocation();
 
-  const menus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
-
+  // 현재 경로에 따른 활성 메뉴 결정
   const getActiveMenu = () => {
+    const path = location.pathname;
+
     if (path === "/myinfo") return "내 정보";
     if (path === "/wish") return "최근 본/찜한 장소";
     if (path === "/myreview") return "방문한 장소 및 리뷰";
     if (path === "/reviewwrite") return "방문한 장소 및 리뷰";
-    return "내 정보";
+
+    return "내 정보"; // 기본값
   };
 
-  const handleMenuClick = (menu: string) => {
+  const handleSidebarMenuClick = (menu: string) => {
     if (menu === "내 정보") navigate("/myinfo");
     else if (menu === "최근 본/찜한 장소") navigate("/wish");
     else if (menu === "방문한 장소 및 리뷰") navigate("/myreview");
   };
 
   return (
-    <div className="flex w-[1200px] h-full mx-auto">
-      <Sidebar
-        menus={menus}
-        activeMenu={getActiveMenu()}
-        onMenuClick={handleMenuClick}
-      />
-      <main className="flex-1 p-6">
-        <Outlet />
-      </main>
+    <div className="w-[1200px] mx-auto">
+      <div className="flex min-h-screen bg-white">
+        <Sidebar
+          menus={sidebarMenus}
+          activeMenu={getActiveMenu()}
+          onMenuClick={handleSidebarMenuClick}
+        />
+        <section className="flex-1 px-16 py-12">
+          <Outlet />
+        </section>
+      </div>
     </div>
   );
 };

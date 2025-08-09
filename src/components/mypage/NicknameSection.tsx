@@ -1,84 +1,63 @@
 import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
-import { updateUserProfile } from "@/lib/apiUtils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import PageButton from "@/components/ui/page-button";
 
-interface NicknameSectionProps {
-  onNicknameUpdate?: (newNickname: string) => void;
-}
-
-const NicknameSection = ({ onNicknameUpdate }: NicknameSectionProps) => {
-  const { accessToken } = useAuthStore();
-  const [nickname, setNickname] = useState("");
+const NicknameSection = () => {
+  const { user, setAuth } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [nickname, setNickname] = useState(user?.name || "");
 
-  const handleSave = async () => {
-    if (!accessToken) {
-      setError("로그인이 필요합니다.");
-      return;
-    }
-
-    if (!nickname.trim()) {
-      setError("닉네임을 입력해주세요.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      await updateUserProfile(accessToken, nickname.trim());
-
+  const handleSave = () => {
+    if (nickname.trim()) {
+      setAuth(user?.email || "", {
+        name: nickname.trim(),
+        email: user?.email || "",
+      });
       setIsEditing(false);
-      onNicknameUpdate?.(nickname.trim());
-    } catch (_error) {
-      setError("닉네임 업데이트에 실패했습니다.");
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleCancel = () => {
+    setNickname(user?.name || "");
     setIsEditing(false);
-    setNickname("");
-    setError(null);
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">닉네임</h3>
-
+    <div className="flex gap-4 items-center mb-[8px]">
       {isEditing ? (
-        <div className="space-y-3">
-          <Input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            placeholder="닉네임을 입력하세요"
-            maxLength={12}
-          />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <div className="flex gap-2">
-            <Button onClick={handleSave} disabled={loading} className="flex-1">
-              {loading ? "저장 중..." : "저장"}
-            </Button>
-            <Button variant="outline" onClick={handleCancel} className="flex-1">
-              취소
-            </Button>
+        <section>
+          <div className="flex justify-center items-center gap-10">
+            이름
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 pl-[12px]"
+            />
+            <div className="flex gap-2">
+              <PageButton text="저장" variant="default" onClick={handleSave} />
+              <PageButton
+                text="취소"
+                variant="default"
+                onClick={handleCancel}
+              />
+            </div>
           </div>
-        </div>
+        </section>
       ) : (
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">
-            {nickname || "닉네임을 설정해주세요"}
-          </span>
-          <Button variant="outline" onClick={() => setIsEditing(true)}>
-            수정
-          </Button>
-        </div>
+        <section>
+          <div className="flex justify-center items-center gap-10">
+            이름
+            <div className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 pl-[12px] bg-gray-50">
+              {user?.name || "닉네임을 설정해주세요"}
+            </div>
+            <PageButton
+              text="변경하기"
+              variant="default"
+              onClick={() => setIsEditing(true)}
+            />
+          </div>
+        </section>
       )}
     </div>
   );

@@ -3,8 +3,10 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import StarRating from "./StarRating";
 import ImageUploadSection from "./ImageUploadSection";
 import ConfirmModal from "./ConfirmModal";
+import { useAuthStore } from "@/stores/authStore";
 
 const ReviewWriteForm = () => {
+  const { accessToken } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
   const { contentId } = useParams();
@@ -73,9 +75,9 @@ const ReviewWriteForm = () => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+            Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       if (response.ok) {
@@ -90,9 +92,9 @@ const ReviewWriteForm = () => {
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+              Authorization: `Bearer ${accessToken}`,
             },
-          },
+          }
         );
         if (!searchResponse.ok)
           throw new Error(`검색 API 실패: ${searchResponse.status}`);
@@ -120,7 +122,7 @@ const ReviewWriteForm = () => {
     try {
       updateFormState({ isLoading: true });
       const url = new URL(
-        `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`,
+        `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`
       );
       url.searchParams.append("score", formState.rating.toString());
       url.searchParams.append("content", formState.reviewText.trim());
@@ -134,7 +136,7 @@ const ReviewWriteForm = () => {
         method: "POST",
         credentials: "include",
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: formData,
       });

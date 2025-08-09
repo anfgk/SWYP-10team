@@ -13,7 +13,6 @@ const ReviewList = () => {
 
   const loadReviews = async () => {
     if (!accessToken) {
-      setError("로그인이 필요합니다.");
       setLoading(false);
       return;
     }
