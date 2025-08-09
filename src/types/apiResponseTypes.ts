@@ -118,6 +118,7 @@ type PlaceDetailData = {
   overview: string;
   detailImage: ResponseImage[];
   petGuide: PetGuideData;
+  restDate: string;
 };
 
 type AiRecommendData = {

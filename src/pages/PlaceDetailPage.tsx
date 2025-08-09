@@ -49,6 +49,7 @@ const PlaceDetailPage = () => {
             addr1={placeDetail?.addr1 ?? ""}
             addr2={placeDetail?.addr2 ?? ""}
             phoneNumber={placeDetail?.tel ?? ""}
+            restDate={placeDetail?.restDate || "휴무정보 없음"}
             petGuide={placeDetail?.petGuide ?? ({} as PetGuideData)}
           />
           <ReviewSection placeId={id!} />
