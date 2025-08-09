@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
-import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-import WishCard from "@/components/mypage/WishCard";
+import RecentCard from "@/components/mypage/RecentCard";
 import { useAuthStore } from "@/stores/authStore";
 import { fetchRecentPlaces } from "@/lib/apiUtils";
+import RecentSlide from "@/components/mypage/RecentSlide";
 
 const RecentPlaces = () => {
   const { accessToken } = useAuthStore();
   const [recentList, setRecentList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  // 슬라이드용 데이터 생성 (4개씩 나누기)
+  const slides = [];
+  for (let i = 0; i < recentList.length; i += 4) {
+    slides.push(recentList.slice(i, i + 4));
+  }
 
   const loadRecentPlaces = async () => {
     if (!accessToken) {
@@ -85,14 +92,30 @@ const RecentPlaces = () => {
     }
   );
 
+  // 슬라이드 제어 함수
+  const handleNext = () => {
+    setSlideIndex((prev) => (prev + 1) % slides.length);
+  };
+
+  const handlePrev = () => {
+    setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  console.log("RecentPlaces 디버깅:", {
+    recentListLength: recentList.length,
+    slidesLength: slides.length,
+    slideIndex,
+    shouldUseSlide: recentList.length > 4,
+  });
+
   return (
     <div className="mt-12 mb-16">
       <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
 
-      {recentList.length <= 5 ? (
+      {recentList.length <= 4 ? (
         <div className="w-full h-fit flex gap-[16px]">
           {recentList.map((place, index) => (
-            <WishCard
+            <RecentCard
               key={index}
               id={place.contentId}
               name={place.name || place.title}
@@ -104,25 +127,51 @@ const RecentPlaces = () => {
           ))}
         </div>
       ) : (
-        <div className="relative overflow-hidden">
-          <div className="flex gap-4 transition-all duration-500 ease-in-out">
-            {visibleItems.map((item, index) => (
-              <div key={`${item.id}-${index}`} className="flex-shrink-0">
-                <div className="w-45 h-30 bg-gray-300 rounded-lg flex items-center justify-center text-gray-500">
-                  {item.image ? (
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  ) : (
-                    "장소 이미지"
-                  )}
-                </div>
-                <div className="mt-2 text-sm font-medium">{item.name}</div>
-              </div>
-            ))}
+        <div className="flex flex-col items-center relative w-full h-full">
+          <div className="w-full h-full overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-in-out gap-[20px]"
+              style={{
+                transform: `translateX(-${slideIndex * 939}px)`,
+                width: `1px`,
+              }}
+            >
+              {slides.length > 0 &&
+                slides.map((slide, i) => (
+                  <RecentSlide
+                    key={i}
+                    placeList={slide}
+                    onToggleWish={handleToggleWish}
+                  />
+                ))}
+            </div>
           </div>
+
+          {/* 이동 버튼 */}
+          {slides.length > 1 && (
+            <>
+              <button
+                className="absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                onClick={handlePrev}
+              >
+                <img
+                  src="/assets/buttons/button_left.png"
+                  alt="left"
+                  className="w-full h-full transition hover:brightness-80"
+                />
+              </button>
+              <button
+                className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                onClick={handleNext}
+              >
+                <img
+                  src="/assets/buttons/button_right.png"
+                  alt="right"
+                  className="w-full h-full transition hover:brightness-80"
+                />
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>
