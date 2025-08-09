@@ -9,7 +9,7 @@ const getQueryString = (
   subregions: string[],
   keyword: string,
   category: string,
-  pets: string
+  pets: string,
 ) => {
   const params = new URLSearchParams();
   if (region) params.append("region", region);
@@ -61,11 +61,11 @@ const getContentTypeCodeByName = (category: string): string => {
 
 const getSigunguCodesByNames = (
   sidoName: string,
-  sigunguNames: string
+  sigunguNames: string,
 ): string => {
   const subRegionArr = sigunguNames.split(",");
   const codesArr = subRegionArr.map(
-    (subRegion) => SIGUNGU_CODE[sidoName][subRegion]
+    (subRegion) => SIGUNGU_CODE[sidoName][subRegion],
   );
   const codes = codesArr.join(",");
 
@@ -82,7 +82,7 @@ const createSearchApiParam = (param: URLSearchParams): URLSearchParams => {
   if (paramSubRegionStr)
     apiParam.append(
       "sigungu",
-      getSigunguCodesByNames(paramRegion, paramSubRegionStr)
+      getSigunguCodesByNames(paramRegion, paramSubRegionStr),
     );
   if (paramcategory && paramcategory !== "전체")
     apiParam.append("contentTypeId", getContentTypeCodeByName(paramcategory));

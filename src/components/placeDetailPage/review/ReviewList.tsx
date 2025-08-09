@@ -14,7 +14,7 @@ const ReviewList = ({ reviews }: Props) => {
           <BlindedReviewCard key={review.reviewId} review={review} />
         ) : (
           <ReviewCard key={review.reviewId} review={review} />
-        )
+        ),
       )}
     </section>
   );

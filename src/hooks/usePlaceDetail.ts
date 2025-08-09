@@ -16,7 +16,7 @@ const usePlaceDetail = (id: string) => {
           `/api/content/placedetail?contentId=${id}`,
           {
             method: "GET",
-          }
+          },
         );
 
         if (!res.ok) throw new Error("장소 정보 불러오기 실패");

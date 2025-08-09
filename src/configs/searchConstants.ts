@@ -394,5 +394,5 @@ export const CONTENT_TYPE_ID: Record<string, number> = {
 };
 
 export const CONTENT_TYPE_NAME: Record<number, string> = Object.fromEntries(
-  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key])
+  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key]),
 ) as Record<number, string>;

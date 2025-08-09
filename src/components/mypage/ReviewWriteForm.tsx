@@ -77,7 +77,7 @@ const ReviewWriteForm = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -94,7 +94,7 @@ const ReviewWriteForm = () => {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (!searchResponse.ok)
           throw new Error(`검색 API 실패: ${searchResponse.status}`);
@@ -122,7 +122,7 @@ const ReviewWriteForm = () => {
     try {
       updateFormState({ isLoading: true });
       const url = new URL(
-        `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`
+        `${import.meta.env.VITE_API_BASE_URL}api/review/${finalContentId}`,
       );
       url.searchParams.append("score", formState.rating.toString());
       url.searchParams.append("content", formState.reviewText.trim());

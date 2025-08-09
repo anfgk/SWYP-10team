@@ -16,8 +16,6 @@ const useReviewList = ({ placeId }: Props) => {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn, accessToken } = useAuthStore();
 
-  const SIZE = 4;
-
   useEffect(() => {
     // 정렬 변경 시 초기화 후 첫 페이지 불러오기
     setPage(0);
@@ -38,7 +36,7 @@ const useReviewList = ({ placeId }: Props) => {
         setReviewData(data);
 
         setReviews((prev) =>
-          page === 0 ? data.reviews : [...prev, ...data.reviews]
+          page === 0 ? data.reviews : [...prev, ...data.reviews],
         );
         setHasMore(data.hasNext);
       } catch (e) {

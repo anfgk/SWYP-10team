@@ -15,7 +15,7 @@ const VisitedCheckBox = ({ placeId, isVisited }: Props) => {
   const navigate = useNavigate();
 
   const [checked, setChecked] = useState(
-    isLoggedIn ? (isVisited ?? false) : false
+    isLoggedIn ? (isVisited ?? false) : false,
   );
 
   const handleChange = (next: boolean) => {
@@ -32,7 +32,7 @@ const VisitedCheckBox = ({ placeId, isVisited }: Props) => {
           `/api/content/visited-check?contentId=${placeId}`,
           {
             method: "GET",
-          }
+          },
         );
         if (res.ok) setChecked(next);
         const data = await res.json();

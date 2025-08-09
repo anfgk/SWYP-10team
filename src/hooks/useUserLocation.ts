@@ -14,7 +14,7 @@ const useUserLocation = () => {
         },
         (error) => {
           console.log("위치 거부됨 또는 오류", error.message);
-        }
+        },
       );
     } else {
       console.log("Geolocation API를 지원하지 않음");

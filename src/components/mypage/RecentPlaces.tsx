@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import RecentCard from "@/components/mypage/RecentCard";
 import { useAuthStore } from "@/stores/authStore";
 import { fetchRecentPlaces } from "@/lib/apiUtils";
@@ -18,7 +18,7 @@ const RecentPlaces = () => {
     slides.push(recentList.slice(i, i + 4));
   }
 
-  const loadRecentPlaces = async () => {
+  const loadRecentPlaces = useCallback(async () => {
     if (!accessToken) {
       setLoading(false);
       return;
@@ -37,17 +37,17 @@ const RecentPlaces = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accessToken]);
 
   useEffect(() => {
     loadRecentPlaces();
-  }, [accessToken]);
+  }, [loadRecentPlaces]);
 
   const handleToggleWish = (id: number) => {
     setRecentList((prev) =>
       prev.map((place) =>
-        place.id === id ? { ...place, isWished: !place.isWished } : place
-      )
+        place.id === id ? { ...place, isWished: !place.isWished } : place,
+      ),
     );
   };
 
@@ -83,14 +83,6 @@ const RecentPlaces = () => {
       </div>
     );
   }
-
-  const visibleItems = Array.from(
-    { length: Math.min(4, recentList.length) },
-    (_, i) => {
-      const index = (currentIndex + i) % recentList.length;
-      return recentList[index];
-    }
-  );
 
   // 슬라이드 제어 함수
   const handleNext = () => {

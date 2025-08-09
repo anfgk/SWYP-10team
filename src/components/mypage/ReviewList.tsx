@@ -52,7 +52,7 @@ const ReviewList = () => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
         ? { ...review, content: text, hasReview: text.trim() !== "" }
-        : review
+        : review,
     );
     setReviews(updatedReviews);
     setEditingId(null);
@@ -68,7 +68,7 @@ const ReviewList = () => {
 
   const handleRatingChange = (id: number, rating: number) => {
     const updatedReviews = reviews.map((review) =>
-      review.id === id ? { ...review, rating } : review
+      review.id === id ? { ...review, rating } : review,
     );
     setReviews(updatedReviews);
   };

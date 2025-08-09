@@ -62,7 +62,7 @@ const SearchResultCard = ({ cardData }: Props) => {
                   ? heartClickedWithLogin(
                       cardData.contentId.toString(),
                       liked,
-                      setLiked
+                      setLiked,
                     )
                   : loginConfirmAlert(navigate);
               }}

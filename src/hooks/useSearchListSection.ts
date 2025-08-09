@@ -23,7 +23,7 @@ const useSearchListSection = () => {
     if (sort === "latest") {
       return [...resultList].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
     } else if (sort === "popular") {
       return [...resultList].sort((a, b) => b.totalView - a.totalView);
@@ -31,7 +31,7 @@ const useSearchListSection = () => {
       return [...resultList].sort(
         (a, b) =>
           getDistanceInKm(lon!, lat!, a.mapx, a.mapy) -
-          getDistanceInKm(lon!, lat!, b.mapx, b.mapy)
+          getDistanceInKm(lon!, lat!, b.mapx, b.mapy),
       );
     } else {
       return resultList;

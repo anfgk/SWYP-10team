@@ -28,7 +28,7 @@ const copyCurrentAddress = () => {
 const loginConfirmAlert = (navigate: ReturnType<typeof useNavigate>) => {
   // 로그인이 필요한 기능 클릭 시 alert후 로그인 페이지로 이동
   const goToLogin = window.confirm(
-    "로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?"
+    "로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?",
   );
   if (goToLogin) {
     sessionStorage.setItem("loginLocation", window.location.pathname);

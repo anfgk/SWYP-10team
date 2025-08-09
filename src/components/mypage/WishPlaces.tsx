@@ -97,7 +97,6 @@ const WishPlaces = () => {
     }
   };
 
-  const itemsPerPage = 8;
   // 서버에서 페이지별 데이터를 받으므로 클라이언트 페이지네이션 불필요
   // const totalPages = Math.ceil(wishList.length / itemsPerPage);
   const paginatedWish = wishList;

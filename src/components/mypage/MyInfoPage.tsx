@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PetInfoSection from "@/components/mypage/PetInfoCard";
 import ProfileInfo from "@/components/mypage/ProfileInfo";
 import PetInfoModal from "@/components/mypage/PetInfoModal";
@@ -13,7 +13,7 @@ const MyInfoPage = () => {
   const [petInfos, setPetInfos] = useState<PetInfo[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchPetInfo = async () => {
+  const fetchPetInfo = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -25,7 +25,7 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -53,11 +53,11 @@ const MyInfoPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [accessToken]);
 
   useEffect(() => {
     fetchPetInfo();
-  }, []);
+  }, [fetchPetInfo]);
 
   const handleAddClick = () => {
     setIsModalOpen(true);
@@ -67,7 +67,7 @@ const MyInfoPage = () => {
     setIsModalOpen(false);
   };
 
-  const handlePetInfoAdded = async (petInfo: PetFormData) => {
+  const handlePetInfoAdded = async () => {
     // PetInfoModal에서 이미 API 호출을 완료했으므로
     // 여기서는 UI 업데이트만 수행
     try {
@@ -86,7 +86,7 @@ const MyInfoPage = () => {
     try {
       console.log(
         "삭제 API 호출:",
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`,
       );
 
       const response = await fetch(
@@ -98,14 +98,14 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error("삭제 응답 에러:", errorText);
         throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
+          `HTTP error! status: ${response.status}, message: ${errorText}`,
         );
       }
 

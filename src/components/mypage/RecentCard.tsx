@@ -68,9 +68,12 @@ const RecentCard = ({
             width={40}
             height={40}
             onClick={() => {
-              isLoggedIn
-                ? heartClickedWithLogin(id.toString(), liked, setLiked)
-                : loginConfirmAlert(navigate);
+              if (isLoggedIn) {
+                heartClickedWithLogin(id.toString(), liked, setLiked);
+                onToggleWish(id);
+              } else {
+                loginConfirmAlert(navigate);
+              }
             }}
           />
 
