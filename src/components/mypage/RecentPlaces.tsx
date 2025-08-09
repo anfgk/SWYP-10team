@@ -133,7 +133,7 @@ const RecentPlaces = () => {
       <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
 
       {recentList.length <= 5 ? (
-        <div className="w-full h-fit flex flex-col gap-[16px]">
+        <div className="w-full h-fit flex gap-[16px]">
           {recentList.map((place) => (
             <WishCard
               key={place.id}
