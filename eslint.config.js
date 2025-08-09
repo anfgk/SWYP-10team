@@ -33,9 +33,6 @@ export default defineConfig([
       "prettier/prettier": "warn",
 
       "react/react-in-jsx-scope": "off",
-      "spellcheck/spell-checker": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
-      "no-unused-vars": "off",
     },
     settings: {
       react: {
