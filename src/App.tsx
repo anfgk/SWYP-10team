@@ -12,6 +12,7 @@ import ScrollToTop from "./hooks/ScrollToTop";
 import useIssueAccessToken from "./hooks/useIssueAccessToken";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
 import MainFooter from "./components/layout/MainFooter";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   useUserLocation();
@@ -30,17 +31,55 @@ function App() {
           <Route path="/authredirect" element={<AuthCallBackPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
 
-          {/* 마이페이지 레이아웃 */}
-          <Route path="/myinfo" element={<MypageLayout />}>
+          {/* 마이페이지 레이아웃 - 로그인 필요 */}
+          <Route
+            path="/myinfo"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/myreview" element={<MypageLayout />}>
+          <Route
+            path="/myreview"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/wish" element={<MypageLayout />}>
+          <Route
+            path="/wish"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/reviewwrite" element={<MypageLayout />}>
+          <Route
+            path="/reviewwrite"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<MyPage />} />
+          </Route>
+          <Route
+            path="/reviewwrite/:contentId"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
         </Routes>

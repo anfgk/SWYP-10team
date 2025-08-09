@@ -7,7 +7,7 @@ const PopularSection = () => {
   const testPopular20 = Array.from({ length: 20 }, (_, i) => i + 1);
   const slides = Array.from(
     { length: Math.ceil(testPopular20.length / 4) },
-    (_, i) => testPopular20.slice(i * 4, i * 4 + 4)
+    (_, i) => testPopular20.slice(i * 4, i * 4 + 4),
   );
 
   const { index, handleNext, handlePrev } = useSlideIndex(slides);

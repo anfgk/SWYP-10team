@@ -1,129 +1,170 @@
 import { useState } from "react";
-import ModalInput from "./ModalInput";
+import { Button } from "@/components/ui/button";
+
+interface PetInfo {
+  id: number;
+  name: string;
+  type: string;
+  gender: string;
+  birth: string;
+  size: string;
+  imageUrl: string;
+}
 
 interface PetInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPetInfoAdded: () => void;
+  onPetInfoAdded: (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File | undefined;
+  }) => Promise<void>;
+  onPetInfoUpdated: (petInfo: {
+    name: string;
+    type: string;
+    gender: string;
+    birthYear: string;
+    size: string;
+    image?: File | undefined;
+  }) => Promise<void>;
+  isEditMode: boolean;
+  editingPetInfo: PetInfo | null;
+  isSaving: boolean;
 }
 
 const PetInfoModal = ({
   isOpen,
   onClose,
   onPetInfoAdded,
+  onPetInfoUpdated,
+  isEditMode,
+  editingPetInfo: _editingPetInfo,
+  isSaving,
 }: PetInfoModalProps) => {
-  const [gender, setGender] = useState<"female" | "male">("female");
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [birthYear, setBirthYear] = useState("");
-  const [size, setSize] = useState("");
+  const [petInfo, setPetInfo] = useState<PetInfo>({
+    id: 0,
+    name: "",
+    type: "",
+    gender: "",
+    birth: "",
+    size: "",
+    imageUrl: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const petData = {
+      name: petInfo.name,
+      type: petInfo.type,
+      gender: petInfo.gender,
+      birthYear: petInfo.birth,
+      size: petInfo.size,
+    };
+
+    if (isEditMode) {
+      await onPetInfoUpdated(petData);
+    } else {
+      await onPetInfoAdded(petData);
+    }
+    onClose();
+    setPetInfo({
+      id: 0,
+      name: "",
+      type: "",
+      gender: "",
+      birth: "",
+      size: "",
+      imageUrl: "",
+    });
+  };
 
   if (!isOpen) return null;
 
-  const handleSave = () => {
-    // 여기에 저장 로직 추가
-    onPetInfoAdded();
-  };
-
-  const handleAddMore = () => {
-    // 추가 반려동물 입력을 위한 로직
-    console.log("더 많은 반려동물 추가");
-  };
-
   return (
-    <div className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-[562px] h-[679px] shadow-[0_2px_8px_0_rgba(0,0,0,0.12),0_1px_4px_0_rgba(0,0,0,0.08),0_0_1px_0_rgba(0,0,0,0.08)] overflow-y-auto">
-        <div className="relative flex justify-between items-center mb-[56px]">
-          <div className="w-6"></div>
-          <h3 className="text-[20px] font-semibold">반려동물 정보</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 w-6"
-          >
-            ✕
-          </button>
-        </div>
-        <div className="space-y-4">
-          {/* 성별 선택 */}
-          <ModalInput
-            label="성별"
-            type="radio"
-            value={gender}
-            onChange={(value) => setGender(value as "female" | "male")}
-            radioOptions={[
-              { value: "female", label: "여성", icon: "♀", color: "pink" },
-              { value: "male", label: "남성", icon: "♂", color: "blue" },
-            ]}
-          />
-
-          {/* 이름 입력 */}
-          <ModalInput
-            label="이름"
-            type="text"
-            value={name}
-            onChange={setName}
-            placeholder="텍스트를 입력해주세요"
-          />
-
-          {/* 종류 선택 */}
-          <ModalInput
-            label="종류"
-            type="select"
-            value={type}
-            onChange={setType}
-            placeholder="선택해주세요"
-            options={[
-              { value: "dog", label: "강아지" },
-              { value: "fierceDog", label: "강아지(맹견)" },
-              { value: "cat", label: "고양이" },
-              { value: "other", label: "기타" },
-            ]}
-          />
-
-          {/* 출생년도 선택 */}
-          <ModalInput
-            label="출생년도"
-            type="date"
-            value={birthYear}
-            onChange={setBirthYear}
-          />
-
-          {/* 사이즈 선택 */}
-          <ModalInput
-            label="사이즈"
-            type="select"
-            value={size}
-            onChange={setSize}
-            placeholder="선택해주세요"
-            options={[
-              { value: "small", label: "소형" },
-              { value: "medium", label: "중형" },
-              { value: "large", label: "대형" },
-            ]}
-          />
-
-          {/* 버튼들 */}
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={handleAddMore}
-              className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors mb-[48px]"
-            >
-              반려동물을 더 추가할게요
-            </button>
-            <button
-              onClick={handleSave}
-              className="w-[514px] h-[56px] py-3 px-4 bg-[var(--main-color)] text-white rounded-lg hover:bg-red-600 transition-colors"
-            >
-              저장할게요
-            </button>
-            <button
-              onClick={onClose}
-              className="w-[514px] h-[56px] py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-            >
-              다음에 할게요
-            </button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-96">
+        <h2 className="text-xl font-semibold mb-4">반려동물 정보 추가</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">이름</label>
+            <input
+              type="text"
+              value={petInfo.name}
+              onChange={(e) => setPetInfo({ ...petInfo, name: e.target.value })}
+              className="w-full p-2 border rounded"
+              required
+            />
           </div>
-        </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">종류</label>
+            <input
+              type="text"
+              value={petInfo.type}
+              onChange={(e) => setPetInfo({ ...petInfo, type: e.target.value })}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">성별</label>
+            <select
+              value={petInfo.gender}
+              onChange={(e) =>
+                setPetInfo({ ...petInfo, gender: e.target.value })
+              }
+              className="w-full p-2 border rounded"
+              required
+            >
+              <option value="">선택하세요</option>
+              <option value="male">수컷</option>
+              <option value="female">암컷</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">출생년도</label>
+            <input
+              type="text"
+              value={petInfo.birth}
+              onChange={(e) =>
+                setPetInfo({ ...petInfo, birth: e.target.value })
+              }
+              className="w-full p-2 border rounded"
+              placeholder="예: 2020"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">크기</label>
+            <select
+              value={petInfo.size}
+              onChange={(e) => setPetInfo({ ...petInfo, size: e.target.value })}
+              className="w-full p-2 border rounded"
+              required
+            >
+              <option value="">선택하세요</option>
+              <option value="small">소형</option>
+              <option value="medium">중형</option>
+              <option value="large">대형</option>
+            </select>
+          </div>
+          <div className="flex gap-2 pt-4">
+            <Button type="submit" className="flex-1" disabled={isSaving}>
+              {isSaving ? "저장 중..." : isEditMode ? "수정" : "추가"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              className="flex-1"
+              disabled={isSaving}
+            >
+              취소
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );

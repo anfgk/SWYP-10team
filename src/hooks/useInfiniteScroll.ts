@@ -8,7 +8,7 @@ const useInfiniteScroll = (callback: () => void) => {
       const [entry] = entries;
       if (entry.isIntersecting) callback();
     },
-    [callback]
+    [callback],
   );
 
   useEffect(() => {

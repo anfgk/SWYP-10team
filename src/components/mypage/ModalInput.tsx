@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { IoChevronDown, IoCalendar } from "react-icons/io5";
 import Calendar from "./Calendar";
 
@@ -28,10 +28,38 @@ const ModalInput = ({
 }: ModalInputProps) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
 
   const baseInputClass =
     "w-[442px] h-[48px] px-3 py-2 border border-gray-300 rounded-lg focus:outline-none";
   const labelClass = "text-sm font-medium text-gray-700";
+
+  // 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // 드롭다운 외부 클릭 감지
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(null);
+      }
+
+      // 캘린더 외부 클릭 감지
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target as Node)
+      ) {
+        setIsCalendarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (type === "radio") {
     return (
@@ -48,6 +76,15 @@ const ModalInput = ({
               key={option.value}
               className="flex items-center gap-2 cursor-pointer"
             >
+              <span
+                className={`text-lg ${
+                  option.color === "pink"
+                    ? "text-[var(--main-color)]"
+                    : `text-${option.color}-500`
+                }`}
+              >
+                {option.icon}
+              </span>
               <input
                 type="radio"
                 name={label}
@@ -76,15 +113,6 @@ const ModalInput = ({
                   />
                 )}
               </div>
-              <span
-                className={`text-lg ${
-                  option.color === "pink"
-                    ? "text-[var(--main-color)]"
-                    : `text-${option.color}-500`
-                }`}
-              >
-                {option.icon}
-              </span>
             </label>
           ))}
         </div>
@@ -101,7 +129,7 @@ const ModalInput = ({
         <label htmlFor={label} className={labelClass}>
           {label}
         </label>
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <button
             type="button"
             onClick={() => setOpenDropdown(isOpen ? null : label)}
@@ -147,7 +175,7 @@ const ModalInput = ({
         <label htmlFor={label} className={labelClass}>
           {label}
         </label>
-        <div className="relative">
+        <div className="relative" ref={calendarRef}>
           <button
             type="button"
             onClick={() => setIsCalendarOpen(!isCalendarOpen)}
