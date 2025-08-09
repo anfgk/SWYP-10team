@@ -4,7 +4,7 @@ import ProfileInfo from "@/components/mypage/ProfileInfo";
 import PetInfoModal from "@/components/mypage/PetInfoModal";
 import { IoAdd } from "react-icons/io5";
 import { useAuthStore } from "@/stores/authStore";
-import type { PetInfo, PetFormData } from "@/types/types";
+import type { PetInfo } from "@/types/types";
 
 const MyInfoPage = () => {
   const { accessToken } = useAuthStore();

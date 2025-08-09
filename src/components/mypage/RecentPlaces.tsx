@@ -9,7 +9,7 @@ const RecentPlaces = () => {
   const [recentList, setRecentList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentIndex] = useState(0);
+
   const [slideIndex, setSlideIndex] = useState(0);
 
   // 슬라이드용 데이터 생성 (4개씩 나누기)
