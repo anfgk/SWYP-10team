@@ -19,6 +19,10 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=star"
     />
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51626d448b879e04dbc29efa6fb0f2d2"
+    ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 메타데이터 -->
     <title>어다가냥?같이가개! | 반려동물과 함께하는 생활</title>
@@ -48,16 +52,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Kakao Map SDK를 비동기로 로드하여 document.write 경고 방지 -->
-    <script>
-      (function () {
-        var script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src =
-          "//dapi.kakao.com/v2/maps/sdk.js?appkey=51626d448b879e04dbc29efa6fb0f2d2";
-        script.async = true;
-        document.head.appendChild(script);
-      })();
-    </script>
   </body>
 </html>

@@ -1,4 +1,11 @@
+import PrivacyPolicyModal from "../mypage/PrivacyPolicyModal";
+import TermsOfServiceModal from "../mypage/TermsOfServiceModal";
+import { useState } from "react";
+
 const MainFooter = () => {
+  const [privacyOpen, setPravacyOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
+
   return (
     <footer className="flex flex-col justify-center items-center w-full h-[301px] py-[32px] gap-[44px]">
       <img
@@ -8,9 +15,17 @@ const MainFooter = () => {
       />
       <div className="flex flex-col justify-center items-center gap-[16px] w-[460px] h-[134px]">
         <div className="flex justify-between items-center w-[402px] h-[22px] text-[var(--label-normal)]">
-          <p className="text-[16px] cursor-pointer hover:underline">이용약관</p>
+          <p
+            className="text-[16px] cursor-pointer hover:underline"
+            onClick={() => setTermsOpen(true)}
+          >
+            이용약관
+          </p>
           <div className="w-px h-[16px] bg-[var(--search-element-border)]" />
-          <p className="text-[16px] cursor-pointer hover:underline">
+          <p
+            className="text-[16px] cursor-pointer hover:underline"
+            onClick={() => setPravacyOpen(true)}
+          >
             개인정보처리방침
           </p>
           <div className="w-px h-[16px] bg-[var(--search-element-border)]" />
@@ -33,6 +48,10 @@ const MainFooter = () => {
           </p>
         </div>
       </div>
+      {termsOpen && <TermsOfServiceModal onClose={() => setTermsOpen(false)} />}
+      {privacyOpen && (
+        <PrivacyPolicyModal onClose={() => setPravacyOpen(false)} />
+      )}
     </footer>
   );
 };
