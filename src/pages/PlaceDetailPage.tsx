@@ -1,64 +1,60 @@
 import ScrollToTopButton from "@/components/common/ScrollToTopButton";
 import MainContainer from "@/components/layout/MainContainer";
+import PhotoSlideModal from "@/components/modals/PhotoSlideModal";
 import MapSection from "@/components/placeDetailPage/MapSection";
 import PlaceInfoSection from "@/components/placeDetailPage/PlaceInfoSection";
 import PlaceMainSection from "@/components/placeDetailPage/PlaceMainSection";
 import PlacePupularitySection from "@/components/placeDetailPage/PlacePopularitySection";
 import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
-import { placeDetailDummy } from "@/configs/dummyData";
-//import { useParams } from "react-router-dom";
+import { usePlaceDetail } from "@/hooks/usePlaceDetail";
+import { usePhotoModalStore } from "@/stores/photoModalStore";
+import type { PetGuideData } from "@/types/apiResponseTypes";
+import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
-  //const { id } = useParams();
-
+  const { id } = useParams();
+  const { loading, placeDetail } = usePlaceDetail(id!);
+  const { isOpen } = usePhotoModalStore();
   return (
     <MainContainer>
       <title>어다가냥?같이가개! | 상세페이지 </title>
       <meta name="description" content={`어디가냥?같이가개! 상세 페이지`} />
-      <meta property="og:title" content={`어다가냥?같이가개! | 상세페이지`} />
-      <meta
-        property="og:description"
-        content={`어디가냥?같이가개! 상세 페이지`}
-      />
-      <meta
-        property="og:image"
-        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
-      />
-      <meta property="og:url" content={window.location.href} />
-      <meta property="og:type" content="website" />
-
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={`어다가냥?같이가개! | 상세페이지`} />
-      <meta
-        name="twitter:description"
-        content={`어디가냥?같이가개! 상세 페이지`}
-      />
-      <meta
-        name="twitter:image"
-        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
-      />
-
-      <ScrollToTopButton />
-      <PlaceMainSection
-        title="도그밀리 DOGMILY"
-        thumbnail="/assets/samples/placeThumbnail_sample.png"
-        isVisited={false}
-        placeId={"test"}
-      />
-      <PlacePupularitySection likedCount={63} viewCount={63} isLiked={false} />
-      <MapSection
-        title="자라섬 페스티벌"
-        lat={37.8171378819}
-        lng={127.5276443195}
-      />
-      <PlaceInfoSection
-        desc={placeDetailDummy.desc}
-        tags={placeDetailDummy.tags}
-        address={placeDetailDummy.address}
-        phoneNumber={placeDetailDummy.number}
-      />
-      <ReviewSection />
+      {loading ? (
+        <p>불러오는 중...</p>
+      ) : (
+        <article>
+          <ScrollToTopButton />
+          <PlaceMainSection
+            title={placeDetail?.title ?? "잘못된 장소 코드입니다."}
+            thumbnail={
+              placeDetail?.image ||
+              "/assets/images/common/default_thumbnail.png"
+            }
+            imgList={placeDetail?.detailImage ?? []}
+          />
+          <PlacePupularitySection
+            placeId={id!}
+            likedCount={placeDetail?.wishCnt ?? 0}
+            viewCount={placeDetail?.totalView ?? 0}
+            isLiked={placeDetail?.wishData ?? false}
+          />
+          <MapSection
+            title={placeDetail?.title ?? ""}
+            lat={placeDetail?.mapy ?? 37.5125}
+            lng={placeDetail?.mapx ?? 127.10278}
+          />
+          <PlaceInfoSection
+            desc={placeDetail?.overview ?? ""}
+            addr1={placeDetail?.addr1 ?? ""}
+            addr2={placeDetail?.addr2 ?? ""}
+            phoneNumber={placeDetail?.tel ?? ""}
+            petGuide={placeDetail?.petGuide ?? ({} as PetGuideData)}
+          />
+          <ReviewSection placeId={id!} />
+          {isOpen && <PhotoSlideModal />}
+        </article>
+      )}
     </MainContainer>
   );
 };

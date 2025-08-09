@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useKakaoMap } from "@/hooks/useKakaoMap";
 
 interface Props {
   title: string;
@@ -6,13 +6,8 @@ interface Props {
   lng: number;
 }
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
 const MapSection = ({ title, lat, lng }: Props) => {
+<<<<<<< HEAD
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<any | null>(null);
 
@@ -67,6 +62,9 @@ const MapSection = ({ title, lat, lng }: Props) => {
       }
     };
   }, [title, lat, lng]);
+=======
+  const { mapRef } = useKakaoMap({ title, lat, lng });
+>>>>>>> develop
 
   return (
     <section className="w-full h-fit pb-[44px]">

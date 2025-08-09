@@ -9,23 +9,23 @@ interface Props {
 const SubRegionList = ({ subregions, current, onChange }: Props) => {
   const isAllActive = current.length === 0;
   return (
-    <div className="w-full flex flex-wrap mt-[15px] gap-[18px]">
+    <div className="w-full flex flex-wrap mt-[15px] gap-[15px]">
       <button
         key={"전체"}
         onClick={() => onChange([])}
-        className={`w-[57px] h-[36px] border-[1px] text-[14px] border-[var(--main-color)] rounded-[40px] ${isAllActive ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
+        className={`w-[76px] h-[38px] border-[1px] text-[16px] border-[var(--main-color)] rounded-[40px] ${isAllActive ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
       >
         전체
       </button>
-      {subregions.map((subrigion) => (
+      {subregions.map((subregion) => (
         <button
-          key={subrigion}
+          key={subregion}
           onClick={() => {
-            onChange(insertOrDeleteFromArr(current, subrigion));
+            onChange(insertOrDeleteFromArr(current, subregion));
           }}
-          className={`w-[57px] h-[36px] border-[1px] text-[14px] border-[var(--main-color)] rounded-[40px] ${current.includes(subrigion) ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
+          className={`w-[76px] h-[38px] border-[1px] text-[16px] border-[var(--main-color)] rounded-[40px] ${current.includes(subregion) ? "bg-[var(--main-color)] text-[var(--main-text)]" : "text-[var(--main-color)]"} cursor-pointer`}
         >
-          {subrigion}
+          {subregion}
         </button>
       ))}
     </div>

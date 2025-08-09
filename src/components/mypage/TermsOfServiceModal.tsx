@@ -1,13 +1,16 @@
+import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
+
 interface TermsOfServiceModalProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-const TermsOfServiceModal = ({ isOpen, onClose }: TermsOfServiceModalProps) => {
-  if (!isOpen) return null;
-
+const TermsOfServiceModal = ({ onClose }: TermsOfServiceModalProps) => {
+  useModalEscapeKey(onClose);
   return (
-    <div className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
       <div
         className="bg-white rounded-lg p-8 w-[448px] h-[700px] overflow-y-auto"
         style={{

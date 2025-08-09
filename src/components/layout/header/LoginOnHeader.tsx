@@ -10,7 +10,7 @@ const LoginOnHeader = () => {
 
   return (
     <button
-      className="flex w-[66px] h-[25px] items-center cursor-pointer"
+      className="flex w-[66px] h-[25px] items-center cursor-pointer hover:underline underline-offset-4"
       onClick={loginButtonClicked}
     >
       로그인

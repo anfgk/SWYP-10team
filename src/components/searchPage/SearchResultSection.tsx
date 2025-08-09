@@ -1,52 +1,21 @@
-import { useEffect, useState, useMemo } from "react";
 import SearchResultList from "./SearchResultList";
 import SortButton from "../common/SortButton";
-import { useSearchParams } from "react-router-dom";
-//import { getValueFromURLParams } from "@/lib/searchUtils";
-
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { testSearchData } from "@/configs/dummyData";
+import { useSearchListSection } from "@/hooks/useSearchListSection";
+import { useLocationStore } from "@/stores/locationStore";
 
 const SearchResultSection = () => {
-  const [sort, setSort] = useState<"popular" | "latest" | "">("");
-  const [visibleCount, setVisibleCount] = useState(4);
-  //const [loading, setLoading] = useState(false);
-  const [searchParams] = useSearchParams();
+  const {
+    sort,
+    loading,
+    resultList,
+    slicedData,
+    visibleCount,
+    sortedData,
+    observerRef,
+    setSort,
+  } = useSearchListSection();
 
-  // 정렬 기능
-  const sortedData = useMemo(() => {
-    if (sort === "latest") {
-      return [...testSearchData].sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      );
-    } else if (sort === "popular") {
-      return [...testSearchData].sort((a, b) => b.heartCount - a.heartCount);
-    } else {
-      return testSearchData;
-    }
-  }, [sort]);
-
-  // 보여질 데이터
-  const slicedData = sortedData.slice(0, visibleCount);
-
-  //무한 스크롤 콜백
-  const loadMore = () => {
-    if (visibleCount < sortedData.length) {
-      setVisibleCount((prev) => prev + 4);
-    }
-  };
-
-  const observerRef = useInfiniteScroll(loadMore);
-
-  //정렬 바뀔때마다 갯수 4개로 초기화
-  useEffect(() => {
-    setVisibleCount(4);
-  }, [sort]);
-
-  useEffect(() => {
-    // 백엔드 api 자리
-  }, [searchParams, sort]);
+  const { isCoordsSet } = useLocationStore();
 
   return (
     <section className="w-full flex flex-col gap-[32px] pt-[44px] pb-[32px] ">
@@ -67,9 +36,31 @@ const SearchResultSection = () => {
               setSort((prev) => (prev === "latest" ? "" : "latest"))
             }
           />
+          <SortButton
+            name={"거리 순"}
+            isActive={sort === "distance"}
+            onToggle={() => {
+              if (isCoordsSet) {
+                setSort((prev) => (prev === "distance" ? "" : "distance"));
+              } else {
+                alert("위치 정보 허용이 필요합니다.");
+              }
+            }}
+          />
         </div>
       </div>
-      <SearchResultList searchDataList={slicedData} />
+      {loading ? (
+        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8">
+          불러오는 중...
+        </p>
+      ) : resultList.length > 0 ? (
+        <SearchResultList searchDataList={slicedData} />
+      ) : (
+        <p className="text-center text-[14px] text-[var(--place-neutral)] py-8 border-t-1 border-b-1">
+          선택된 조건에 해당하는 검색 결과가 없습니다.
+        </p>
+      )}
+
       {/* 관찰 대상 div */}
       {visibleCount < sortedData.length && (
         <div ref={observerRef} className="h-[1px]" />

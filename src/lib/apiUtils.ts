@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import type { JWTPayLoad } from "@/types/types";
+import type { JWTPayLoad } from "@/types/apiResponseTypes";
 
 // JWT 토큰 디코딩
 export const decodeJWT = (accessToken: string) => {

@@ -6,7 +6,7 @@ interface Props {
   onToggle: () => void;
 }
 
-const SearchSortButton = ({ name, isActive, onToggle }: Props) => {
+const SortButton = ({ name, isActive, onToggle }: Props) => {
   return (
     <button
       className={`w-[66px] h-[24px] flex items-center gap-[2px] items-cente cursor-pointer  ${isActive ? "text-[var(--main-color)]" : "text-[var(--deactivated-text)]"}`}
@@ -23,4 +23,4 @@ const SearchSortButton = ({ name, isActive, onToggle }: Props) => {
   );
 };
 
-export default SearchSortButton;
+export default SortButton;

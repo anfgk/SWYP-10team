@@ -1,49 +1,51 @@
-import { useState, useRef, useEffect } from "react";
 import AiRecCard from "./AiRecCard";
+import { useAiRecSection } from "@/hooks/useAiRecSection";
 
 const AiRecList = () => {
-  const testAiRec = [1, 2, 3, 4, 5];
-
-  const [index, setIndex] = useState(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const max = testAiRec.length;
-
-  useEffect(() => {
-    timeoutRef.current = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % max);
-    }, 5000);
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [index, max]);
-
-  const handleIndicatorClick = (i: number) => setIndex(i);
+  const { loading, resultList, handleIndicatorClick, index } =
+    useAiRecSection();
 
   return (
-    <section className="flex flex-col gap-[24px] w-full h-[483px] py-[36px]">
+    <section className="relative flex flex-col gap-[24px] w-full h-[483px] py-[36px]">
       <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
         AI 추천
       </p>
-      <div className="h-[304px] w-[1200px] mx-auto relative rounded-[14px] overflow-hidden">
+      <article className="h-[304px] w-[1200px] mx-auto relative rounded-[14px] overflow-hidden">
         {/* 카드 슬라이드 */}
         <div
           className="flex transition-transform duration-700 ease-in-out"
           style={{
             transform: `translateX(-${index * 1200}px)`,
-            width: `${100 * max}%`,
+            width: `${100 * resultList.length}%`,
           }}
         >
-          {testAiRec.map((rec) => (
-            <div key={rec} className="w-[1200px] flex-shrink-0">
-              <AiRecCard desc={"요즘 같은 날엔 루프탑 파티 " + rec} />
+          {resultList.map((place) => (
+            <div key={place.contentId} className="w-[1200px] flex-shrink-0">
+              <AiRecCard place={place} />
             </div>
           ))}
         </div>
-      </div>
+        {/* 페이지 카운터 */}
+        {!loading && resultList.length !== 0 && (
+          <div className="absolute top-[243px] left-[1097px] w-[56px] h-[32px] rounded-[60px] flex justify-center items-center gap-[4px] bg-[#8c8c8c] font-semibold text-[var(--main-text)]">
+            <p>{index + 1}</p>
+            <p>/</p>
+            <p>{resultList.length}</p>
+          </div>
+        )}
+
+        {/* 로딩 오버레이 */}
+        {(loading || resultList.length === 0) && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-[16px]">
+            <p className="text-white text-[24px] font-semibold">
+              AI 추천 장소를 불러오고 있습니다.
+            </p>
+          </div>
+        )}
+      </article>
       {/* 인디케이터 */}
       <div className="flex gap-[8px] w-fit h-[8px] mx-auto">
-        {testAiRec.map((_, i) => (
+        {resultList.map((_, i) => (
           <button
             key={i}
             className={`h-full rounded-[16px] transition-width duration-500 ${i === index ? "w-[40px] bg-[var(--main-color)]" : "w-[8px] bg-[var(--indicator-disabled)]"} cursor-pointer`}

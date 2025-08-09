@@ -1,14 +1,14 @@
-import type { SearchCardData } from "@/types/types";
+import type { CardInputType } from "@/types/apiResponseTypes";
 import SearchResultCard from "./SearchResultCard";
 
 interface Props {
-  searchDataList: SearchCardData[];
+  searchDataList: CardInputType[];
 }
 const SearchResultList = ({ searchDataList }: Props) => {
   return (
     <div className="w-full flex flex-col gap-[24px]">
       {searchDataList.map((data) => (
-        <SearchResultCard key={data.id} cardData={data} />
+        <SearchResultCard key={data.contentId} cardData={data} />
       ))}
     </div>
   );

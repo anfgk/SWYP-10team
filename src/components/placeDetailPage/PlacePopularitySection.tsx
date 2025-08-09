@@ -1,41 +1,61 @@
-import { useState } from "react";
+import { useAuthStore } from "@/stores/authStore";
 import SVGIcons from "../common/SVGIcons";
-import { copyCurrentUrl } from "@/lib/placeDetailUtils";
-import { Toaster } from "sonner";
+import { copyPlacePage } from "@/lib/commonUtils";
+import { heartClickedWithLogin } from "@/lib/placeDetailUtils";
+import { loginConfirmAlert } from "@/lib/commonUtils";
+import { useNavigate } from "react-router-dom";
+import { usePlacePopularity } from "@/hooks/usePlacePopularity";
 
 interface Props {
+  placeId: string;
   likedCount: number;
   viewCount: number;
   isLiked: boolean;
 }
-const PlacePupularitySection = ({ likedCount, viewCount, isLiked }: Props) => {
-  const [likedAmount, setLikedAmount] = useState(likedCount);
-  const [likeChecked, setLikeChecked] = useState(isLiked);
-  const handleLikeClick = () => {
-    if (likeChecked) {
-      setLikedAmount((prev) => prev - 1);
-    } else {
-      setLikedAmount((prev) => prev + 1);
-    }
+const PlacePupularitySection = ({
+  placeId,
+  likedCount,
+  viewCount,
+  isLiked,
+}: Props) => {
+  const { isLoggedIn } = useAuthStore();
+  const navigate = useNavigate();
 
-    setLikeChecked(!likeChecked);
-  };
+  const { likeChecked, likedAmount, setLikeChecked, setLikedAmount } =
+    usePlacePopularity({
+      likedCount,
+      isLiked,
+      placeId,
+      isLoggedIn,
+    });
+
   return (
     <section className="w-full h-[73px] flex flex-col gap-[16px] py-[16px] text-[var(--place-neutral)]">
-      <Toaster />
       <div className="w-full h-[24px] flex justify-between">
         <div className="w-[110px] flex gap-[16px]">
           <div className="w-fit flex gap-[4px]">
             <button
               className="w-[24px] h-[24px] cursor-pointer"
-              onClick={handleLikeClick}
+              onClick={() => {
+                isLoggedIn
+                  ? heartClickedWithLogin(
+                      placeId,
+                      likeChecked,
+                      setLikeChecked,
+                      likeChecked,
+                      setLikedAmount
+                    )
+                  : loginConfirmAlert(navigate);
+              }}
             >
               <SVGIcons
                 name="placedetailHeart"
                 width={24}
                 height={24}
                 color={
-                  likeChecked ? "var(--main-color)" : "var(--place-neutral)"
+                  likeChecked
+                    ? "var(--main-color)"
+                    : "var(--place-detail-heart)"
                 }
               />
             </button>
@@ -47,8 +67,8 @@ const PlacePupularitySection = ({ likedCount, viewCount, isLiked }: Props) => {
           </div>
         </div>
         <button
-          className="w-[75px] h-[24px] flex gap-[2px] items-center cursor-pointer"
-          onClick={copyCurrentUrl}
+          className="w-[75px] h-[24px] flex gap-[2px] items-center cursor-pointer transition hover:underline"
+          onClick={() => copyPlacePage(placeId)}
         >
           <SVGIcons name="placedetailShare" width={24} height={24} color="" />
           <p className="w-[49px] h-[20px] text-[14px] font-semibold">
