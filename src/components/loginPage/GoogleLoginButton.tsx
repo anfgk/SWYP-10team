@@ -6,7 +6,7 @@ export default function GoogleLoginButton() {
 
   return (
     <button
-      className="w-[514px] h-[56px] rounded-[12px] flex gap-[16px] justify-center items-center bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33 cursor-pointer text-semibold"
+      className="w-[514px] h-[56px] rounded-[12px] flex gap-[16px] justify-center items-center bg-[var(--google)] border-[1px] border-[#454545] border-opacity-33 cursor-pointer text-semibold hover:brightness-90"
       onClick={handleLogin}
     >
       <img

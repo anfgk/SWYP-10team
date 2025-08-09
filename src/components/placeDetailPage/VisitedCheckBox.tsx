@@ -1,5 +1,9 @@
 import { useState } from "react";
 import SVGCheckBox from "../common/SVGCheckBox";
+import { useAuthStore } from "@/stores/authStore";
+import { loginConfirmAlert } from "@/lib/commonUtils";
+import { useNavigate } from "react-router-dom";
+import { fetchWithAuth } from "@/lib/fetchUtils";
 
 interface Props {
   placeId: string;
@@ -7,14 +11,40 @@ interface Props {
 }
 
 const VisitedCheckBox = ({ placeId, isVisited }: Props) => {
-  const [checked, setChecked] = useState(isVisited);
+  const { isLoggedIn } = useAuthStore();
+  const navigate = useNavigate();
+
+  const [checked, setChecked] = useState(
+    isLoggedIn ? (isVisited ?? false) : false
+  );
 
   const handleChange = (next: boolean) => {
-    setChecked(next);
-    //api 요청 부분
-    const endPoint = `/api/user/XXX/${placeId}`;
-    const method = next ? "POST" : "DELETE";
-    alert(endPoint + " / " + method);
+    // 비로그인 일 경우
+    if (!isLoggedIn) {
+      loginConfirmAlert(navigate);
+      return;
+    }
+
+    //로그인 일 경우 api요청
+    const fetchVisited = async () => {
+      try {
+        const res = await fetchWithAuth(
+          `/api/content/visited-check?contentId=${placeId}`,
+          {
+            method: "GET",
+          }
+        );
+        if (res.ok) setChecked(next);
+        const data = await res.json();
+        console.log(data);
+      } catch (e) {
+        console.log("장소 방문 체크 실패", e);
+      } finally {
+        //setChecked(next);
+      }
+    };
+
+    fetchVisited();
   };
   return <SVGCheckBox checked={checked} onChange={handleChange} />;
 };

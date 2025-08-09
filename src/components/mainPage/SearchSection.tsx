@@ -3,13 +3,9 @@ import SearchBar from "./SearchBar";
 const SearchSection = () => {
   return (
     <nav
-      className="w-full h-fit pt-[88px] pb-[36px] flex flex-col items-center"
+      className="w-full h-fit pt-[88px] pb-[36px] flex flex-col items-center bg-cover"
       style={{
-        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.4) 31.62%, rgba(0, 0, 0, 0) 76.89%),
-          linear-gradient(#FFAE001A, #FFAE001A),
-          url('/assets/images/search_panel_bg.jpg')`,
-        backgroundBlendMode: "multiply, overlay, normal",
-        backgroundPosition: "50% 40%",
+        backgroundImage: `url('/assets/images/common/search_panel_bg.jpg')`,
       }}
     >
       <div className="w-[1200px] h-[109px] mb-[24px] z-20">

@@ -1,9 +1,15 @@
+import {
+  CONTENT_TYPE_ID,
+  SIDO_CODE,
+  SIGUNGU_CODE,
+} from "@/configs/searchConstants";
+
 const getQueryString = (
   region: string,
   subregions: string[],
   keyword: string,
   category: string,
-  pets: string,
+  pets: string
 ) => {
   const params = new URLSearchParams();
   if (region) params.append("region", region);
@@ -35,7 +41,61 @@ const getValueFromURLParams = (params: URLSearchParams) => {
   const paramSubRegion = paramSubRegionStr ? paramSubRegionStr.split(",") : [];
   const paramPet = params.get("pet") ?? "";
 
-  return { paramRegion, paramKeyword, paramcategory, paramSubRegion, paramPet };
+  return {
+    paramRegion,
+    paramKeyword,
+    paramcategory,
+    paramSubRegion,
+    paramPet,
+    paramSubRegionStr,
+  };
 };
 
-export { getQueryString, insertOrDeleteFromArr, getValueFromURLParams };
+const getSidoCodeByName = (sidoName: string): string => {
+  return SIDO_CODE[sidoName].toString();
+};
+
+const getContentTypeCodeByName = (category: string): string => {
+  return CONTENT_TYPE_ID[category].toString();
+};
+
+const getSigunguCodesByNames = (
+  sidoName: string,
+  sigunguNames: string
+): string => {
+  const subRegionArr = sigunguNames.split(",");
+  const codesArr = subRegionArr.map(
+    (subRegion) => SIGUNGU_CODE[sidoName][subRegion]
+  );
+  const codes = codesArr.join(",");
+
+  return codes;
+};
+
+const createSearchApiParam = (param: URLSearchParams): URLSearchParams => {
+  const { paramRegion, paramKeyword, paramcategory, paramSubRegionStr } =
+    getValueFromURLParams(param);
+  const apiParam = new URLSearchParams();
+  if (paramKeyword) apiParam.append("title", paramKeyword);
+  if (paramRegion && paramRegion !== "전체")
+    apiParam.append("sido", getSidoCodeByName(paramRegion));
+  if (paramSubRegionStr)
+    apiParam.append(
+      "sigungu",
+      getSigunguCodesByNames(paramRegion, paramSubRegionStr)
+    );
+  if (paramcategory && paramcategory !== "전체")
+    apiParam.append("contentTypeId", getContentTypeCodeByName(paramcategory));
+
+  return apiParam;
+};
+
+export {
+  getQueryString,
+  insertOrDeleteFromArr,
+  getValueFromURLParams,
+  getSidoCodeByName,
+  getContentTypeCodeByName,
+  getSigunguCodesByNames,
+  createSearchApiParam,
+};

@@ -1,7 +1,7 @@
 import { fetchWithAuth } from "./fetchUtils";
 import { useAuthStore } from "@/stores/authStore";
 import { jwtDecode } from "jwt-decode";
-import type { JWTPayLoad } from "@/types/types";
+import type { JWTPayLoad } from "@/types/apiResponseTypes";
 
 const logoutProcess = async () => {
   const { logout } = useAuthStore.getState();

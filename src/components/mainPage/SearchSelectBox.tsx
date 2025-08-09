@@ -25,12 +25,12 @@ const SearchSelectBox = ({
   return (
     <div className="flex-1">
       <Select value={value} onValueChange={onChange} disabled={isDisabled}>
-        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] border-1 border-[var(--search-element-border)] !text-[var(--search-element-text)] !text-[14px] rounded-[26px]">
+        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] !outline-none focus-visible:ring-[1px] focus-visible:ring-[var(--main-color)] !border-[1px] border-[var(--search-element-border)] !text-[var(--search-element-text)] !text-[14px] rounded-[26px] cursor-pointer">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem key={"all"} value="전체">
+            <SelectItem key={"전체"} value="전체">
               전체
             </SelectItem>
             {options.map((option, i) => (

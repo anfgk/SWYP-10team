@@ -1,29 +1,25 @@
-import { useAuthStore } from "@/stores/authStore";
 import { categories, regionMap } from "@/configs/searchConstants";
 import useSearchBarState from "@/hooks/useSearchBarState";
 
 import SearchSelectBox from "./SearchSelectBox";
 import SubRegionList from "./SubRegionList";
 import { Input } from "../ui/input";
+import { useEnterKey } from "@/hooks/useEnterkey";
 
 const SearchBar = () => {
-  const { user } = useAuthStore();
-
-  const test = ["덕구", "뭉치"];
-
   const {
     selectedRegion,
     selectedCategory,
     selectedSubRegion,
     inputkeyword,
-    selectedPet,
     setSelectedRegion,
     setSelectedCategory,
     setSelectedSubRegion,
     setInputKeyword,
-    setSelectedPet,
     onSearch,
   } = useSearchBarState();
+
+  useEnterKey(onSearch);
 
   return (
     <div className="w-[1200px] h-fit flex flex-wrap rounded-[40px] bg-[var(--search-bar-bg)] px-[12px] py-[12px] gap-[12px] shadow-[0px_0px_1px_0px_#00000014,0px_1px_2px_0px_#0000001F] z-20">
@@ -42,13 +38,13 @@ const SearchBar = () => {
           onChange={setSelectedCategory}
         />
 
-        <SearchSelectBox
+        {/* <SearchSelectBox
           options={test}
           placeholder="반려동물 정보"
           value={selectedPet}
           onChange={setSelectedPet}
           isDisabled={!user}
-        />
+        /> */}
 
         <div className="relative h-[48px] flex-1">
           <img
@@ -58,7 +54,7 @@ const SearchBar = () => {
           />
           <Input
             id="place_input"
-            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px]"
+            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px] focus:ring-[1px] focus:ring-[var(--main-color)]"
             placeholder="장소 명"
             defaultValue={inputkeyword}
             onChange={(e) => setInputKeyword(e.target.value)}
@@ -71,7 +67,7 @@ const SearchBar = () => {
           <img
             src="/assets/buttons/search_button.png"
             alt="left"
-            className="w-full h-full"
+            className="w-full h-full transition hover:brightness-90"
           />
         </button>
       </div>
