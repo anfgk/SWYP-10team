@@ -19,7 +19,7 @@ const ProfileInfo = () => {
       setLoading(true);
       const data = await fetchUserProfile(accessToken);
       setProfileData(data);
-    } catch (error) {
+    } catch (_error) {
       setError("프로필 정보를 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);

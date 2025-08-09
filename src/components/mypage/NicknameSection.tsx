@@ -34,7 +34,7 @@ const NicknameSection = ({ onNicknameUpdate }: NicknameSectionProps) => {
 
       setIsEditing(false);
       onNicknameUpdate?.(nickname.trim());
-    } catch (error) {
+    } catch (_error) {
       setError("닉네임 업데이트에 실패했습니다.");
     } finally {
       setLoading(false);

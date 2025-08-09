@@ -20,7 +20,7 @@ const WishPlaces = () => {
       setLoading(true);
       const data = await fetchWishList(accessToken);
       setWishList(Array.isArray(data) ? data : []);
-    } catch (error) {
+    } catch (_error) {
       setError("위시리스트를 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);

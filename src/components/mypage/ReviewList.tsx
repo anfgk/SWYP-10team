@@ -22,7 +22,7 @@ const ReviewList = () => {
       setLoading(true);
       const data = await fetchReviewList(accessToken);
       setReviews(Array.isArray(data) ? data : []);
-    } catch (error) {
+    } catch (_error) {
       setError("리뷰 목록을 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);
@@ -37,7 +37,7 @@ const ReviewList = () => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
         ? { ...review, content: text, hasReview: text.trim() !== "" }
-        : review,
+        : review
     );
     setReviews(updatedReviews);
     setEditingId(null);
@@ -53,7 +53,7 @@ const ReviewList = () => {
 
   const handleRatingChange = (id: number, rating: number) => {
     const updatedReviews = reviews.map((review) =>
-      review.id === id ? { ...review, rating } : review,
+      review.id === id ? { ...review, rating } : review
     );
     setReviews(updatedReviews);
   };
