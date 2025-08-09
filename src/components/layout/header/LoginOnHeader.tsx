@@ -1,8 +1,6 @@
-//import { useAuthStore } from "@/stores/authStore";
 import { useNavigate } from "react-router-dom";
 
 const LoginOnHeader = () => {
-  //const { setAuth } = useAuthStore();
   const navigate = useNavigate();
 
   const loginButtonClicked = () => {
@@ -17,14 +15,6 @@ const LoginOnHeader = () => {
     >
       로그인
     </button>
-    // <div
-    //   className="flex w-fit h-[56px] items-center cursor-pointer"
-    //   onClick={() =>
-    //     setAuth("test token", { name: "댕냥이", email: "test@gmail.com" })
-    //   }
-    // >
-    //   로그인(test)
-    // </div>
   );
 };
 

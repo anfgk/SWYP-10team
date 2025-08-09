@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/layout/MainHeader";
 import MypageLayout from "./components/layouts/MypageLayout";
@@ -12,6 +12,7 @@ import ScrollToTop from "./hooks/ScrollToTop";
 import useIssueAccessToken from "./hooks/useIssueAccessToken";
 import AuthCallBackPage from "./pages/AuthCallBackPage";
 import MainFooter from "./components/layout/MainFooter";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   useUserLocation();
@@ -27,22 +28,58 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultPage />} />
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
-          <Route path="/authrediect" element={<AuthCallBackPage />} />
+          <Route path="/authredirect" element={<AuthCallBackPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
 
-          {/* 마이페이지 레이아웃 */}
-          <Route path="/myinfo" element={<MypageLayout />}>
+          {/* 마이페이지 레이아웃 - 로그인 필요 */}
+          <Route
+            path="/myinfo"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/myreview" element={<MypageLayout />}>
+          <Route
+            path="/myreview"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/wish" element={<MypageLayout />}>
+          <Route
+            path="/wish"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/reviewwrite" element={<MypageLayout />}>
+          <Route
+            path="/reviewwrite"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
-          <Route path="/reviewwrite/:contentId" element={<MypageLayout />}>
+          <Route
+            path="/reviewwrite/:contentId"
+            element={
+              <ProtectedRoute>
+                <MypageLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyPage />} />
           </Route>
         </Routes>

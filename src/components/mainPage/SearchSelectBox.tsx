@@ -12,13 +12,20 @@ interface Props {
   placeholder: string;
   value: string;
   onChange: (val: string) => void;
+  isDisabled?: boolean;
 }
 
-const SearchSelectBox = ({ options, placeholder, value, onChange }: Props) => {
+const SearchSelectBox = ({
+  options,
+  placeholder,
+  value,
+  onChange,
+  isDisabled = false,
+}: Props) => {
   return (
     <div className="flex-1">
-      <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] !text-[14px] rounded-[26px]">
+      <Select value={value} onValueChange={onChange} disabled={isDisabled}>
+        <SelectTrigger className="w-full !h-[48px] !px-[16px] bg-[var(--search-element-bg)] border-1 border-[var(--search-element-border)] !text-[var(--search-element-text)] !text-[14px] rounded-[26px]">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

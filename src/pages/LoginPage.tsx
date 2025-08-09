@@ -1,36 +1,52 @@
 import GoogleLoginButton from "@/components/loginPage/GoogleLoginButton";
 import KakaoLoginButton from "@/components/loginPage/KakaoLoginButton";
 import NaverLoginButton from "@/components/loginPage/NaverLoginButton";
+import AutoLoginCheckBox from "@/components/loginPage/AutoLoginCheckBox";
 
 const LoginPage = () => {
   return (
-    <main className="flex flex-col h-[1090.7px] pt-[280px] pb-[330px] gap-[120px] items-center justify-center">
+    <main className="flex flex-col h-[1000.7px] pt-[280px] pb-[330px] gap-[56px] items-center justify-center">
+      <title>어다가냥?같이가개! | 로그인</title>
+      <meta name="description" content="어디가냥?같이가개! 로그인 페이지" />
+      <meta property="og:title" content="어다가냥?같이가개! | 로그인" />
+      <meta
+        property="og:description"
+        content="어디가냥?같이가개! 로그인 페이지"
+      />
+      <meta
+        property="og:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
+
+      <meta property="og:type" content="website" />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="어다가냥?같이가개! | 로그인" />
+      <meta
+        name="twitter:description"
+        content="어디가냥?같이가개! 로그인 페이지"
+      />
+      <meta
+        name="twitter:image"
+        content="https://frontend-dev-bukp.onrender.com/assets/images/og_thumbnail.jpg"
+      />
+
       <img
         className="w-[513.09px] h-[81.7px]"
         src="/assets/logo/login_logo.png"
         alt="login_logo"
       />
 
-      <div className="w-[514px] h-[279px] flex flex-col items-center gap-[24px]">
-        <KakaoLoginButton />
-        <NaverLoginButton />
-        <GoogleLoginButton />
-        <div className="flex w-full justify-start">
-          <input
-            id="auto-login"
-            type="checkbox"
-            defaultChecked={false}
-            onChange={(e) =>
-              sessionStorage.setItem(
-                "autoLogin",
-                e.target.checked ? "true" : "false",
-              )
-            }
-            className="mr-2 w-5 h-5 rounded-full border-2 border-gray-300 appearance-none checked:bg-gray-400 checked:border-gray-400 transition-colors duration-200 focus:outline-none"
-          />
-          <label htmlFor="auto-login" className="text-lg">
-            자동로그인
-          </label>
+      <div className="w-[514px] h-[253px] flex flex-col gap-[24px]">
+        <div className="w-full h-[205px] flex flex-col gap-[16px]">
+          <KakaoLoginButton />
+          <NaverLoginButton />
+          <GoogleLoginButton />
+        </div>
+
+        <div className="flex w-[93px] h-[24px] gap-[8px] items-center">
+          <AutoLoginCheckBox />
+          <label className="text-[14px]">자동로그인</label>
         </div>
       </div>
     </main>

@@ -1,169 +1,75 @@
-import { useState, useRef, useEffect } from "react";
-import PageButton from "@/components/ui/page-button";
-import SocialIdSection from "@/components/mypage/SocialIdSection";
-import NicknameSection from "@/components/mypage/NicknameSection";
-import ImageCropModal from "@/components/mypage/ImageCropModal";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
-import { updateUserProfile, deleteUserProfileImage } from "@/lib/fetchUtils";
+import { fetchUserProfile } from "@/lib/apiUtils";
 
 const ProfileInfo = () => {
-  const { accessToken, user, setUser } = useAuthStore();
-  const [profileImage, setProfileImage] = useState(user?.profileImage || "");
-  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
-  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { accessToken, user } = useAuthStore();
+  const [profileData, setProfileData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // 프로필 이미지 상태 동기화 및 blob URL 정리
-  useEffect(() => {
-    if (user?.profileImage && !profileImage) setProfileImage(user.profileImage);
-    return () => {
-      if (profileImage?.startsWith("blob:")) URL.revokeObjectURL(profileImage);
-    };
-  }, [user?.profileImage, profileImage]);
+  const loadProfileData = async () => {
+    if (!accessToken) {
+      setError("로그인이 필요합니다.");
+      setLoading(false);
+      return;
+    }
 
-  // 프로필 정보 로드
-  const loadUserProfile = async () => {
-    if (!accessToken) return;
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      const data = await response.json();
-      const imageUrl =
-        data.profileImage ||
-        data.image ||
-        data.profileImageUrl ||
-        data.imageUrl;
-      if (imageUrl) {
-        setProfileImage(imageUrl);
-        if (user) setUser({ ...user, profileImage: imageUrl });
-      }
+      setLoading(true);
+      const data = await fetchUserProfile(accessToken);
+      setProfileData(data);
     } catch (error) {
-      console.error("프로필 정보 로드 실패:", error);
+      setError("프로필 정보를 불러오는데 실패했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (accessToken) loadUserProfile();
+    loadProfileData();
   }, [accessToken]);
 
-  // 이미지 업로드 처리
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setProfileImage(URL.createObjectURL(file));
-      setSelectedImageFile(file);
-      setIsCropModalOpen(true);
-    }
-  };
+  if (loading) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center">
+        <p className="text-gray-500">프로필 정보를 불러오는 중...</p>
+      </div>
+    );
+  }
 
-  // 크롭된 이미지 처리
-  const handleCrop = async (croppedImage: string) => {
-    if (!accessToken || !user) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const response = await fetch(croppedImage);
-      const blob = await response.blob();
-      const file = new File([blob], "profile-image.jpg", {
-        type: "image/jpeg",
-      });
-      const croppedImageUrl = URL.createObjectURL(blob);
-      setProfileImage(croppedImageUrl);
-      await updateUserProfile(accessToken, user.name, file);
-      if (user) setUser({ ...user, profileImage: croppedImageUrl });
-      setSelectedImageFile(null);
-      setIsCropModalOpen(false);
-      alert("프로필 이미지가 성공적으로 업데이트되었습니다.");
-    } catch (error) {
-      console.error("이미지 업로드 실패:", error);
-      alert("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (error) {
+    return (
+      <div className="w-full h-[200px] flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
-  // 이미지 삭제
-  const handleDeleteImage = async () => {
-    if (!accessToken || !user || !confirm("프로필 이미지를 삭제하시겠습니까?"))
-      return;
-    try {
-      setIsLoading(true);
-      await deleteUserProfileImage(accessToken);
-      setProfileImage("");
-      if (user) setUser({ ...user, profileImage: "" });
-      alert("프로필 이미지가 삭제되었습니다.");
-    } catch (error) {
-      console.error("이미지 삭제 실패:", error);
-      alert("이미지 삭제에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const displayName =
+    profileData?.displayName || profileData?.name || user?.name || "사용자";
+  const email = profileData?.email || user?.email || "";
+  const profileImage = profileData?.profileImage || profileData?.image;
 
   return (
-    <div className="relative w-full mb-[56px]">
-      <div className="text-[20px] font-semibold mb-[16px]">프로필 정보</div>
-      <div className="flex items-center gap-[24px] mb-[32px]">
-        <div className="w-[150px] h-[150px] bg-gray-300 flex items-center justify-center text-gray-500 text-sm overflow-hidden rounded-[16px]">
-          {profileImage && (
-            <img
-              src={profileImage}
-              alt="프로필 이미지"
-              className="w-full h-full object-cover"
-            />
-          )}
-        </div>
-        <div className="flex flex-col gap-2 flex-1 justify-end h-35">
-          <div className="flex gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-            <PageButton
-              text={profileImage ? "변경하기" : "이미지 추가"}
-              variant="default"
-              onClick={() => fileInputRef.current?.click()}
-            />
-            {profileImage && (
-              <PageButton
-                text="삭제하기"
-                variant="default"
-                onClick={handleDeleteImage}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-      <NicknameSection />
-      <SocialIdSection />
-      {isCropModalOpen && (
-        <div className="absolute inset-0 z-10">
-          <ImageCropModal
-            isOpen={isCropModalOpen}
-            onClose={() => setIsCropModalOpen(false)}
-            onCrop={handleCrop}
-            imageFile={selectedImageFile}
-            currentImage=""
+    <div className="flex items-center gap-4 p-4">
+      <div className="w-16 h-16 rounded-full overflow-hidden">
+        {profileImage ? (
+          <img
+            src={profileImage}
+            alt="프로필 이미지"
+            className="w-full h-full object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500">
+            프로필
+          </div>
+        )}
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold">{displayName}</h2>
+        <p className="text-gray-600">{email}</p>
+      </div>
     </div>
   );
 };
