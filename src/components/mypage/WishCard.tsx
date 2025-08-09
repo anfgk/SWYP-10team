@@ -59,7 +59,7 @@ const WishCard = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="relative w-45 h-30 bg-gray-300 rounded-lg overflow-hidden">
+      <div className="relative w-45 h-30 bg-gray-300 rounded-lg overflow-hidden cursor-pointer">
         {image || imageUrl ? (
           <img
             src={image || imageUrl}
@@ -73,20 +73,20 @@ const WishCard = ({
           />
         ) : null}
         <div
-          className={`w-full h-full bg-gray-300 rounded-lg flex items-center justify-center text-gray-500 ${image || imageUrl ? "hidden" : ""}`}
+          className={`w-full h-full bg-gray-300 rounded-lg flex items-center justify-center text-gray-500 cursor-pointer ${image || imageUrl ? "hidden" : ""}`}
         >
           장소 이미지
         </div>
 
         {/* 이미지 위에 오버레이 버튼들 */}
-        <div className="absolute bottom-2 right-2 flex gap-2">
+        <div className="absolute bottom-2 right-2 flex gap-2 cursor-pointer">
           {/* 찜하기 버튼 */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleWishToggle();
             }}
-            className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-black/70 transition-colors"
+            className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-black/70 transition-colors cursor-pointer"
           >
             {isWished ? (
               <GoHeartFill className="text-red-500 text-lg" />
@@ -101,7 +101,7 @@ const WishCard = ({
               e.stopPropagation();
               handleShare();
             }}
-            className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-black/70 transition-colors"
+            className="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:bg-black/70 transition-colors"
           >
             <GoShareAndroid className="text-white text-lg" />
           </button>

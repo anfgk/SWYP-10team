@@ -134,9 +134,9 @@ const RecentPlaces = () => {
 
       {recentList.length <= 5 ? (
         <div className="w-full h-fit flex gap-[16px]">
-          {recentList.map((place) => (
+          {recentList.map((place, index) => (
             <WishCard
-              key={place.id}
+              key={index}
               id={place.id}
               name={place.name || place.title}
               image={place.image || place.imageUrl || place.thumbnail}

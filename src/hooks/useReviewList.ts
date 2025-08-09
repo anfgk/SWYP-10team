@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ReviewData, Review } from "@/types/apiResponseTypes";
-import { fetchSmart } from "@/lib/fetchUtils";
+import { fetchReviewList } from "@/lib/apiUtils";
 import { useAuthStore } from "@/stores/authStore";
 
 interface Props {
@@ -14,7 +14,7 @@ const useReviewList = ({ placeId }: Props) => {
   const [sort, setSort] = useState<"r" | "c">("r");
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn, accessToken } = useAuthStore();
 
   const SIZE = 4;
 
@@ -32,21 +32,15 @@ const useReviewList = ({ placeId }: Props) => {
       setLoading(true);
 
       try {
-        const res = await fetchSmart(
-          `/api/review/content/${placeId}?contentId=${placeId}&sort=${sort}&page=${page}&size=${SIZE}`,
-          { method: "GET" }
-        );
-        if (!res.ok) throw new Error("리뷰 요청 실패");
-
-        const data = await res.json();
+        const data = await fetchReviewList(accessToken || "", page);
         if (controller.signal.aborted) return;
 
-        setReviewData(data.data);
+        setReviewData(data);
 
         setReviews((prev) =>
-          page === 0 ? data.data.reviews : [...prev, ...data.data.reviews]
+          page === 0 ? data.reviews : [...prev, ...data.reviews]
         );
-        setHasMore(data.data.hasNext);
+        setHasMore(data.hasNext);
       } catch (e) {
         console.error("리뷰 불러오기 실패", e);
       } finally {

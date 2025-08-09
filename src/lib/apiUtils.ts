@@ -141,19 +141,27 @@ export const deleteUserProfileImage = async (accessToken: string) => {
 };
 
 // 위시리스트 가져오기
-export const fetchWishList = async (accessToken: string) => {
+export const fetchWishList = async (
+  accessToken: string,
+  page: number = 0,
+  size: number = 8
+) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/mypage/wish`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const params = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+    });
+
+    const url = `${import.meta.env.VITE_API_BASE_URL}/api/mypage/wish?${params}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -163,7 +171,7 @@ export const fetchWishList = async (accessToken: string) => {
     }
 
     const data = await response.json();
-    return data?.data || data?.wishList || data;
+    return data?.data || data?.wishes || data;
   } catch (error) {
     throw error;
   }
@@ -198,11 +206,11 @@ export const fetchRecentPlaces = async (accessToken: string) => {
   }
 };
 
-// 리뷰 목록 가져오기
-export const fetchReviewList = async (accessToken: string, page = 1) => {
+// 리뷰 목록 가져오기 (사용자 작성 리뷰)
+export const fetchReviewList = async (accessToken: string, page: number) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/user/reviews?page=${page}`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/review/?page=${page}`,
       {
         method: "GET",
         credentials: "include",

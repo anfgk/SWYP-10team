@@ -5,48 +5,22 @@ import { useAuthStore } from "@/stores/authStore";
 import { fetchWishList } from "@/lib/apiUtils";
 
 interface WishItem {
-  id: number;
+  contentId: number;
   name: string;
   image: string;
   description: string;
+  isWish: boolean;
 }
-
-const dummyWishItems: WishItem[] = [
-  {
-    id: 1,
-    name: "한강공원",
-    image: "https://picsum.photos/300/200?random=1",
-    description: "강아지와 함께 산책하기 좋은 곳",
-  },
-  {
-    id: 2,
-    name: "올림픽공원",
-    image: "https://picsum.photos/300/200?random=2",
-    description: "넓은 공간에서 뛰어놀기 좋은 곳",
-  },
-  {
-    id: 3,
-    name: "여의도공원",
-    image: "https://picsum.photos/300/200?random=3",
-    description: "도심 속 휴식 공간",
-  },
-  {
-    id: 4,
-    name: "북서울꿈의숲",
-    image: "https://picsum.photos/300/200?random=4",
-    description: "자연 속에서 힐링하기 좋은 곳",
-  },
-];
 
 const WishPlaces = () => {
   const { accessToken } = useAuthStore();
   const [currentPage, setCurrentPage] = useState(1);
-  const [wishList, setWishList] = useState<WishItem[]>(dummyWishItems);
+  const [wishList, setWishList] = useState<WishItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     loadWishPlaces();
-  }, [accessToken]);
+  }, [accessToken, currentPage]);
 
   const loadWishPlaces = async () => {
     if (!accessToken) {
@@ -56,37 +30,66 @@ const WishPlaces = () => {
 
     try {
       setIsLoading(true);
-
-      // API 호출 시도, 실패하면 더미 데이터 사용
       try {
-        const data = await fetchWishList(accessToken);
-        const processedData = Array.isArray(data)
-          ? data.map((item: any) => ({
-              id: item.id,
-              name: item.name || item.title,
-              image: item.image || item.imageUrl || item.thumbnail,
-              description: item.description || "설명이 없습니다.",
-            }))
-          : dummyWishItems;
+        const data = await fetchWishList(accessToken, currentPage - 1, 8);
+        setWishList(Array.isArray(data.wishes) ? data.wishes : []);
+
+        // 데이터 구조 확인 및 처리
+        let processedData = [];
+
+        if (Array.isArray(data)) {
+          processedData = data.map((item: any) => ({
+            id: item.id || item.contentId,
+            name: item.name || item.title || item.placeName,
+            image:
+              item.image || item.imageUrl || item.thumbnail || item.firstImage,
+          }));
+        } else if (data && typeof data === "object") {
+          // 데이터가 객체인 경우 (페이지네이션 응답)
+          if (data.wishes && Array.isArray(data.wishes)) {
+            // wishes 배열 처리
+            processedData = data.wishes.map((item: any) => ({
+              id: item.id || item.contentId,
+              name: item.name || item.title || item.placeName,
+              image:
+                item.image ||
+                item.imageUrl ||
+                item.thumbnail ||
+                item.firstImage,
+            }));
+          } else if (data.content && Array.isArray(data.content)) {
+            // content 배열 처리
+            processedData = data.content.map((item: any) => ({
+              id: item.id || item.contentId,
+              name: item.name || item.title || item.placeName,
+              image:
+                item.image ||
+                item.imageUrl ||
+                item.thumbnail ||
+                item.firstImage,
+            }));
+          } else {
+            processedData = []; // 빈 배열로 설정 (더미 데이터 사용 안 함)
+          }
+        } else {
+          processedData = []; // 빈 배열로 설정 (더미 데이터 사용 안 함)
+        }
+
         setWishList(processedData);
       } catch (apiError) {
-        console.warn("API 호출 실패, 더미 데이터 사용:", apiError);
-        setWishList(dummyWishItems);
+        setWishList([]);
       }
     } catch (error) {
-      console.error("찜한 장소 목록 로드 실패:", error);
-      setWishList(dummyWishItems);
+      setWishList([]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const itemsPerPage = 8;
+  // 서버에서 페이지별 데이터를 받으므로 클라이언트 페이지네이션 불필요
   const totalPages = Math.ceil(wishList.length / itemsPerPage);
-  const paginatedWish = wishList.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedWish = wishList;
 
   const handleToggleWish = async (id: number) => {
     try {
@@ -128,14 +131,14 @@ const WishPlaces = () => {
     <div className="mt-12 mb-16">
       <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
       <div className="grid grid-cols-4 gap-4 mb-8">
-        {paginatedWish.map((item) => (
+        {paginatedWish.map((item, index) => (
           <WishCard
-            key={item.id}
-            id={item.id}
+            key={index}
+            id={item.contentId}
             name={item.name}
             image={item.image}
             description={item.description}
-            isWished={true}
+            isWished={item.isWish}
             onToggleWish={handleToggleWish}
           />
         ))}

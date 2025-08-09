@@ -48,7 +48,7 @@ const NicknameSection = () => {
         <section>
           <div className="flex justify-center items-center gap-10">
             이름
-            <div className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 pl-[12px] bg-gray-50">
+            <div className="w-[420px] h-[36px] border border-[#BFBFBF66]/40 rounded-[8px] flex items-center text-sm text-gray-500 pl-[12px] bg-gray-50 cursor-pointer">
               {user?.name || "닉네임을 설정해주세요"}
             </div>
             <PageButton
