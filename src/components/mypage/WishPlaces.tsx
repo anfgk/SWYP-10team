@@ -5,7 +5,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { fetchWishList } from "@/lib/apiUtils";
 
 interface WishItem {
-  contentId: number;
+  id: number;
   name: string;
   image: string;
   description: string;
@@ -14,9 +14,17 @@ interface WishItem {
 
 const WishPlaces = () => {
   const { accessToken } = useAuthStore();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [wishList, setWishList] = useState<WishItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(8);
+  const [hasNext, setHasNext] = useState(false);
+  const [hasPrevious, setHasPrevious] = useState(false);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     loadWishPlaces();
@@ -31,18 +39,21 @@ const WishPlaces = () => {
     try {
       setIsLoading(true);
       try {
-        const data = await fetchWishList(accessToken, currentPage - 1, 8);
+        const data = await fetchWishList(accessToken, currentPage, page);
         setWishList(Array.isArray(data.wishes) ? data.wishes : []);
-
+        setTotalPages(data.totalPages);
+        setHasNext(data.hasNext);
+        setCurrentPage(data.currentPage);
+        setHasPrevious(data.hasPrevious);
         // 데이터 구조 확인 및 처리
         let processedData = [];
 
         if (Array.isArray(data)) {
           processedData = data.map((item: any) => ({
             id: item.id || item.contentId,
-            name: item.name || item.title || item.placeName,
             image:
               item.image || item.imageUrl || item.thumbnail || item.firstImage,
+            isWish: item.isWish,
           }));
         } else if (data && typeof data === "object") {
           // 데이터가 객체인 경우 (페이지네이션 응답)
@@ -50,12 +61,12 @@ const WishPlaces = () => {
             // wishes 배열 처리
             processedData = data.wishes.map((item: any) => ({
               id: item.id || item.contentId,
-              name: item.name || item.title || item.placeName,
               image:
                 item.image ||
                 item.imageUrl ||
                 item.thumbnail ||
                 item.firstImage,
+              isWish: item.isWish,
             }));
           } else if (data.content && Array.isArray(data.content)) {
             // content 배열 처리
@@ -88,7 +99,7 @@ const WishPlaces = () => {
 
   const itemsPerPage = 8;
   // 서버에서 페이지별 데이터를 받으므로 클라이언트 페이지네이션 불필요
-  const totalPages = Math.ceil(wishList.length / itemsPerPage);
+  // const totalPages = Math.ceil(wishList.length / itemsPerPage);
   const paginatedWish = wishList;
 
   const handleToggleWish = async (id: number) => {
@@ -134,22 +145,23 @@ const WishPlaces = () => {
         {paginatedWish.map((item, index) => (
           <WishCard
             key={index}
-            id={item.contentId}
+            id={item.id}
             name={item.name}
             image={item.image}
             description={item.description}
-            isWished={item.isWish}
+            isWish={item.isWish}
             onToggleWish={handleToggleWish}
           />
         ))}
       </div>
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+        setPage={setPage}
+        hasNext={hasNext}
+        hasPrevious={hasPrevious}
+      />
     </div>
   );
 };

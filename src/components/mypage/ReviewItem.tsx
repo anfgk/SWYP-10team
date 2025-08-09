@@ -161,7 +161,7 @@ const ReviewItem = ({
   return (
     <div className="flex p-4 rounded-lg">
       <div className="w-[0px]">
-        <div className="w-[200px]">
+        <div className="w-[400px]">
           <ReviewHeader
             place={item.place}
             rating={isEditing ? tempRating : item.rating}
@@ -172,7 +172,7 @@ const ReviewItem = ({
       </div>
 
       <div className="flex flex-col">
-        <div className="w-[902px] flex justify-between">
+        <div className="w-[902px] flex justify-between ">
           <div className="flex flex-col">{renderImages()}</div>
           {renderButtons()}
         </div>
