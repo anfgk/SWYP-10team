@@ -12,7 +12,7 @@ interface CalendarProps {
 
 const Calendar = ({ value, onChange, isOpen, onClose }: CalendarProps) => {
   const [date, setDate] = React.useState<Date | undefined>(
-    value ? new Date(value) : new Date()
+    value ? new Date(value) : new Date(),
   );
 
   React.useEffect(() => {

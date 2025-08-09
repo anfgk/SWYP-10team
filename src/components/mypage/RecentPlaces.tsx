@@ -36,20 +36,22 @@ const RecentPlaces = () => {
   const handleToggleWish = (id: number) => {
     setRecentList((prev) =>
       prev.map((place) =>
-        place.id === id ? { ...place, isWished: !place.isWished } : place
-      )
+        place.id === id ? { ...place, isWished: !place.isWished } : place,
+      ),
     );
   };
 
   const handlePrevSlide = () => {
     setCurrentIndex(
-      currentIndex === 0 ? Math.max(0, recentList.length - 5) : currentIndex - 1
+      currentIndex === 0
+        ? Math.max(0, recentList.length - 5)
+        : currentIndex - 1,
     );
   };
 
   const handleNextSlide = () => {
     setCurrentIndex(
-      currentIndex >= recentList.length - 5 ? 0 : currentIndex + 1
+      currentIndex >= recentList.length - 5 ? 0 : currentIndex + 1,
     );
   };
 
@@ -91,7 +93,7 @@ const RecentPlaces = () => {
     (_, i) => {
       const index = (currentIndex + i) % recentList.length;
       return recentList[index];
-    }
+    },
   );
 
   const buttonStyle =

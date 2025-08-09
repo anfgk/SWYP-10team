@@ -35,7 +35,7 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -102,7 +102,7 @@ const MyInfoPage = () => {
       formData.append("name", petInfo.name);
       formData.append(
         "fierceDog",
-        petInfo.type === "fierceDog" ? "true" : "false"
+        petInfo.type === "fierceDog" ? "true" : "false",
       );
       formData.append("gender", petInfo.gender === "female" ? "F" : "M");
       formData.append("birth", petInfo.birthYear);
@@ -112,7 +112,7 @@ const MyInfoPage = () => {
           ? "대형"
           : petInfo.size === "medium"
             ? "중형"
-            : "소형"
+            : "소형",
       );
 
       if (petInfo.image) {
@@ -128,7 +128,7 @@ const MyInfoPage = () => {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
           },
           body: formData,
-        }
+        },
       );
 
       if (!response.ok) {
@@ -179,7 +179,7 @@ const MyInfoPage = () => {
       formData.append("name", petInfo.name.trim());
       formData.append(
         "fierceDog",
-        petInfo.type === "fierceDog" ? "true" : "false"
+        petInfo.type === "fierceDog" ? "true" : "false",
       );
       formData.append("gender", petInfo.gender === "female" ? "F" : "M");
       formData.append("birth", petInfo.birthYear);
@@ -189,7 +189,7 @@ const MyInfoPage = () => {
           ? "대형"
           : petInfo.size === "medium"
             ? "중형"
-            : "소형"
+            : "소형",
       );
 
       // 이미지 처리
@@ -207,7 +207,7 @@ const MyInfoPage = () => {
             Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
           },
           body: formData,
-        }
+        },
       );
 
       if (!response.ok) {
@@ -233,7 +233,7 @@ const MyInfoPage = () => {
     try {
       console.log(
         "삭제 API 호출:",
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`,
       );
 
       const response = await fetch(
@@ -245,14 +245,14 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error("삭제 응답 에러:", errorText);
         throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
+          `HTTP error! status: ${response.status}, message: ${errorText}`,
         );
       }
 

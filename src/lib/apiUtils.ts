@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/stores/authStore";
 import { jwtDecode } from "jwt-decode";
 import type { JWTPayLoad } from "@/types/types";
 
@@ -26,13 +25,13 @@ export const fetchUserProfile = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -51,7 +50,7 @@ export const fetchUserProfile = async (accessToken: string) => {
 export const updateUserProfile = async (
   accessToken: string,
   displayName: string,
-  image?: File
+  image?: File,
 ) => {
   try {
     // displayName 유효성 검사 (2-12자, 영문/숫자/한글만 허용)
@@ -87,13 +86,13 @@ export const updateUserProfile = async (
         credentials: "include",
         headers: { Authorization: `Bearer ${accessToken}` },
         body: formData,
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -120,13 +119,13 @@ export const deleteUserProfileImage = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -153,13 +152,13 @@ export const fetchWishList = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -182,13 +181,13 @@ export const fetchRecentPlaces = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -211,13 +210,13 @@ export const fetchReviewList = async (accessToken: string, page = 1) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -236,7 +235,7 @@ export const createReview = async (
     rating: number;
     content: string;
     images?: File[];
-  }
+  },
 ) => {
   try {
     const formData = new FormData();
@@ -257,13 +256,13 @@ export const createReview = async (
         credentials: "include",
         headers: { Authorization: `Bearer ${accessToken}` },
         body: formData,
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 

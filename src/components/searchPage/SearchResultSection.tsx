@@ -18,7 +18,7 @@ const SearchResultSection = () => {
     if (sort === "latest") {
       return [...testSearchData].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
     } else if (sort === "popular") {
       return [...testSearchData].sort((a, b) => b.heartCount - a.heartCount);
