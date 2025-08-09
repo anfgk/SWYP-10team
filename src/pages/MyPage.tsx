@@ -16,6 +16,15 @@ const MyPage = () => {
     "/reviewwrite": <ReviewWritePage />,
   };
 
+  // contentId가 포함된 reviewwrite 경로 처리
+  if (pathname.startsWith("/reviewwrite/")) {
+    return (
+      <section>
+        <ReviewWritePage />
+      </section>
+    );
+  }
+
   return (
     <section>
       {pages[pathname as keyof typeof pages] || pages["/myinfo"]}

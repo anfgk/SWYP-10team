@@ -32,32 +32,26 @@ const ImageUploadSection = ({
     }
   };
 
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
-
   return (
     <div className="mb-8">
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={handleFileSelect}
+        ref={fileInputRef}
+        className="hidden"
+      />
       <div className="flex items-center gap-4 mb-[24px]">
         <div className="font-medium mr-[50px] text-[20px]">사진첨부</div>
-        <PageButton text="사진 첨부하기" onClick={handleUploadClick} />
+        <PageButton
+          text="사진 첨부하기"
+          onClick={() => fileInputRef.current?.click()}
+        />
         <span className="text-gray-600">
           {selectedFiles.length}/{maxFiles}
         </span>
-        <div className="flex gap-4 ml-auto">
-          <PageButton text="저장하기" variant="default" onClick={onSave} />
-          <PageButton text="취소하기" variant="default" onClick={onCancel} />
-        </div>
       </div>
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileSelect}
-        multiple
-        accept="image/*"
-        className="hidden"
-      />
 
       {selectedFiles.length > 0 && (
         <div className="flex gap-[16px]">
@@ -78,6 +72,11 @@ const ImageUploadSection = ({
           ))}
         </div>
       )}
+
+      <div className="w-[94.5%] flex justify-end gap-4 mt-[68px]">
+        <PageButton text="저장하기" variant="default" onClick={onSave} />
+        <PageButton text="취소하기" variant="default" onClick={onCancel} />
+      </div>
     </div>
   );
 };

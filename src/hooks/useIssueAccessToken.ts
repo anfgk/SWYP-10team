@@ -23,7 +23,7 @@ const useIssueAccessToken = () => {
           {
             method: "POST",
             credentials: "include",
-          }
+          },
         );
 
         if (!res.ok) {
