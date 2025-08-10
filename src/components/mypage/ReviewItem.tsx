@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ReviewHeader from "./ReviewHeader";
 import ConfirmModal from "./ConfirmModal";
 import ModalButton from "@/components/modals/common/ModalButton";
+import { Button } from "@/components/ui/button";
 
 // 리뷰 정보를 담은 item 객체를 reviewItem 컴포넌트에서 전달받기위해 변수명과 타입을 지정해준다.
 interface ReviewItemProps {
@@ -84,18 +85,20 @@ const ReviewItem = ({
     if (hasReview) {
       return (
         <div className="flex gap-3 mb-5 w-[200px]">
-          <ModalButton
+          <Button
             onClick={handleNavigate}
-            text="수정하기"
-            bgcolor="--main-color"
-            textcolor="--main-text"
-          />
-          <ModalButton
+            variant="secondary"
+            className="bg-[var(--main-color)] text-[var(--main-text)] hover:bg-[var(--main-color)] opacity-90"
+          >
+            수정하기
+          </Button>
+          <Button
             onClick={() => setShowDeleteModal(true)}
-            text="삭제하기"
-            bgcolor="--indicator-disabled"
-            textcolor="--place-neutral"
-          />
+            variant="secondary"
+            className="bg-[var(--indicator-disabled)] text-[var(--place-neutral)] hover:bg-[var(--indicator-disabled)] opacity-90"
+          >
+            삭제하기
+          </Button>
         </div>
       );
     }
