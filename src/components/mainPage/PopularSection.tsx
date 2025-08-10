@@ -38,7 +38,7 @@ const PopularSection = () => {
             className="flex transition-transform duration-700 ease-in-out gap-[20px]"
             style={{
               transform: `translateX(-${index * (1200 + 20)}px)`,
-              width: `${0 * slides.length + 20 * (slides.length - 1)}px`,
+              width: `${1200 * slides.length + 20 * (slides.length - 1)}px`,
             }}
           >
             {slides.map((slide, i) => (
