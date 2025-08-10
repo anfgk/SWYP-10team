@@ -55,7 +55,7 @@ const PopularSection = () => {
           <img
             src="/assets/buttons/button_left.png"
             alt="left"
-            className="w-full h-full transition hover:brightness-80"
+            className="w-full h-full transition hover:brightness-95 active:brightness-92"
           />
         </button>
         <button
@@ -65,7 +65,7 @@ const PopularSection = () => {
           <img
             src="/assets/buttons/button_right.png"
             alt="right"
-            className="w-full h-full transition hover:brightness-80"
+            className="w-full h-full transition hover:brightness-95 active:brightness-92"
           />
         </button>
       </div>

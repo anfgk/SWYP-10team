@@ -22,7 +22,7 @@ const SearchBar = () => {
   useEnterKey(onSearch);
 
   return (
-    <div className="w-[1200px] h-fit flex flex-wrap rounded-[40px] bg-[var(--search-bar-bg)] px-[12px] py-[12px] gap-[12px] shadow-[0px_0px_1px_0px_#00000014,0px_1px_2px_0px_#0000001F] z-20">
+    <div className="w-[1200px] h-fit flex flex-wrap rounded-[40px] bg-[var(--search-bar-bg)] px-[12px] py-[12px] gap-[12px] border-[1px] border-[var(--search-element-border)] z-20">
       <div className="flex flex-grow gap-[12px]">
         <SearchSelectBox
           options={Object.keys(regionMap)}
@@ -67,7 +67,7 @@ const SearchBar = () => {
           <img
             src="/assets/buttons/search_button.png"
             alt="left"
-            className="w-full h-full transition hover:brightness-90"
+            className="w-full h-full transition hover:brightness-95 active:brightness-92"
           />
         </button>
       </div>
