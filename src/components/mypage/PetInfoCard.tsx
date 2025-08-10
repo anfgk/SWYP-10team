@@ -66,9 +66,9 @@ const PetInfoCard = ({
 
   // 사이즈 표시 텍스트 변환
   const getSizeText = (size: string) => {
-    if (size === "large" || size === "대형") return "대형";
-    if (size === "medium" || size === "중형") return "중형";
-    if (size === "small" || size === "소형") return "소형";
+    if (size === "대형" || size === "대형") return "대형";
+    if (size === "중형" || size === "중형") return "중형";
+    if (size === "소형" || size === "소형") return "소형";
     return size;
   };
 
