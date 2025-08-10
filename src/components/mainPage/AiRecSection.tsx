@@ -19,8 +19,8 @@ const AiRecList = () => {
             width: `${100 * resultList.length}%`,
           }}
         >
-          {resultList.map((place) => (
-            <div key={place.contentId} className="w-[1200px] flex-shrink-0">
+          {resultList.map((place, i) => (
+            <div key={i} className="w-[1200px] flex-shrink-0">
               <AiRecCard place={place} />
             </div>
           ))}

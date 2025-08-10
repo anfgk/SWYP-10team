@@ -51,6 +51,11 @@ const editReview = async (
 
     if (!res.ok) throw new Error("리뷰 작성 실패");
 
+    if (res.status === 403) {
+      alert("타 유저의 리뷰는 수정할 수 없습니다.");
+      return;
+    }
+
     const data = await res.json();
     console.log(data);
   } catch (e) {

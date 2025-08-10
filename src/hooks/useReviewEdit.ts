@@ -29,7 +29,21 @@ const useReviewEdit = (id: string) => {
         const res = await fetchWithAuth(`/api/review/${id}`, {
           method: "GET",
         });
+
+        if (res.status === 403) {
+          alert("타인의 리뷰에는 접근할 수 없습니다.");
+          navigate("/");
+          return;
+        }
+
+        if (res.status === 404) {
+          alert("존재하지 않는 리뷰입니다.");
+          navigate("/");
+          return;
+        }
+
         if (!res.ok) throw new Error("리뷰 불러오기 실패");
+
         const data = await res.json();
 
         if (data.data !== null) {
@@ -89,6 +103,7 @@ const useReviewEdit = (id: string) => {
         if (!res.ok) {
           throw new Error("이미지 삭제 api 요청 실패");
         }
+
         setImages((prev) => prev.filter((_, idx) => idx !== i));
       } catch (e) {
         console.error("이미지 삭제 실패");

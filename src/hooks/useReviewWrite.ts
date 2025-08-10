@@ -28,6 +28,11 @@ const useReviewWrite = (id: string) => {
             method: "GET",
           }
         );
+        if (res.status === 404) {
+          alert("존재하지 않는 장소입니다.");
+          navigate("/");
+          return;
+        }
         if (!res.ok) throw new Error("장소 정보 불러오기 실패");
         const data = await res.json();
         setTitle(data.title);

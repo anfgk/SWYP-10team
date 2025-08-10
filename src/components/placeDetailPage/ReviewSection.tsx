@@ -17,7 +17,7 @@ const ReviewSection = ({ placeId }: Props) => {
     handleLoadMore,
   } = useReviewList({ placeId });
   return (
-    <section className="w-full h-fit flex flex-col gap-[56px]">
+    <section className="w-full h-fit flex flex-col">
       <ReviewPhotoSection
         reviewImageList={reviewData?.reviewImages ?? []}
         reviewCount={reviewData?.totalElements ?? 0}

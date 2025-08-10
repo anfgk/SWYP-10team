@@ -25,6 +25,7 @@ const fetchWithAuth = async (
 
   //access토큰 거부 시 재발급 요청
   if (res.status === 401) {
+    console.log("fetchWithAuth에서 재발급 시도");
     try {
       const refreshRes = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/user/reissue`,

@@ -81,7 +81,7 @@ const SearchResultCard = ({ cardData }: Props) => {
               <p className="text-[20px] font-semibold mr-[4px]">
                 {cardData.title}
               </p>
-              <div className="w-fit h-full flex items-center gap-[4px]">
+              <div className="w-fit h-full flex items-center">
                 <SVGIcons
                   name="star"
                   width={24}
