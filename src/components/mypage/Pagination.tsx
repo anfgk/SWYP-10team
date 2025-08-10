@@ -28,7 +28,7 @@ const Pagination = ({
       {Array.from({ length: totalPages }, (_, i) => (
         <span
           key={i}
-          className={`p-[8px] cursor-pointer ${currentPage === i ? "text-[var(--text-color)] border-b-2 border-[var(--text-color)]" : ""}`}
+          className={`p-[8px] cursor-pointer ${currentPage === i ? "text-[var(--text-color)] underline underline-offset-4 decoration-2" : ""}`}
           onClick={() => onPageChange(i)}
         >
           {i + 1}
