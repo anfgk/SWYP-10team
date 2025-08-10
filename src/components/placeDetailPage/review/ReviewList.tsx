@@ -8,13 +8,13 @@ interface Props {
 
 const ReviewList = ({ reviews }: Props) => {
   return (
-    <section className="w-[full] h-[fit] flex flex-col gap-[24px]">
+    <section className="w-[full] h-fit flex flex-col gap-[24px]">
       {reviews.map((review) =>
         review.isBlind ? (
           <BlindedReviewCard key={review.reviewId} review={review} />
         ) : (
           <ReviewCard key={review.reviewId} review={review} />
-        ),
+        )
       )}
     </section>
   );

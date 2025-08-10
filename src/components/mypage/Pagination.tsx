@@ -1,10 +1,11 @@
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   hasNext: boolean;
   hasPrevious: boolean;
   onPageChange: (page: number) => void;
-  setPage: (page: number) => void;
 }
 
 const Pagination = ({
@@ -15,18 +16,18 @@ const Pagination = ({
   hasPrevious,
 }: PaginationProps) => {
   return (
-    <div className="flex justify-center mt-16 gap-2 text-lg">
+    <div className="flex justify-center gap-[2px] text-[14px] h-[36px]">
       <span
-        className={`${hasPrevious ? "cursor-pointer" : ""}
-          ${currentPage === 0 ? "text-gray-400" : ""}`}
+        className={`${hasPrevious ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === 0 ? "flex items-center justify-center text-[var(--card-subText)]" : ""}`}
         onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
       >
-        &#60;
+        <IoIosArrowBack className="w-[24px] h-[24px]" />
       </span>
       {Array.from({ length: totalPages }, (_, i) => (
         <span
           key={i}
-          className={`mx-1 cursor-pointer ${currentPage === i ? "font-bold underline" : ""}`}
+          className={`p-[8px] cursor-pointer ${currentPage === i ? "text-[var(--text-color)] underline underline-offset-4 decoration-2" : ""}`}
           onClick={() => onPageChange(i)}
         >
           {i + 1}
@@ -34,11 +35,13 @@ const Pagination = ({
       ))}
       <span
         className={`
-          ${hasNext ? "cursor-pointer" : ""}
-          ${currentPage === totalPages - 1 ? "text-gray-400" : ""}`}
-        onClick={() => currentPage < totalPages && onPageChange(currentPage)}
+          ${hasNext ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === totalPages - 1 ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)] text-[var(--card-subText)]" : ""}`}
+        onClick={() =>
+          currentPage < totalPages - 1 && onPageChange(currentPage + 1)
+        }
       >
-        &#62;
+        <IoIosArrowForward className="w-[24px] h-[24px]" />
       </span>
     </div>
   );

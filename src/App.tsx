@@ -1,23 +1,27 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import MainHeader from "./components/layout/MainHeader";
+import MainFooter from "./components/layout/MainFooter";
+
 import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";
 import PlaceDetailPage from "./pages/PlaceDetailPage";
-import MyPage from "./pages/MyPage";
-import useUserLocation from "./hooks/useUserLocation";
-import ScrollToTop from "./hooks/ScrollToTop";
-import useIssueAccessToken from "./hooks/useIssueAccessToken";
-import AuthCallBackPage from "./pages/AuthCallBackPage";
-import MainFooter from "./components/layout/MainFooter";
-import CustomToast from "./components/common/CustomToast";
 import TodaysPopularListPage from "./pages/TodaysPopularListPage";
+import AuthCallBackPage from "./pages/AuthCallBackPage";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import ProtectedLayout from "./components/auth/ProtectedMyPageLayout";
-import { mypagePaths } from "./configs/myPageRoutes";
 import ReviewWritePage from "./pages/ReviewWritePage";
 import ReviewEditPage from "./pages/ReviewEditPage";
+import MyReviewPageFixed from "./pages/MyReviewPageFixed";
+import MyInfoPageFixed from "./pages/MyInfoPageFixed";
+import MyWishPageFixed from "./pages/MyWishPageFixed";
+
+import useUserLocation from "./hooks/useUserLocation";
+import useIssueAccessToken from "./hooks/useIssueAccessToken";
+
+import CustomToast from "./components/common/CustomToast";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 function App() {
   useUserLocation();
@@ -36,31 +40,18 @@ function App() {
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
           <Route path="/popularoftoday" element={<TodaysPopularListPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
 
-          <Route
-            path="/reviewwrite/:id"
-            element={
-              <ProtectedRoute>
-                <ReviewWritePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/reviewedit/:id"
-            element={
-              <ProtectedRoute>
-                <ReviewEditPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* 마이페이지 */}
-          <Route element={ProtectedLayout}>
-            {mypagePaths.map((path) => (
-              <Route key={path} path={path} element={<MyPage />} />
-            ))}
+          {/* 인증이 있어야 들어갈 수 있는 경로(protectedRoute) */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/myinfo" element={<MyInfoPageFixed />} />
+            <Route path="/myreview" element={<MyReviewPageFixed />} />
+            <Route path="/mywish" element={<MyWishPageFixed />} />
+            <Route path="/reviewwrite/:id" element={<ReviewWritePage />} />
+            <Route path="/reviewedit/:id" element={<ReviewEditPage />} />
           </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <MainFooter />
       </div>
