@@ -37,10 +37,8 @@ function App() {
           <Route path="/popularoftoday" element={<TodaysPopularListPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-          <Route path="/reviewwrite/:id" element={<ReviewWritePage />} />
-          <Route path="/reviewedit/:id" element={<ReviewEditPage />} />
 
-          {/* <Route
+          <Route
             path="/reviewwrite/:id"
             element={
               <ProtectedRoute>
@@ -52,10 +50,10 @@ function App() {
             path="/reviewedit/:id"
             element={
               <ProtectedRoute>
-                <ReviewWritePage />
+                <ReviewEditPage />
               </ProtectedRoute>
             }
-          /> */}
+          />
 
           {/* 마이페이지 */}
           <Route element={ProtectedLayout}>

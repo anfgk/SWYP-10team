@@ -56,7 +56,7 @@ const ReviewItem = ({
   // 리뷰 작성/수정 페이지로 네비게이션
   const handleNavigate = () => {
     const targetContentId = item.contentId || item.id;
-    navigate(`/reviewwrite/${targetContentId}`, {
+    navigate(`/reviewedit/${targetContentId}`, {
       state: { reviewData: item },
     });
   };

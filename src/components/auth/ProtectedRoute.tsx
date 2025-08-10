@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   // 로그인된 경우 자식 컴포넌트 렌더링
-  return <section>{children}</section>;
+  return <div>{children}</div>;
 };
 
 export default ProtectedRoute;
