@@ -1,3 +1,5 @@
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -15,18 +17,18 @@ const Pagination = ({
   hasPrevious,
 }: PaginationProps) => {
   return (
-    <div className="flex justify-center mt-16 gap-2 text-lg">
+    <div className="flex justify-center gap-[2px] text-[14px] h-[36px]">
       <span
-        className={`${hasPrevious ? "cursor-pointer text-[var(--card-subText)]" : ""}
-          ${currentPage === 0 ? "text-[var(--card-subText)]" : ""}`}
+        className={`${hasPrevious ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === 0 ? "flex items-center justify-center text-[var(--card-subText)]" : ""}`}
         onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
       >
-        &#60;
+        <IoIosArrowBack className="w-[24px] h-[24px]" />
       </span>
       {Array.from({ length: totalPages }, (_, i) => (
         <span
           key={i}
-          className={`mx-1 cursor-pointer ${currentPage === i ? "text-[var(--text-color)]" : ""}`}
+          className={`p-[8px] cursor-pointer ${currentPage === i ? "text-[var(--text-color)] border-b-2 border-[var(--text-color)]" : ""}`}
           onClick={() => onPageChange(i)}
         >
           {i + 1}
@@ -34,13 +36,13 @@ const Pagination = ({
       ))}
       <span
         className={`
-          ${hasNext ? "cursor-pointer text-[var(--card-subText)]" : ""}
-          ${currentPage === totalPages - 1 ? "text-[var(--card-subText)]" : ""}`}
+          ${hasNext ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === totalPages - 1 ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)] text-[var(--card-subText)]" : ""}`}
         onClick={() =>
           currentPage < totalPages - 1 && onPageChange(currentPage + 1)
         }
       >
-        &#62;
+        <IoIosArrowForward className="w-[24px] h-[24px]" />
       </span>
     </div>
   );
