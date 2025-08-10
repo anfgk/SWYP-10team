@@ -6,7 +6,6 @@ interface PaginationProps {
   hasNext: boolean;
   hasPrevious: boolean;
   onPageChange: (page: number) => void;
-  setPage: (page: number) => void;
 }
 
 const Pagination = ({

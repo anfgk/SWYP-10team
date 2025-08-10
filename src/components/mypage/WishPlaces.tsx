@@ -157,7 +157,6 @@ const WishPlaces = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={onPageChange}
-        setPage={setPage}
         hasNext={hasNext}
         hasPrevious={hasPrevious}
       />
