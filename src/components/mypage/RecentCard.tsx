@@ -36,23 +36,17 @@ const RecentCard = ({
   return (
     <div className="flex flex-col gap-2">
       <div className="relative w-[224px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer">
-        {image || imageUrl ? (
-          <img
-            src={image || imageUrl}
-            alt={name}
-            className=" object-cover"
-            onError={(e) => {
-              console.error("이미지 로드 실패:", image || imageUrl);
-              e.currentTarget.style.display = "none";
-              e.currentTarget.nextElementSibling?.classList.remove("hidden");
-            }}
-          />
-        ) : null}
-        <div
-          className={`w-full h-full bg-gray-300 rounded-lg flex items-center justify-center text-gray-500 cursor-pointer ${image || imageUrl ? "hidden" : ""}`}
-        >
-          장소 이미지
-        </div>
+        <img
+          src={
+            image || imageUrl || "/assets/images/common/default_thumbnail.png"
+          }
+          alt={name}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error("이미지 로드 실패:", image || imageUrl);
+            e.currentTarget.src = "/assets/images/common/default_thumbnail.png";
+          }}
+        />
 
         {/* 이미지 위에 오버레이 버튼들 */}
         <div className="absolute bottom-2 right-2 flex gap-2 cursor-pointer">
