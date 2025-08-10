@@ -6,7 +6,7 @@ import { loginConfirmAlert } from "@/lib/commonUtils";
 import { useNavigate } from "react-router-dom";
 import { copyPlacePage } from "@/lib/commonUtils";
 
-interface WishCardProps {
+interface RecentCardProps {
   id: number;
   name: string;
   image?: string;
@@ -16,14 +16,15 @@ interface WishCardProps {
   onToggleWish: (id: number) => void;
 }
 
-const WishCard = ({
+const RecentCard = ({
   id,
   name,
   image,
   imageUrl,
   description,
   isWish,
-}: WishCardProps) => {
+  onToggleWish,
+}: RecentCardProps) => {
   const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const WishCard = ({
           <img
             src={image || imageUrl}
             alt={name}
-            className="w-full h-full object-cover"
+            className=" object-cover"
             onError={(e) => {
               console.error("이미지 로드 실패:", image || imageUrl);
               e.currentTarget.style.display = "none";
@@ -67,13 +68,16 @@ const WishCard = ({
             width={40}
             height={40}
             onClick={() => {
-              isLoggedIn
-                ? heartClickedWithLogin(id.toString(), liked, setLiked)
-                : loginConfirmAlert(navigate);
+              if (isLoggedIn) {
+                heartClickedWithLogin(id.toString(), liked, setLiked);
+                onToggleWish(id);
+              } else {
+                loginConfirmAlert(navigate);
+              }
             }}
           />
 
-          {/* 공유하기 버튼 - GoShareAndroid 아이콘으로 변경 */}
+          {/* 공유하기 버튼 */}
           <SvgButton
             svgname="thumbnailShare"
             width={40}
@@ -90,4 +94,4 @@ const WishCard = ({
   );
 };
 
-export default WishCard;
+export default RecentCard;

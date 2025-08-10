@@ -8,7 +8,7 @@ const getDistanceInKm = (
   x1: number,
   y1: number,
   x2: number,
-  y2: number
+  y2: number,
 ): number => {
   const R = 6371;
   const dX = toRad(x2 - x1); // long
@@ -27,7 +27,7 @@ const getDistanceInKm = (
 const heartClickedWithLogin = (
   placeid: string,
   checked: boolean,
-  setChecked: (value: boolean) => void
+  setChecked: (value: boolean) => void,
 ) => {
   setChecked(!checked);
   //api 요청 부분(장소 좋아요)
@@ -35,7 +35,7 @@ const heartClickedWithLogin = (
     try {
       const res = await fetchWithAuth(
         `/api/content/wish-check?contentId=${placeid}`,
-        { method: "POST" }
+        { method: "POST" },
       );
 
       if (res.status === 200) {

@@ -78,7 +78,7 @@ const ReviewCard = ({ review }: Props) => {
                         likeChecked,
                         setLikeChecked,
                         likeChecked,
-                        setLikedAmount
+                        setLikedAmount,
                       )
                     : loginConfirmAlert(navigate);
                 }}

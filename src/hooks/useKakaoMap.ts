@@ -30,7 +30,7 @@ const useKakaoMap = ({ title, lat, lng }: Props) => {
           kakao.maps.event.removeListener(
             mapInstance.current,
             "click",
-            clickHandlerRef.current
+            clickHandlerRef.current,
           );
         }
 
@@ -50,7 +50,7 @@ const useKakaoMap = ({ title, lat, lng }: Props) => {
         const markerImg = new kakao.maps.MarkerImage(
           imgSrc,
           imgSize,
-          imgOption
+          imgOption,
         );
 
         const markerPosition = new kakao.maps.LatLng(lat, lng);

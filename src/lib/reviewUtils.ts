@@ -4,7 +4,7 @@ const heartClickedWithLogin = (
   checked: boolean,
   setChecked: (value: boolean) => void,
   likeChecked: boolean,
-  setLikedAmount: React.Dispatch<React.SetStateAction<number>>
+  setLikedAmount: React.Dispatch<React.SetStateAction<number>>,
 ) => {
   //api 요청 부분(리뷰 좋아요)
   const fetchPlaceLike = async () => {

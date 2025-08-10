@@ -36,7 +36,7 @@ const useReportModal = ({ reviewId, onClose }: Props) => {
 
       if (res.status === 400) {
         alert(
-          "자기 자신이 작성한 리뷰 / 이미 신고한 리뷰는 신고할 수 없습니다."
+          "자기 자신이 작성한 리뷰 / 이미 신고한 리뷰는 신고할 수 없습니다.",
         );
         onClose();
         return;
