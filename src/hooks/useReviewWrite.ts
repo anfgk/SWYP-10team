@@ -28,13 +28,25 @@ const useReviewWrite = (id: string) => {
             method: "GET",
           }
         );
-        if (res.status === 404) {
-          alert("존재하지 않는 장소입니다.");
+
+        if (!res.ok) {
+          if (res.status === 400 || res.status === 404) {
+            alert("잘못된 요청입니다.");
+            navigate("/");
+            return;
+          }
+          throw new Error("장소 정보 불러오기 실패");
+        }
+
+        const data = await res.json();
+
+        // 2) 본문 내부 status도 추가로 체크
+        if (data?.status === 400 || data?.status === 404) {
+          alert("잘못된 요청입니다.");
           navigate("/");
           return;
         }
-        if (!res.ok) throw new Error("장소 정보 불러오기 실패");
-        const data = await res.json();
+
         setTitle(data.title);
         console.log(data);
       } catch (e) {

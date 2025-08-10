@@ -11,11 +11,13 @@ interface AuthState {
   provider: "google" | "kakao" | "naver" | null;
   hasRefreshed: boolean;
   isLoggedIn: boolean;
+  authLoading: boolean;
 
   setAuth: (token: string, user: AuthState["user"]) => void;
   setProfileImg: (img: string) => void;
   setProvider: (provider: "google" | "kakao" | "naver") => void;
   setHasRefreshed: (refreshed: boolean) => void;
+  setAuthLoading: (loading: boolean) => void;
   logout: () => void;
 }
 
@@ -27,12 +29,14 @@ export const useAuthStore = create<AuthState>()(
     provider: null,
     hasRefreshed: false,
     isLoggedIn: false,
+    authLoading: true,
 
     setAuth: (accessToken, user) =>
       set({ isLoggedIn: true, accessToken, user }),
     setProfileImg: (img: string) => set({ profileImg: img }),
     setProvider: (provider: "google" | "kakao" | "naver") => set({ provider }),
     setHasRefreshed: (refreshed) => set({ hasRefreshed: refreshed }),
+    setAuthLoading: (loading: boolean) => set({ authLoading: loading }),
     logout: () => set({ isLoggedIn: false, accessToken: null, user: null }),
-  })),
+  }))
 );

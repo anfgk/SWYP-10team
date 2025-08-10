@@ -7,15 +7,13 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn, authLoading } = useAuthStore();
 
-  // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+  if (authLoading) {
+    return null;
   }
 
-  // 로그인된 경우 자식 컴포넌트 렌더링
-  return <div>{children}</div>;
+  return isLoggedIn ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 export default ProtectedRoute;
