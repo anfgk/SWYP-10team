@@ -29,7 +29,7 @@ const PlaceDetailPage = () => {
             title={placeDetail?.title ?? "잘못된 장소 코드입니다."}
             thumbnail={
               placeDetail?.image ||
-              "/assets/images/common/default_thumbnail.png"
+              "/assets/images/common/default_thumbnail.jpg"
             }
             imgList={placeDetail?.detailImage ?? []}
           />

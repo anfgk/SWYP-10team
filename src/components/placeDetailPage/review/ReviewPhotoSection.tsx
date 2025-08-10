@@ -24,7 +24,7 @@ const ReviewPhotoSection = ({ reviewImageList, reviewCount }: Props) => {
         <p className="text-[14px]">({reviewCount}건)</p>
       </div>
 
-      {reviewCount > 0 && (
+      {reviewImageList.length > 0 && (
         // 리뷰 사진 모음
         <div className="w-full h-[150px] flex flex-row items-center justify-between mb-[56px]">
           <button

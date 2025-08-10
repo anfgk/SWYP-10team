@@ -77,7 +77,7 @@ const MyReviewCard = ({ review }: Props) => {
             deleteReview(review.reviewId.toString());
             setIsOpen(false);
             alert("리뷰가 삭제되었습니다.");
-            navigate("/myreview");
+            navigate("/myreview", { state: { refreshReviews: true } });
           }}
         />
       )}

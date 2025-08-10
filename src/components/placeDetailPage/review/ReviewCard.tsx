@@ -87,7 +87,9 @@ const ReviewCard = ({ review }: Props) => {
                   width={24}
                   height={24}
                   color={
-                    likeChecked ? "var(--main-color)" : "var(--place-neutral)"
+                    likeChecked
+                      ? "var(--main-color)"
+                      : "var(--place-detail-heart)"
                   }
                 />
               </button>

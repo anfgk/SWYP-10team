@@ -26,7 +26,7 @@ const SearchBar = () => {
       <div className="flex flex-grow gap-[12px]">
         <SearchSelectBox
           options={Object.keys(regionMap)}
-          placeholder="지역 명"
+          placeholder="지역명"
           value={selectedRegion}
           onChange={setSelectedRegion}
         />
@@ -55,7 +55,7 @@ const SearchBar = () => {
           <Input
             id="place_input"
             className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px] focus:ring-[1px] focus:ring-[var(--main-color)]"
-            placeholder="장소 명"
+            placeholder="장소명"
             defaultValue={inputkeyword}
             onChange={(e) => setInputKeyword(e.target.value)}
           />

@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 const SearchSection = () => {
   return (
     <nav
-      className="w-full h-fit pt-[88px] pb-[36px] flex flex-col items-center bg-cover"
+      className="relative w-full h-fit pt-[88px] pb-[36px] flex flex-col items-center bg-cover"
       style={{
         backgroundImage: `url('/assets/images/common/search_panel_bg.jpg')`,
       }}
