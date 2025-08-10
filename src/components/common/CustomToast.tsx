@@ -5,7 +5,7 @@ const CustomToast = () => {
     <Toaster
       position="bottom-center"
       toastOptions={{
-        className: "!w-[200px] flex justify-center items-center",
+        className: "flex justify-center items-center !rounded-[16px]",
       }}
     />
   );

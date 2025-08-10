@@ -12,18 +12,20 @@ const useIssueAccessToken = () => {
     setHasRefreshed,
     setProfileImg,
     setProvider,
+    setAuthLoading,
   } = useAuthStore();
 
   useEffect(() => {
     if (accessToken || hasRefreshed) return;
     const loadUserInfo = async () => {
+      setAuthLoading(true);
       try {
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/user/reissue`,
           {
             method: "POST",
             credentials: "include",
-          },
+          }
         );
 
         if (!res.ok) {
@@ -48,6 +50,8 @@ const useIssueAccessToken = () => {
       } catch (error) {
         console.error("네트워크 에러:", error);
         logout();
+      } finally {
+        setAuthLoading(false);
       }
     };
 

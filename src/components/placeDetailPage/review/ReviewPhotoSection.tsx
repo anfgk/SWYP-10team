@@ -26,7 +26,7 @@ const ReviewPhotoSection = ({ reviewImageList, reviewCount }: Props) => {
 
       {reviewCount > 0 && (
         // 리뷰 사진 모음
-        <div className="w-full h-[150px] flex flex-row items-center justify-between">
+        <div className="w-full h-[150px] flex flex-row items-center justify-between mb-[56px]">
           <button
             className="w-[24px] h-[24px] cursor-pointer"
             onClick={handlePrev}

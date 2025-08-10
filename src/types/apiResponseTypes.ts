@@ -118,6 +118,7 @@ type PlaceDetailData = {
   overview: string;
   detailImage: ResponseImage[];
   petGuide: PetGuideData;
+  restDate: string;
 };
 
 type AiRecommendData = {
@@ -138,6 +139,16 @@ type PetGuideData = {
   etcInfo: string;
 };
 
+type MyReviewData = {
+  contentId: number;
+  contentTitle: string;
+  reviewId: number;
+  content: string;
+  score: number;
+  recommendedNumber: number;
+  createdAt: string;
+  images: ResponseImage[];
+};
 export type {
   JWTPayLoad,
   Review,
@@ -150,4 +161,5 @@ export type {
   AiRecommendData,
   CardInputType,
   PetGuideData,
+  MyReviewData,
 };

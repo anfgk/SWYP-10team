@@ -1,6 +1,10 @@
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
+const saveLoginLocation = () => {
+  sessionStorage.setItem("loginLocation", window.location.pathname);
+};
+
 const copyPlacePage = (placeId: string) => {
   // 장소 링크 클립보드에 복사 후 toast알림
   navigator.clipboard
@@ -28,7 +32,7 @@ const copyCurrentAddress = () => {
 const loginConfirmAlert = (navigate: ReturnType<typeof useNavigate>) => {
   // 로그인이 필요한 기능 클릭 시 alert후 로그인 페이지로 이동
   const goToLogin = window.confirm(
-    "로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?",
+    "로그인이 필요한 기능입니다. 로그인 페이지로 이동하시겠습니까?"
   );
   if (goToLogin) {
     sessionStorage.setItem("loginLocation", window.location.pathname);
@@ -47,6 +51,7 @@ const addNewLines = (str: string) => {
 };
 
 export {
+  saveLoginLocation,
   copyPlacePage,
   copyCurrentAddress,
   loginConfirmAlert,

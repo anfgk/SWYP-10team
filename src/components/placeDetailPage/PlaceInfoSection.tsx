@@ -1,4 +1,5 @@
 import { emptyStringToDefault } from "@/lib/placeDetailUtils";
+import { removeTags } from "@/lib/commonUtils";
 import PlaceDescriptionDiv from "./PlaceDescriptionDiv";
 import type { PetGuideData } from "@/types/apiResponseTypes";
 
@@ -7,6 +8,7 @@ interface Props {
   addr1: string;
   addr2: string;
   phoneNumber: string;
+  restDate: string;
   petGuide: PetGuideData;
 }
 
@@ -15,6 +17,7 @@ const PlaceInfoSection = ({
   addr1,
   addr2,
   phoneNumber,
+  restDate,
   petGuide,
 }: Props) => {
   return (
@@ -35,10 +38,12 @@ const PlaceInfoSection = ({
           title="상세 주소"
           content={emptyStringToDefault(addr1 + addr2)}
         />
+        <PlaceDescriptionDiv title="휴무 정보" content={removeTags(restDate)} />
         <PlaceDescriptionDiv
           title="문의 및 안내"
           content={emptyStringToDefault(phoneNumber)}
         />
+
         <PlaceDescriptionDiv
           title="동반 안내"
           content={emptyStringToDefault(petGuide.allowedPetType)}

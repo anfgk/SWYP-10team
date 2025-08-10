@@ -13,16 +13,18 @@ const PopularCard = ({ place }: Props) => {
   const { lat, lon, isCoordsSet } = useLocationStore();
   return (
     <MainCard
-      className="relative w-[286px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
+      className="relative w-[285px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
       style={{
         backgroundImage: `url(${place.image || "/assets/images/common/default_thumbnail.png"})`,
       }}
       onClick={() => navigate(`/placedetail/${place.contentId}`)}
     >
-      <div className="w-[193px] h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)] z-10">
-        <div className="h-[115px]">
+      <div className="w-full h-[348px] flex flex-col gap-[191px] pl-[16px] pt-[4px] text-[var(--card-text)] z-10">
+        <div className="h-[115px] pt-[16px]">
           <p className="h-[77px] text-[48px] font-bold">{place.ranking}</p>
-          <p className="h-[38px] text-[24px] font-semibold">{place.title}</p>
+          <p className="h-[38px] text-[24px] font-semibold break-words whitespace-normal">
+            {place.title}
+          </p>
         </div>
         <div className="h-[42px]">
           <p className="h-[22px] text-[16px]">{place.hashtag[4]}</p>

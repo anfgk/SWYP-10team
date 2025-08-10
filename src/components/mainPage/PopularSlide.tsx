@@ -6,7 +6,7 @@ interface Props {
 }
 const PopularSlide = ({ placeList }: Props) => {
   return (
-    <div className="w-[1200px] h-full flex justify-between flex-shrink-0">
+    <div className="w-[1200px] h-full flex gap-[20px] flex-shrink-0">
       {placeList.map((place) => (
         <PopularCard key={place.contentId} place={place} />
       ))}
