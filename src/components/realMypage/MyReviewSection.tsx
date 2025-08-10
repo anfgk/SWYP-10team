@@ -18,6 +18,7 @@ const MyReviewSection = () => {
         hasNext={hasNext}
         hasPrevious={hasPrevious}
         onPageChange={setPage}
+        setPage={setPage}
       />
       {isOpen && <PhotoSlideModal />}
     </section>
