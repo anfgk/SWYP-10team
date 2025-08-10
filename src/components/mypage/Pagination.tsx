@@ -17,8 +17,8 @@ const Pagination = ({
   return (
     <div className="flex justify-center mt-16 gap-2 text-lg">
       <span
-        className={`${hasPrevious ? "cursor-pointer" : ""}
-          ${currentPage === 0 ? "text-gray-400" : ""}`}
+        className={`${hasPrevious ? "cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === 0 ? "text-[var(--card-subText)]" : ""}`}
         onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
       >
         &#60;
@@ -26,7 +26,7 @@ const Pagination = ({
       {Array.from({ length: totalPages }, (_, i) => (
         <span
           key={i}
-          className={`mx-1 cursor-pointer ${currentPage === i ? "font-bold underline" : ""}`}
+          className={`mx-1 cursor-pointer ${currentPage === i ? "text-[var(--text-color)]" : ""}`}
           onClick={() => onPageChange(i)}
         >
           {i + 1}
@@ -34,9 +34,11 @@ const Pagination = ({
       ))}
       <span
         className={`
-          ${hasNext ? "cursor-pointer" : ""}
-          ${currentPage === totalPages - 1 ? "text-gray-400" : ""}`}
-        onClick={() => currentPage < totalPages && onPageChange(currentPage)}
+          ${hasNext ? "cursor-pointer text-[var(--card-subText)]" : ""}
+          ${currentPage === totalPages - 1 ? "text-[var(--card-subText)]" : ""}`}
+        onClick={() =>
+          currentPage < totalPages - 1 && onPageChange(currentPage + 1)
+        }
       >
         &#62;
       </span>
