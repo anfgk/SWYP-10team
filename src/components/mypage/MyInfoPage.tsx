@@ -1,39 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import PetInfoSection from "@/components/mypage/PetInfoCard";
 import ProfileInfo from "@/components/mypage/ProfileInfo";
 import PetInfoModal from "@/components/mypage/PetInfoModal";
 import { IoAdd } from "react-icons/io5";
-
-interface PetInfo {
-  id: number;
-  name: string;
-  type: string;
-  gender: string;
-  birth: string;
-  size: string;
-  imageUrl: string;
-}
+import { useAuthStore } from "@/stores/authStore";
+import type { PetInfo } from "@/types/types";
 
 const MyInfoPage = () => {
+  const { accessToken } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editingPetInfo, setEditingPetInfo] = useState<PetInfo | null>(null);
   const [hasPetInfo, setHasPetInfo] = useState(false);
   const [petInfos, setPetInfos] = useState<PetInfo[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
 
-  const fetchPetInfo = async () => {
+  const fetchPetInfo = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/pet/profile`,
         {
           method: "GET",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -63,11 +53,11 @@ const MyInfoPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [accessToken]);
 
   useEffect(() => {
     fetchPetInfo();
-  }, []);
+  }, [fetchPetInfo]);
 
   const handleAddClick = () => {
     setIsModalOpen(true);
@@ -75,153 +65,16 @@ const MyInfoPage = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setIsEditMode(false);
-    setEditingPetInfo(null);
   };
 
-  const handleEditClick = (petInfo: PetInfo) => {
-    setEditingPetInfo(petInfo);
-    setIsEditMode(true);
-    setIsModalOpen(true);
-  };
-
-  const handlePetInfoAdded = async (petInfo: {
-    name: string;
-    type: string;
-    gender: string;
-    birthYear: string;
-    size: string;
-    image?: File;
-  }) => {
-    if (isSaving) return; // 중복 저장 방지
-
+  const handlePetInfoAdded = async () => {
+    // PetInfoModal에서 이미 API 호출을 완료했으므로
+    // 여기서는 UI 업데이트만 수행
     try {
-      setIsSaving(true);
-
-      const formData = new FormData();
-      formData.append("name", petInfo.name);
-      formData.append(
-        "fierceDog",
-        petInfo.type === "fierceDog" ? "true" : "false",
-      );
-      formData.append("gender", petInfo.gender === "female" ? "F" : "M");
-      formData.append("birth", petInfo.birthYear);
-      formData.append(
-        "size",
-        petInfo.size === "large"
-          ? "대형"
-          : petInfo.size === "medium"
-            ? "중형"
-            : "소형",
-      );
-
-      if (petInfo.image) {
-        formData.append("image", petInfo.image);
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-          },
-          body: formData,
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // 저장 성공 후 반려동물 정보 다시 로드
       await fetchPetInfo();
       setIsModalOpen(false);
     } catch (error) {
-      console.error("반려동물 정보 저장 실패:", error);
-      alert("저장에 실패했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handlePetInfoUpdated = async (petInfo: {
-    name: string;
-    type: string;
-    gender: string;
-    birthYear: string;
-    size: string;
-    image?: File;
-  }) => {
-    if (!editingPetInfo) return;
-
-    try {
-      // 이름 유효성 검사
-      if (!petInfo.name?.trim()) {
-        alert("반려동물 이름을 입력해주세요.");
-        return;
-      }
-
-      // petId 확인
-      const petId =
-        editingPetInfo.id ||
-        (editingPetInfo as any).petId ||
-        (editingPetInfo as any).profileId ||
-        (editingPetInfo as any).pet_id;
-      if (!petId) {
-        alert("수정할 반려동물 정보를 찾을 수 없습니다.");
-        return;
-      }
-
-      // FormData 생성
-      const formData = new FormData();
-      formData.append("name", petInfo.name.trim());
-      formData.append(
-        "fierceDog",
-        petInfo.type === "fierceDog" ? "true" : "false",
-      );
-      formData.append("gender", petInfo.gender === "female" ? "F" : "M");
-      formData.append("birth", petInfo.birthYear);
-      formData.append(
-        "size",
-        petInfo.size === "large"
-          ? "대형"
-          : petInfo.size === "medium"
-            ? "중형"
-            : "소형",
-      );
-
-      // 이미지 처리
-      if (petInfo.image) {
-        formData.append("image", petInfo.image);
-      }
-
-      // API 호출
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${parseInt(petId.toString(), 10)}`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
-          },
-          body: formData,
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // 성공 처리
-      await fetchPetInfo();
-      setIsModalOpen(false);
-      setIsEditMode(false);
-      setEditingPetInfo(null);
-    } catch (error) {
-      console.error("반려동물 정보 수정 실패:", error);
-      alert("수정에 실패했습니다. 다시 시도해주세요.");
+      console.error("반려동물 정보 새로고침 실패:", error);
     }
   };
 
@@ -243,7 +96,7 @@ const MyInfoPage = () => {
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwiZW1haWwiOiJnbG9yaWEwMjA1MTBAZ21haWwuY29tIiwiZGlzcGxheU5hbWUiOiLsoJXtlZgiLCJpYXQiOjE3NTQzODQ4MDQsImV4cCI6MTc2MjE2MDgwNH0.4WXOk_zOhE8ndDtB3zXfwKNi_1Lapv3Z1-seMIgv8fg`,
+            Authorization: `Bearer ${accessToken}`,
           },
         },
       );
@@ -276,7 +129,6 @@ const MyInfoPage = () => {
                 petInfo={petInfo}
                 isLoading={isLoading}
                 onDelete={handleDeletePet}
-                onEdit={handleEditClick}
               />
             ))}
         </div>
@@ -296,10 +148,6 @@ const MyInfoPage = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onPetInfoAdded={handlePetInfoAdded}
-        onPetInfoUpdated={handlePetInfoUpdated}
-        isEditMode={isEditMode}
-        editingPetInfo={editingPetInfo}
-        isSaving={isSaving}
       />
     </section>
   );

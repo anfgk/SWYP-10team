@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReviewHeader from "./ReviewHeader";
-import { Button } from "@/components/ui/button";
 import ConfirmModal from "./ConfirmModal";
+import ModalButton from "@/components/modals/common/ModalButton";
+import { Button } from "@/components/ui/button";
 
+// 리뷰 정보를 담은 item 객체를 reviewItem 컴포넌트에서 전달받기위해 변수명과 타입을 지정해준다.
 interface ReviewItemProps {
   item: {
     id: number;
@@ -12,7 +14,7 @@ interface ReviewItemProps {
     review: string;
     hasReview: boolean;
     rating: number;
-    imageBase64s?: string[];
+    reviewImages?: { imageUrl: string }[];
   };
   onDelete: (item: any) => void;
   onSaveEdit: (id: number, text: string) => void;
@@ -59,63 +61,47 @@ const ReviewItem = ({
     });
   };
 
-  const buttonStyle = "hover:bg-[var(--main-color)] hover:text-white";
-
   // 편집/수정/삭제 버튼 렌더링
   const renderButtons = () => {
     if (isEditing) {
       return (
-        <div className="flex gap-2">
-          <Button
+        <div className="flex gap-2 w-[200px]">
+          <ModalButton
             onClick={() => onSaveEdit(item.id, editText)}
-            variant="secondary"
-            className={buttonStyle}
-          >
-            저장하기
-          </Button>
-          <Button
+            text="저장하기"
+            bgcolor="--main-color"
+            textcolor="--main-text"
+          />
+          <ModalButton
             onClick={() => setShowCancelModal(true)}
-            variant="secondary"
-            className={buttonStyle}
-          >
-            취소하기
-          </Button>
+            text="취소하기"
+            bgcolor="--indicator-disabled"
+            textcolor="--place-neutral"
+          />
         </div>
       );
     }
 
     if (hasReview) {
       return (
-        <div className="flex gap-3 mb-5">
+        <div className="flex gap-3 mb-5 w-[200px]">
           <Button
             onClick={handleNavigate}
             variant="secondary"
-            className={buttonStyle}
+            className="bg-[var(--main-color)] text-[var(--main-text)] hover:bg-[var(--main-color)] opacity-90"
           >
             수정하기
           </Button>
           <Button
             onClick={() => setShowDeleteModal(true)}
             variant="secondary"
-            className={buttonStyle}
+            className="bg-[var(--indicator-disabled)] text-[var(--place-neutral)] hover:bg-[var(--indicator-disabled)] opacity-90"
           >
             삭제하기
           </Button>
         </div>
       );
     }
-
-    return (
-      <div className="flex gap-2 mb-3">
-        <Button
-          onClick={handleNavigate}
-          variant="secondary"
-          className={buttonStyle}
-        >
-          리뷰 작성하기
-        </Button>
-      </div>
-    );
   };
 
   // 리뷰 텍스트 렌더링 (편집 모드/읽기 모드)
@@ -156,15 +142,18 @@ const ReviewItem = ({
 
   // 리뷰 이미지 렌더링
   const renderImages = () => {
-    if (!item.imageBase64s?.length) return null;
+    // 리뷰 이미지가 없으면 null을 반환한다.
+    if (!item.reviewImages?.length) return null;
 
     return (
       <div className="flex gap-2 mt-[30px] mb-[12px]">
-        {item.imageBase64s.map((imageBase64, index) => (
+        {/* reviewList에서 전달받은 reviewImages 배열을 map method를 통해서 반복문을 돌린다. */}
+        {item.reviewImages.map((reviewImage, i) => (
+          // 반복문을 돌면서 image 랜더링에 필요한 정보를 꺼내와서 저장한다.
           <img
-            key={index}
-            src={imageBase64}
-            alt={`리뷰 이미지 ${index + 1}`}
+            key={i}
+            src={reviewImage.imageUrl || ""}
+            alt={`리뷰 이미지 ${i + 1}`}
             className="w-[75px] h-[56px] object-cover rounded border cursor-pointer hover:opacity-80 transition-opacity"
           />
         ))}
@@ -175,7 +164,7 @@ const ReviewItem = ({
   return (
     <div className="flex p-4 rounded-lg">
       <div className="w-[0px]">
-        <div className="w-[200px]">
+        <div className="w-[400px]">
           <ReviewHeader
             place={item.place}
             rating={isEditing ? tempRating : item.rating}
@@ -186,7 +175,7 @@ const ReviewItem = ({
       </div>
 
       <div className="flex flex-col">
-        <div className="w-[902px] flex justify-between">
+        <div className="w-[902px] flex justify-between ">
           <div className="flex flex-col">{renderImages()}</div>
           {renderButtons()}
         </div>

@@ -18,7 +18,7 @@ const usePlaceDetail = (id: string) => {
           `/api/content/placedetail?contentId=${id}`,
           {
             method: "GET",
-          }
+          },
         );
 
         if (res.status === 404 || res.status === 400) {

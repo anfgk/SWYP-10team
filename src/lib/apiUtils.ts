@@ -17,7 +17,7 @@ export const decodeJWT = (accessToken: string) => {
 export const fetchUserProfile = async (accessToken: string) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
       {
         method: "GET",
         credentials: "include",
@@ -25,13 +25,13 @@ export const fetchUserProfile = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -50,7 +50,7 @@ export const fetchUserProfile = async (accessToken: string) => {
 export const updateUserProfile = async (
   accessToken: string,
   displayName: string,
-  image?: File
+  image?: File,
 ) => {
   try {
     // displayName 유효성 검사 (2-12자, 영문/숫자/한글만 허용)
@@ -80,19 +80,19 @@ export const updateUserProfile = async (
     }
 
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/profile`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/user/profile`,
       {
         method: "PATCH",
         credentials: "include",
         headers: { Authorization: `Bearer ${accessToken}` },
         body: formData,
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -111,7 +111,7 @@ export const updateUserProfile = async (
 export const deleteUserProfileImage = async (accessToken: string) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/profile/image`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/user/profile/image`,
       {
         method: "DELETE",
         credentials: "include",
@@ -119,13 +119,13 @@ export const deleteUserProfileImage = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -141,29 +141,37 @@ export const deleteUserProfileImage = async (accessToken: string) => {
 };
 
 // 위시리스트 가져오기
-export const fetchWishList = async (accessToken: string) => {
+export const fetchWishList = async (
+  accessToken: string,
+  page: number = 0,
+  size: number = 8,
+) => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/wish`,
-      {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const params = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+    });
+
+    const url = `${import.meta.env.VITE_API_BASE_URL}/api/mypage/wish?${params}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
     const data = await response.json();
-    return data?.data || data?.wishList || data;
+    return data?.data || data?.wishes || data;
   } catch (error) {
     throw error;
   }
@@ -173,7 +181,7 @@ export const fetchWishList = async (accessToken: string) => {
 export const fetchRecentPlaces = async (accessToken: string) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/history`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/mypage/history`,
       {
         method: "GET",
         credentials: "include",
@@ -181,13 +189,13 @@ export const fetchRecentPlaces = async (accessToken: string) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -198,11 +206,11 @@ export const fetchRecentPlaces = async (accessToken: string) => {
   }
 };
 
-// 리뷰 목록 가져오기
-export const fetchReviewList = async (accessToken: string, page = 1) => {
+// 리뷰 목록 가져오기 (사용자 작성 리뷰)
+export const fetchReviewList = async (accessToken: string, page: number) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/user/reviews?page=${page}`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/review/?page=${page}`,
       {
         method: "GET",
         credentials: "include",
@@ -210,13 +218,13 @@ export const fetchReviewList = async (accessToken: string, page = 1) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
@@ -235,7 +243,7 @@ export const createReview = async (
     rating: number;
     content: string;
     images?: File[];
-  }
+  },
 ) => {
   try {
     const formData = new FormData();
@@ -250,24 +258,73 @@ export const createReview = async (
     }
 
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}api/reviews`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/reviews`,
       {
         method: "POST",
         credentials: "include",
         headers: { Authorization: `Bearer ${accessToken}` },
         body: formData,
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `HTTP error! status: ${response.status}, message: ${errorText}`
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
       );
     }
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 반려동물 프로필 등록
+export const createPetProfile = async (
+  accessToken: string,
+  petData: {
+    name: string;
+    gender: string;
+    birth: string;
+    type: string;
+    fierceDog: boolean;
+    size: string;
+    image: File;
+  },
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", petData.name);
+    formData.append("gender", petData.gender);
+    formData.append("birth", petData.birth);
+    formData.append("type", petData.type);
+    formData.append("fierceDog", petData.fierceDog.toString());
+    formData.append("size", petData.size);
+    formData.append("image", petData.image);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/pet/profile`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: formData,
+      },
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(
+        `HTTP error! status: ${response.status}, message: ${errorText}`,
+      );
+    }
+
+    const data = await response.json();
+    return data?.data || data;
   } catch (error) {
     throw error;
   }

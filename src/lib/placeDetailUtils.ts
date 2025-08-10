@@ -15,14 +15,14 @@ const heartClickedWithLogin = (
   checked: boolean,
   setChecked: React.Dispatch<React.SetStateAction<boolean>>,
   likeChecked: boolean,
-  setLikedAmount: React.Dispatch<React.SetStateAction<number>>
+  setLikedAmount: React.Dispatch<React.SetStateAction<number>>,
 ) => {
   //api 요청 부분(장소 좋아요)
   const fetchPlaceLike = async () => {
     try {
       const res = await fetchWithAuth(
         `/api/content/wish-check?contentId=${placeid}`,
-        { method: "POST" }
+        { method: "POST" },
       );
 
       if (res.status === 200) {

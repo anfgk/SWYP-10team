@@ -43,7 +43,7 @@ const PlacePupularitySection = ({
                       likeChecked,
                       setLikeChecked,
                       likeChecked,
-                      setLikedAmount
+                      setLikedAmount,
                     )
                   : loginConfirmAlert(navigate);
               }}

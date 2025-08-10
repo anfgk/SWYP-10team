@@ -8,7 +8,7 @@ const searchTest = async () => {
       "/api/content/search?title=&sido=&sigungu=&contentTypeId=",
       {
         method: "GET",
-      }
+      },
     );
 
     //const data = await res.json();
@@ -27,7 +27,7 @@ const reviewWriteTest = async () => {
 
       {
         method: "POST",
-      }
+      },
     );
   } catch (e) {
     console.log("실패", e);
