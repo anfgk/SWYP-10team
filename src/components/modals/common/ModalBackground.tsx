@@ -6,7 +6,7 @@ interface Props {
 const ModalBackground = ({ onClose, children }: Props) => {
   return (
     <div
-      className="fixed inset-0 z-501 flex justify-center items-center bg-[var(--modal-bg)]"
+      className="fixed inset-0 z-40 flex justify-center items-center bg-[var(--modal-bg)]"
       onClick={onClose}
     >
       {children}

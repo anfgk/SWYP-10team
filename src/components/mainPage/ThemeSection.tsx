@@ -3,7 +3,7 @@ import { categories } from "@/configs/searchConstants";
 
 const ThemeList = () => {
   return (
-    <section className="flex flex-col gap-[24px] w-full h-[350px] py-[44px]">
+    <section className="flex flex-col gap-[24px] w-full h-[350px] py-[56px]">
       <div className="w-[117px] h-[51px]">
         <p className="text-[32px] font-dunggeunmiso font-bold text-[var(--main-color)]">
           카테고리

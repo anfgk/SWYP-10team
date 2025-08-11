@@ -13,7 +13,7 @@ const ThemeCard = ({ title, img }: Props) => {
       className="w-[150px] h-[187px] gap-[8px] cursor-pointer"
       onClick={() => navigate(`/search?category=${title}`)}
     >
-      <div className="w-full aspect-square overflow-hidden rounded-[16px] transition-none hover:brightness-80">
+      <div className="w-full aspect-square overflow-hidden rounded-[16px]">
         <img
           src={img}
           alt={`thumbnail_{${title}}`}

@@ -47,7 +47,7 @@ const ReviewCard = ({ review }: Props) => {
       <div className="w-full h-[141px] flex gap-[16px]">
         {/* 썸네일 */}
         <MainCard
-          className={`w-[212px] h-full ${review.images[0]?.imageUrl ? "cursor-pointer hover:brightness-85" : ""}`}
+          className={`w-[212px] h-full ${review.images[0]?.imageUrl ? "cursor-pointer" : ""}`}
           onClick={() => {
             if (review.images.length > 0) {
               modalOpen(review.images, 0);

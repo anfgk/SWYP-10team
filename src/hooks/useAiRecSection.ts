@@ -61,11 +61,21 @@ const useAiRecSection = () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       intervalRef.current = null;
     };
-  }, [loading, resultList.length]);
+  }, [loading, resultList.length, index]);
 
   const handleIndicatorClick = (i: number) => setIndex(i);
+  const toggleLeft = () =>
+    setIndex((prev) => (prev - 1 + resultList.length) % resultList.length);
+  const toggleRight = () => setIndex((prev) => (prev + 1) % resultList.length);
 
-  return { loading, resultList, handleIndicatorClick, index };
+  return {
+    loading,
+    resultList,
+    handleIndicatorClick,
+    index,
+    toggleLeft,
+    toggleRight,
+  };
 };
 
 export { useAiRecSection };
