@@ -1,13 +1,13 @@
 import DefaultButtonCancel from "@/components/common/DefaultButtonCancel";
 import MyPageContainerFixed from "@/components/layout/MyPageContainerFixed";
 import MyPageScaffold from "@/components/layouts/MyPageScaffold";
-import WithDrawModal from "@/components/modals/WithDrawModal";
+//import WithDrawModal from "@/components/modals/WithDrawModal";
 import MyPetSection from "@/components/realMypage/myInfo/MyPetSection";
 import MyProfileSection from "@/components/realMypage/myInfo/MyProfileSection";
-import { useState } from "react";
+//import { useState } from "react";
 
 const MyInfoPageFixed = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  //const [isOpen, setIsOpen] = useState(false);
   return (
     <MyPageContainerFixed>
       <MyPageScaffold title="내 정보">
@@ -20,9 +20,9 @@ const MyInfoPageFixed = () => {
               textSize={14}
               w={77}
               h={36}
-              onClick={() => setIsOpen(true)}
+              onClick={() => alert("고도화 항목입니다.")}
             />
-            {isOpen && <WithDrawModal onClose={() => setIsOpen(false)} />}
+            {/* {isOpen && <WithDrawModal onClose={() => setIsOpen(false)} />} */}
           </div>
         </article>
       </MyPageScaffold>
