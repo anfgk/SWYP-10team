@@ -37,13 +37,13 @@ const SearchResultCard = ({ cardData }: Props) => {
   return (
     <div className="w-full h-[280px] border-b-[1px]">
       <SearchCard
-        className="w-full h-[255px] flex flex-row gap-[32px] rounded-[16px] cursor-pointer transition-none hover:brightness-95"
+        className="w-full h-[255px] flex flex-row gap-[32px] rounded-[16px] cursor-pointer"
         onClick={() => navigate(`/placedetail/${cardData.contentId}`)}
       >
         <MainCard
           className="w-[340px] h-full bg-cover bg-center relative"
           style={{
-            backgroundImage: `url(${cardData.image || "/assets/images/common/default_thumbnail.png"})`,
+            backgroundImage: `url(${cardData.image || "/assets/images/common/default_thumbnail.jpg"})`,
           }}
         >
           <div className="absolute w-fit h-[40px] flex gap-[8px] bottom-[15px] right-[15px]">
@@ -62,7 +62,7 @@ const SearchResultCard = ({ cardData }: Props) => {
                   ? heartClickedWithLogin(
                       cardData.contentId.toString(),
                       liked,
-                      setLiked,
+                      setLiked
                     )
                   : loginConfirmAlert(navigate);
               }}

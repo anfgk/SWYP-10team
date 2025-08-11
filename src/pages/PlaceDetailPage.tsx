@@ -50,7 +50,14 @@ const PlaceDetailPage = () => {
             addr2={placeDetail?.addr2 ?? ""}
             phoneNumber={placeDetail?.tel ?? ""}
             restDate={placeDetail?.restDate || "휴무정보 없음"}
-            petGuide={placeDetail?.petGuide ?? ({} as PetGuideData)}
+            petGuide={
+              placeDetail?.petGuide ?? {
+                allowedPetType: "",
+                petPrep: "",
+                withPet: "",
+                etcInfo: "",
+              }
+            }
           />
           <ReviewSection placeId={id!} />
           {isOpen && <PhotoSlideModal />}

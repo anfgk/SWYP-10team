@@ -13,7 +13,7 @@ const PopularCard = ({ place }: Props) => {
   const { lat, lon, isCoordsSet } = useLocationStore();
   return (
     <MainCard
-      className="relative w-[285px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
+      className="relative w-[285px] h-[380px] bg-cover cursor-pointer"
       style={{
         backgroundImage: `url(${place.image || "/assets/images/common/default_thumbnail.jpg"})`,
       }}
@@ -42,7 +42,15 @@ const PopularCard = ({ place }: Props) => {
           backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #000000 100%)`,
         }}
       ></div>
+
       {/*하단 그라데이션*/}
+      <div
+        className="absolute bottom-0 left-0 w-full h-[120px] rounded-[16px] z-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 170%)`,
+        }}
+      ></div>
+
       {/* <div
         className="absolute bottom-0 left-0 w-full h-[120px] rounded-[16px] z-0 pointer-events-none"
         style={{

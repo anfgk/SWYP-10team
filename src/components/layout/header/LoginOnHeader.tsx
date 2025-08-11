@@ -6,7 +6,7 @@ const LoginOnHeader = () => {
 
   return (
     <button
-      className="flex w-[66px] h-[25px] items-center cursor-pointer hover:underline underline-offset-4"
+      className="flex w-[66px] h-[25px] items-center cursor-pointer hover:underline underline-offset-[6px]"
       onClick={() => {
         saveLoginLocation();
         navigate("/login");
