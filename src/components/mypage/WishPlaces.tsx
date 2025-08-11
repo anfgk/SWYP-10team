@@ -18,7 +18,7 @@ const WishPlaces = () => {
   const [wishList, setWishList] = useState<WishItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(8);
+  const [page] = useState(8);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrevious, setHasPrevious] = useState(false);
 
@@ -129,16 +129,24 @@ const WishPlaces = () => {
   }, [totalPages, currentPage]);
 
   if (isLoading)
-    return <div className="text-center py-12 text-gray-500">로딩 중...</div>;
+    return (
+      <div className="mt-12 mb-16 w-[939px]">
+        <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
+        <div className="text-center py-12 text-gray-500">로딩 중...</div>
+      </div>
+    );
   if (wishList.length === 0)
     return (
-      <div className="text-center py-12 text-gray-500">
-        찜한 장소가 없습니다.
+      <div className="mt-12 mb-16 w-[939px]">
+        <h2 className="text-[20px] font-semibold mb-6">찜한 장소</h2>
+        <div className="text-center py-12 text-gray-500">
+          찜한 장소가 없습니다.
+        </div>
       </div>
     );
 
   return (
-    <div className="mt-12 mb-16">
+    <div className="w-[939px]">
       <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
       <div className="grid grid-cols-4 gap-2 mb-8">
         {paginatedWish.map((item, index) => (
@@ -157,7 +165,6 @@ const WishPlaces = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={onPageChange}
-        setPage={setPage}
         hasNext={hasNext}
         hasPrevious={hasPrevious}
       />

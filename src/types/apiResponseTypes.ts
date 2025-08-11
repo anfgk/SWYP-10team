@@ -161,6 +161,18 @@ type MyReviewDataList = {
   reviews: MyReviewData[];
 };
 
+type PetData = {
+  petId: number;
+  name: string;
+  gender: string;
+  birth: string;
+  type: string;
+  fierceDog: true;
+  size: string;
+  imageFilename: string;
+  imageUrl: string;
+};
+
 export type {
   JWTPayLoad,
   Review,
@@ -175,4 +187,5 @@ export type {
   PetGuideData,
   MyReviewData,
   MyReviewDataList,
+  PetData,
 };
