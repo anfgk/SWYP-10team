@@ -23,7 +23,7 @@ const ReviewCancelModal = ({ onClose, onConfirm }: Props) => {
           <div className="w-[24px] h-[24px]"></div>
           <p className="w-fit h-full text-[20px] font-semibold flex justify-center items-center text-center text-[18px]">
             리뷰를 취소하시겠어요?
-            <br /> 이 페이지를 나가면 저장되지 않아요
+            <br />이 페이지를 나가면 저장되지 않아요
           </p>
           <button
             className="w-[24px] h-[24px] cursor-pointer"

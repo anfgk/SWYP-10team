@@ -15,7 +15,7 @@ const PopularCard = ({ place }: Props) => {
     <MainCard
       className="relative w-[285px] h-[380px] bg-cover cursor-pointer transition-none hover:brightness-80"
       style={{
-        backgroundImage: `url(${place.image || "/assets/images/common/default_thumbnail.png"})`,
+        backgroundImage: `url(${place.image || "/assets/images/common/default_thumbnail.jpg"})`,
       }}
       onClick={() => navigate(`/placedetail/${place.contentId}`)}
     >

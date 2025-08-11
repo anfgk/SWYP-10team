@@ -26,6 +26,8 @@
   --sidebar: #f49fa0;
   --sidebar-text: #262626cc;
 
+  --sidebar-active: rgba(244, 159, 160, 1);
+
   --header-text: #ffffff;
 
   --card-text: #ffffff;

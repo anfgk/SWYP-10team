@@ -40,7 +40,7 @@ const useReviewWrite = (id: string) => {
 
         const data = await res.json();
 
-        // 2) 본문 내부 status도 추가로 체크
+        // 본문 내부 status도 추가로 체크
         if (data?.status === 400 || data?.status === 404) {
           alert("잘못된 요청입니다.");
           navigate("/");

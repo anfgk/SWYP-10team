@@ -86,6 +86,7 @@ const ReviewWritePage = () => {
             onClose={() => setIsSaveOpen(false)}
             onConfirm={() => {
               writeReview(id!, score, content, images);
+              alert("리뷰가 작성되었습니다.");
               navigate(`/placedetail/${id}`);
             }}
           />
