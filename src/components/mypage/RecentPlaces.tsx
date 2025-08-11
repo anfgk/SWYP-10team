@@ -153,7 +153,7 @@ const RecentPlaces = () => {
                 />
               </button>
               <button
-                className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                className="absolute right-5 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handleNext}
               >
                 <img
