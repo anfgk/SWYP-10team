@@ -9,7 +9,6 @@ import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { usePlaceDetail } from "@/hooks/usePlaceDetail";
 import { usePhotoModalStore } from "@/stores/photoModalStore";
-import type { PetGuideData } from "@/types/apiResponseTypes";
 import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
