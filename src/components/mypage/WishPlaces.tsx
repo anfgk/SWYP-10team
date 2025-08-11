@@ -18,7 +18,7 @@ const WishPlaces = () => {
   const [wishList, setWishList] = useState<WishItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [page, setPage] = useState(8);
+  const [page] = useState(8);
   const [hasNext, setHasNext] = useState(false);
   const [hasPrevious, setHasPrevious] = useState(false);
 

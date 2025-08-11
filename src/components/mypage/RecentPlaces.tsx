@@ -46,8 +46,8 @@ const RecentPlaces = () => {
   const handleToggleWish = (id: number) => {
     setRecentList((prev) =>
       prev.map((place) =>
-        place.id === id ? { ...place, isWished: !place.isWished } : place,
-      ),
+        place.id === id ? { ...place, isWished: !place.isWished } : place
+      )
     );
   };
 
@@ -119,7 +119,7 @@ const RecentPlaces = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center relative w-full h-full">
+        <div className="flex flex-col items-center relative w-[939px] h-full">
           <div className="w-full h-full overflow-hidden">
             <div
               className="flex transition-transform duration-700 ease-in-out gap-[20px]"

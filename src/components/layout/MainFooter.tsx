@@ -1,10 +1,12 @@
 import PrivacyPolicyModal from "../mypage/PrivacyPolicyModal";
 import TermsOfServiceModal from "../mypage/TermsOfServiceModal";
+import ProjectModal from "../mypage/ProjectModal";
 import { useState } from "react";
 
 const MainFooter = () => {
   const [privacyOpen, setPravacyOpen] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
+  const [projectOpen, setProjectOpen] = useState(false);
 
   return (
     <footer className="flex flex-col justify-center items-center w-full h-[301px] py-[32px] gap-[44px]">
@@ -29,7 +31,10 @@ const MainFooter = () => {
             개인정보처리방침
           </p>
           <div className="w-px h-[16px] bg-[var(--search-element-border)]" />
-          <p className="text-[16px] cursor-pointer hover:underline">
+          <p
+            className="text-[16px] cursor-pointer hover:underline"
+            onClick={() => setProjectOpen(true)}
+          >
             프로젝트소개
           </p>
         </div>
@@ -52,6 +57,7 @@ const MainFooter = () => {
       {privacyOpen && (
         <PrivacyPolicyModal onClose={() => setPravacyOpen(false)} />
       )}
+      {projectOpen && <ProjectModal onClose={() => setProjectOpen(false)} />}
     </footer>
   );
 };

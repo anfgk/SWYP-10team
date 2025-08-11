@@ -18,8 +18,8 @@ const Pagination = ({
   return (
     <div className="flex justify-center gap-[2px] text-[14px] h-[36px]">
       <span
-        className={`${hasPrevious ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
-          ${currentPage === 0 ? "flex items-center justify-center text-[var(--card-subText)]" : ""}`}
+        className={`${hasPrevious ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)]" : ""}
+          ${currentPage === 0 ? "flex items-center justify-center text-[var(--label-normal)]" : ""}`}
         onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
       >
         <IoIosArrowBack className="w-[24px] h-[24px]" />
@@ -35,8 +35,8 @@ const Pagination = ({
       ))}
       <span
         className={`
-          ${hasNext ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)]" : ""}
-          ${currentPage === totalPages - 1 ? "flex items-center justify-center cursor-pointer text-[var(--card-subText)] text-[var(--card-subText)]" : ""}`}
+          ${hasNext ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)]" : ""}
+          ${currentPage === totalPages - 1 ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)] text-[var(--label-normal)]" : ""}`}
         onClick={() =>
           currentPage < totalPages - 1 && onPageChange(currentPage + 1)
         }

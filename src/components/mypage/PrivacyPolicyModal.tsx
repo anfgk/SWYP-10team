@@ -1,4 +1,5 @@
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
+import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
 
 interface PrivacyPolicyModalProps {
   onClose: () => void;
@@ -131,13 +132,14 @@ const PrivacyPolicyModal = ({ onClose }: PrivacyPolicyModalProps) => {
             </ul>
           </div>
         </div>
-        <div className="mt-8 text-center">
-          <button
+        <div className="flex justify-center mt-8">
+          <DefaultButtonConfirm
+            w={120}
+            h={40}
+            text="확인"
+            textSize={14}
             onClick={onClose}
-            className="bg-[var(--main-color)] text-white font-bold py-3 px-8 rounded-lg hover:bg-red-600 transition-colors"
-          >
-            확인
-          </button>
+          />
         </div>
       </div>
     </div>
