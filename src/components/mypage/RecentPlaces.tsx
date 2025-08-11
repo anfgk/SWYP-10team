@@ -75,7 +75,7 @@ const RecentPlaces = () => {
 
   if (recentList.length === 0) {
     return (
-      <div className="mt-12 mb-16">
+      <div className="mt-12 mb-16 w-[939px]">
         <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
         <div className="w-full h-[200px] flex items-center justify-center">
           <p className="text-gray-500">최근 본 장소가 없습니다.</p>
@@ -101,7 +101,7 @@ const RecentPlaces = () => {
   });
 
   return (
-    <div className="mt-12 mb-16">
+    <div className="mt-12 mb-16 w-[939px]">
       <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
 
       {recentList.length <= 4 ? (
