@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import MyPageContainerFixed from "../layout/MyPageContainerFixed";
-import SideBarFixed from "../realMypage/SideBarFixed";
+import SideBarFixed from "../realMypage/common/SideBarFixed";
 
 interface Props {
   title: string;

@@ -1,6 +1,6 @@
 import MyPageContainerFixed from "@/components/layout/MyPageContainerFixed";
 import MyPageScaffold from "@/components/layouts/MyPageScaffold";
-import MyReviewSection from "@/components/realMypage/MyReviewSection";
+import MyReviewSection from "@/components/realMypage/myreview/MyReviewSection";
 
 const MyReviewPageFixed = () => {
   return (

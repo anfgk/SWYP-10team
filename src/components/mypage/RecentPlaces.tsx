@@ -46,8 +46,8 @@ const RecentPlaces = () => {
   const handleToggleWish = (id: number) => {
     setRecentList((prev) =>
       prev.map((place) =>
-        place.id === id ? { ...place, isWished: !place.isWished } : place,
-      ),
+        place.id === id ? { ...place, isWished: !place.isWished } : place
+      )
     );
   };
 
@@ -75,7 +75,7 @@ const RecentPlaces = () => {
 
   if (recentList.length === 0) {
     return (
-      <div className="mt-12 mb-16">
+      <div className="mt-12 mb-16 w-[939px]">
         <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
         <div className="w-full h-[200px] flex items-center justify-center">
           <p className="text-gray-500">최근 본 장소가 없습니다.</p>
@@ -101,8 +101,8 @@ const RecentPlaces = () => {
   });
 
   return (
-    <div className="mt-12 mb-16">
-      <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
+    <div className="w-[939px]">
+      <h2 className="text-[20px] font-semibold mb-6">최근 본 장소</h2>
 
       {recentList.length <= 4 ? (
         <div className="w-full h-fit flex gap-[16px]">
@@ -119,7 +119,7 @@ const RecentPlaces = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center relative w-full h-full">
+        <div className="flex flex-col items-center relative w-[939px] h-full">
           <div className="w-full h-full overflow-hidden">
             <div
               className="flex transition-transform duration-700 ease-in-out gap-[20px]"
@@ -153,7 +153,7 @@ const RecentPlaces = () => {
                 />
               </button>
               <button
-                className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                className="absolute right-5 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handleNext}
               >
                 <img

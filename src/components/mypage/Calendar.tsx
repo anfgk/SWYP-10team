@@ -12,7 +12,7 @@ interface CalendarProps {
 
 const Calendar = ({ value, onChange, isOpen, onClose }: CalendarProps) => {
   const [date, setDate] = React.useState<Date | undefined>(
-    value ? new Date(value) : new Date(),
+    value ? new Date(value) : new Date()
   );
 
   React.useEffect(() => {
@@ -29,12 +29,12 @@ const Calendar = ({ value, onChange, isOpen, onClose }: CalendarProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50 p-4">
+    <div className="absolute top-[-5] right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50">
       <ShadcnCalendar
         mode="single"
         selected={date}
         onSelect={handleSelect}
-        className="rounded-md border shadow-sm"
+        className="rounded-md border shadow-sm top-full left-0"
         captionLayout="dropdown"
       />
     </div>
