@@ -50,30 +50,34 @@ const WishCard = ({
         {/* 이미지 위에 오버레이 버튼들 */}
         <div className="absolute bottom-2 right-2 flex gap-2 cursor-pointer">
           {/* 찜하기 버튼 */}
-          <SvgButton
-            svgname={
-              isLoggedIn
-                ? liked
-                  ? "thumbnailHeartClicked"
+          <div className="w-[40px] h-[40px] flex items-center justify-center">
+            <SvgButton
+              svgname={
+                isLoggedIn
+                  ? liked
+                    ? "thumbnailHeartClicked"
+                    : "thumbnailHeart"
                   : "thumbnailHeart"
-                : "thumbnailHeart"
-            }
-            width={40}
-            height={40}
-            onClick={() => {
-              isLoggedIn
-                ? heartClickedWithLogin(id.toString(), liked, setLiked)
-                : loginConfirmAlert(navigate);
-            }}
-          />
+              }
+              width={40}
+              height={40}
+              onClick={() => {
+                isLoggedIn
+                  ? heartClickedWithLogin(id.toString(), liked, setLiked)
+                  : loginConfirmAlert(navigate);
+              }}
+            />
+          </div>
 
           {/* 공유하기 버튼 - GoShareAndroid 아이콘으로 변경 */}
-          <SvgButton
-            svgname="thumbnailShare"
-            width={40}
-            height={40}
-            onClick={() => copyPlacePage(id.toString())}
-          />
+          <div className="w-[40px] h-[40px] flex items-center justify-center">
+            <SvgButton
+              svgname="thumbnailShare"
+              width={40}
+              height={40}
+              onClick={() => copyPlacePage(id.toString())}
+            />
+          </div>
         </div>
       </div>
       <div className="text-sm font-medium text-gray-800">{name}</div>
