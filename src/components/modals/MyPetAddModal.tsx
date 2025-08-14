@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import SVGCheckBox from "../common/SVGCheckBox";
 import { Input } from "../ui/input";
 import ModalButton from "./common/ModalButton";
-import ModalSelectBox from "../common/ModalSelectBox";
+import ModalSelectBox from "./common/ModalSelectBox";
 import { petSize, petType } from "@/configs/petOptions";
 import Calendar from "../mypage/Calendar";
 import { fetchWithAuth } from "@/lib/fetchUtils";

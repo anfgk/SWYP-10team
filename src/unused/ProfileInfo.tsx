@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import PageButton from "@/components/ui/page-button";
-import SocialIdSection from "@/components/mypage/SocialIdSection";
-import NicknameSection from "@/components/mypage/NicknameSection";
-import ImageCropModal from "@/components/mypage/ImageCropModal";
+import SocialIdSection from "./SocialIdSection";
+import NicknameSection from "./NicknameSection";
+import ImageCropModal from "./ImageCropModal";
 
 const ProfileInfo = () => {
   const [profileImage, setProfileImage] = useState<string>("");

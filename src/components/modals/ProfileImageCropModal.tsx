@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import type { ReactCropperElement } from "react-cropper";
-import "../mypage/ImageCropModal.css";
+import "@/styles/ImageCropModal.css";
 import ModalBackground from "./common/ModalBackground";
 import DefaultButtonCancel from "../common/DefaultButtonCancel";
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";

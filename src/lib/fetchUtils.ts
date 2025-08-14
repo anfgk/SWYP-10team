@@ -3,7 +3,7 @@ import { decodeAndSetAuth } from "./authUtils";
 
 const fetchWithAuth = async (
   endPoint: string, // 상대 경로만 받음(/api/user/logout)
-  init?: RequestInit,
+  init?: RequestInit
 ): Promise<Response> => {
   const { logout } = useAuthStore.getState();
 
@@ -19,6 +19,7 @@ const fetchWithAuth = async (
 
   //보안 헤더 포함해서 요청
   let res = await fetch(fullURL, {
+    credentials: "include",
     ...init,
     headers: addAuthHeader(init?.headers),
   });
@@ -32,7 +33,7 @@ const fetchWithAuth = async (
         {
           method: "POST",
           credentials: "include",
-        },
+        }
       );
 
       //access토큰 재발급 실패 시
@@ -46,6 +47,7 @@ const fetchWithAuth = async (
       res = await fetch(fullURL, {
         ...init,
         headers: {
+          credentials: "include",
           ...addAuthHeader(init?.headers),
         },
       });
@@ -59,7 +61,7 @@ const fetchWithAuth = async (
 
 const fetchWithoutAuth = async (
   endPoint: string,
-  init?: RequestInit,
+  init?: RequestInit
 ): Promise<Response> => {
   const fullURL = `${import.meta.env.VITE_API_BASE_URL}${endPoint}`;
 
@@ -78,7 +80,7 @@ const fetchWithoutAuth = async (
 
 const fetchSmart = async (
   endPoint: string,
-  init?: RequestInit,
+  init?: RequestInit
 ): Promise<Response> => {
   const { isLoggedIn } = useAuthStore.getState();
 

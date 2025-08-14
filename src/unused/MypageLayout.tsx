@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import Sidebar from "../mypage/Sidebar";
+import Sidebar from "./Sidebar";
 
 const sidebarMenus = ["내 정보", "최근 본/찜한 장소", "방문한 장소 및 리뷰"];
 

@@ -1,6 +1,6 @@
-import PrivacyPolicyModal from "../mypage/PrivacyPolicyModal";
-import ProjectModal from "../mypage/ProjectModal";
-import TermsOfServiceModal from "../mypage/TermsOfServiceModal";
+import PrivacyPolicyModal from "../modals/footer/PrivacyPolicyModal";
+import ProjectModal from "../modals/footer/ProjectModal";
+import TermsOfServiceModal from "../modals/footer/TermsOfServiceModal";
 import { useState } from "react";
 
 const MainFooter = () => {

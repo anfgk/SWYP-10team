@@ -1,4 +1,4 @@
-import ReviewList from "@/components/mypage/ReviewList";
+import ReviewList from "./ReviewList";
 
 const MyReviewPage = () => {
   return (

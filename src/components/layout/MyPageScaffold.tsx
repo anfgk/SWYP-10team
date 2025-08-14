@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import MyPageContainerFixed from "../layout/MyPageContainerFixed";
+import MyPageContainerFixed from "./MyPageContainerFixed";
 import SideBarFixed from "../realMypage/common/SideBarFixed";
 
 interface Props {
