@@ -11,7 +11,7 @@ const ReviewList = () => {
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
-  const [page, setPage] = useState(0);
+  const page = 0;
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasNext, setHasNext] = useState(false);
@@ -52,7 +52,7 @@ const ReviewList = () => {
     const updatedReviews = reviews.map((review) =>
       review.id === id
         ? { ...review, content: text, hasReview: text.trim() !== "" }
-        : review,
+        : review
     );
     setReviews(updatedReviews);
     setEditingId(null);
@@ -68,7 +68,7 @@ const ReviewList = () => {
 
   const handleRatingChange = (id: number, rating: number) => {
     const updatedReviews = reviews.map((review) =>
-      review.id === id ? { ...review, rating } : review,
+      review.id === id ? { ...review, rating } : review
     );
     setReviews(updatedReviews);
   };
@@ -140,7 +140,6 @@ const ReviewList = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={onPageChange}
-        setPage={setPage}
         hasNext={hasNext}
         hasPrevious={hasPrevious}
       />

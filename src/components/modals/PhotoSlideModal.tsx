@@ -38,7 +38,7 @@ const PhotoSlideModal = () => {
           </button>
         </div>
         {/* 사진 확대 div */}
-        <section className="w-[640px] h-[480px] bg-[var(--place-neutral)] rounded-[24px] overflow-hidden">
+        <section className="w-[640px] h-[480px] bg-[var(--sem-bg-elevated-alt)] rounded-[24px] overflow-hidden">
           <img
             src={photoList[currentIdx]?.imageUrl ?? ""}
             alt="photo_big"

@@ -1,15 +1,15 @@
+import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
+import ModalBackground from "../modals/common/ModalBackground";
 
 interface ProjectModalProps {
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 const ProjectModal = ({ onClose }: ProjectModalProps) => {
+  useModalEscapeKey(onClose);
   return (
-    <div
-      className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
+    <ModalBackground onClose={onClose}>
       <div
         className="bg-white rounded-lg p-8 w-[448px] h-[285px] overflow-y-auto relative"
         style={{
@@ -42,7 +42,7 @@ const ProjectModal = ({ onClose }: ProjectModalProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </ModalBackground>
   );
 };
 

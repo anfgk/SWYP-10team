@@ -138,7 +138,7 @@ const WishPlaces = () => {
   if (wishList.length === 0)
     return (
       <div className="mt-12 mb-16 w-[939px]">
-        <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
+        <h2 className="text-[20px] font-semibold mb-6">찜한 장소</h2>
         <div className="text-center py-12 text-gray-500">
           찜한 장소가 없습니다.
         </div>
@@ -146,7 +146,7 @@ const WishPlaces = () => {
     );
 
   return (
-    <div className="mt-12 mb-16 w-[939px]">
+    <div className="w-[939px]">
       <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
       <div className="grid grid-cols-4 gap-2 mb-8">
         {paginatedWish.map((item, index) => (

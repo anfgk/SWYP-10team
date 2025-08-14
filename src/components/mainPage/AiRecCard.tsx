@@ -14,7 +14,7 @@ const AiRecCard = ({ place }: Props) => {
     <MainCard
       className="bg-[var(--card-bg)] w-[1200px] h-[304px] cursor-pointer bg-cover bg-center"
       style={{
-        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.5) 6.08%, rgba(0, 0, 0, 0) 63.54%), url(${place.imageUrl || "/assets/images/common/defaul_thumbnail.png"})`,
+        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.5) 6.08%, rgba(0, 0, 0, 0) 63.54%), url(${place.imageUrl || "/assets/images/common/defaul_thumbnail.jpg"})`,
       }}
       onClick={() => navigate(`/placedetail/${place.contentId}`)}
     >

@@ -26,6 +26,8 @@
   --sidebar: #f49fa0;
   --sidebar-text: #262626cc;
 
+  --sidebar-active: rgba(244, 159, 160, 1);
+
   --header-text: #ffffff;
 
   --card-text: #ffffff;
@@ -33,6 +35,9 @@
 
   --tooltip-bg: rgba(38, 38, 38, 0.8);
   --tooltip-text: rgba(255, 255, 255, 1);
+
+  --sem-bg-elevated-alt: #f5f5f5;
+  --sem-fill-norm: rgba(140, 140, 140, 0.08);
 
   --place-neutral: rgba(38, 38, 38, 0.8);
 

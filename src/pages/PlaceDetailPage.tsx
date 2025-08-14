@@ -9,7 +9,6 @@ import ReviewSection from "@/components/placeDetailPage/ReviewSection";
 
 import { usePlaceDetail } from "@/hooks/usePlaceDetail";
 import { usePhotoModalStore } from "@/stores/photoModalStore";
-import type { PetGuideData } from "@/types/apiResponseTypes";
 import { useParams } from "react-router-dom";
 
 const PlaceDetailPage = () => {
@@ -29,7 +28,7 @@ const PlaceDetailPage = () => {
             title={placeDetail?.title ?? "잘못된 장소 코드입니다."}
             thumbnail={
               placeDetail?.image ||
-              "/assets/images/common/default_thumbnail.png"
+              "/assets/images/common/default_thumbnail.jpg"
             }
             imgList={placeDetail?.detailImage ?? []}
           />
@@ -50,7 +49,14 @@ const PlaceDetailPage = () => {
             addr2={placeDetail?.addr2 ?? ""}
             phoneNumber={placeDetail?.tel ?? ""}
             restDate={placeDetail?.restDate || "휴무정보 없음"}
-            petGuide={placeDetail?.petGuide ?? ({} as PetGuideData)}
+            petGuide={
+              placeDetail?.petGuide ?? {
+                allowedPetType: "",
+                petPrep: "",
+                withPet: "",
+                etcInfo: "",
+              }
+            }
           />
           <ReviewSection placeId={id!} />
           {isOpen && <PhotoSlideModal />}

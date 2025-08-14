@@ -2,8 +2,14 @@ import AiRecCard from "./AiRecCard";
 import { useAiRecSection } from "@/hooks/useAiRecSection";
 
 const AiRecList = () => {
-  const { loading, resultList, handleIndicatorClick, index } =
-    useAiRecSection();
+  const {
+    loading,
+    resultList,
+    handleIndicatorClick,
+    index,
+    toggleLeft,
+    toggleRight,
+  } = useAiRecSection();
 
   return (
     <section className="relative flex flex-col gap-[24px] w-full h-[483px] py-[36px]">
@@ -44,7 +50,15 @@ const AiRecList = () => {
         )}
       </article>
       {/* 인디케이터 */}
-      <div className="flex gap-[8px] w-fit h-[8px] mx-auto">
+      <div className="flex gap-[8px] w-full h-[8px] mx-auto justify-center items-center">
+        <button className="w-[24px] h-[24px] cursor-pointer transition hover:brightness-20 active:brightness-10">
+          <img
+            src="/assets/buttons/indicator_left.png"
+            alt="left"
+            className="w-full h-full"
+            onClick={toggleLeft}
+          />
+        </button>
         {resultList.map((_, i) => (
           <button
             key={i}
@@ -52,6 +66,14 @@ const AiRecList = () => {
             onClick={() => handleIndicatorClick(i)}
           />
         ))}
+        <button className="w-[24px] h-[24px] cursor-pointer transition hover:brightness-20 active:brightness-10">
+          <img
+            src="/assets/buttons/indicator_right.png"
+            alt="left"
+            className="w-full h-full"
+            onClick={toggleRight}
+          />
+        </button>
       </div>
     </section>
   );

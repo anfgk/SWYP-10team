@@ -34,16 +34,19 @@ const WishCard = ({
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="relative w-[224px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer">
+      <div
+        className="relative w-[224px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
+        onClick={() => navigate(`/placedetail/${id}`)}
+      >
         <img
           src={
-            image || imageUrl || "/assets/images/common/default_thumbnail.png"
+            image || imageUrl || "/assets/images/common/default_thumbnail.jpg"
           }
           alt={name}
           className="w-full h-full object-cover"
           onError={(e) => {
             console.error("이미지 로드 실패:", image || imageUrl);
-            e.currentTarget.src = "/assets/images/common/default_thumbnail.png";
+            e.currentTarget.src = "/assets/images/common/default_thumbnail.jpg";
           }}
         />
 

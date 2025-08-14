@@ -63,6 +63,30 @@ const editReview = async (
   }
 };
 
+const deleteReview = async (id: string) => {
+  try {
+    const res = await fetchWithAuth(`/api/review/${id}`, { method: "DELETE" });
+
+    if (!res.ok) {
+      if (res.status === 403) {
+        alert("타 유저의 리뷰는 삭제할 수 없습니다.");
+        return;
+      }
+      if (res.status === 404) {
+        alert("잘못된 접근입니다.");
+        return;
+      }
+
+      throw new Error("리뷰 삭제 실패");
+    }
+
+    const data = await res.json();
+    console.log(data);
+  } catch (e) {
+    console.error("리뷰 삭제 요청 실패: ", e);
+  }
+};
+
 const isResponseImage = (img: MixedImage): img is ResponseImage => {
   return (
     typeof img === "object" &&
@@ -72,4 +96,4 @@ const isResponseImage = (img: MixedImage): img is ResponseImage => {
   );
 };
 
-export { writeReview, isResponseImage, editReview };
+export { writeReview, isResponseImage, editReview, deleteReview };

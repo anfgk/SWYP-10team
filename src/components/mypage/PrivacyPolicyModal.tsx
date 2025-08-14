@@ -1,5 +1,6 @@
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
+import ModalBackground from "../modals/common/ModalBackground";
 
 interface PrivacyPolicyModalProps {
   onClose: () => void;
@@ -8,16 +9,14 @@ interface PrivacyPolicyModalProps {
 const PrivacyPolicyModal = ({ onClose }: PrivacyPolicyModalProps) => {
   useModalEscapeKey(onClose);
   return (
-    <div
-      className="fixed inset-0 bg-[#00000080] bg-opacity-20 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
+    <ModalBackground onClose={onClose}>
       <div
         className="bg-white rounded-lg p-8 w-[448px] h-[700px] overflow-y-auto"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-[18px] font-bold mb-6 text-gray-800">
           어디가냥? 같이가개! 개인정보처리방침
@@ -138,11 +137,11 @@ const PrivacyPolicyModal = ({ onClose }: PrivacyPolicyModalProps) => {
             h={40}
             text="확인"
             textSize={14}
-            onClick={onClose}
+            onClick={onClose || (() => {})}
           />
         </div>
       </div>
-    </div>
+    </ModalBackground>
   );
 };
 

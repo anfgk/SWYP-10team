@@ -15,10 +15,7 @@ const ReviewPhotoCard = ({ img, index, photoList }: Props) => {
       className="w-[150px] h-[150px] bg-cover cursor-pointer"
       onClick={() => modalOpen(photoList, index)}
     >
-      <img
-        src={img}
-        className="w-full h-full object-cover object-center hover:brightness-80"
-      />
+      <img src={img} className="w-full h-full object-cover object-center" />
     </MainCard>
   );
 };

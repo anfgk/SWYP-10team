@@ -16,33 +16,38 @@ const Pagination = ({
   hasPrevious,
 }: PaginationProps) => {
   return (
-    <div className="flex justify-center gap-[2px] text-[14px] h-[36px]">
-      <span
-        className={`${hasPrevious ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)]" : ""}
-          ${currentPage === 0 ? "flex items-center justify-center text-[var(--label-normal)]" : ""}`}
+    <div className="flex justify-center items-center gap-[2px] text-[14px] h-[36px]">
+      <button
+        className={`w-[24px] h-[24px] ${hasPrevious ? "cursor-pointer" : ""}`}
         onClick={() => currentPage > 0 && onPageChange(currentPage - 1)}
       >
-        <IoIosArrowBack className="w-[24px] h-[24px]" />
-      </span>
+        <img
+          src="/assets/buttons/button_photo_left.png"
+          alt="left"
+          className="w-full h-full"
+        />
+      </button>
       {Array.from({ length: totalPages }, (_, i) => (
         <span
           key={i}
-          className={`p-[8px] cursor-pointer ${currentPage === i ? "text-[var(--text-color)] underline underline-offset-4 decoration-2" : ""}`}
+          className={`w-[23px] h-[36px] flex justify-center items-center cursor-pointer ${currentPage === i ? "text-[var(--text-color)] underline underline-offset-4 decoration-[2px]" : ""}`}
           onClick={() => onPageChange(i)}
         >
           {i + 1}
         </span>
       ))}
-      <span
-        className={`
-          ${hasNext ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)]" : ""}
-          ${currentPage === totalPages - 1 ? "flex items-center justify-center cursor-pointer text-[var(--label-normal)] text-[var(--label-normal)]" : ""}`}
+      <button
+        className={`w-[24px] h-[24px] ${hasNext ? "cursor-pointer" : ""}`}
         onClick={() =>
           currentPage < totalPages - 1 && onPageChange(currentPage + 1)
         }
       >
-        <IoIosArrowForward className="w-[24px] h-[24px]" />
-      </span>
+        <img
+          src="/assets/buttons/button_photo_right.png"
+          alt="right"
+          className="w-full h-full"
+        />
+      </button>
     </div>
   );
 };

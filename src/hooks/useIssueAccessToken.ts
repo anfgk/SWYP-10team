@@ -13,6 +13,7 @@ const useIssueAccessToken = () => {
     setProfileImg,
     setProvider,
     setAuthLoading,
+    setAuth,
   } = useAuthStore();
 
   useEffect(() => {
@@ -45,6 +46,10 @@ const useIssueAccessToken = () => {
         //user profile 사진 저장
         const profileRes = await fetchWithAuth("/api/user/profile");
         const profileData = await profileRes.json();
+        setAuth(data.data.accessToken, {
+          name: profileData.data.displayName,
+          email: profileData.data.email,
+        });
         setProvider(profileData.data.provider);
         setProfileImg(profileData.data.imageUrl);
       } catch (error) {

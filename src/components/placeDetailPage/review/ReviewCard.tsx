@@ -47,8 +47,7 @@ const ReviewCard = ({ review }: Props) => {
       <div className="w-full h-[141px] flex gap-[16px]">
         {/* 썸네일 */}
         <MainCard
-          className={`w-[212px] h-full ${review.images[0]?.imageUrl ? "cursor-pointer hover:brightness-85" : ""}`}
-          // style={{ backgroundImage: `url(${review.images[0].imageUrl})` }}
+          className={`w-[212px] h-full ${review.images[0]?.imageUrl ? "cursor-pointer" : ""}`}
           onClick={() => {
             if (review.images.length > 0) {
               modalOpen(review.images, 0);
@@ -58,7 +57,7 @@ const ReviewCard = ({ review }: Props) => {
           <img
             src={
               review.images[0]?.imageUrl ??
-              "/assets/images/common/default_thumbnail.png"
+              "/assets/images/common/review_default_thumbnail.png"
             }
             className="w-full h-full object-cover object-center"
           />
@@ -88,7 +87,9 @@ const ReviewCard = ({ review }: Props) => {
                   width={24}
                   height={24}
                   color={
-                    likeChecked ? "var(--main-color)" : "var(--place-neutral)"
+                    likeChecked
+                      ? "var(--main-color)"
+                      : "var(--place-detail-heart)"
                   }
                 />
               </button>

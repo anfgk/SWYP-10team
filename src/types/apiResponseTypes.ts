@@ -144,11 +144,35 @@ type MyReviewData = {
   contentTitle: string;
   reviewId: number;
   content: string;
-  score: number;
-  recommendedNumber: number;
-  createdAt: string;
+  score: 5;
+  recommendedNumber: 0;
+  createdAt: "2025-08-10T03:20:16";
   images: ResponseImage[];
 };
+
+type MyReviewDataList = {
+  contentId: number;
+  totalElements: number;
+  totalPages: number;
+  currentPage: number;
+  size: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+  reviews: MyReviewData[];
+};
+
+type PetData = {
+  petId: number;
+  name: string;
+  gender: string;
+  birth: string;
+  type: string;
+  fierceDog: true;
+  size: string;
+  imageFilename: string;
+  imageUrl: string;
+};
+
 export type {
   JWTPayLoad,
   Review,
@@ -162,4 +186,6 @@ export type {
   CardInputType,
   PetGuideData,
   MyReviewData,
+  MyReviewDataList,
+  PetData,
 };

@@ -101,8 +101,8 @@ const RecentPlaces = () => {
   });
 
   return (
-    <div className="mt-12 mb-16 w-[939px]">
-      <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
+    <div className="w-[939px]">
+      <h2 className="text-[20px] font-semibold mb-6">최근 본 장소</h2>
 
       {recentList.length <= 4 ? (
         <div className="w-full h-fit flex gap-[16px]">

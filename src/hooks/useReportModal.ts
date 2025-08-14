@@ -21,7 +21,6 @@ const useReportModal = ({ reviewId, onClose }: Props) => {
 
       const params = new URLSearchParams();
       params.append("reasonId", String(selected));
-      console.log(params.toString());
 
       const res = await fetchWithAuth(`/api/review/report/${reviewId}`, {
         method: "POST",
@@ -29,31 +28,25 @@ const useReportModal = ({ reviewId, onClose }: Props) => {
         body: params.toString(),
       });
 
-      if (res.ok) {
-        alert("신고가 접수되었습니다");
-        onClose();
-      }
-
-      if (res.status === 400) {
-        alert(
-          "자기 자신이 작성한 리뷰 / 이미 신고한 리뷰는 신고할 수 없습니다.",
-        );
-        onClose();
-        return;
-      }
-
-      if (res.status === 404) {
-        alert("리뷰 또는 유저가 존재하지 않습니다.");
+      if (!res.ok) {
+        if (res.status === 400) {
+          alert(
+            "자기 자신이 작성한 리뷰 / 이미 신고한 리뷰는 신고할 수 없습니다."
+          );
+        } else if (res.status === 404) {
+          alert("리뷰 또는 유저가 존재하지 않습니다.");
+        } else {
+          alert("신고 처리 중 오류가 발생했습니다.");
+        }
         onClose();
         return;
       }
 
-      const text = await res.text().catch(() => "");
-      console.error("신고 요청 실패:", res.status, text);
-      alert("신고 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      alert("신고가 접수되었습니다");
       onClose();
     } catch (e) {
       console.error("신고 처리 중 오류 발생: ", e);
+      alert("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     } finally {
       setSubmitting(false);
     }

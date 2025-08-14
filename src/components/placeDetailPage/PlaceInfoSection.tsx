@@ -32,7 +32,7 @@ const PlaceInfoSection = ({
       <div className="w-full h-fit flex flex-col gap-[8px]">
         <PlaceDescriptionDiv
           title="상세 정보"
-          content={emptyStringToDefault(desc)}
+          content={emptyStringToDefault(removeTags(desc.trim()))}
         />
         <PlaceDescriptionDiv
           title="상세 주소"

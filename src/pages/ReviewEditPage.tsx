@@ -86,7 +86,8 @@ const ReviewEditPage = () => {
             onClose={() => setIsSaveOpen(false)}
             onConfirm={() => {
               editReview(id!, score, content, images);
-              navigate("/myreview");
+              alert("리뷰가 수정되었습니다.");
+              navigate("/myreview", { state: { refreshReviews: true } });
             }}
           />
         )}
