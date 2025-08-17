@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { IoChevronDown, IoCalendar } from "react-icons/io5";
-import Calendar from "./Calendar";
+import Calendar from "../components/mypage/Calendar";
 
 interface ModalInputProps {
   label: string;

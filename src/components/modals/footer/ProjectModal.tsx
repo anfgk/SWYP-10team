@@ -1,6 +1,6 @@
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
-import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
-import ModalBackground from "../modals/common/ModalBackground";
+import DefaultButtonConfirm from "@/components/common/DefaultButtonConfirm";
+import ModalBackground from "../common/ModalBackground";
 
 interface ProjectModalProps {
   onClose: () => void;

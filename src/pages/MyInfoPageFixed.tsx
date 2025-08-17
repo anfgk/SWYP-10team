@@ -1,6 +1,6 @@
 import DefaultButtonCancel from "@/components/common/DefaultButtonCancel";
 import MyPageContainerFixed from "@/components/layout/MyPageContainerFixed";
-import MyPageScaffold from "@/components/layouts/MyPageScaffold";
+import MyPageScaffold from "@/components/layout/MyPageScaffold";
 //import WithDrawModal from "@/components/modals/WithDrawModal";
 import MyPetSection from "@/components/realMypage/myInfo/MyPetSection";
 import MyProfileSection from "@/components/realMypage/myInfo/MyProfileSection";

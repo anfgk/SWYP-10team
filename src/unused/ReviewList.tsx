@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ReviewItem from "@/components/mypage/ReviewItem";
+import ReviewItem from "./ReviewItem";
 import { useAuthStore } from "@/stores/authStore";
 import { fetchReviewList } from "@/lib/apiUtils";
 import Pagination from "@/components/mypage/Pagination";

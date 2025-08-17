@@ -1,4 +1,4 @@
-import ReviewWriteForm from "@/components/mypage/ReviewWriteForm";
+import ReviewWriteForm from "./ReviewWriteForm";
 
 const ReviewWritePage = () => {
   return (

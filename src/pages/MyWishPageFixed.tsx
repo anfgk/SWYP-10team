@@ -1,4 +1,4 @@
-import MyPageScaffold from "@/components/layouts/MyPageScaffold";
+import MyPageScaffold from "@/components/layout/MyPageScaffold";
 import MyPageContainerFixed from "@/components/layout/MyPageContainerFixed";
 import RecentPlaces from "@/components/mypage/RecentPlaces";
 import WishPlaces from "@/components/mypage/WishPlaces";

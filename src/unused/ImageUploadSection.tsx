@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import PageButton from "../ui/page-button";
+import PageButton from "../components/ui/page-button";
 
 interface ImageUploadSectionProps {
   selectedFiles: File[];
