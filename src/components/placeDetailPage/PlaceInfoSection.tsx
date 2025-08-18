@@ -36,7 +36,7 @@ const PlaceInfoSection = ({
         />
         <PlaceDescriptionDiv
           title="상세 주소"
-          content={emptyStringToDefault(addr1 + addr2)}
+          content={emptyStringToDefault(addr1 + " " + addr2)}
         />
         <PlaceDescriptionDiv title="휴무 정보" content={removeTags(restDate)} />
         <PlaceDescriptionDiv
