@@ -22,6 +22,7 @@ import useIssueAccessToken from "./hooks/useIssueAccessToken";
 
 import CustomToast from "./components/common/CustomToast";
 import ScrollToTop from "./hooks/ScrollToTop";
+import AIPlannerPage from "./pages/AIPlannerPage";
 
 function App() {
   useUserLocation();
@@ -40,6 +41,8 @@ function App() {
           <Route path="/placedetail/:id" element={<PlaceDetailPage />} />
           <Route path="/popularoftoday" element={<TodaysPopularListPage />} />
           <Route path="/authredirect" element={<AuthCallBackPage />} />
+
+          <Route path="/aiplanner" element={<AIPlannerPage />} />
 
           {/* 인증이 있어야 들어갈 수 있는 경로(protectedRoute) */}
           <Route element={<ProtectedRoute />}>

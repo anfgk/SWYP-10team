@@ -394,5 +394,7 @@ export const CONTENT_TYPE_ID: Record<string, number> = {
 };
 
 export const CONTENT_TYPE_NAME: Record<number, string> = Object.fromEntries(
-  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key]),
+  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key])
 ) as Record<number, string>;
+
+export const scheduleOptions = ["당일치기", "1박 2일", "2박 3일"] as const; // 타입으로의 활용을 위해 as const 넣기
