@@ -2,10 +2,13 @@ import { regionMap, scheduleOptions } from "@/configs/searchConstants";
 import OptionSelectButton from "./OptionSelectButton";
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
 import { usePlannerSelectionStore } from "@/stores/plannerSelectionStore";
+import { usePlannerStep } from "@/hooks/usePlannerStep";
 
 const SelectRegionSection = () => {
   const { region, schedule, setRegion, setSchedule } =
     usePlannerSelectionStore();
+  const { next } = usePlannerStep();
+  const canNext = !!region && !!schedule;
   return (
     <section className="my-[68px] mx-auto flex flex-col gap-[32px] w-[1112px] h-[793px] ">
       <div className="w-full h-[500px] flex flex-col justify-between">
@@ -54,7 +57,8 @@ const SelectRegionSection = () => {
           h={45}
           text="다음"
           textSize={18}
-          onClick={() => alert("test")}
+          onClick={() => canNext && next()}
+          isActive={canNext}
         />
       </div>
     </section>

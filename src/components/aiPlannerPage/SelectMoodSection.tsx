@@ -2,9 +2,12 @@ import { usePlannerSelectionStore } from "@/stores/plannerSelectionStore";
 import DefaultButtonCancel from "../common/DefaultButtonCancel";
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
 import { Input } from "../ui/input";
+import { usePlannerStep } from "@/hooks/usePlannerStep";
 
 const SelectMoodSection = () => {
-  const { setMood } = usePlannerSelectionStore();
+  const { setMood, mood } = usePlannerSelectionStore();
+  const { next, prev } = usePlannerStep();
+  const canNext = !!mood?.trim();
   return (
     <section className="my-[68px] mx-auto flex flex-col gap-[70px] w-[1112px] h-[416px] ">
       {/* 제목 */}
@@ -33,14 +36,15 @@ const SelectMoodSection = () => {
             h={45}
             text="이전"
             textSize={18}
-            onClick={() => alert("test")}
+            onClick={() => prev()}
           />
           <DefaultButtonConfirm
             w={72}
             h={45}
             text="다음"
             textSize={18}
-            onClick={() => alert("test")}
+            onClick={() => canNext && next()}
+            isActive={canNext}
           />
         </div>
       </div>
