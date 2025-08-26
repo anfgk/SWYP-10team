@@ -19,7 +19,7 @@ interface Props {
 
 const RecentSlide = ({ placeList, onToggleWish }: Props) => {
   return (
-    <div className="flex flex-shrink-0 gap-[8px] overflow-x-auto">
+    <div className="flex flex-shrink-0 gap-[8px]">
       {placeList.map((place, index) => (
         <RecentCard
           key={index}
