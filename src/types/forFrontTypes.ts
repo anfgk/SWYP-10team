@@ -7,6 +7,6 @@ type regionKey = keyof typeof regionMap;
 
 type scheduleKey = (typeof scheduleOptions)[number];
 
-type PlannerStep = "select" | "mood" | "result";
+type PlannerStep = "select" | "result";
 
 export type { MixedImage, regionKey, scheduleKey, PlannerStep };
