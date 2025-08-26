@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import PetInfoSection from "@/components/mypage/PetInfoCard";
-import ProfileInfo from "@/components/mypage/ProfileInfo";
-import PetInfoModal from "@/components/mypage/PetInfoModal";
+import PetInfoSection from "./PetInfoCard";
+import ProfileInfo from "./ProfileInfo";
+import PetInfoModal from "./PetInfoModal";
 import { IoAdd } from "react-icons/io5";
 import { useAuthStore } from "@/stores/authStore";
 import type { PetInfo } from "@/types/types";
@@ -25,7 +25,7 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       if (!response.ok) {
@@ -86,7 +86,7 @@ const MyInfoPage = () => {
     try {
       console.log(
         "삭제 API 호출:",
-        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`,
+        `${import.meta.env.VITE_API_BASE_URL}api/pet/profile/${petId}`
       );
 
       const response = await fetch(
@@ -98,14 +98,14 @@ const MyInfoPage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       if (!response.ok) {
         const errorText = await response.text();
         console.error("삭제 응답 에러:", errorText);
         throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`,
+          `HTTP error! status: ${response.status}, message: ${errorText}`
         );
       }
 

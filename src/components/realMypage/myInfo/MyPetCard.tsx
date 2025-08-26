@@ -20,7 +20,7 @@ const MyPetCard = ({ petData }: Props) => {
           <div className="w-full h-[24px] flex gap-[32px] items-center">
             <p className="w-[56px] h-[22px] text-[16px]">성별</p>
             <img
-              src={`/assets/images/common/${petData?.gender === "M" ? "male.png" : "female.png"}`}
+              src={`/assets/icons/${petData?.gender === "M" ? "male.png" : "female.png"}`}
               className="w-6 h-6"
             />
           </div>

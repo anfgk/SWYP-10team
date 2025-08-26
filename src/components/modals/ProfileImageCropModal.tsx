@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import type { ReactCropperElement } from "react-cropper";
 import "../mypage/ImageCropModal.css";
+=======
+import Cropper from "react-cropper";
+import "@/styles/ImageCropModal.css";
+>>>>>>> origin/develop
 import ModalBackground from "./common/ModalBackground";
 import DefaultButtonCancel from "../common/DefaultButtonCancel";
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
 import { changeProfileImage } from "@/lib/myInfoUtils";
+<<<<<<< HEAD
+=======
+import { useProfileImageCropModal } from "@/hooks/useProfileImageCropModal";
+>>>>>>> origin/develop
 
 interface Props {
   onClose: () => void;
@@ -17,6 +26,7 @@ export default function ProfileImageCropModal({
   onClose,
   currentImage,
 }: Props) {
+<<<<<<< HEAD
   const cropperRef = useRef<ReactCropperElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -89,6 +99,19 @@ export default function ProfileImageCropModal({
     );
   };
 
+=======
+  useModalEscapeKey(onClose);
+  const {
+    inputRef,
+    onFileChange,
+    imageURL,
+    handlePick,
+    cropperRef,
+    previewURL,
+    croppedFile,
+    handleCrop,
+  } = useProfileImageCropModal({ currentImage });
+>>>>>>> origin/develop
   return (
     <ModalBackground onClose={onClose}>
       <div
@@ -179,8 +202,12 @@ export default function ProfileImageCropModal({
             textSize={14}
             onClick={() => {
               if (!croppedFile) return;
+<<<<<<< HEAD
               // changeProfileImage가 string을 받던 함수였다면, 여기서 FormData로 업로드하도록 그 함수 시그니처를 바꿔줘.
               // 예: changeProfileImage(croppedFile, user?.name!)
+=======
+
+>>>>>>> origin/develop
               changeProfileImage(croppedFile);
             }}
             isActive={!!croppedFile}

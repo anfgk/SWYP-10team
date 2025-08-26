@@ -1,5 +1,6 @@
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
 import ModalBackground from "./common/ModalBackground";
+<<<<<<< HEAD
 import { useState, useEffect, useRef } from "react";
 import SVGCheckBox from "../common/SVGCheckBox";
 import { Input } from "../ui/input";
@@ -9,11 +10,22 @@ import { petSize, petType } from "@/configs/petOptions";
 import Calendar from "../mypage/Calendar";
 import { fetchWithAuth } from "@/lib/fetchUtils";
 import { refetchProfile } from "@/lib/authUtils";
+=======
+import { useState } from "react";
+import SVGCheckBox from "../common/SVGCheckBox";
+import { Input } from "../ui/input";
+import ModalButton from "./common/ModalButton";
+import ModalSelectBox from "./common/ModalSelectBox";
+import { petSize, petType } from "@/configs/petOptions";
+import Calendar from "../mypage/Calendar";
+import { useMyPetAddModal } from "@/hooks/useMyPetAddModal";
+>>>>>>> origin/develop
 
 interface Props {
   onClose: () => void;
 }
 const MyPetAddModal = ({ onClose }: Props) => {
+<<<<<<< HEAD
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
@@ -96,6 +108,29 @@ const MyPetAddModal = ({ onClose }: Props) => {
     setImage(f);
     e.currentTarget.value = "";
   };
+=======
+  const [isOpen, setIsOpen] = useState(false);
+  useModalEscapeKey(onClose);
+
+  const {
+    gender,
+    name,
+    type,
+    size,
+    birthDay,
+    setGender,
+    setName,
+    setType,
+    setSize,
+    setBirthDay,
+    fileInputRef,
+    previewUrl,
+    handleSubmit,
+    openPicker,
+    onFileChange,
+  } = useMyPetAddModal();
+
+>>>>>>> origin/develop
   return (
     <ModalBackground onClose={onClose}>
       <div
@@ -156,20 +191,28 @@ const MyPetAddModal = ({ onClose }: Props) => {
                 <p className="w-[56px] h-[22px] text-[16px]">성별</p>
                 <div className="w-[136px] h-[24px] flex gap-[32px]">
                   <div className="w-[52px] h-[24px] flex gap-[4px]">
+<<<<<<< HEAD
                     <img
                       src="/assets/images/common/female.png"
                       className="w-6 h-6"
                     />
+=======
+                    <img src="/assets/icons/female.png" className="w-6 h-6" />
+>>>>>>> origin/develop
                     <SVGCheckBox
                       checked={gender === "F"}
                       onChange={() => setGender("F")}
                     />
                   </div>
                   <div className="w-[52px] h-[24px] flex gap-[4px]">
+<<<<<<< HEAD
                     <img
                       src="/assets/images/common/male.png"
                       className="w-6 h-6"
                     />
+=======
+                    <img src="/assets/icons/male.png" className="w-6 h-6" />
+>>>>>>> origin/develop
                     <SVGCheckBox
                       checked={gender === "M"}
                       onChange={() => setGender("M")}
@@ -205,7 +248,11 @@ const MyPetAddModal = ({ onClose }: Props) => {
                     onClick={() => setIsOpen(true)}
                   >
                     <img
+<<<<<<< HEAD
                       src="/assets/images/common/calendar.png"
+=======
+                      src="/assets/icons/calendar.png"
+>>>>>>> origin/develop
                       className="w-full h-full "
                     />
                   </button>

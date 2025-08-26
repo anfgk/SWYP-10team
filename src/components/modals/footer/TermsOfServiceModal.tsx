@@ -1,6 +1,11 @@
 import { useModalEscapeKey } from "@/hooks/useModalEscapeKey";
+<<<<<<< HEAD:src/components/mypage/TermsOfServiceModal.tsx
 import DefaultButtonConfirm from "../common/DefaultButtonConfirm";
 import ModalBackground from "../modals/common/ModalBackground";
+=======
+import DefaultButtonConfirm from "@/components/common/DefaultButtonConfirm";
+import ModalBackground from "../common/ModalBackground";
+>>>>>>> origin/develop:src/components/modals/footer/TermsOfServiceModal.tsx
 
 interface TermsOfServiceModalProps {
   onClose: () => void;
