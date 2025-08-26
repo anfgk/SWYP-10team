@@ -35,7 +35,7 @@ const WishCard = ({
   return (
     <div className="flex flex-col gap-2">
       <div
-        className="relative w-[224px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
+        className="relative w-[222px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
         onClick={() => navigate(`/placedetail/${id}`)}
       >
         <img

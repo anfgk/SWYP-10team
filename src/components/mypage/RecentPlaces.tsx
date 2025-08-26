@@ -75,7 +75,7 @@ const RecentPlaces = () => {
 
   if (recentList.length === 0) {
     return (
-      <div className="mt-12 mb-16 w-[939px]">
+      <div className="mt-12 mb-16 w-[944px]">
         <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
         <div className="w-full h-[200px] flex items-center justify-center">
           <p className="text-gray-500">최근 본 장소가 없습니다.</p>
@@ -84,13 +84,25 @@ const RecentPlaces = () => {
     );
   }
 
-  // 슬라이드 제어 함수
+  // 슬라이드 제어 및 이동 거리 계산
+  const CARD_WIDTH = 224;
+  const GAP = 16; // 요청: 16px 간격
+  const VISIBLE_COUNT = 4;
+  const SLIDE_WIDTH = CARD_WIDTH * VISIBLE_COUNT + GAP * (VISIBLE_COUNT - 1); // 944
+
+  const totalWidth = slides.length * SLIDE_WIDTH;
+  const viewportWidth = SLIDE_WIDTH;
+  const clampedTranslate = Math.min(
+    slideIndex * SLIDE_WIDTH,
+    Math.max(0, totalWidth - viewportWidth)
+  );
+
   const handleNext = () => {
-    setSlideIndex((prev) => (prev + 1) % slides.length);
+    setSlideIndex((prev) => Math.min(prev + 1, slides.length - 1));
   };
 
   const handlePrev = () => {
-    setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    setSlideIndex((prev) => Math.max(prev - 1, 0));
   };
 
   console.log("RecentPlaces 디버깅:", {
@@ -119,13 +131,12 @@ const RecentPlaces = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center relative w-[939px] h-full">
+        <div className="flex flex-col items-center relative w-[944px] h-full">
           <div className="w-full h-full overflow-hidden">
             <div
-              className="flex transition-transform duration-700 ease-in-out gap-[20px]"
+              className="flex transition-transform duration-700 ease-in-out gap-0"
               style={{
-                transform: `translateX(-${slideIndex * 939}px)`,
-                width: `1px`,
+                transform: `translateX(-${clampedTranslate}px)`,
               }}
             >
               {slides.length > 0 &&
@@ -145,6 +156,7 @@ const RecentPlaces = () => {
               <button
                 className="absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handlePrev}
+                disabled={slideIndex === 0}
               >
                 <img
                   src="/assets/buttons/button_left.png"
@@ -153,8 +165,9 @@ const RecentPlaces = () => {
                 />
               </button>
               <button
-                className="absolute right-5 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handleNext}
+                disabled={slideIndex === slides.length - 1}
               >
                 <img
                   src="/assets/buttons/button_right.png"
