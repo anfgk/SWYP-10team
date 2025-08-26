@@ -148,7 +148,7 @@ const WishPlaces = () => {
   return (
     <div className="w-[939px]">
       <h2 className="text-xl font-semibold mb-6">찜한 장소</h2>
-      <div className="grid grid-cols-4 gap-2 mb-8">
+      <div className="flex flex-wrap gap-[8px] mb-8">
         {paginatedWish.map((item, index) => (
           <WishCard
             key={index}
