@@ -5,7 +5,9 @@ interface Props {
   places: PlannerMapPlacesData[];
 }
 const ResultMapDiv = ({ places }: Props) => {
-  const { mapRef } = useKakaoMapOnPlanner({ items: places });
+  const { mapRef } = useKakaoMapOnPlanner({
+    items: places,
+  });
   return <div className="w-full h-full" ref={mapRef} />;
 };
 
