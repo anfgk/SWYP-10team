@@ -10,9 +10,8 @@ declare global {
 
 interface Props {
   items: PlannerMapPlacesData[];
-  level?: number; // 초기 줌 레벨(기본 3)
 }
-const useKakaoMapOnPlanner = ({ items, level = 3 }: Props) => {
+const useKakaoMapOnPlanner = ({ items }: Props) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<any | null>(null);
 
