@@ -4,13 +4,9 @@ import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
 interface Props {
   places: PlannerMapPlacesData[];
 }
-const ResultMapSection = ({ places }: Props) => {
+const ResultMapDiv = ({ places }: Props) => {
   const { mapRef } = useKakaoMapOnPlanner({ items: places });
-  return (
-    <section className="w-[678px] h-[901px]">
-      <div className="w-full h-full" ref={mapRef}></div>
-    </section>
-  );
+  return <div className="w-full h-full" ref={mapRef} />;
 };
 
-export default ResultMapSection;
+export default ResultMapDiv;
