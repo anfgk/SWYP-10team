@@ -9,4 +9,6 @@ type scheduleKey = (typeof scheduleOptions)[number];
 
 type PlannerStep = "select" | "result";
 
-export type { MixedImage, regionKey, scheduleKey, PlannerStep };
+type Coord = { mapX: number; mapY: number };
+
+export type { MixedImage, regionKey, scheduleKey, PlannerStep, Coord };

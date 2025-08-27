@@ -25,10 +25,10 @@ const usePlannerStep = () => {
     }
   }, [params, setParams]);
 
-  // 진입 불가한 스텝이면 앞단계로 보냄
+  // 진입 불가한 스텝이면 앞단계로 보냄 (값이 없거나 잘못된 이름의 스텝일 경우)
   useEffect(() => {
     if (canEnter[step]) return;
-    if (step === "result") setParams({ step: "select" }, { replace: true });
+    setParams({ step: "select" }, { replace: true });
   }, [step, canEnter, setParams]);
 
   const go = (newStep: PlannerStep) => setParams({ step: newStep });
