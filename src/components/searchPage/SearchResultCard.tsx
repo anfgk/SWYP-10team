@@ -119,14 +119,14 @@ const SearchResultCard = ({ cardData }: Props) => {
             </div>
           )}
 
-          <div className="w-full h-[22px] flex gap-[8px] text-[16px] text-[var(--card-subText)]">
-            <p>
+          <div className="w-full min-h-[22px] flex gap-[8px] text-[16px] text-[var(--card-subText)]">
+            <p className="whitespace-nowrap">
               {cardData.regionName.sidoName +
                 " " +
                 cardData.regionName.sigunguName}
             </p>
             <p>·</p>
-            <p>
+            <p className="break-keep">
               {cardData.restDate && cardData.restDate.trim()
                 ? removeTags(cardData.restDate)
                 : "휴무정보 없음"}

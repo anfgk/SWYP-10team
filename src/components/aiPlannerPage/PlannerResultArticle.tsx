@@ -1,17 +1,22 @@
-import ResultButtonSection from "./result/ResultButtonSection";
-import ResultInfoSection from "./result/ResultInfoSection";
-import ResultMapSection from "./result/ResultMapSection";
+import ResultSideBar from "./result/ResultSideBar";
+import ResultMapDiv from "./result/ResultMapDiv";
 
-import { dummyPlannerPlaces } from "@/configs/dummyData";
+import { usePlannerArticle } from "@/hooks/usePlannerResultArticle";
 
 const PlannerResultArticle = () => {
+  const { filteredData, setDay, totalDays, distance, day } =
+    usePlannerArticle();
   return (
-    <article className="py-[96px] flex flex-col gap-[54px] w-full h-[1183px]">
-      <div className="w-full h-[901px] flex justify-between">
-        <ResultInfoSection />
-        <ResultMapSection places={dummyPlannerPlaces} />
-      </div>
-      <ResultButtonSection />
+    <article className="w-full h-screen relative">
+      <ResultSideBar
+        setDay={setDay}
+        filteredData={filteredData}
+        distance={distance}
+        totalDays={totalDays}
+        day={day}
+      />
+
+      <ResultMapDiv places={filteredData} />
     </article>
   );
 };

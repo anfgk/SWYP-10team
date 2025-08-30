@@ -48,7 +48,7 @@ const MyPetAddModal = ({ onClose }: Props) => {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept=".jpg,.jpeg,.png"
           className="hidden"
           onChange={onFileChange}
         />

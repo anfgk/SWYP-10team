@@ -3,7 +3,7 @@ import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
 export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
   // --- Day 1 ---
   {
-    day: 1,
+    day: 0,
     index: 0,
     contentId: 3438559,
     title: "Stay Vibe",
@@ -30,7 +30,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
     createdAt: "2025-08-05T01:00:23",
   },
   {
-    day: 1,
+    day: 0,
     index: 1,
     contentId: 3440844,
     title: "거꾸로하우스",
@@ -57,7 +57,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
     createdAt: "2025-08-05T01:00:16",
   },
   {
-    day: 1,
+    day: 0,
     index: 2, // 새로 추가된 장소
     contentId: 2589349,
     title: "서울식물원",
@@ -86,7 +86,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
 
   // --- Day 2 ---
   {
-    day: 2,
+    day: 1,
     index: 0,
     contentId: 300076,
     title: "대성사",
@@ -113,7 +113,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
     createdAt: "2025-08-05T01:00:17",
   },
   {
-    day: 2,
+    day: 1,
     index: 1,
     contentId: 126943,
     title: "북악스카이 팔각정",
@@ -142,7 +142,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
 
   // --- Day 3 ---
   {
-    day: 3,
+    day: 2,
     index: 0,
     contentId: 2638475,
     title: "노들섬",
@@ -168,7 +168,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
     createdAt: "2025-08-05T01:00:17",
   },
   {
-    day: 3,
+    day: 2,
     index: 1,
     contentId: 729167,
     title: "반포대교 달빛무지개분수",
@@ -195,7 +195,7 @@ export const dummyPlannerPlaces: PlannerMapPlacesData[] = [
     createdAt: "2025-08-05T01:00:18",
   },
   {
-    day: 3,
+    day: 2,
     index: 2, // 새로 추가된 장소
     contentId: 129501,
     title: "낙산공원",
