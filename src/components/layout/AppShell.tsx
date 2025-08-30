@@ -17,7 +17,7 @@ const AppShell = () => {
       <ScrollToTop />
       <CustomToast />
       <div className="App font-pretendard">
-        <MainHeader />
+        {!hideFooter && <MainHeader />}
         <AppRoutes />
         {!hideFooter && <MainFooter />}
       </div>

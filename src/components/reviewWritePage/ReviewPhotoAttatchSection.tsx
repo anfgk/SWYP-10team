@@ -38,7 +38,7 @@ const ReviewPhotoAttatchSection = ({
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept=".jpg,.jpeg,.png"
             multiple
             className="hidden"
             onChange={handleFilesChange}

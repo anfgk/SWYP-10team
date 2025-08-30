@@ -44,9 +44,9 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
       // 마커 추가
       const addMarkers = () => {
         items.forEach((item) => {
-          const imgSrc = `/assets/icons/markers/marker${item.day}_${item.index + 1}.png`;
-          const imgSize = new kakao.maps.Size(32, 43);
-          const imgOption = { offset: new kakao.maps.Point(16, 43) };
+          const imgSrc = `/assets/icons/markers/marker${item.day + 1}_${item.index + 1}.png`;
+          const imgSize = new kakao.maps.Size(48, 48);
+          const imgOption = { offset: new kakao.maps.Point(24, 48) };
           const markerImg = new kakao.maps.MarkerImage(
             imgSrc,
             imgSize,

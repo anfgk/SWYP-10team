@@ -1,30 +1,21 @@
-import { useState } from "react";
-import ResultInfoSideBar from "./result/ResultInfoSideBar";
+import ResultSideBar from "./result/ResultSideBar";
 import ResultMapDiv from "./result/ResultMapDiv";
 
 import { usePlannerArticle } from "@/hooks/usePlannerResultArticle";
 
 const PlannerResultArticle = () => {
-  const HEADER_H = 72;
-  const [isOpen, setIsOpen] = useState(true);
-
-  const { filteredData, setDay } = usePlannerArticle();
+  const { filteredData, setDay, totalDays, distance, day } =
+    usePlannerArticle();
   return (
-    <article
-      className="w-full relative"
-      style={{ height: `calc(100svh - ${HEADER_H}px)` }}
-    >
-      {isOpen && (
-        <ResultInfoSideBar onClose={() => setIsOpen(false)} setDay={setDay} />
-      )}
-      {!isOpen && (
-        <button
-          className="absolute top-3 left-3 w-10 h-10 cursor-pointer bg-red-700 z-50"
-          onClick={() => setIsOpen(true)}
-        >
-          열기
-        </button>
-      )}
+    <article className="w-full h-screen relative">
+      <ResultSideBar
+        setDay={setDay}
+        filteredData={filteredData}
+        distance={distance}
+        totalDays={totalDays}
+        day={day}
+      />
+
       <ResultMapDiv places={filteredData} />
     </article>
   );

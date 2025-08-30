@@ -307,3 +307,18 @@
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   font-weight: 600;
 }
+
+/* Webkit (크롬, 사파리) */
+.scrollbar-style::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollbar-style::-webkit-scrollbar-thumb {
+  background: rgba(191, 191, 191);
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 2px solid transparent;
+  border-right: 4px solid transparent;
+  background-clip: padding-box;
+  border-radius: 99999999px;
+}

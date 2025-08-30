@@ -45,7 +45,7 @@ export default function ProfileImageCropModal({
             <input
               ref={inputRef}
               type="file"
-              accept="image/*"
+              accept=".jpg,.jpeg,.png"
               onChange={onFileChange}
               className="hidden"
               id="profile-image-upload"
