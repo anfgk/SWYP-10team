@@ -173,6 +173,11 @@ type PetData = {
   imageUrl: string;
 };
 
+type PlannerMapPlacesData = SearchCardData & {
+  day: number;
+  index: number;
+};
+
 export type {
   JWTPayLoad,
   Review,
@@ -188,4 +193,5 @@ export type {
   MyReviewData,
   MyReviewDataList,
   PetData,
+  PlannerMapPlacesData,
 };

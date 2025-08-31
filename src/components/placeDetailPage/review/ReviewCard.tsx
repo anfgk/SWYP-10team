@@ -32,7 +32,10 @@ const ReviewCard = ({ review }: Props) => {
         {/* 프로필 */}
         <div className="w-fit h-[24px] flex gap-[8px] items-center">
           <img
-            src={review.profileImageUrl}
+            src={
+              review.profileImageUrl ??
+              "/assets/images/common/default_profile.png"
+            }
             className="w-[24px] h-[24px] rounded-[67.5px]"
           />
           <p className="w-fit text-[14px]">

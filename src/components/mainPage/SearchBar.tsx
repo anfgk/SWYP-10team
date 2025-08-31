@@ -54,7 +54,7 @@ const SearchBar = () => {
           />
           <Input
             id="place_input"
-            className="w-full h-full rounded-[26px] bg-[var(--search-element-bg)] !text-[14px] pl-[40px] focus:ring-[1px] focus:ring-[var(--main-color)]"
+            className="w-full h-full rounded-[26px] font-semibold bg-[var(--search-element-bg)] !text-[14px] pl-[44px] focus:ring-[1px] focus:ring-[var(--main-color)] placeholder:text-[var(--place-neutral)]"
             placeholder="장소명"
             defaultValue={inputkeyword}
             onChange={(e) => setInputKeyword(e.target.value)}
@@ -66,7 +66,7 @@ const SearchBar = () => {
         <button className="w-[40px] h-[40px] cursor-pointer" onClick={onSearch}>
           <img
             src="/assets/buttons/search_button.png"
-            alt="left"
+            alt="search"
             className="w-full h-full transition hover:brightness-95 active:brightness-92"
           />
         </button>

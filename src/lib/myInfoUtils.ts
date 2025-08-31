@@ -111,4 +111,15 @@ const deletePet = async (id: number) => {
   }
 };
 
-export { deleteProfileImage, changeProfileImage, fetchWithDraw, deletePet };
+const hasInvalidChars = (str: string): boolean => {
+  const regex = /^[가-힣a-zA-Z0-9]+$/;
+  return !regex.test(str);
+};
+
+export {
+  deleteProfileImage,
+  changeProfileImage,
+  fetchWithDraw,
+  deletePet,
+  hasInvalidChars,
+};
