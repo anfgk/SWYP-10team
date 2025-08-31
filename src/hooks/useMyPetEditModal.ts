@@ -1,26 +1,23 @@
 import { fetchWithAuth } from "@/lib/fetchUtils";
 import { refetchProfile } from "@/lib/authUtils";
 import { useState, useEffect, useRef } from "react";
+import type { PetData } from "@/types/apiResponseTypes";
 import { hasInvalidChars } from "@/lib/myInfoUtils";
 
-const useMyPetAddModal = () => {
+const useMyPetEditModal = (petData: PetData) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [previewUrl, setPreviewUrl] = useState<string>(petData.imageUrl);
 
-  const [gender, setGender] = useState<"F" | "M">("F");
-  const [name, setName] = useState("");
-  const [type, setType] = useState("강아지");
-  const [size, setSize] = useState("소형");
-  const [birthDay, setBirthDay] = useState("2025-01-01");
+  const [gender, setGender] = useState(petData.gender);
+  const [name, setName] = useState(petData.name);
+  const [type, setType] = useState(petData.type);
+  const [size, setSize] = useState(petData.size);
+  const [birthDay, setBirthDay] = useState(petData.birth);
 
   useEffect(() => {
-    if (!image) {
-      // 기존 미리보기 정리
-      if (previewUrl.startsWith("blob:")) URL.revokeObjectURL(previewUrl);
-      setPreviewUrl("");
-      return;
-    }
+    if (!image) return;
+
     const url = URL.createObjectURL(image);
     setPreviewUrl(url);
     return () => {
@@ -54,8 +51,8 @@ const useMyPetAddModal = () => {
 
     try {
       console.log([...formData.entries()]);
-      const res = await fetchWithAuth(`/api/pet/profile`, {
-        method: "POST",
+      const res = await fetchWithAuth(`/api/pet/profile/${petData.petId}`, {
+        method: "PATCH",
         body: formData,
       });
 
@@ -66,16 +63,16 @@ const useMyPetAddModal = () => {
         } else if (res.status === 404) {
           alert("사용자를 찾을 수 없습니다.");
         } else {
-          alert("반려동물 등록에 실패했습니다.");
+          alert("반려동물 정보 수정에 실패했습니다.");
           throw new Error("반려동물 등록 api 실패");
         }
         return;
       }
 
-      alert("등록이 완료되었습니다.");
+      alert("수정이 완료되었습니다.");
       await refetchProfile();
     } catch (e) {
-      console.log("반려동물 등록 요청 실패: ", e);
+      console.log("반려동물 수정 요청 실패: ", e);
     }
   };
 
@@ -124,4 +121,4 @@ const useMyPetAddModal = () => {
   };
 };
 
-export { useMyPetAddModal };
+export { useMyPetEditModal };

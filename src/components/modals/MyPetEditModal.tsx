@@ -7,12 +7,14 @@ import ModalButton from "./common/ModalButton";
 import ModalSelectBox from "./common/ModalSelectBox";
 import { petSize, petType } from "@/configs/petOptions";
 import Calendar from "../mypage/Calendar";
-import { useMyPetAddModal } from "@/hooks/useMyPetAddModal";
+import { useMyPetEditModal } from "@/hooks/useMyPetEditModal";
+import type { PetData } from "@/types/apiResponseTypes";
 
 interface Props {
   onClose: () => void;
+  petData: PetData;
 }
-const MyPetAddModal = ({ onClose }: Props) => {
+const MyPetEditModal = ({ onClose, petData }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   useModalEscapeKey(onClose);
 
@@ -32,7 +34,7 @@ const MyPetAddModal = ({ onClose }: Props) => {
     handleSubmit,
     openPicker,
     onFileChange,
-  } = useMyPetAddModal();
+  } = useMyPetEditModal(petData);
 
   return (
     <ModalBackground onClose={onClose}>
@@ -72,22 +74,6 @@ const MyPetAddModal = ({ onClose }: Props) => {
           </div>
           <div className="w-full h-fit flex flex-col gap-[24px] items-center">
             <div className="w-[300px] h-[200px] overflow-hidden rounded-[16px]">
-              {/* {previewUrl ? (
-                <img
-                  src={previewUrl}
-                  className="w-full h-full object-cover object-center"
-                />
-              ) : (
-                <button
-                  className="w-full h-full cursor-pointer"
-                  onClick={openPicker}
-                >
-                  <img
-                    src="/assets/images/common/pet_add_thumbnail.png"
-                    className="w-full h-full"
-                  />
-                </button>
-              )} */}
               <button
                 className="w-full h-full cursor-pointer"
                 onClick={openPicker}
@@ -196,4 +182,4 @@ const MyPetAddModal = ({ onClose }: Props) => {
   );
 };
 
-export default MyPetAddModal;
+export default MyPetEditModal;
