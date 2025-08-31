@@ -1,5 +1,7 @@
+import { jwtDecode } from "jwt-decode";
 import { fetchWithAuth } from "./fetchUtils";
 import { useAuthStore } from "@/stores/authStore";
+import type { JWTPayLoad } from "@/types/apiResponseTypes";
 //import { jwtDecode } from "jwt-decode";
 //import type { JWTPayLoad } from "@/types/apiResponseTypes";
 
@@ -22,9 +24,9 @@ const logoutProcess = async () => {
 const decodeAndSetAuth = (data: any) => {
   const { setAuth } = useAuthStore.getState();
   const accessToken = data.data.accessToken;
-  // const decoded = jwtDecode<JWTPayLoad>(accessToken);
-  // const { displayName, email } = decoded;
-  setAuth(accessToken, { name: "", email: "" });
+  const decoded = jwtDecode<JWTPayLoad>(accessToken);
+  const { displayName, email } = decoded;
+  setAuth(accessToken, { name: displayName, email: email });
 };
 
 const refetchProfile = async () => {
