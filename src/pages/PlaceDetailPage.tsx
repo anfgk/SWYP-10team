@@ -17,7 +17,7 @@ const PlaceDetailPage = () => {
   const { isOpen } = usePhotoModalStore();
   return (
     <MainContainer>
-      <title>어다가냥?같이가개! | 상세페이지 </title>
+      <title>어디가냥?같이가개! | 상세페이지 </title>
       <meta name="description" content={`어디가냥?같이가개! 상세 페이지`} />
       {loading ? (
         <p>불러오는 중...</p>
