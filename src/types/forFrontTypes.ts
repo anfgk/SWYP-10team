@@ -11,4 +11,24 @@ type PlannerStep = "select" | "result";
 
 type Coord = { mapX: number; mapY: number };
 
-export type { MixedImage, regionKey, scheduleKey, PlannerStep, Coord };
+type TabKey = "basic" | "guide" | "detail" | "companion";
+
+type FieldDef = { label: string; key: string };
+
+type TabFields = {
+  basic: FieldDef[];
+  guide: FieldDef[];
+  detail: FieldDef[];
+  companion: FieldDef[];
+};
+
+export type {
+  MixedImage,
+  regionKey,
+  scheduleKey,
+  PlannerStep,
+  Coord,
+  TabKey,
+  FieldDef,
+  TabFields,
+};

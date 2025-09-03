@@ -2,6 +2,7 @@ import { emptyStringToDefault } from "@/lib/placeDetailUtils";
 import { removeTags } from "@/lib/commonUtils";
 import PlaceDescriptionDiv from "./PlaceDescriptionDiv";
 import type { PetGuideData } from "@/types/apiResponseTypes";
+import TabsInfo from "./TabsInfo";
 
 interface Props {
   desc: string;
@@ -22,12 +23,7 @@ const PlaceInfoSection = ({
 }: Props) => {
   return (
     <section className="w-full h-fit flex flex-col gap-[16px] pb-[72px]">
-      {/* 태그 디비전 */}
-      {/* <div className="w-full h-[28px] flex gap-[8px]">
-        {tags.map((tag, i) => (
-          <TagLabel key={i} value={tag} />
-        ))}
-      </div> */}
+      <TabsInfo />
       {/* 장소 정보 디비전 */}
       <div className="w-full h-fit flex flex-col gap-[8px]">
         <PlaceDescriptionDiv
