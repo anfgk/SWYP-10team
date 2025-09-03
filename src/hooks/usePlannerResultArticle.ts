@@ -33,7 +33,8 @@ const usePlannerArticle = () => {
         });
 
         if (res.status === 404) {
-          alert("추천할 관광지가 없어요");
+          const data = await res.json();
+          alert(data.message);
           navigate("/aiplanner?step=select");
           return;
         }
