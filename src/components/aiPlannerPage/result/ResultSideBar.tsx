@@ -1,4 +1,4 @@
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayPlan } from "@/types/apiResponseTypes";
 import { useState } from "react";
 import ResultSideBarIndicator from "./ResultSideBarIndicator";
 import ResultSection from "./ResultSection";
@@ -7,7 +7,7 @@ interface Props {
   setDay: (day: number) => void;
   day: number;
   totalDays: number;
-  filteredData: PlannerMapPlacesData[];
+  filteredData: PlannerDayPlan;
   distance: number;
 }
 

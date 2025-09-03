@@ -2,6 +2,7 @@ import { useAuthStore } from "@/stores/authStore";
 import OptionSelectButton from "../select/OptionSelectButton";
 import { usePlannerSelectionStore } from "@/stores/plannerSelectionStore";
 import ResultDescDiv from "./ResultDescDiv";
+import { scheduleKeyToLabel, SIDO_NAME } from "@/configs/searchConstants";
 
 interface Props {
   setDay: (day: number) => void;
@@ -22,8 +23,8 @@ const ResultInfoSection = ({ setDay, day, totalDays, distance }: Props) => {
             key={i}
             w={85}
             value={`DAY${i + 1}`}
-            isActive={day === i}
-            onClick={() => setDay(i)}
+            isActive={day === i + 1}
+            onClick={() => setDay(i + 1)}
           />
         ))}
       </div>
@@ -34,8 +35,14 @@ const ResultInfoSection = ({ setDay, day, totalDays, distance }: Props) => {
         </h4>
         <div className="w-full h-[74px] flex flex-col gap-[4px]">
           <ResultDescDiv type="총 이동거리" value={distance + "km"} />
-          <ResultDescDiv type="여행지역" value={region ?? ""} />
-          <ResultDescDiv type="여행일정" value={schedule ?? ""} />
+          <ResultDescDiv
+            type="여행지역"
+            value={region ? SIDO_NAME[region] : "-"}
+          />
+          <ResultDescDiv
+            type="여행일정"
+            value={schedule ? scheduleKeyToLabel[schedule] : "-"}
+          />
         </div>
       </div>
     </section>

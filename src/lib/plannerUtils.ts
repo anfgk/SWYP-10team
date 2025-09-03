@@ -1,4 +1,4 @@
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayContents } from "@/types/apiResponseTypes";
 import type { Coord } from "@/types/forFrontTypes";
 import { getDistanceInKm } from "./searchResultCardUtils";
 
@@ -19,7 +19,7 @@ const getCenterPoint = (coords: Coord[]) => {
   };
 };
 
-const getRouteDistance = (items: PlannerMapPlacesData[]) => {
+const getRouteDistance = (items: PlannerDayContents[]) => {
   if (!items.length) return 0;
 
   let total = 0;

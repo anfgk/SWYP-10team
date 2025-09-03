@@ -1,11 +1,19 @@
-import type { regionMap, scheduleOptions } from "@/configs/searchConstants";
+import type {
+  scheduleOptionsWithKey,
+  SIDO_CODE,
+} from "@/configs/searchConstants";
 import type { ResponseImage } from "./apiResponseTypes";
 
 type MixedImage = File | ResponseImage;
 
-type regionKey = keyof typeof regionMap;
+type RegionKey = keyof typeof SIDO_CODE;
 
-type scheduleKey = (typeof scheduleOptions)[number];
+type RegionCode = (typeof SIDO_CODE)[keyof typeof SIDO_CODE];
+
+type ScheduleKey = keyof typeof scheduleOptionsWithKey;
+
+type ScheduleCode =
+  (typeof scheduleOptionsWithKey)[keyof typeof scheduleOptionsWithKey];
 
 type PlannerStep = "select" | "result";
 
@@ -24,8 +32,10 @@ type TabFields = {
 
 export type {
   MixedImage,
-  regionKey,
-  scheduleKey,
+  RegionKey,
+  RegionCode,
+  ScheduleKey,
+  ScheduleCode,
   PlannerStep,
   Coord,
   TabKey,
