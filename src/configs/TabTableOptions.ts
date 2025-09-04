@@ -120,7 +120,6 @@ export const tabsByContentType: Record<number, Partial<TabFields>> = {
       { label: "대표 메뉴", key: "additionalInformation.signatureMenu" },
       { label: "취급 메뉴", key: "additionalInformation.treatMenu" },
       { label: "좌석 수", key: "additionalInformation.seat" },
-      { label: "규모", key: "additionalInformation.scale" },
       { label: "어린이 놀이방", key: "additionalInformation.kidsFacility" },
     ],
     companion: companionCommon,
