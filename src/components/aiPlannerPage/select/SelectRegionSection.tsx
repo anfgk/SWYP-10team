@@ -16,7 +16,7 @@ const SelectRegionSection = () => {
       <div className="w-full h-[100px] flex gap-[16px] flex-wrap">
         {Object.keys(SIDO_CODE).map((current, i) => (
           <OptionSelectButton
-            key={SIDO_CODE[current]}
+            key={i}
             w={76}
             value={current}
             isActive={SIDO_CODE[current] === region}
