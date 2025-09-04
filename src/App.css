@@ -51,6 +51,9 @@
 
   --textarea-border: rgba(191, 191, 191, 0.4);
 
+  --tab-fg: rgba(238, 103, 104, 0.45);
+  --tab-bg: rgba(238, 103, 104, 0.05);
+
   --kakao: #fee500;
   --naver: #03c75a;
   --google: #ffffff;

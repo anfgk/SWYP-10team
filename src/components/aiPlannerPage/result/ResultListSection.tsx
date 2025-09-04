@@ -1,15 +1,20 @@
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayPlan } from "@/types/apiResponseTypes";
 import ResultListCard from "./ResultListCard";
 
 interface Props {
-  filteredData: PlannerMapPlacesData[];
+  filteredData: PlannerDayPlan;
 }
 
 const ResultListSection = ({ filteredData }: Props) => {
   return (
     <section className="w-full flex flex-col gap-[24px]">
-      {filteredData.map((data, i) => (
-        <ResultListCard key={i} cardData={data} />
+      {filteredData.dayContents.map((contents, i) => (
+        <ResultListCard
+          key={i}
+          cardData={contents}
+          day={filteredData.day}
+          index={i}
+        />
       ))}
     </section>
   );

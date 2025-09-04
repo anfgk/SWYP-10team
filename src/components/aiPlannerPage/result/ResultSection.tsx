@@ -1,4 +1,4 @@
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayPlan } from "@/types/apiResponseTypes";
 import ResultInfoSection from "./ResultInfoSection";
 import ResultListSection from "./ResultListSection";
 
@@ -6,7 +6,7 @@ interface Props {
   setDay: (day: number) => void;
   day: number;
   totalDays: number;
-  filteredData: PlannerMapPlacesData[];
+  filteredData: PlannerDayPlan;
   distance: number;
 }
 

@@ -9,7 +9,7 @@ interface Props {
 const MyPageScaffold = ({ title, children }: Props) => {
   return (
     <MyPageContainerFixed>
-      <title>어다가냥?같이가개! | 마이페이지</title>
+      <title>어디가냥?같이가개! | 마이페이지</title>
       <h1 className="absolute left-0 top-0 w-fit h-[38px] font-semibold flex items-center text-[24px]">
         {title}
       </h1>

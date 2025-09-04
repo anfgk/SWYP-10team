@@ -1,4 +1,4 @@
-import { scheduleOptions } from "@/configs/searchConstants";
+import { scheduleOptionsWithKey } from "@/configs/searchConstants";
 import OptionSelectButton from "./OptionSelectButton";
 import { usePlannerSelectionStore } from "@/stores/plannerSelectionStore";
 
@@ -12,13 +12,13 @@ const SelectScheduleSection = () => {
       </h2>
       {/* 일정 칩 */}
       <div className="w-full h-[38px] flex gap-[16px]">
-        {scheduleOptions.map((current, i) => (
+        {Object.keys(scheduleOptionsWithKey).map((current, i) => (
           <OptionSelectButton
             key={i}
             w={104}
             value={current}
-            isActive={current === schedule}
-            onClick={() => setSchedule(current)}
+            isActive={scheduleOptionsWithKey[current] === schedule}
+            onClick={() => setSchedule(scheduleOptionsWithKey[current])}
           />
         ))}
       </div>

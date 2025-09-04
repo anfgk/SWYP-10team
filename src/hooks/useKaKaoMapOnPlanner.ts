@@ -1,5 +1,5 @@
 import { getCenterPoint } from "@/lib/plannerUtils";
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayPlan } from "@/types/apiResponseTypes";
 import { useEffect, useMemo, useRef } from "react";
 
 declare global {
@@ -9,21 +9,24 @@ declare global {
 }
 
 interface Props {
-  items: PlannerMapPlacesData[];
+  item?: PlannerDayPlan | undefined;
 }
-const useKakaoMapOnPlanner = ({ items }: Props) => {
+
+const useKakaoMapOnPlanner = ({ item }: Props) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<any | null>(null);
   const markersRef = useRef<any[]>([]);
 
+  const places = item?.dayContents ?? [];
+
   const coords = useMemo(
     () =>
-      items
+      places
         .filter(
           (it) => typeof it.mapx === "number" && typeof it.mapy === "number"
         )
         .map((it) => ({ mapX: it.mapx, mapY: it.mapy })),
-    [items]
+    [item]
   );
 
   const mapCenter = useMemo(() => getCenterPoint(coords), [coords]);
@@ -43,8 +46,8 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
 
       // 마커 추가
       const addMarkers = () => {
-        items.forEach((item) => {
-          const imgSrc = `/assets/icons/markers/marker${item.day + 1}_${item.index + 1}.png`;
+        places.forEach((content, i) => {
+          const imgSrc = `/assets/icons/markers/marker${item ? item.day : "1"}_${i + 1}.png`;
           const imgSize = new kakao.maps.Size(48, 48);
           const imgOption = { offset: new kakao.maps.Point(24, 48) };
           const markerImg = new kakao.maps.MarkerImage(
@@ -53,7 +56,10 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
             imgOption
           );
 
-          const markerPosition = new kakao.maps.LatLng(item.mapy, item.mapx);
+          const markerPosition = new kakao.maps.LatLng(
+            content.mapy,
+            content.mapx
+          );
 
           const marker = new kakao.maps.Marker({
             position: markerPosition,
@@ -65,7 +71,7 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
 
           kakao.maps.event.addListener(marker, "click", () => {
             window.open(
-              `/placedetail/${item.contentId}`,
+              `/placedetail/${content.contentId}`,
               "_blank",
               "noopener,noreferrer"
             );
@@ -73,12 +79,12 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
 
           markersRef.current.push(marker);
 
-          const iwContent = `<div class="k-iw">${item.title}</div>`;
+          const iwContent = `<div class="k-iw">${content.title}</div>`;
 
           const overlay = new kakao.maps.CustomOverlay({
             content: iwContent,
             map: mapInstance.current,
-            position: new kakao.maps.LatLng(item.mapy, item.mapx),
+            position: new kakao.maps.LatLng(content.mapy, content.mapx),
             yAnchor: 2.2,
           });
 
@@ -122,7 +128,7 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
       // 맵 인스턴스가 없으면 맵 새로 생성
       const options = {
         center: new kakao.maps.LatLng(mapCenter?.mapY, mapCenter?.mapX),
-        level: 8,
+        level: 10,
       };
 
       mapInstance.current = new kakao.maps.Map(mapRef.current, options);
@@ -142,7 +148,7 @@ const useKakaoMapOnPlanner = ({ items }: Props) => {
 
       addMarkers();
     });
-  }, [items]);
+  }, [item]);
 
   return { mapRef };
 };

@@ -1,14 +1,48 @@
-import type { regionMap, scheduleOptions } from "@/configs/searchConstants";
-import type { ResponseImage } from "./apiResponseTypes";
+import type {
+  scheduleOptionsWithKey,
+  SIDO_CODE,
+} from "@/configs/searchConstants";
+import type { PlaceDetailData, ResponseImage } from "./apiResponseTypes";
 
 type MixedImage = File | ResponseImage;
 
-type regionKey = keyof typeof regionMap;
+type RegionKey = keyof typeof SIDO_CODE;
 
-type scheduleKey = (typeof scheduleOptions)[number];
+type RegionCode = (typeof SIDO_CODE)[keyof typeof SIDO_CODE];
+
+type ScheduleKey = keyof typeof scheduleOptionsWithKey;
+
+type ScheduleCode =
+  (typeof scheduleOptionsWithKey)[keyof typeof scheduleOptionsWithKey];
 
 type PlannerStep = "select" | "result";
 
 type Coord = { mapX: number; mapY: number };
 
-export type { MixedImage, regionKey, scheduleKey, PlannerStep, Coord };
+type TabKey = "basic" | "guide" | "detail" | "companion";
+
+type FieldDef = {
+  label: string;
+  key?: string;
+  render?: (place: PlaceDetailData) => string;
+};
+
+type TabFields = {
+  basic: FieldDef[];
+  guide: FieldDef[];
+  detail: FieldDef[];
+  companion: FieldDef[];
+};
+
+export type {
+  MixedImage,
+  RegionKey,
+  RegionCode,
+  ScheduleKey,
+  ScheduleCode,
+  PlannerStep,
+  Coord,
+  TabKey,
+  FieldDef,
+  TabFields,
+};

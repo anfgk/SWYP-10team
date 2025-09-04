@@ -37,6 +37,21 @@ const useProfileImageCropModal = ({ currentImage }: Props) => {
     const f = e.target.files?.[0];
     if (!f) return;
 
+    // 용량 체크 (5MB 제한)
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    if (f.size > MAX_SIZE) {
+      alert("파일 용량은 5MB 이하여야 합니다.");
+      e.currentTarget.value = "";
+      return;
+    }
+
+    // 이미지 타입만 허용
+    if (!f.type.startsWith("image/")) {
+      alert("이미지 파일(jpg, jpeg, png)만 선택할 수 있습니다.");
+      e.currentTarget.value = "";
+      return;
+    }
+
     if (imageURL.startsWith("blob:")) URL.revokeObjectURL(imageURL);
     const url = URL.createObjectURL(f);
     setImageURL(url);

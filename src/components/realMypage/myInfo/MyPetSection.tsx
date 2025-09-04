@@ -10,6 +10,7 @@ const MyPetSection = () => {
       </h2>
 
       <MyPetSlideSection petList={petList} />
+      <div id="modal-root" />
     </section>
   );
 };

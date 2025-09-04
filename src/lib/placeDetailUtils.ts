@@ -15,14 +15,14 @@ const heartClickedWithLogin = (
   checked: boolean,
   setChecked: React.Dispatch<React.SetStateAction<boolean>>,
   likeChecked: boolean,
-  setLikedAmount: React.Dispatch<React.SetStateAction<number>>,
+  setLikedAmount: React.Dispatch<React.SetStateAction<number>>
 ) => {
   //api 요청 부분(장소 좋아요)
   const fetchPlaceLike = async () => {
     try {
       const res = await fetchWithAuth(
         `/api/content/wish-check?contentId=${placeid}`,
-        { method: "POST" },
+        { method: "POST" }
       );
 
       if (res.status === 200) {
@@ -48,4 +48,26 @@ const emptyStringToDefault = (str: string): string => {
   }
 };
 
-export { formatDateToString, heartClickedWithLogin, emptyStringToDefault };
+const formatPlaceValue = (val: any): string => {
+  if (val === null || val === undefined || val === "") {
+    return "-";
+  }
+
+  if (typeof val === "boolean") {
+    return val ? "O" : "X";
+  }
+
+  return String(val);
+};
+
+// 객체(placeDetailData)안의 객체안의 요소 값들을 찾아낼 때 사용
+const getValueByPath = (obj: any, path: string) =>
+  path.split(".").reduce((acc, k) => (acc != null ? acc[k] : undefined), obj);
+
+export {
+  formatDateToString,
+  heartClickedWithLogin,
+  emptyStringToDefault,
+  getValueByPath,
+  formatPlaceValue,
+};
