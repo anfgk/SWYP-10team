@@ -19,7 +19,7 @@ const PlannerResultArticle = () => {
       )}
 
       {loading ? (
-        <p className="text-xl text-[var(--place-neutral)] w-full h-full flex justify-center items-center">
+        <p className="text-xl text-[var(--main-color)] font-dunggeunmiso font-bold w-full h-full flex justify-center items-center">
           불러오는 중...
         </p>
       ) : (

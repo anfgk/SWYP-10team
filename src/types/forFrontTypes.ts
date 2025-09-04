@@ -2,7 +2,7 @@ import type {
   scheduleOptionsWithKey,
   SIDO_CODE,
 } from "@/configs/searchConstants";
-import type { ResponseImage } from "./apiResponseTypes";
+import type { PlaceDetailData, ResponseImage } from "./apiResponseTypes";
 
 type MixedImage = File | ResponseImage;
 
@@ -21,7 +21,11 @@ type Coord = { mapX: number; mapY: number };
 
 type TabKey = "basic" | "guide" | "detail" | "companion";
 
-type FieldDef = { label: string; key: string };
+type FieldDef = {
+  label: string;
+  key?: string;
+  render?: (place: PlaceDetailData) => string;
+};
 
 type TabFields = {
   basic: FieldDef[];

@@ -2,12 +2,13 @@ import { labels } from "@/configs/TabTableOptions";
 import type { PlaceDetailData } from "@/types/apiResponseTypes";
 import type { TabKey } from "@/types/forFrontTypes";
 import { useState } from "react";
+import TabDescription from "./TabDescription";
 
 interface Props {
   placeData: PlaceDetailData;
 }
 
-const TabsInfo = () => {
+const TabsInfo = ({ placeData }: Props) => {
   const [active, setActive] = useState<TabKey>("basic");
 
   return (
@@ -38,6 +39,7 @@ const TabsInfo = () => {
           }
         )}
       </div>
+      {placeData && <TabDescription placeData={placeData} tabKey={active} />}
     </div>
   );
 };
