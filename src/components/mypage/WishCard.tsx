@@ -35,7 +35,7 @@ const WishCard = ({
   return (
     <div className="flex flex-col gap-2">
       <div
-        className="relative w-[222px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
+        className="relative w-[224px] h-[168px] bg-gray-300 rounded-lg overflow-hidden cursor-pointer"
         onClick={() => navigate(`/placedetail/${id}`)}
       >
         <img
@@ -53,34 +53,30 @@ const WishCard = ({
         {/* 이미지 위에 오버레이 버튼들 */}
         <div className="absolute bottom-2 right-2 flex gap-2 cursor-pointer">
           {/* 찜하기 버튼 */}
-          <div className="w-[40px] h-[40px] flex items-center justify-center">
-            <SvgButton
-              svgname={
-                isLoggedIn
-                  ? liked
-                    ? "thumbnailHeartClicked"
-                    : "thumbnailHeart"
+          <SvgButton
+            svgname={
+              isLoggedIn
+                ? liked
+                  ? "thumbnailHeartClicked"
                   : "thumbnailHeart"
-              }
-              width={40}
-              height={40}
-              onClick={() => {
-                isLoggedIn
-                  ? heartClickedWithLogin(id.toString(), liked, setLiked)
-                  : loginConfirmAlert(navigate);
-              }}
-            />
-          </div>
+                : "thumbnailHeart"
+            }
+            width={40}
+            height={40}
+            onClick={() => {
+              isLoggedIn
+                ? heartClickedWithLogin(id.toString(), liked, setLiked)
+                : loginConfirmAlert(navigate);
+            }}
+          />
 
           {/* 공유하기 버튼 - GoShareAndroid 아이콘으로 변경 */}
-          <div className="w-[40px] h-[40px] flex items-center justify-center">
-            <SvgButton
-              svgname="thumbnailShare"
-              width={40}
-              height={40}
-              onClick={() => copyPlacePage(id.toString())}
-            />
-          </div>
+          <SvgButton
+            svgname="thumbnailShare"
+            width={40}
+            height={40}
+            onClick={() => copyPlacePage(id.toString())}
+          />
         </div>
       </div>
       <div className="text-sm font-medium text-gray-800">{name}</div>

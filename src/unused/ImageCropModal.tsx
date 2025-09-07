@@ -6,7 +6,7 @@ import "./ImageCropModal.css";
 interface ImageCropModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCrop: (croppedImage: string | File) => void;
+  onCrop: (croppedImage: string) => void;
   imageFile: File | null;
   currentImage?: string;
 }
@@ -43,22 +43,15 @@ const ImageCropModal = ({
   const handleCrop = () => {
     const cropper = (cropperRef.current as any)?.cropper;
     if (cropper) {
-      const canvas = cropper.getCroppedCanvas({
-        width: 300,
-        height: 300,
-        imageSmoothingQuality: "high",
-      });
-      
-      // File 형식으로 변환
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], "cropped-image.jpg", {
-            type: "image/jpeg",
-          });
-          onCrop(file);
-          onClose();
-        }
-      }, "image/jpeg", 0.9);
+      const croppedDataUrl = cropper
+        .getCroppedCanvas({
+          width: 300,
+          height: 300,
+          imageSmoothingQuality: "high",
+        })
+        .toDataURL("image/jpeg", 0.9);
+      onCrop(croppedDataUrl);
+      onClose();
     }
   };
 

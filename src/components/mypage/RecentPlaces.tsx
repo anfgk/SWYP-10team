@@ -84,28 +84,13 @@ const RecentPlaces = () => {
     );
   }
 
-  // 슬라이드 제어 및 이동 거리 계산 (UI 크기 변경 없이 간격 보정)
-  const VIEWPORT_WIDTH = 939; // 뷰포트 고정
-  const GROUP_WIDTH = 939; // 현재 그룹 컨테이너 폭 유지 (UI 변경 없음)
-  const TRACK_GAP = 16; // 그룹 간 간격 16px (트랙 gap-[16px]과 일치)
-  const EDGE = 16; // 첫/끝 가장자리 시각적 간격 16px
-
-  // 전체 콘텐츠 폭: 앞 여백 + (그룹폭 * 개수) + (그룹간갭 * (개수-1)) + 뒤 여백
-  const totalWidth =
-    EDGE + slides.length * GROUP_WIDTH + (slides.length - 1) * TRACK_GAP + EDGE;
-  // 목표 오프셋: 앞 여백 + (그룹폭+그룹간갭) * 인덱스
-  const targetOffset = EDGE + slideIndex * (GROUP_WIDTH + TRACK_GAP);
-  const clampedTranslate = Math.min(
-    targetOffset,
-    Math.max(0, totalWidth - VIEWPORT_WIDTH)
-  );
-
+  // 슬라이드 제어 함수
   const handleNext = () => {
-    setSlideIndex((prev) => Math.min(prev + 1, slides.length - 1));
+    setSlideIndex((prev) => (prev + 1) % slides.length);
   };
 
   const handlePrev = () => {
-    setSlideIndex((prev) => Math.max(prev - 1, 0));
+    setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   console.log("RecentPlaces 디버깅:", {
@@ -137,8 +122,11 @@ const RecentPlaces = () => {
         <div className="flex flex-col items-center relative w-[939px] h-full">
           <div className="w-full h-full overflow-hidden">
             <div
-              className="flex transition-transform duration-700 ease-in-out gap-[16px]"
-              style={{ transform: `translateX(-${clampedTranslate}px)` }}
+              className="flex transition-transform duration-700 ease-in-out gap-[20px]"
+              style={{
+                transform: `translateX(-${slideIndex * 939}px)`,
+                width: `1px`,
+              }}
             >
               {slides.length > 0 &&
                 slides.map((slide, i) => (
@@ -157,7 +145,6 @@ const RecentPlaces = () => {
               <button
                 className="absolute left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handlePrev}
-                disabled={slideIndex === 0}
               >
                 <img
                   src="/assets/buttons/button_left.png"
@@ -166,9 +153,8 @@ const RecentPlaces = () => {
                 />
               </button>
               <button
-                className="absolute right-0 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
+                className="absolute right-5 translate-x-1/2 top-1/2 -translate-y-1/2 w-[40px] h-[40px] cursor-pointer"
                 onClick={handleNext}
-                disabled={slideIndex === slides.length - 1}
               >
                 <img
                   src="/assets/buttons/button_right.png"

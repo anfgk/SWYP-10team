@@ -1,5 +1,3 @@
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-
 interface PaginationProps {
   currentPage: number;
   totalPages: number;

@@ -18,13 +18,8 @@ interface Props {
 }
 
 const RecentSlide = ({ placeList, onToggleWish }: Props) => {
-  // 그룹 컨테이너 폭을 939px로 고정
-  const GROUP_WIDTH = 939;
   return (
-    <div
-      className="flex flex-shrink-0 gap-[16px]"
-      style={{ width: `${GROUP_WIDTH}px` }}
-    >
+    <div className="flex flex-shrink-0 gap-2">
       {placeList.map((place, index) => (
         <RecentCard
           key={index}

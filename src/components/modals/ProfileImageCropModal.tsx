@@ -117,6 +117,7 @@ export default function ProfileImageCropModal({
             textSize={14}
             onClick={() => {
               if (!croppedFile) return;
+
               changeProfileImage(croppedFile);
             }}
             isActive={!!croppedFile}
