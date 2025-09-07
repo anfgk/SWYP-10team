@@ -1,6 +1,7 @@
 import { fetchWithAuth } from "@/lib/fetchUtils";
 import { refetchProfile } from "@/lib/authUtils";
 import { useState, useEffect, useRef } from "react";
+import { hasInvalidChars } from "@/lib/myInfoUtils";
 
 const useMyPetAddModal = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,6 +33,11 @@ const useMyPetAddModal = () => {
 
     if (trimmed.length < 1) {
       alert("이름은 한글자 이상이여야 합니다.");
+      return;
+    }
+
+    if (hasInvalidChars(trimmed)) {
+      alert("이름에 특수문자, 공백을 포함할 수 없습니다.");
       return;
     }
 
@@ -79,9 +85,25 @@ const useMyPetAddModal = () => {
     const f = e.target.files?.[0];
     if (!f) return;
 
+    // 용량 체크 (5MB 제한)
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    if (f.size > MAX_SIZE) {
+      alert("파일 용량은 5MB 이하여야 합니다.");
+      e.currentTarget.value = "";
+      return;
+    }
+
+    // 이미지 타입만 허용
+    if (!f.type.startsWith("image/")) {
+      alert("이미지 파일(jpg, jpeg, png)만 선택할 수 있습니다.");
+      e.currentTarget.value = "";
+      return;
+    }
+
     setImage(f);
     e.currentTarget.value = "";
   };
+
   return {
     gender,
     name,

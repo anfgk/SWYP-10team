@@ -207,7 +207,11 @@ export const SIDO_CODE: Record<string, number> = {
   전북: 37,
   전남: 38,
   제주: 39,
-};
+} as const;
+
+export const SIDO_NAME = Object.fromEntries(
+  Object.entries(SIDO_CODE).map(([k, v]) => [v, k])
+) as Record<(typeof SIDO_CODE)[keyof typeof SIDO_CODE], keyof typeof SIDO_CODE>;
 
 export const SIGUNGU_CODE: Record<string, Record<string, number>> = {
   경기: {
@@ -394,5 +398,18 @@ export const CONTENT_TYPE_ID: Record<string, number> = {
 };
 
 export const CONTENT_TYPE_NAME: Record<number, string> = Object.fromEntries(
-  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key]),
+  Object.entries(CONTENT_TYPE_ID).map(([key, value]) => [value, key])
 ) as Record<number, string>;
+
+export const scheduleOptionsWithKey: Record<string, string> = {
+  당일치기: "DAY_TRIP",
+  "1박 2일": "ONE_NIGHT",
+  "2박 3일": "TWO_NIGHT",
+} as const;
+
+export const scheduleKeyToLabel = Object.fromEntries(
+  Object.entries(scheduleOptionsWithKey).map(([k, v]) => [v, k])
+) as Record<
+  (typeof scheduleOptionsWithKey)[keyof typeof scheduleOptionsWithKey],
+  keyof typeof scheduleOptionsWithKey
+>;

@@ -8,7 +8,7 @@ import ScrollToTopButton from "@/components/common/ScrollToTopButton";
 const MainPage = () => {
   return (
     <div>
-      <title>어다가냥?같이가개! | 반려동물과 함께하는 생활</title>
+      <title>어디가냥?같이가개! | 반려동물과 함께하는 생활</title>
       <meta name="description" content="어디가냥?같이가개! 메인 페이지" />
 
       <SearchSection />

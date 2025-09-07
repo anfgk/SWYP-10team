@@ -75,7 +75,7 @@ const RecentPlaces = () => {
 
   if (recentList.length === 0) {
     return (
-      <div className="mt-12 mb-16 w-[944px]">
+      <div className="mt-12 mb-16 w-[939px]">
         <h2 className="text-xl font-semibold mb-6">최근 본 장소</h2>
         <div className="w-full h-[200px] flex items-center justify-center">
           <p className="text-gray-500">최근 본 장소가 없습니다.</p>
@@ -84,17 +84,20 @@ const RecentPlaces = () => {
     );
   }
 
-  // 슬라이드 제어 및 이동 거리 계산
-  const CARD_WIDTH = 224;
-  const GAP = 16; // 요청: 16px 간격
-  const VISIBLE_COUNT = 4;
-  const SLIDE_WIDTH = CARD_WIDTH * VISIBLE_COUNT + GAP * (VISIBLE_COUNT - 1); // 944
+  // 슬라이드 제어 및 이동 거리 계산 (UI 크기 변경 없이 간격 보정)
+  const VIEWPORT_WIDTH = 939; // 뷰포트 고정
+  const GROUP_WIDTH = 939; // 현재 그룹 컨테이너 폭 유지 (UI 변경 없음)
+  const TRACK_GAP = 16; // 그룹 간 간격 16px (트랙 gap-[16px]과 일치)
+  const EDGE = 16; // 첫/끝 가장자리 시각적 간격 16px
 
-  const totalWidth = slides.length * SLIDE_WIDTH;
-  const viewportWidth = SLIDE_WIDTH;
+  // 전체 콘텐츠 폭: 앞 여백 + (그룹폭 * 개수) + (그룹간갭 * (개수-1)) + 뒤 여백
+  const totalWidth =
+    EDGE + slides.length * GROUP_WIDTH + (slides.length - 1) * TRACK_GAP + EDGE;
+  // 목표 오프셋: 앞 여백 + (그룹폭+그룹간갭) * 인덱스
+  const targetOffset = EDGE + slideIndex * (GROUP_WIDTH + TRACK_GAP);
   const clampedTranslate = Math.min(
-    slideIndex * SLIDE_WIDTH,
-    Math.max(0, totalWidth - viewportWidth)
+    targetOffset,
+    Math.max(0, totalWidth - VIEWPORT_WIDTH)
   );
 
   const handleNext = () => {
@@ -131,13 +134,11 @@ const RecentPlaces = () => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center relative w-[944px] h-full">
+        <div className="flex flex-col items-center relative w-[939px] h-full">
           <div className="w-full h-full overflow-hidden">
             <div
-              className="flex transition-transform duration-700 ease-in-out gap-0"
-              style={{
-                transform: `translateX(-${clampedTranslate}px)`,
-              }}
+              className="flex transition-transform duration-700 ease-in-out gap-[16px]"
+              style={{ transform: `translateX(-${clampedTranslate}px)` }}
             >
               {slides.length > 0 &&
                 slides.map((slide, i) => (

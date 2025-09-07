@@ -18,8 +18,8 @@ interface Props {
 }
 
 const RecentSlide = ({ placeList, onToggleWish }: Props) => {
-  // 각 그룹 컨테이너의 고정 폭: 카드 224 * 4 + 갭 16 * 3 = 944px
-  const GROUP_WIDTH = 224 * 4 + 16 * 3;
+  // 그룹 컨테이너 폭을 939px로 고정
+  const GROUP_WIDTH = 939;
   return (
     <div
       className="flex flex-shrink-0 gap-[16px]"

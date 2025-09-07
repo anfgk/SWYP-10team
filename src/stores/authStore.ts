@@ -37,6 +37,13 @@ export const useAuthStore = create<AuthState>()(
     setProvider: (provider: "google" | "kakao" | "naver") => set({ provider }),
     setHasRefreshed: (refreshed) => set({ hasRefreshed: refreshed }),
     setAuthLoading: (loading: boolean) => set({ authLoading: loading }),
-    logout: () => set({ isLoggedIn: false, accessToken: null, user: null }),
+    logout: () =>
+      set({
+        isLoggedIn: false,
+        accessToken: null,
+        user: null,
+        profileImg: null,
+        provider: null,
+      }),
   }))
 );

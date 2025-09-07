@@ -48,7 +48,7 @@ const MyPetAddModal = ({ onClose }: Props) => {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept=".jpg,.jpeg,.png"
           className="hidden"
           onChange={onFileChange}
         />
@@ -72,7 +72,7 @@ const MyPetAddModal = ({ onClose }: Props) => {
           </div>
           <div className="w-full h-fit flex flex-col gap-[24px] items-center">
             <div className="w-[300px] h-[200px] overflow-hidden rounded-[16px]">
-              {previewUrl ? (
+              {/* {previewUrl ? (
                 <img
                   src={previewUrl}
                   className="w-full h-full object-cover object-center"
@@ -87,7 +87,23 @@ const MyPetAddModal = ({ onClose }: Props) => {
                     className="w-full h-full"
                   />
                 </button>
-              )}
+              )} */}
+              <button
+                className="w-full h-full cursor-pointer"
+                onClick={openPicker}
+              >
+                {previewUrl ? (
+                  <img
+                    src={previewUrl}
+                    className="w-full h-full object-cover object-center"
+                  />
+                ) : (
+                  <img
+                    src="/assets/images/common/pet_add_thumbnail.png"
+                    className="w-full h-full"
+                  />
+                )}
+              </button>
             </div>
             <div className="w-full h-fit flex flex-col gap-[12px] items-center">
               <div className="w-full h-[24px] flex gap-[16px] items-center">

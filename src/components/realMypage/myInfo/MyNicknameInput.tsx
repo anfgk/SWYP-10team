@@ -5,6 +5,7 @@ import DefaultButtonConfirm from "@/components/common/DefaultButtonConfirm";
 import DefaultButtonCancel from "@/components/common/DefaultButtonCancel";
 import { useAuthStore } from "@/stores/authStore";
 import { refetchProfile } from "@/lib/authUtils";
+import { hasInvalidChars } from "@/lib/myInfoUtils";
 
 const MyNicknameInput = () => {
   const { user } = useAuthStore();
@@ -40,6 +41,11 @@ const MyNicknameInput = () => {
     }
     if (trimmed === user?.name) {
       alert("변경된 내용이 없습니다.");
+      return;
+    }
+
+    if (hasInvalidChars(trimmed)) {
+      alert("이름에 특수문자, 공백을 포함할 수 없습니다.");
       return;
     }
 
