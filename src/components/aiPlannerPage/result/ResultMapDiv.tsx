@@ -1,12 +1,12 @@
 import { useKakaoMapOnPlanner } from "@/hooks/useKaKaoMapOnPlanner";
-import type { PlannerMapPlacesData } from "@/types/apiResponseTypes";
+import type { PlannerDayPlan } from "@/types/apiResponseTypes";
 
 interface Props {
-  places: PlannerMapPlacesData[];
+  places?: PlannerDayPlan;
 }
 const ResultMapDiv = ({ places }: Props) => {
   const { mapRef } = useKakaoMapOnPlanner({
-    items: places,
+    item: places,
   });
   return <div className="w-full h-full" ref={mapRef} />;
 };

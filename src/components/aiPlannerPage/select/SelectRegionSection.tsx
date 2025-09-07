@@ -1,4 +1,4 @@
-import { regionMap } from "@/configs/searchConstants";
+import { SIDO_CODE } from "@/configs/searchConstants";
 import OptionSelectButton from "./OptionSelectButton";
 import { usePlannerSelectionStore } from "@/stores/plannerSelectionStore";
 
@@ -14,13 +14,13 @@ const SelectRegionSection = () => {
       </h2>
       {/* 지역 칩 */}
       <div className="w-full h-[100px] flex gap-[16px] flex-wrap">
-        {Object.keys(regionMap).map((current, i) => (
+        {Object.keys(SIDO_CODE).map((current, i) => (
           <OptionSelectButton
             key={i}
             w={76}
             value={current}
-            isActive={current === region}
-            onClick={() => setRegion(current)}
+            isActive={SIDO_CODE[current] === region}
+            onClick={() => setRegion(SIDO_CODE[current])}
           />
         ))}
       </div>

@@ -119,6 +119,7 @@ type PlaceDetailData = {
   detailImage: ResponseImage[];
   petGuide: PetGuideData;
   restDate: string;
+  additionalInformation: any;
 };
 
 type AiRecommendData = {
@@ -173,9 +174,22 @@ type PetData = {
   imageUrl: string;
 };
 
-type PlannerMapPlacesData = SearchCardData & {
+type PlannerDayContents = {
+  contentId: number;
+  title: string;
+  categoryId: string;
+  addr1: string;
+  addr2: string;
+  image: string;
+  thumbImage: string;
+  mapx: number;
+  mapy: number;
+  rest: string;
+};
+
+type PlannerDayPlan = {
   day: number;
-  index: number;
+  dayContents: PlannerDayContents[];
 };
 
 export type {
@@ -193,5 +207,6 @@ export type {
   MyReviewData,
   MyReviewDataList,
   PetData,
-  PlannerMapPlacesData,
+  PlannerDayContents,
+  PlannerDayPlan,
 };

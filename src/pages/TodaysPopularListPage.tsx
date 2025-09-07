@@ -4,7 +4,7 @@ import PopularPlacesSection from "@/components/todaysPopularPage/PopularPlacesSe
 const TodaysPopularListPage = () => {
   return (
     <MainContainer>
-      <title>어다가냥?같이가개! | 오늘의 인기 장소</title>
+      <title>어디가냥?같이가개! | 오늘의 인기 장소</title>
       <PopularPlacesSection />
     </MainContainer>
   );
