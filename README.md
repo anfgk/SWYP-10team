@@ -23,23 +23,6 @@ npm run dev
 - **위시리스트**: 저장한 장소 목록 및 관리
 - **최근 방문 장소**: 최근 조회한 장소 히스토리
 
-## 페이지 구조
-
-- **MyInfoPageFixed** (`src/pages/MyInfoPageFixed.tsx`): 마이페이지 메인 컨테이너 및 레이아웃
-- **MyProfileSection** (`src/components/realMypage/myInfo/MyProfileSection.tsx`): 프로필 정보 표시 및 수정
-- **MyPetSection** (`src/components/realMypage/myInfo/MyPetSection.tsx`): 반려동물 정보 관리
-- **MyReviewPageFixed** (`src/pages/MyReviewPageFixed.tsx`): 내 리뷰 목록 및 관리
-- **MyWishPageFixed** (`src/pages/MyWishPageFixed.tsx`): 위시리스트 관리
-- **RecentPlaces** (`src/components/mypage/RecentPlaces.tsx`): 최근 방문 장소 히스토리
-
-## 데이터/로직 개요
-
-- **사용자 프로필 API**: `lib/apiUtils.ts`에서 프로필 정보 조회/수정 처리
-- **반려동물 관리**: `hooks/useMyPetSection.tsx`에서 반려동물 CRUD 로직 관리
-- **리뷰 데이터**: `hooks/useMyReviewSection.ts`에서 사용자 리뷰 목록 및 관리
-- **위시리스트**: `hooks/useMyWishSection.ts`에서 저장된 장소 목록 관리
-- **이미지 처리**: `hooks/useProfileImageCropModal.tsx`에서 프로필 이미지 크롭 기능
-
 ## 주요 구현 사항
 
 ### 1. 프로필 이미지 크롭 기능
@@ -106,6 +89,22 @@ interface AuthState {
   logout: () => void;
 }
 ```
+## 페이지 구조
+
+- **MyInfoPageFixed** (`src/pages/MyInfoPageFixed.tsx`): 마이페이지 메인 컨테이너 및 레이아웃
+- **MyProfileSection** (`src/components/realMypage/myInfo/MyProfileSection.tsx`): 프로필 정보 표시 및 수정
+- **MyPetSection** (`src/components/realMypage/myInfo/MyPetSection.tsx`): 반려동물 정보 관리
+- **MyReviewPageFixed** (`src/pages/MyReviewPageFixed.tsx`): 내 리뷰 목록 및 관리
+- **MyWishPageFixed** (`src/pages/MyWishPageFixed.tsx`): 위시리스트 관리
+- **RecentPlaces** (`src/components/mypage/RecentPlaces.tsx`): 최근 방문 장소 히스토리
+
+## 데이터/로직 개요
+
+- **사용자 프로필 API**: `lib/apiUtils.ts`에서 프로필 정보 조회/수정 처리
+- **반려동물 관리**: `hooks/useMyPetSection.tsx`에서 반려동물 CRUD 로직 관리
+- **리뷰 데이터**: `hooks/useMyReviewSection.ts`에서 사용자 리뷰 목록 및 관리
+- **위시리스트**: `hooks/useMyWishSection.ts`에서 저장된 장소 목록 관리
+- **이미지 처리**: `hooks/useProfileImageCropModal.tsx`에서 프로필 이미지 크롭 기능
 
 ## 환경 변수
 
