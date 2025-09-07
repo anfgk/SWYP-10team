@@ -118,8 +118,8 @@ interface AuthState {
 
 ## 환경 변수
 
-VITE_API_BASE_URL=your_api_base_url
-VITE_KAKAO_MAP_KEY=your_kakao_map_key
+- VITE_API_BASE_URL=your_api_base_url
+- VITE_KAKAO_MAP_KEY=your_kakao_map_key
 
 ## 성능 최적화
 
