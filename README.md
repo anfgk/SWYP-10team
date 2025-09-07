@@ -153,8 +153,8 @@ VITE_KAKAO_MAP_KEY=your_kakao_map_key
 
 ## 🎯 향후 개선 계획
 
-- [ ] PWA(Progressive Web App) 지원
-- [ ] 실시간 알림 시스템
-- [ ] 채팅 기능 추가
-- [ ] 다국어 지원
-- [ ] 단위 테스트 및 E2E 테스트 추가
+- PWA(Progressive Web App) 지원
+- 실시간 알림 시스템
+- 채팅 기능 추가
+- 다국어 지원
+- 단위 테스트 및 E2E 테스트 추가
